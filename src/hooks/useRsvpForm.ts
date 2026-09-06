@@ -44,6 +44,10 @@ export function useRsvpForm(whatsappNumber: string) {
       window.alert('Por favor complete su nombre.');
       return;
     }
+    if (!form.guests.trim()) {
+      window.alert('Por favor ingrese el número de acompañantes.');
+      return;
+    }
     const message = buildWhatsappMessage(form);
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
