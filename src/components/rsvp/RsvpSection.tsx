@@ -54,7 +54,9 @@ export function RsvpSection({ couple }: RsvpSectionProps) {
             </div>
             <input
               className="rsvp-input"
-              type="text"
+              type="number"
+              min={0}
+              max={4}
               placeholder="Número de acompañantes (0–4)"
               value={form.guests}
               onChange={(event) => setField('guests', event.target.value)}
