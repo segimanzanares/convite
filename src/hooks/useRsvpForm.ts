@@ -30,7 +30,7 @@ function buildWhatsappMessage(form: RsvpFormState) {
   return lines.join('\n');
 }
 
-export function useRsvpForm(whatsappNumber: string) {
+export function useRsvpForm(whatsappNumber: string, requestEmail: boolean = false) {
   const [form, setForm] = useState<RsvpFormState>(INITIAL_STATE);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -41,7 +41,11 @@ export function useRsvpForm(whatsappNumber: string) {
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!form.name.trim()) {
-      window.alert('Por favor complete su nombre.');
+      window.alert('Por favor ingrese su nombre.');
+      return;
+    }
+    if (requestEmail && !form.email.trim()) {
+      window.alert('Por favor ingrese su correo electrónico.');
       return;
     }
     if (!form.guests.trim()) {

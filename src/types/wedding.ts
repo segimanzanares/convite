@@ -7,6 +7,7 @@ export interface CoupleInfo {
   rsvpDeadlineLabel: string;
   footerDateLabel: string;
   rsvpWhatsappNumber: string;
+  musicFile?: string;
 }
 
 export interface DetailCardData {

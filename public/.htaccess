@@ -1,0 +1,25 @@
+<IfModule mod_dir.c>
+  # Prevent Apache from redirecting /i/<slug> to /i/<slug>/ before our
+  # rewrite rules below get a chance to serve the prerendered file directly
+  DirectorySlash Off
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Serve existing files as-is (assets, images, etc.)
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  # Prerendered invitation pages carry their own social meta tags (see
+  # scripts/prerender.ts) — serve them directly, without a redirect, so
+  # the shared URL stays exactly as-is. Falls through when the slug has
+  # no prerendered page (e.g. a typo), so the SPA's 404 handles it below.
+  RewriteCond %{DOCUMENT_ROOT}/i/$1/index.html -f
+  RewriteRule ^i/([^/]+)/?$ /i/$1/index.html [L]
+
+  # Everything else (landing, unknown routes) falls back to the SPA shell,
+  # which resolves the route client-side (react-router-dom)
+  RewriteRule ^ /index.html [L]
+</IfModule>
