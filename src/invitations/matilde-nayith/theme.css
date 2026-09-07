@@ -1,6 +1,4 @@
-/* Default design tokens. Shared components fall back to these when no
-   per-invitation theme overrides them within its own scoped wrapper class. */
-:root {
+.theme-matilde-nayith {
   --gold: #c9a84c;
   --gold-light: #e8d08a;
   --gold-pale: #f5ecc8;

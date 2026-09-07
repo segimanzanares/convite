@@ -4,7 +4,9 @@ import type {
   DetailCardData,
   GalleryImage,
   Venue,
-} from '../types/wedding';
+} from '../../types/wedding';
+
+const publicPath = (file: string) => `${import.meta.env.BASE_URL}invitations/matilde-nayith/${file}`;
 
 export const COUPLE: CoupleInfo = {
   names: ['Matilde', 'Nayith'],
@@ -15,7 +17,7 @@ export const COUPLE: CoupleInfo = {
   rsvpDeadlineLabel: '1 de noviembre de 2026',
   footerDateLabel: '21 · XI · 2026',
   rsvpWhatsappNumber: '523321852205',
-  musicFile: `${import.meta.env.BASE_URL}music.mp3`,
+  musicFile: publicPath('music.mp3'),
 };
 
 export const EVENT_DETAILS: DetailCardData[] = [
@@ -67,7 +69,7 @@ export const VENUES: Venue[] = [
   },
 ];
 
-const imagePath = (file: string) => `${import.meta.env.BASE_URL}images/${file}`;
+const imagePath = (file: string) => publicPath(`images/${file}`);
 
 export const GALLERY_IMAGES: GalleryImage[] = [
   { src: imagePath('01.jpeg'), alt: 'Foto1', caption: 'El comienzo' },
