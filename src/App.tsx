@@ -10,8 +10,8 @@ function App() {
       <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          {Object.entries(invitations).map(([slug, InvitationPage]) => (
-            <Route key={slug} path={`/i/${slug}`} element={<InvitationPage />} />
+          {Object.entries(invitations).map(([slug, { Component }]) => (
+            <Route key={slug} path={`/i/${slug}`} element={<Component />} />
           ))}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
