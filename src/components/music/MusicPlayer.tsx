@@ -1,0 +1,62 @@
+import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import '../../styles/musicplayer.css';
+
+interface MusicPlayerProps {
+    src?: string;
+}
+
+export interface MusicPlayerHandle {
+    play: () => void;
+}
+
+export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({ src }, ref) => {
+    const audioRef = useRef<HTMLAudioElement>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+
+    const play = () => {
+        audioRef.current?.play()
+            .then(() => setIsPlaying(true))
+            .catch(() => setIsPlaying(false));
+    };
+
+    useImperativeHandle(ref, () => ({ play }));
+
+    const togglePlayback = () => {
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        if (audio.paused) {
+            play();
+        } else {
+            audio.pause();
+            setIsPlaying(false);
+        }
+    };
+
+    return (
+        src ? <div className="musicplayer">
+            <audio ref={audioRef} loop src={src} />
+            <button
+                type="button"
+                className="musicplayer__toggle"
+                onClick={togglePlayback}
+                aria-label={isPlaying ? 'Pausar música' : 'Reproducir música'}
+                aria-pressed={isPlaying}
+            >
+                {isPlaying ? (
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                        <rect x="6" y="5" width="4" height="14" fill="currentColor" />
+                        <rect x="14" y="5" width="4" height="14" fill="currentColor" />
+                    </svg>
+                ) : (
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                        <polygon points="7,5 19,12 7,19" fill="currentColor" />
+                    </svg>
+                )}
+            </button>
+        </div>
+        : null
+    );
+});
+
+MusicPlayer.displayName = 'MusicPlayer';

@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Envelope } from './components/envelope/Envelope';
 import { PageOrnamentBorder } from './components/layout/PageOrnamentBorder';
 import { FloatingPetals } from './components/hero/FloatingPetals';
@@ -11,6 +12,7 @@ import { DressCodePalette } from './components/dresscode/DressCodePalette';
 import { VenuesSection } from './components/venues/VenuesSection';
 import { RsvpSection } from './components/rsvp/RsvpSection';
 import { Footer } from './components/footer/Footer';
+import { MusicPlayer, type MusicPlayerHandle } from './components/music/MusicPlayer';
 import {
   COUPLE,
   DRESS_CODE_SWATCHES,
@@ -20,9 +22,12 @@ import {
 } from './data/weddingData';
 
 function App() {
+  const musicPlayerRef = useRef<MusicPlayerHandle>(null);
+
   return (
     <>
-      <Envelope couple={COUPLE} />
+      <Envelope couple={COUPLE} onOpen={() => musicPlayerRef.current?.play()} />
+      <MusicPlayer ref={musicPlayerRef} src={COUPLE.musicFile} />
       <PageOrnamentBorder />
       <FloatingPetals />
       <Hero couple={COUPLE} />
