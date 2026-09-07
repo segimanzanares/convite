@@ -6,6 +6,7 @@ import '../../styles/rsvp.css';
 
 interface RsvpSectionProps {
   couple: CoupleInfo;
+  requestEmail?: boolean;
 }
 
 const ATTENDANCE_OPTIONS: { value: AttendanceStatus; label: string }[] = [
@@ -13,8 +14,8 @@ const ATTENDANCE_OPTIONS: { value: AttendanceStatus; label: string }[] = [
   { value: 'no', label: '✗ No podré asistir' },
 ];
 
-export function RsvpSection({ couple }: RsvpSectionProps) {
-  const { form, setField, isSubmitted, handleSubmit } = useRsvpForm(couple.rsvpWhatsappNumber);
+export function RsvpSection({ couple, requestEmail }: RsvpSectionProps) {
+  const { form, setField, isSubmitted, handleSubmit } = useRsvpForm(couple.rsvpWhatsappNumber, requestEmail);
 
   return (
     <div className="rsvp-section">
@@ -30,17 +31,19 @@ export function RsvpSection({ couple }: RsvpSectionProps) {
             <input
               className="rsvp-input"
               type="text"
+              required
               placeholder="Su nombre completo"
               value={form.name}
               onChange={(event) => setField('name', event.target.value)}
             />
-            <input
+            {requestEmail ? <input
               className="rsvp-input"
               type="email"
+              required
               placeholder="Correo electrónico"
               value={form.email}
               onChange={(event) => setField('email', event.target.value)}
-            />
+            /> : null}
             <div className="rsvp-radio-group">
               {ATTENDANCE_OPTIONS.map((option) => (
                 <div
