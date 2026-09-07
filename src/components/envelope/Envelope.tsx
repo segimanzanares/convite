@@ -4,9 +4,10 @@ import '../../styles/envelope.css';
 
 interface EnvelopeProps {
   couple: CoupleInfo;
+  onOpen?: () => void;
 }
 
-export function Envelope({ couple }: EnvelopeProps) {
+export function Envelope({ couple, onOpen }: EnvelopeProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [firstName, secondName] = couple.names;
@@ -36,7 +37,10 @@ export function Envelope({ couple }: EnvelopeProps) {
         <button
           type="button"
           className="envelope"
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            setIsOpen(true);
+            onOpen?.();
+          }}
           aria-label={`Abrir la invitación de ${firstName} y ${secondName}`}
         >
           <span className="envelope-pocket">
