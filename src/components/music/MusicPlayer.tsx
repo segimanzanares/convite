@@ -1,5 +1,4 @@
-import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
-import '../../styles/musicplayer.css';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 interface MusicPlayerProps {
     src?: string;
@@ -29,16 +28,31 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({ sr
             play();
         } else {
             audio.pause();
-            setIsPlaying(false);
         }
     };
 
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        const handlePlay = () => setIsPlaying(true);
+        const handlePause = () => setIsPlaying(false);
+
+        audio.addEventListener('play', handlePlay);
+        audio.addEventListener('pause', handlePause);
+
+        return () => {
+            audio.removeEventListener('play', handlePlay);
+            audio.removeEventListener('pause', handlePause);
+        };
+    }, []);
+
     return (
-        src ? <div className="musicplayer">
+        src ? <div className="fixed bottom-5 right-5 z-[1000]">
             <audio ref={audioRef} loop src={src} />
             <button
                 type="button"
-                className="musicplayer__toggle"
+                className="flex items-center justify-center w-12 h-12 rounded-full border-none cursor-pointer text-gold bg-transparent shadow-[0_0_10px_var(--color-gold)]"
                 onClick={togglePlayback}
                 aria-label={isPlaying ? 'Pausar música' : 'Reproducir música'}
                 aria-pressed={isPlaying}

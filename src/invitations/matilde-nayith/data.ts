@@ -1,3 +1,5 @@
+import { format, subDays } from 'date-fns';
+import { es } from 'date-fns/locale';
 import type {
   ColorSwatchData,
   CoupleInfo,
@@ -8,14 +10,16 @@ import type {
 
 const publicPath = (file: string) => `${import.meta.env.BASE_URL}invitations/matilde-nayith/${file}`;
 
+const eventDate = new Date(2026, 10, 21, 15, 0, 0);
+
 export const COUPLE: CoupleInfo = {
   names: ['Matilde', 'Nayith'],
-  weddingDateTime: '2026-11-21T17:00:00',
-  dateLabel: 'Sábado · 21 de noviembre · 2026',
-  year: '2026',
+  weddingDateTime: format(eventDate, "yyyy-MM-dd'T'HH:mm:ss"),
+  dateLabel: format(eventDate, "EEEE '·' dd 'de' MMMM '·' yyyy", { locale: es }),
+  year: eventDate.getFullYear().toString(),
   families: 'La Familia González & La Familia Gallardo',
-  rsvpDeadlineLabel: '1 de noviembre de 2026',
-  footerDateLabel: '21 · XI · 2026',
+  rsvpDeadlineLabel: format(subDays(eventDate, 21), "dd 'de' MMMM 'de' yyyy", { locale: es }),
+  footerDateLabel: format(eventDate, "dd '·' MM '·' yyyy"),
   rsvpWhatsappNumber: '523321852205',
   musicFile: publicPath('music.mp3'),
 };
@@ -25,14 +29,14 @@ export const EVENT_DETAILS: DetailCardData[] = [
     icon: '⛪',
     label: 'Ceremonia Religiosa',
     title: 'Parroquia de la Soledad',
-    lines: ['Calle Fundadores SN', 'Puerto Escondido, Oax.'],
+    lines: ['Calle Fundadores S/N', 'Puerto Escondido, Oax.'],
     time: '15:00 HRS',
   },
   {
     icon: '🥂',
     label: 'Recepción & Banquete',
     title: 'Salón Nochetly',
-    lines: ['Calle Ignacio barrera SN', 'Col. Aeropuerto, Puerto Escondido, Oax.'],
+    lines: ['Calle Ignacio Barrera S/N', 'Col. Aeropuerto, Puerto Escondido, Oax.'],
     time: '16:00 HRS',
   },
   {
@@ -49,7 +53,7 @@ export const VENUES: Venue[] = [
     icon: '⛪',
     tag: 'Ceremonia religiosa',
     name: 'Parroquia de la Soledad',
-    addressLines: ['Calle Fundadores SN', 'Puerto Escondido, Oax.'],
+    addressLines: ['Calle Fundadores S/N', 'Puerto Escondido, Oax.'],
     time: '15:00 hrs',
     mapEmbedUrl:
       'https://www.google.com/maps?q=15.861208,-97.065710&z=15&output=embed',
@@ -60,7 +64,7 @@ export const VENUES: Venue[] = [
     icon: '🥂',
     tag: 'Recepción & Banquete',
     name: 'Salón Nochetly',
-    addressLines: ['Calle Ignacio barrera SN', 'Col. Aeropuerto, Puerto Escondido, Oax.'],
+    addressLines: ['Calle Ignacio Barrera S/N', 'Col. Aeropuerto, Puerto Escondido, Oax.'],
     time: '16:00 hrs',
     mapEmbedUrl:
       'https://www.google.com/maps?q=15.881308,-97.080966&z=15&output=embed',
