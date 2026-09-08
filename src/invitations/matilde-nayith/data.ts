@@ -1,3 +1,5 @@
+import { format, addDays, subDays } from 'date-fns';
+import { es } from 'date-fns/locale';
 import type {
   ColorSwatchData,
   CoupleInfo,
@@ -8,14 +10,16 @@ import type {
 
 const publicPath = (file: string) => `${import.meta.env.BASE_URL}invitations/matilde-nayith/${file}`;
 
+const eventDate = addDays(new Date(), 60);
+
 export const COUPLE: CoupleInfo = {
   names: ['Matilde', 'Nayith'],
-  weddingDateTime: '2026-11-21T17:00:00',
-  dateLabel: 'Sábado · 21 de noviembre · 2026',
+  weddingDateTime: format(eventDate, "yyyy-MM-dd'T'HH:mm:ss"),
+  dateLabel: format(eventDate, "EEEE '·' dd 'de' MMMM '·' yyyy", { locale: es }),
   year: '2026',
   families: 'La Familia López & La Familia Pérez',
-  rsvpDeadlineLabel: '1 de noviembre de 2026',
-  footerDateLabel: '21 · XI · 2026',
+  rsvpDeadlineLabel: format(subDays(eventDate, 21), "dd 'de' MMMM 'de' yyyy", { locale: es }),
+  footerDateLabel: format(eventDate, "dd '·' MM '·' yyyy"),
   rsvpWhatsappNumber: '521234567890',
   musicFile: publicPath('music.mp3'),
 };
