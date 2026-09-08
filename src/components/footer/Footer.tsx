@@ -1,4 +1,6 @@
 import type { CoupleInfo } from '../../types/wedding';
+import logoHorizontal from '../../assets/images/logo-horizontal.png';
+import { NavLink } from 'react-router-dom';
 
 interface FooterProps {
   couple: CoupleInfo;
@@ -16,6 +18,9 @@ export function Footer({ couple }: FooterProps) {
       <div className="font-display text-[10px] tracking-[0.4em] text-gold mt-2.5">{couple.footerDateLabel}</div>
       <div className="w-[120px] h-px mx-auto bg-[linear-gradient(to_right,transparent,var(--color-gold),transparent)] animate-[fadeUp_1.2s_0.5s_forwards] mt-[30px]" />
       <p className="font-display text-[9px] tracking-[0.5em] text-gold uppercase mt-3">Con amor eterno · Para siempre</p>
+      <NavLink to="/" className="block w-fit mx-auto mt-[30px]" end>
+        <img src={logoHorizontal} alt="Logo" className="h-8" />
+      </NavLink>
     </footer>
   );
 }
