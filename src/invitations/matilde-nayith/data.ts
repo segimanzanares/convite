@@ -16,7 +16,7 @@ export const COUPLE: CoupleInfo = {
   names: ['Matilde', 'Nayith'],
   weddingDateTime: format(eventDate, "yyyy-MM-dd'T'HH:mm:ss"),
   dateLabel: format(eventDate, "EEEE '·' dd 'de' MMMM '·' yyyy", { locale: es }),
-  year: '2026',
+  year: eventDate.getFullYear().toString(),
   families: 'La Familia López & La Familia Pérez',
   rsvpDeadlineLabel: format(subDays(eventDate, 21), "dd 'de' MMMM 'de' yyyy", { locale: es }),
   footerDateLabel: format(eventDate, "dd '·' MM '·' yyyy"),
