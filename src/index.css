@@ -10,6 +10,13 @@
   --color-ivory: var(--white);
   --color-ink: var(--text-dark);
 
+  --color-terracotta: var(--terracotta);
+  --color-terracotta-light: var(--terracotta-light);
+  --color-rose: var(--rose);
+  --color-rose-light: var(--rose-light);
+  --color-teal: var(--teal);
+  --color-teal-light: var(--teal-light);
+
   --font-body: 'Cormorant Garamond', serif;
   --font-display: 'Cinzel', serif;
   --font-script: 'Great Vibes', cursive;

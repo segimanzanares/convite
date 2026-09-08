@@ -1,12 +1,22 @@
-/* Default design tokens. Shared components fall back to these when no
-   per-invitation theme overrides them within its own scoped wrapper class. */
+/* Default design tokens, drawn from the convite-icon.svg brand mark.
+   Shared components fall back to these when no per-invitation theme
+   overrides them within its own scoped wrapper class. */
 :root {
-  --gold: #c9a84c;
-  --gold-light: #e8d08a;
-  --gold-pale: #f5ecc8;
-  --gold-deep: #a07830;
-  --white: #fdfaf4;
-  --cream: #f9f4e8;
-  --off-white: #efe8d8;
-  --text-dark: #2c1f0a;
+  --gold: #dfa33f;
+  --gold-light: #ecc077;
+  --gold-pale: #f7e9cc;
+  --gold-deep: #b97a1f;
+  --white: #fffdf9;
+  --cream: #f7f4ef;
+  --off-white: #efe6d6;
+  --text-dark: #2a1a2b;
+
+  /* Brand accents from the icon's petals — used to give the marketing
+     site (landing, 404) a livelier palette than the gold-only tokens. */
+  --terracotta: #d97a4e;
+  --terracotta-light: #eaab86;
+  --rose: #b84c74;
+  --rose-light: #dd93ac;
+  --teal: #4b93a4;
+  --teal-light: #8fc2cd;
 }
