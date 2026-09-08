@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import '../../styles/landing.css';
 
 export function LandingPage() {
   useEffect(() => {
@@ -7,35 +6,37 @@ export function LandingPage() {
   }, []);
 
   return (
-    <div className="landing">
-      <section className="landing-hero">
-        <p className="section-label">Invitaciones digitales</p>
-        <h1 className="landing-title">Cada historia, su propia invitación</h1>
-        <p className="body-text landing-subtitle">
+    <div>
+      <section className="max-w-[920px] mx-auto text-center px-10 pb-[100px] pt-[140px]">
+        <p className="font-display text-[10px] tracking-[0.6em] text-gold uppercase mb-4">Invitaciones digitales</p>
+        <h1 className="font-script text-[clamp(42px,7vw,72px)] text-gold-deep mb-6 leading-[1.2]">
+          Cada historia, su propia invitación
+        </h1>
+        <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] text-[#4a3820] italic max-w-[560px] mx-auto">
           Diseñamos y publicamos invitaciones de boda a medida: contenido, paleta
           de colores y detalles propios para cada pareja, listas para compartir
           por WhatsApp.
         </p>
       </section>
 
-      <section className="landing-features">
-        <div className="landing-feature">
-          <h2 className="landing-feature-title">Diseño a medida</h2>
-          <p className="body-text">
+      <section className="max-w-[920px] mx-auto text-center grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-10 pt-10 pb-[140px]">
+        <div>
+          <h2 className="font-display text-base tracking-[0.08em] text-gold-deep uppercase mb-3">Diseño a medida</h2>
+          <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] text-[#4a3820] italic">
             Cada invitación tiene su propio contenido, tipografía y paleta de
             colores — nada de plantillas genéricas.
           </p>
         </div>
-        <div className="landing-feature">
-          <h2 className="landing-feature-title">RSVP integrado</h2>
-          <p className="body-text">
+        <div>
+          <h2 className="font-display text-base tracking-[0.08em] text-gold-deep uppercase mb-3">RSVP integrado</h2>
+          <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] text-[#4a3820] italic">
             Confirmación de asistencia directa por WhatsApp, sin apps ni
             registros adicionales.
           </p>
         </div>
-        <div className="landing-feature">
-          <h2 className="landing-feature-title">Lista en minutos</h2>
-          <p className="body-text">
+        <div>
+          <h2 className="font-display text-base tracking-[0.08em] text-gold-deep uppercase mb-3">Lista en minutos</h2>
+          <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] text-[#4a3820] italic">
             Comparte un enlace propio con tus invitados, accesible desde
             cualquier dispositivo.
           </p>
