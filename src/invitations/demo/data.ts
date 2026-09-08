@@ -8,7 +8,7 @@ import type {
   Venue,
 } from '../../types/wedding';
 
-const publicPath = (file: string) => `${import.meta.env.BASE_URL}invitations/matilde-nayith/${file}`;
+const publicPath = (file: string) => `${import.meta.env.BASE_URL}invitations/demo/${file}`;
 
 const eventDate = addDays(new Date(), 60);
 
