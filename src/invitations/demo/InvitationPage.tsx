@@ -31,7 +31,7 @@ export function InvitationPage() {
   }, []);
 
   return (
-    <div className="theme-matilde-nayith">
+    <div className="theme-demo">
       <Envelope couple={COUPLE} onOpen={() => musicPlayerRef.current?.play()} />
       <MusicPlayer ref={musicPlayerRef} src={COUPLE.musicFile} />
       <PageOrnamentBorder />
