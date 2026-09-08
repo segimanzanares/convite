@@ -1,4 +1,4 @@
-import { format, subDays } from 'date-fns';
+import { format, addDays, subDays } from 'date-fns';
 import { es } from 'date-fns/locale';
 import type {
   ColorSwatchData,
@@ -10,17 +10,17 @@ import type {
 
 const publicPath = (file: string) => `${import.meta.env.BASE_URL}invitations/matilde-nayith/${file}`;
 
-const eventDate = new Date(2026, 10, 21, 15, 0, 0);
+const eventDate = addDays(new Date(), 60);
 
 export const COUPLE: CoupleInfo = {
   names: ['Matilde', 'Nayith'],
   weddingDateTime: format(eventDate, "yyyy-MM-dd'T'HH:mm:ss"),
   dateLabel: format(eventDate, "EEEE '·' dd 'de' MMMM '·' yyyy", { locale: es }),
   year: eventDate.getFullYear().toString(),
-  families: 'La Familia González & La Familia Gallardo',
+  families: 'La Familia López & La Familia Pérez',
   rsvpDeadlineLabel: format(subDays(eventDate, 21), "dd 'de' MMMM 'de' yyyy", { locale: es }),
   footerDateLabel: format(eventDate, "dd '·' MM '·' yyyy"),
-  rsvpWhatsappNumber: '523321852205',
+  rsvpWhatsappNumber: '521234567890',
   musicFile: publicPath('music.mp3'),
 };
 
@@ -29,14 +29,14 @@ export const EVENT_DETAILS: DetailCardData[] = [
     icon: '⛪',
     label: 'Ceremonia Religiosa',
     title: 'Parroquia de la Soledad',
-    lines: ['Calle Fundadores S/N', 'Puerto Escondido, Oax.'],
+    lines: ['Calle Fundadores SN', 'Puerto Escondido, Oax.'],
     time: '15:00 HRS',
   },
   {
     icon: '🥂',
     label: 'Recepción & Banquete',
-    title: 'Salón Nochetly',
-    lines: ['Calle Ignacio Barrera S/N', 'Col. Aeropuerto, Puerto Escondido, Oax.'],
+    title: 'Salón De Fiestas',
+    lines: ['Av. Hidalgo S/N', 'Col. Centro, Puerto Escondido, Oax.'],
     time: '16:00 HRS',
   },
   {
@@ -63,13 +63,13 @@ export const VENUES: Venue[] = [
   {
     icon: '🥂',
     tag: 'Recepción & Banquete',
-    name: 'Salón Nochetly',
-    addressLines: ['Calle Ignacio Barrera S/N', 'Col. Aeropuerto, Puerto Escondido, Oax.'],
+    name: 'Salón De Fiestas',
+    addressLines: ['Av. Hidalgo S/N', 'Col. Centro, Puerto Escondido, Oax.'],
     time: '16:00 hrs',
     mapEmbedUrl:
-      'https://www.google.com/maps?q=15.881308,-97.080966&z=15&output=embed',
-    mapTitle: 'Salón Nochetly — Recepción',
-    directionsUrl: 'https://www.google.com/maps/dir//15.8813113,-97.0809648/@15.8813564,-97.0812249,266m/data=!3m1!1e3!4m2!4m1!3e0?entry=ttu&g_ep=EgoyMDI2MDgyNC4wIKXMDSoASAFQAw%3D%3D',
+      'https://www.google.com/maps?q=15.862436,-97.071639&z=15&output=embed',
+    mapTitle: 'Salón De Fiestas — Recepción',
+    directionsUrl: 'https://www.google.com/maps/dir//15.8624356,-97.0716393/@15.8624698,-97.0712048,133m/data=!3m1!1e3!4m2!4m1!3e0?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D',
   },
 ];
 
