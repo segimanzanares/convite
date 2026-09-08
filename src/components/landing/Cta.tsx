@@ -12,7 +12,7 @@ export function Cta() {
         Cuéntenos su fecha y hagamos su invitación
       </h2>
       <p className="text-[clamp(15px,2vw,18px)] font-light leading-[1.9] text-white/90 italic max-w-[560px] mx-auto mb-10">
-        Escríbanos por WhatsApp y les compartimos una propuesta a medida para su boda,
+        Escríbanos por WhatsApp y les compartimos una propuesta a medida para su evento,
         sin compromiso.
       </p>
       <a

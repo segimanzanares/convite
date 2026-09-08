@@ -2,7 +2,7 @@ import { buildWhatsappUrl } from '../../config/contact';
 import logoHorizontal from '../../assets/images/logo-horizontal.svg';
 
 export function Header() {
-  const whatsappUrl = buildWhatsappUrl('Hola 👋 Quiero cotizar una invitación digital para mi boda.');
+  const whatsappUrl = buildWhatsappUrl('Hola 👋 Quiero cotizar una invitación digital para mi evento.');
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-ivory/90 backdrop-blur-sm border-b border-gold/15">

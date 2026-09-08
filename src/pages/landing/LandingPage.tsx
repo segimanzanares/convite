@@ -9,7 +9,7 @@ import { FullDivider } from '../../components/divider/FullDivider';
 
 export function LandingPage() {
   useEffect(() => {
-    document.title = 'Convite — Invitaciones digitales de boda a medida';
+    document.title = 'Convite — Invitaciones digitales a medida';
   }, []);
 
   return (
@@ -17,7 +17,7 @@ export function LandingPage() {
       <Header />
       <Hero />
       <Features />
-      <FullDivider text="Su boda, su invitación" />
+      <FullDivider text="Su evento, su invitación" />
       <Steps />
       <Cta />
       <Footer />

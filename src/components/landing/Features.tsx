@@ -7,7 +7,7 @@ const FEATURES: { accent: Accent; icon: string; title: string; body: string }[] 
     accent: 'gold',
     icon: '✎',
     title: 'Diseño 100% a medida',
-    body: 'Tipografía, colores y contenido propios de cada pareja — nada de plantillas genéricas reutilizadas.',
+    body: 'Tipografía, colores y contenido propios de cada evento — nada de plantillas genéricas reutilizadas.',
   },
   {
     accent: 'terracotta',
@@ -19,7 +19,7 @@ const FEATURES: { accent: Accent; icon: string; title: string; body: string }[] 
     accent: 'rose',
     icon: '♡',
     title: 'Cuenta regresiva en vivo',
-    body: 'Un contador que mantiene la emoción viva desde el día que se comparte hasta la boda.',
+    body: 'Un contador que mantiene la emoción viva desde el día que se comparte hasta el evento.',
   },
   {
     accent: 'teal',

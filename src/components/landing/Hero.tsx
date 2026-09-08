@@ -11,20 +11,20 @@ const TAGS: { label: string; accent: Accent }[] = [
 ];
 
 export function Hero() {
-  const whatsappUrl = buildWhatsappUrl('Hola 👋 Quiero cotizar una invitación digital para mi boda.');
+  const whatsappUrl = buildWhatsappUrl('Hola 👋 Quiero cotizar una invitación digital para mi evento.');
 
   return (
     <section className="max-w-[920px] mx-auto text-center px-8 pb-[90px] pt-[130px] md:pt-[150px]">
       <img src={convitePetal} alt="" aria-hidden="true" className="w-[72px] h-[72px] mx-auto mb-8" />
       <p className="font-jost text-[10px] tracking-[0.6em] text-gold uppercase mb-4">
-        Invitaciones digitales de boda
+        Invitaciones digitales para cualquier evento
       </p>
       <h1 className="font-script text-[clamp(46px,8vw,80px)] text-gold-deep mb-6 leading-[1.15]">
-        La invitación que su historia merece
+        La invitación que su evento merece
       </h1>
       <p className="text-[clamp(16px,2vw,20px)] font-light leading-[1.9] text-[#4a3820] italic max-w-[600px] mx-auto mb-10">
-        Diseñamos y publicamos su invitación de boda a medida — contenido, paleta de
-        colores y detalles propios para cada pareja — lista para compartir por WhatsApp
+        Diseñamos y publicamos su invitación digital a medida — contenido, paleta de
+        colores y detalles propios para cada evento — lista para compartir por WhatsApp
         en minutos.
       </p>
 
