@@ -94,7 +94,7 @@ export function LandingPage() {
           href={heroWhatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden sm:inline-block font-display text-[10px] tracking-[0.3em] uppercase text-gold-deep border border-gold/50 py-2.5 px-5 transition-colors duration-200 hover:bg-gold hover:text-white"
+          className="hidden sm:inline-block font-jost text-[10px] tracking-[0.3em] uppercase text-gold-deep border border-gold/50 py-2.5 px-5 transition-colors duration-200 hover:bg-gold hover:text-white"
         >
           Cotizar por WhatsApp
         </a>
@@ -102,7 +102,7 @@ export function LandingPage() {
 
       <section className="max-w-[920px] mx-auto text-center px-8 pb-[90px] pt-[90px] md:pt-[120px]">
         <img src={convitePetal} alt="" aria-hidden="true" className="w-[72px] h-[72px] mx-auto mb-8" />
-        <p className="font-display text-[10px] tracking-[0.6em] text-gold uppercase mb-4">
+        <p className="font-jost text-[10px] tracking-[0.6em] text-gold uppercase mb-4">
           Invitaciones digitales de boda
         </p>
         <h1 className="font-script text-[clamp(46px,8vw,80px)] text-gold-deep mb-6 leading-[1.15]">
@@ -119,13 +119,13 @@ export function LandingPage() {
             href={heroWhatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-display text-[11px] tracking-[0.35em] uppercase text-white bg-gold-deep py-4 px-9 transition-[background-color,transform] duration-200 hover:bg-gold hover:-translate-y-0.5"
+            className="font-jost text-[11px] tracking-[0.35em] uppercase text-white bg-gold-deep py-4 px-9 transition-[background-color,transform] duration-200 hover:bg-gold hover:-translate-y-0.5"
           >
             Cotiza tu invitación
           </a>
           <Link
             to="/i/mati-nayith"
-            className="font-display text-[11px] tracking-[0.35em] uppercase text-gold-deep border border-gold/50 py-4 px-9 transition-colors duration-200 hover:bg-gold-pale"
+            className="font-jost text-[11px] tracking-[0.35em] uppercase text-gold-deep border border-gold/50 py-4 px-9 transition-colors duration-200 hover:bg-gold-pale"
           >
             Ver invitación de ejemplo
           </Link>
@@ -138,7 +138,7 @@ export function LandingPage() {
             return (
               <span
                 key={tag}
-                className={`font-display text-[10px] tracking-[0.2em] uppercase ${accent.text} flex items-center gap-2`}
+                className={`font-jost text-[10px] tracking-[0.2em] uppercase ${accent.text} flex items-center gap-2`}
               >
                 <span className={`w-1.5 h-1.5 rotate-45 ${accent.bg}`} />
                 {tag}
@@ -161,7 +161,7 @@ export function LandingPage() {
                   className={`h-full border ${accent.border} py-9 px-7 bg-[linear-gradient(160deg,var(--color-ivory),var(--color-cream))] transition-[transform,box-shadow] duration-[400ms] ease hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(42,26,43,0.1)]`}
                 >
                   <span className={`text-2xl mb-4 block ${accent.text}`}>{feature.icon}</span>
-                  <h3 className="font-display text-sm tracking-[0.06em] text-[#2a1a2b] uppercase mb-3">
+                  <h3 className="font-jost text-sm tracking-[0.06em] text-[#2a1a2b] uppercase mb-3">
                     {feature.title}
                   </h3>
                   <p className="text-[15px] font-light leading-[1.8] text-[#4a3820]">{feature.body}</p>
@@ -184,11 +184,11 @@ export function LandingPage() {
             return (
               <Reveal key={step.title} className="text-center">
                 <div
-                  className={`w-11 h-11 mx-auto mb-5 flex items-center justify-center border ${accent.border} font-display text-sm ${accent.text}`}
+                  className={`w-11 h-11 mx-auto mb-5 flex items-center justify-center border ${accent.border} font-jost text-sm ${accent.text}`}
                 >
                   {index + 1}
                 </div>
-                <h3 className="font-display text-sm tracking-[0.06em] text-[#2a1a2b] uppercase mb-3">
+                <h3 className="font-jost text-sm tracking-[0.06em] text-[#2a1a2b] uppercase mb-3">
                   {step.title}
                 </h3>
                 <p className="text-[15px] font-light leading-[1.8] text-[#4a3820]">{step.body}</p>
@@ -199,7 +199,7 @@ export function LandingPage() {
       </section>
 
       <section className="relative overflow-hidden bg-[linear-gradient(135deg,var(--color-terracotta),var(--color-rose))] text-center py-[110px] px-8">
-        <p className="font-display text-[10px] tracking-[0.6em] text-white/80 uppercase mb-5">Empecemos hoy</p>
+        <p className="font-jost text-[10px] tracking-[0.6em] text-white/80 uppercase mb-5">Empecemos hoy</p>
         <h2 className="font-script text-[clamp(38px,6vw,60px)] text-white mb-6 leading-[1.2]">
           Cuéntenos su fecha y hagamos su invitación
         </h2>
@@ -211,7 +211,7 @@ export function LandingPage() {
           href={ctaWhatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block font-display text-[11px] tracking-[0.35em] uppercase text-[#2a1a2b] bg-white py-4 px-10 transition-transform duration-200 hover:-translate-y-0.5"
+          className="inline-block font-jost text-[11px] tracking-[0.35em] uppercase text-[#2a1a2b] bg-white py-4 px-10 transition-transform duration-200 hover:-translate-y-0.5"
         >
           Escríbenos por WhatsApp
         </a>
@@ -219,7 +219,7 @@ export function LandingPage() {
 
       <footer className="text-center py-[60px] px-8 bg-ivory">
         <img src={logoHorizontal} alt="Convite — Invitaciones digitales" className="h-9 mx-auto mb-5" />
-        <p className="font-display text-[9px] tracking-[0.5em] text-gold uppercase">
+        <p className="font-jost text-[9px] tracking-[0.5em] text-gold uppercase">
           Invitaciones digitales a medida
         </p>
         <div className="w-[120px] h-px mx-auto bg-[linear-gradient(to_right,transparent,var(--color-gold),transparent)] mt-[30px]" />

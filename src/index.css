@@ -20,6 +20,7 @@
   --font-body: 'Cormorant Garamond', serif;
   --font-display: 'Cinzel', serif;
   --font-script: 'Great Vibes', cursive;
+  --font-jost: 'Jost', 'Futura', sans-serif;
 }
 
 @keyframes fadeUp {
