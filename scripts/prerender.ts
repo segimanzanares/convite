@@ -6,7 +6,7 @@ const distDir = resolve(import.meta.dirname, '../dist');
 const template = readFileSync(resolve(distDir, 'index.html'), 'utf-8');
 
 const ogUrlMatch = template.match(/<meta property="og:url" content="([^"]*)"/);
-const siteOrigin = new URL(ogUrlMatch?.[1] ?? 'https://TU-DOMINIO.com/').origin;
+const siteOrigin = new URL(ogUrlMatch?.[1] ?? 'https://convite.smsoluciones.online/').origin;
 
 function escapeHtml(value: string) {
   return value
