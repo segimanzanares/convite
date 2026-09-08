@@ -52,7 +52,7 @@ export function Hero() {
             Cotiza tu invitación
           </a>
           <Link
-            to="/i/mati-nayith"
+            to="/i/demo"
             className="font-jost text-[11px] tracking-[0.35em] uppercase text-gold-deep border border-gold/50 py-4 px-9 transition-colors duration-200 hover:bg-gold-pale"
           >
             Ver invitación de ejemplo
