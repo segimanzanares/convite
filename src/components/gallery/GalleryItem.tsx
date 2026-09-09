@@ -7,8 +7,8 @@ interface GalleryItemProps {
 }
 
 function spanClasses(index: number) {
-  if (index === 0) return 'col-span-2 row-span-2 aspect-[20/13]';
-  if (index === 4) return 'col-span-2 aspect-[20/9]';
+  if (index === 0) return 'aspect-[4/3] min-[701px]:col-span-2 min-[701px]:row-span-2 min-[701px]:aspect-[20/13]';
+  if (index === 4) return 'aspect-[4/3] min-[701px]:col-span-2 min-[701px]:aspect-[20/9]';
   return 'aspect-[4/3]';
 }
 
