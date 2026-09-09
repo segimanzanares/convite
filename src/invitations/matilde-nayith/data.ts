@@ -77,10 +77,12 @@ const imagePath = (file: string) => publicPath(`images/${file}`);
 
 export const GALLERY_IMAGES: GalleryImage[] = [
   { src: imagePath('01.jpeg'), alt: 'Foto1', caption: 'La sesión' },
+  { src: imagePath('02.jpeg'), alt: 'Foto2', caption: 'La ternura' },
   { src: imagePath('03.jpeg'), alt: 'Foto3', caption: 'El amor' },
   { src: imagePath('04.jpeg'), alt: 'Foto4', caption: 'La complicidad' },
-  { src: imagePath('06.jpeg'), alt: 'Foto5', caption: 'La ternura' },
-  { src: imagePath('07.jpeg'), alt: 'Foto7', caption: 'La emoción' },
+  { src: imagePath('05.jpeg'), alt: 'Foto5', caption: 'La emoción' },
+  { src: imagePath('06.jpeg'), alt: 'Foto6', caption: 'Las miradas' },
+  { src: imagePath('07.jpeg'), alt: 'Foto7', caption: 'La promesa' },
   { src: imagePath('08.jpeg'), alt: 'Foto8', caption: 'La alegría' },
 ];
 
