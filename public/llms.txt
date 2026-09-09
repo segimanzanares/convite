@@ -1,0 +1,25 @@
+# Convite
+
+> Convite diseña y publica invitaciones digitales a medida para bodas, XV años y cualquier otro evento.
+
+Convite es un servicio de invitaciones digitales personalizadas: tipografía, paleta de
+colores y contenido propios de cada evento — sin plantillas genéricas. Cada invitación
+incluye sobre animado, cuenta regresiva en vivo, galería de fotos, música ambiental y
+confirmación de asistencia (RSVP) por WhatsApp, y queda lista para compartir por enlace
+en cuestión de días.
+
+## Páginas
+
+- [Inicio](https://convite.smsoluciones.online/): presenta el servicio, sus
+  características (diseño a medida, RSVP por WhatsApp, cuenta regresiva, galería y
+  música), el proceso de trabajo y un botón de contacto por WhatsApp para cotizar.
+
+## Notas para agentes y rastreadores
+
+- Las invitaciones publicadas para clientes viven bajo `/i/<slug>` (por ejemplo,
+  `/i/demo` como invitación de ejemplo). Son páginas privadas de una pareja o evento en
+  particular, pensadas únicamente para compartirse por enlace directo entre invitados —
+  no forman parte del contenido público indexable del sitio y no deben listarse ni
+  citarse como páginas propias de Convite.
+- El servicio se contrata por WhatsApp a través del botón "Cotiza tu invitación" en la
+  página de inicio; no hay checkout ni registro en el sitio.

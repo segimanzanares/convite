@@ -26,6 +26,8 @@ for (const [slug, { meta }] of Object.entries(invitations)) {
 
   let html = template.replace(/<title>.*?<\/title>/, `<title>${escapeHtml(meta.title)}</title>`);
   html = setMetaContent(html, /(<meta name="description" content=")[^"]*(")/, meta.description);
+  html = setMetaContent(html, /(<meta name="robots" content=")[^"]*(")/, 'noindex, nofollow');
+  html = html.replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${escapeHtml(pageUrl)}$2`);
   html = setMetaContent(html, /(<meta property="og:title" content=")[^"]*(")/, meta.title);
   html = setMetaContent(html, /(<meta property="og:description" content=")[^"]*(")/, meta.description);
   html = setMetaContent(html, /(<meta property="og:image" content=")[^"]*(")/, ogImageUrl);
