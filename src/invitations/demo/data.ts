@@ -13,7 +13,7 @@ const publicPath = (file: string) => `${import.meta.env.BASE_URL}invitations/dem
 const eventDate = addDays(new Date(), 60);
 
 export const COUPLE: CoupleInfo = {
-  names: ['Matilde', 'Nayith'],
+  names: ['Mariana', 'Alejandro'],
   weddingDateTime: format(eventDate, "yyyy-MM-dd'T'HH:mm:ss"),
   dateLabel: format(eventDate, "EEEE '·' dd 'de' MMMM '·' yyyy", { locale: es }),
   year: eventDate.getFullYear().toString(),
