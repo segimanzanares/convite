@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Envelope } from '../../components/envelope/Envelope';
 import { PageOrnamentBorder } from '../../components/layout/PageOrnamentBorder';
 import { FloatingPetals } from '../../components/hero/FloatingPetals';
@@ -13,6 +13,7 @@ import { VenuesSection } from '../../components/venues/VenuesSection';
 import { RsvpSection } from '../../components/rsvp/RsvpSection';
 import { Footer } from '../../components/footer/Footer';
 import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/MusicPlayer';
+import { useAutoScroll } from '../../hooks/useAutoScroll';
 import {
   COUPLE,
   DRESS_CODE_SWATCHES,
@@ -25,14 +26,21 @@ import './theme.css';
 
 export function InvitationPage() {
   const musicPlayerRef = useRef<MusicPlayerHandle>(null);
+  const [autoScrollActive, setAutoScrollActive] = useState(false);
 
   useEffect(() => {
     document.title = `${COUPLE.names[0]} & ${COUPLE.names[1]} — Nuestra Boda`;
   }, []);
 
+  useAutoScroll({ active: autoScrollActive, speed: 30 });
+
   return (
     <div className="theme-matilde-nayith">
-      <Envelope couple={COUPLE} onOpen={() => musicPlayerRef.current?.play()} />
+      <Envelope
+        couple={COUPLE}
+        onOpen={() => musicPlayerRef.current?.play()}
+        onOpened={() => setAutoScrollActive(true)}
+      />
       <MusicPlayer ref={musicPlayerRef} src={COUPLE.musicFile} />
       <PageOrnamentBorder />
       <FloatingPetals />
