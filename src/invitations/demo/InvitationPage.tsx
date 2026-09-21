@@ -52,7 +52,7 @@ export function InvitationPage() {
       <Gallery images={GALLERY_IMAGES} />
       <DressCodePalette swatches={DRESS_CODE_SWATCHES} />
       <VenuesSection venues={VENUES} />
-      <RsvpSection couple={COUPLE} requestEmail />
+      <RsvpSection couple={COUPLE} venues={VENUES} requestEmail />
       <Footer couple={COUPLE} />
     </div>
   );
