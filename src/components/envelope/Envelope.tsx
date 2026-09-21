@@ -4,9 +4,11 @@ import type { CoupleInfo } from '../../types/wedding';
 interface EnvelopeProps {
   couple: CoupleInfo;
   onOpen?: () => void;
+  /** Fires once the envelope has finished closing and page scroll is unlocked. */
+  onOpened?: () => void;
 }
 
-export function Envelope({ couple, onOpen }: EnvelopeProps) {
+export function Envelope({ couple, onOpen, onOpened }: EnvelopeProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [firstName, secondName] = couple.names;
@@ -24,6 +26,10 @@ export function Envelope({ couple, onOpen }: EnvelopeProps) {
     const timer = window.setTimeout(() => setIsHidden(true), 1800);
     return () => window.clearTimeout(timer);
   }, [isOpen]);
+
+  useEffect(() => {
+    if (isHidden) onOpened?.();
+  }, [isHidden, onOpened]);
 
   if (isHidden) return null;
 
