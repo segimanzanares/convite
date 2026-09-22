@@ -9,8 +9,13 @@ declare global {
   }
 }
 
-function gtag(...args: unknown[]) {
-  window.dataLayer.push(args);
+// gtag.js distinguishes an `arguments` object from a plain array when it
+// parses consent commands during bootstrap; pushing a real array (e.g. via
+// rest params) makes it silently ignore `consent` calls and drop every hit.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- kept only so callers are typed.
+function gtag(..._args: unknown[]) {
+  // eslint-disable-next-line prefer-rest-params -- gtag.js requires `arguments`, not an array.
+  window.dataLayer.push(arguments);
 }
 
 export function getStoredConsent(): ConsentChoice | null {
