@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LandingPage } from './pages/landing/LandingPage';
 import { NotFoundPage } from './pages/not-found/NotFoundPage';
 import { invitations } from './invitations/registry';
+import { CookieConsentBanner } from './components/cookie-consent/CookieConsentBanner';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
+      <CookieConsentBanner />
     </BrowserRouter>
   );
 }
