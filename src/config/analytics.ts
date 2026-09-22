@@ -46,4 +46,14 @@ export function updateAnalyticsConsent(choice: ConsentChoice) {
   localStorage.setItem(CONSENT_STORAGE_KEY, choice);
   window.dataLayer = window.dataLayer || [];
   gtag('consent', 'update', { analytics_storage: choice });
+
+  // The automatic page_view from the initial `config` call already fired
+  // (and was dropped) while consent was denied. Granting consent doesn't
+  // replay it, so send it explicitly to track the current session.
+  if (choice === 'granted' && GA_ID) {
+    gtag('event', 'page_view', {
+      page_location: window.location.href,
+      page_title: document.title,
+    });
+  }
 }
