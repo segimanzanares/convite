@@ -10,6 +10,10 @@
   --color-ivory: var(--white);
   --color-ink: var(--text-dark);
 
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
+
   --color-terracotta: var(--terracotta);
   --color-terracotta-light: var(--terracotta-light);
   --color-rose: var(--rose);

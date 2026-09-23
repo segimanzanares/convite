@@ -53,10 +53,14 @@ export function Features() {
           return (
             <Reveal key={feature.title}>
               <div
-                className={`h-full border ${accent.border} py-9 px-7 bg-[linear-gradient(160deg,var(--color-ivory),var(--color-cream))] transition-[transform,box-shadow] duration-[400ms] ease hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(42,26,43,0.1)]`}
+                className={`h-full border ${accent.border} py-9 px-7 bg-[linear-gradient(160deg,var(--color-ivory),var(--color-cream))] transition-[transform,box-shadow] duration-[400ms] ease hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_12px_40px_rgba(42,26,43,0.12)]`}
               >
-                <span className={`text-2xl mb-4 block ${accent.text}`}>{feature.icon}</span>
-                <h3 className="font-jost text-sm tracking-[0.06em] text-[#2a1a2b] uppercase mb-3">
+                <span
+                  className={`w-11 h-11 flex items-center justify-center text-xl mb-5 border ${accent.border} ${accent.text}`}
+                >
+                  {feature.icon}
+                </span>
+                <h3 className="font-jost text-sm tracking-[0.06em] text-primary uppercase mb-3">
                   {feature.title}
                 </h3>
                 <p className="text-[15px] font-light leading-[1.8] text-[#4a3820]">{feature.body}</p>

@@ -11,6 +11,12 @@
   --off-white: #efe6d6;
   --text-dark: #2a1a2b;
 
+  /* Primary brand color for the marketing site — deep plum, used for
+     headers, primary CTAs and dark section backgrounds. */
+  --primary: #2a1a2b;
+  --primary-light: #5c4a5e;
+  --primary-dark: #170e18;
+
   /* Brand accents from the icon's petals — used to give the marketing
      site (landing, 404) a livelier palette than the gold-only tokens. */
   --terracotta: #d97a4e;

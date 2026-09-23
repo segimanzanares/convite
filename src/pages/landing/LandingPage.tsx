@@ -3,6 +3,7 @@ import { Header } from '../../components/landing/Header';
 import { Hero } from '../../components/landing/Hero';
 import { Features } from '../../components/landing/Features';
 import { Steps } from '../../components/landing/Steps';
+import { Faq } from '../../components/landing/Faq';
 import { Cta } from '../../components/landing/Cta';
 import { Footer } from '../../components/landing/Footer';
 import { FullDivider } from '../../components/divider/FullDivider';
@@ -19,6 +20,7 @@ export function LandingPage() {
       <Features />
       <FullDivider text="Su evento, su invitación" />
       <Steps />
+      <Faq />
       <Cta />
       <Footer />
     </div>
