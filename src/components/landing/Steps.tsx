@@ -31,17 +31,21 @@ export function Steps() {
       <Reveal className="text-center mb-16">
         <SectionHeading eyebrow="Cómo funciona" title="De la idea al enlace en 4 pasos" />
       </Reveal>
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-10">
+      <div className="relative grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-10">
+        <div
+          className="hidden md:block absolute top-[22px] left-[12%] right-[12%] h-px bg-primary/15"
+          aria-hidden="true"
+        />
         {STEPS.map((step, index) => {
           const accent = ACCENT_CLASSES[step.accent];
           return (
-            <Reveal key={step.title} className="text-center">
+            <Reveal key={step.title} className="relative text-center">
               <div
-                className={`w-11 h-11 mx-auto mb-5 flex items-center justify-center border ${accent.border} font-jost text-sm ${accent.text}`}
+                className={`relative z-10 w-11 h-11 mx-auto mb-5 flex items-center justify-center rounded-full bg-primary font-jost text-sm text-white ring-4 ring-cream`}
               >
                 {index + 1}
               </div>
-              <h3 className="font-jost text-sm tracking-[0.06em] text-[#2a1a2b] uppercase mb-3">{step.title}</h3>
+              <h3 className={`font-jost text-sm tracking-[0.06em] uppercase mb-3 ${accent.text}`}>{step.title}</h3>
               <p className="text-[15px] font-light leading-[1.8] text-[#4a3820]">{step.body}</p>
             </Reveal>
           );
