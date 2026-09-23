@@ -67,6 +67,10 @@ export function Hero() {
               </Link>
             </div>
 
+            <p className="font-jost text-[11px] tracking-[0.2em] uppercase text-primary/80 mb-8">
+              Invitaciones desde <span className="text-gold">$899 pesos</span>
+            </p>
+
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 mb-12">
               {TAGS.map(({ label, accent }) => (
                 <span

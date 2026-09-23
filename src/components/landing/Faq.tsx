@@ -5,7 +5,7 @@ const FAQS: { question: string; answer: string }[] = [
   {
     question: '¿Cuánto cuesta una invitación digital?',
     answer:
-      'Cada invitación se cotiza según lo que necesite su evento. Escríbanos por WhatsApp y les compartimos una propuesta clara antes de empezar, sin compromiso.',
+      'Desde $899 pesos por invitación. El costo final depende de lo que necesite su evento; escríbanos por WhatsApp y les compartimos una propuesta clara antes de empezar, sin compromiso.',
   },
   {
     question: '¿Cuánto tiempo tarda en estar lista?',
