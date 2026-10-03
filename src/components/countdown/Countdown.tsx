@@ -13,7 +13,7 @@ export function Countdown({ targetDateTime }: CountdownProps) {
   const values = [days, hours, minutes, seconds];
 
   return (
-    <section className="bg-[linear-gradient(160deg,#1c1308,#2c1f0a)] border-t border-b border-gold/12 max-w-full py-20 px-10 text-center">
+    <section className="bg-[linear-gradient(160deg,var(--dark-from),var(--dark-to))] border-t border-b border-gold/12 max-w-full py-20 px-10 text-center">
       <Reveal className="max-w-[860px] mx-auto text-center">
         <SectionHeading eyebrow="Faltan" title="La cuenta regresiva" />
         <div className="flex justify-center gap-0 mt-[50px] flex-wrap">

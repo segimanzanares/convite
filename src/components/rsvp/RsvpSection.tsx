@@ -16,13 +16,13 @@ const ATTENDANCE_OPTIONS: { value: AttendanceStatus; label: string }[] = [
 ];
 
 const RSVP_INPUT_CLASS =
-  'bg-[rgba(255,255,255,0.04)] border border-gold/30 text-gold-pale font-body text-base font-light py-3.5 px-5 outline-none transition-colors duration-300 w-full tracking-[0.05em] placeholder:text-[rgba(232,208,138,0.35)] placeholder:italic focus:border-gold';
+  'bg-[rgba(255,255,255,0.04)] border border-gold/30 text-gold-pale font-body text-base font-light py-3.5 px-5 outline-none transition-colors duration-300 w-full tracking-[0.05em] placeholder:text-gold-light/35 placeholder:italic focus:border-gold';
 
 export function RsvpSection({ couple, venues, requestEmail }: RsvpSectionProps) {
   const { form, setField, isSubmitted, handleSubmit } = useRsvpForm(couple.rsvpWhatsappNumber, requestEmail);
 
   return (
-    <div className="bg-[linear-gradient(160deg,#1c1308,#2c1f0a)] text-gold-pale py-[100px] px-10 text-center">
+    <div className="bg-[linear-gradient(160deg,var(--dark-from),var(--dark-to))] text-gold-pale py-[100px] px-10 text-center">
       <Reveal className="max-w-[680px] mx-auto">
         <SectionHeading eyebrow="Confirmación" title="RSVP" tone="dark" />
         <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] italic text-gold-pale opacity-80 mt-5">

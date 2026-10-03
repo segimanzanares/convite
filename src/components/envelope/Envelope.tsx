@@ -37,7 +37,7 @@ export function Envelope({ couple, onOpen, onOpened }: EnvelopeProps) {
     <div
       className={[
         'fixed inset-0 z-[3000] flex flex-col items-center justify-center gap-8',
-        '[background:radial-gradient(circle_at_50%_40%,#2a1d0d_0%,#120c04_65%,#000_100%)]',
+        '[background:var(--envelope-bg)]',
         'transition-[opacity,visibility] duration-[900ms] delay-[900ms]',
         isOpen ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible',
       ].join(' ')}

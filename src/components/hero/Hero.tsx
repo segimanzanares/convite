@@ -21,7 +21,7 @@ export function Hero({ couple, backgroundImageUrl }: HeroProps) {
 
       <div className="w-[120px] h-px mx-auto bg-[linear-gradient(to_right,transparent,var(--color-gold),transparent)] opacity-0 animate-[fadeUp_1.2s_0.5s_forwards] mb-[30px]" />
 
-      <h1 className="font-script text-[clamp(64px,10vw,120px)] text-gold-deep leading-none text-center opacity-0 animate-[fadeUp_1.4s_0.8s_forwards] [text-shadow:0_2px_30px_rgba(201,168,76,0.2)]">
+      <h1 className="font-script text-[clamp(64px,10vw,120px)] text-gold-deep leading-none text-center opacity-0 animate-[fadeUp_1.4s_0.8s_forwards] [text-shadow:0_2px_30px_color-mix(in_srgb,var(--color-gold)_20%,transparent)]">
         <span className="font-bold">{firstName}</span>
         <span className="block text-[clamp(40px,6vw,72px)] text-gold-light my-[-10px] opacity-0 animate-[fadeUp_1.4s_1s_forwards]">
           &amp;

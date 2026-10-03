@@ -12,7 +12,7 @@ export function DressCodePalette({ swatches }: DressCodePaletteProps) {
     <section className="max-w-[920px] mx-auto text-center py-[100px] px-10">
       <Reveal>
         <SectionHeading eyebrow="Paleta sugerida" title="Colorimetría" />
-        <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] text-[#4a3820] italic">
+        <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] text-[var(--text-body)] italic">
           Inspirados en la elegancia atemporal, sugerimos los siguientes tonos para
           su vestimenta.
         </p>
