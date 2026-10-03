@@ -24,12 +24,14 @@ import {
 import bgHero from './images/bg-hero.jpeg';
 import './theme.css';
 
+const COUPLE_TITLE = `${COUPLE.names[0]} & ${COUPLE.names[1]}`;
+
 export function InvitationPage() {
   const musicPlayerRef = useRef<MusicPlayerHandle>(null);
   const [autoScrollActive, setAutoScrollActive] = useState(false);
 
   useEffect(() => {
-    document.title = `${COUPLE.names[0]} & ${COUPLE.names[1]} — Nuestra Boda`;
+    document.title = `${COUPLE_TITLE} — Nuestra Boda`;
   }, []);
 
   useAutoScroll({ active: autoScrollActive, speed: 60 });
@@ -37,7 +39,9 @@ export function InvitationPage() {
   return (
     <div className="theme-demo">
       <Envelope
-        couple={COUPLE}
+        monogram={`${COUPLE.names[0].charAt(0)}${COUPLE.names[1].charAt(0)}`}
+        title={COUPLE_TITLE}
+        ariaName={`${COUPLE.names[0]} y ${COUPLE.names[1]}`}
         onOpen={() => musicPlayerRef.current?.play()}
         onOpened={() => setAutoScrollActive(true)}
       />
@@ -46,14 +50,20 @@ export function InvitationPage() {
       <FloatingPetals />
       <Hero couple={COUPLE} backgroundImageUrl={bgHero} />
       <CoupleMessage couple={COUPLE} />
-      <FullDivider text={`${COUPLE.names[0]} & ${COUPLE.names[1]}`} />
+      <FullDivider text={COUPLE_TITLE} />
       <EventDetails details={EVENT_DETAILS} />
       <Countdown targetDateTime={COUPLE.weddingDateTime} />
       <Gallery images={GALLERY_IMAGES} />
       <DressCodePalette swatches={DRESS_CODE_SWATCHES} />
       <VenuesSection venues={VENUES} />
-      <RsvpSection couple={COUPLE} venues={VENUES} requestEmail />
-      <Footer couple={COUPLE} />
+      <RsvpSection
+        whatsappNumber={COUPLE.rsvpWhatsappNumber}
+        deadlineLabel={COUPLE.rsvpDeadlineLabel}
+        calendar={{ dateTime: COUPLE.weddingDateTime, name: `Boda ${COUPLE_TITLE}`, fileName: 'boda.ics' }}
+        venues={VENUES}
+        requestEmail
+      />
+      <Footer title={COUPLE_TITLE} dateLabel={COUPLE.footerDateLabel} />
     </div>
   );
 }

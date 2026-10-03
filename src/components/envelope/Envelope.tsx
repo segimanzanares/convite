@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
-import type { CoupleInfo } from '../../types/wedding';
 
 interface EnvelopeProps {
-  couple: CoupleInfo;
+  /** Short text on the wax seal and the card, e.g. the couple's initials. */
+  monogram: string;
+  /** Small caps line under the monogram on the card. */
+  title: string;
+  /** Who the invitation is from, read out by screen readers. */
+  ariaName: string;
   onOpen?: () => void;
   /** Fires once the envelope has finished closing and page scroll is unlocked. */
   onOpened?: () => void;
 }
 
-export function Envelope({ couple, onOpen, onOpened }: EnvelopeProps) {
+export function Envelope({ monogram, title, ariaName, onOpen, onOpened }: EnvelopeProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
-  const [firstName, secondName] = couple.names;
-  const initials = `${firstName.charAt(0)}${secondName.charAt(0)}`;
 
   useEffect(() => {
     document.body.style.overflow = isHidden ? '' : 'hidden';
@@ -56,7 +58,7 @@ export function Envelope({ couple, onOpen, onOpened }: EnvelopeProps) {
             setIsOpen(true);
             onOpen?.();
           }}
-          aria-label={`Abrir la invitación de ${firstName} y ${secondName}`}
+          aria-label={`Abrir la invitación de ${ariaName}`}
         >
           <span className="absolute inset-0 overflow-hidden rounded-[4px] shadow-[0_20px_60px_rgba(0,0,0,0.5)] z-[1]">
             <span className="absolute inset-0 bg-[linear-gradient(160deg,var(--color-cream),var(--color-off-white))]" />
@@ -73,9 +75,9 @@ export function Envelope({ couple, onOpen, onOpened }: EnvelopeProps) {
                 isOpen ? 'translate-y-[-135%]' : 'translate-y-[72%]',
               ].join(' ')}
             >
-              <span className="font-script text-[30px] text-gold-deep">{initials}</span>
+              <span className="font-script text-[30px] text-gold-deep">{monogram}</span>
               <span className="font-display text-[9px] tracking-[0.3em] text-gold uppercase">
-                {firstName} &amp; {secondName}
+                {title}
               </span>
             </span>
           </span>
@@ -101,7 +103,7 @@ export function Envelope({ couple, onOpen, onOpened }: EnvelopeProps) {
               isOpen ? '[transform:translate(-50%,-10px)_scale(0)] opacity-0' : '[transform:translate(-50%,0)_scale(1)]',
             ].join(' ')}
           >
-            {initials}
+            {monogram}
           </span>
         </button>
         <p
