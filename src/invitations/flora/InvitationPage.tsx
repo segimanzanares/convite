@@ -6,6 +6,7 @@ import { BirthdayHero } from '../../components/hero/BirthdayHero';
 import { InvitationMessage } from '../../components/message/InvitationMessage';
 import { FullDivider } from '../../components/divider/FullDivider';
 import { EventDetails } from '../../components/details/EventDetails';
+import { ProgramTimeline } from '../../components/program/ProgramTimeline';
 import { Countdown } from '../../components/countdown/Countdown';
 import { Gallery } from '../../components/gallery/Gallery';
 import { DressCodePalette } from '../../components/dresscode/DressCodePalette';
@@ -19,6 +20,7 @@ import {
   DRESS_CODE_SWATCHES,
   EVENT_DETAILS,
   GALLERY_IMAGES,
+  PROGRAM,
   VENUES,
 } from './data';
 import bgHero from './images/bg-hero.jpeg';
@@ -55,6 +57,10 @@ export function InvitationPage() {
       />
       <FullDivider text={`${CELEBRANT.firstName} · ${CELEBRANT.age}`} />
       <EventDetails details={EVENT_DETAILS} eyebrow="La celebración" />
+      <ProgramTimeline
+        items={PROGRAM}
+        intro="Así viviremos este día tan especial, momento a momento."
+      />
       <Countdown targetDateTime={CELEBRANT.eventDateTime} headingTone="dark" />
       <Gallery
         images={GALLERY_IMAGES}

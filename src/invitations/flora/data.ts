@@ -5,6 +5,7 @@ import type {
   ColorSwatchData,
   DetailCardData,
   GalleryImage,
+  ProgramItem,
   Venue,
 } from '../../types/wedding';
 
@@ -47,6 +48,45 @@ export const EVENT_DETAILS: DetailCardData[] = [
     title: 'Formal de Día',
     lines: ['Te sugerimos vestir en tonos suaves y florales.'],
     note: 'Evitar el color blanco.',
+  },
+];
+
+export const PROGRAM: ProgramItem[] = [
+  {
+    time: '13:00 hrs',
+    icon: '🕊️',
+    title: 'Misa de acción de gracias',
+    description: 'Daremos gracias por 76 años de vida en la Parroquia de San Juan.',
+  },
+  {
+    time: '14:30 hrs',
+    icon: '🥂',
+    title: 'Recepción',
+    description: 'Bienvenida y brindis en el Jardín Las Bugambilias.',
+  },
+  {
+    time: '15:30 hrs',
+    icon: '🍽️',
+    title: 'Comida',
+    description: 'Disfrutaremos juntos de una comida en familia.',
+  },
+  {
+    time: '17:00 hrs',
+    icon: '💐',
+    title: 'Homenaje',
+    description: 'Palabras de la familia y un recorrido por sus recuerdos.',
+  },
+  {
+    time: '17:30 hrs',
+    icon: '🎂',
+    title: 'Pastel y mañanitas',
+    description: 'Cantaremos juntos para celebrarla.',
+  },
+  {
+    time: '18:00 hrs',
+    icon: '🎶',
+    title: 'Baile y convivencia',
+    description: 'Música, baile y la mejor compañía hasta el anochecer.',
   },
 ];
 
