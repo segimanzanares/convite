@@ -41,3 +41,10 @@ export interface ColorSwatchData {
   hex: string;
   label: string;
 }
+
+export interface ProgramItem {
+  time: string;
+  title: string;
+  description?: string;
+  icon?: string;
+}
