@@ -1,16 +1,33 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
+// Tipos permitidos para la posición del reproductor
+export type MusicPlayerPosition = 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
+
 interface MusicPlayerProps {
     src?: string;
     /** Tiempo en milisegundos para ocultar el reproductor tras inactividad (por defecto 3000ms) */
     hideTimeout?: number;
+    /** Posición en la pantalla (por defecto 'bottom-right') */
+    position?: MusicPlayerPosition;
 }
 
 export interface MusicPlayerHandle {
     play: () => void;
 }
 
-export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({ src, hideTimeout = 3000 }, ref) => {
+// Mapeo de posiciones a clases de Tailwind
+const POSITION_CLASSES: Record<MusicPlayerPosition, string> = {
+    'bottom-right': 'bottom-5 right-5',
+    'bottom-left': 'bottom-5 left-5',
+    'top-right': 'top-5 right-5',
+    'top-left': 'top-5 left-5',
+};
+
+export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({
+    src,
+    hideTimeout = 3000,
+    position = 'bottom-right',
+}, ref) => {
     const audioRef = useRef<HTMLAudioElement>(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
@@ -81,9 +98,11 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({ sr
 
     if (!src) return null;
 
+    const positionClass = POSITION_CLASSES[position] || POSITION_CLASSES['bottom-right'];
+
     return (
         <div
-            className={`fixed bottom-5 right-5 z-[1000] transition-opacity duration-500 ${
+            className={`fixed ${positionClass} z-[1000] transition-opacity duration-500 ${
                 isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
             }`}
         >
