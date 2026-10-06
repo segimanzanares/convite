@@ -11,7 +11,7 @@ export function VenueCard({ venue }: VenueCardProps) {
       className={[
         'group relative border border-gold/25 bg-[linear-gradient(160deg,var(--color-ivory),var(--color-cream))]',
         'overflow-hidden transition-[box-shadow,transform] duration-[400ms] ease',
-        'hover:shadow-[0_16px_50px_rgba(201,168,76,0.13)] hover:-translate-y-[3px]',
+        'hover:shadow-[0_16px_50px_color-mix(in_srgb,var(--color-gold)_13%,transparent)] hover:-translate-y-[3px]',
         "before:content-[''] before:block before:h-0.5 before:bg-[linear-gradient(to_right,transparent,var(--color-gold),transparent)] before:opacity-60",
       ].join(' ')}
     >
@@ -26,11 +26,11 @@ export function VenueCard({ venue }: VenueCardProps) {
         />
       </div>
       <div className="pt-7 px-8 pb-8 text-left">
-        <p className="font-display text-[9px] tracking-[0.55em] text-gold uppercase flex items-center gap-2.5 mb-3 after:content-[''] after:flex-1 after:h-px after:bg-[linear-gradient(to_right,rgba(201,168,76,0.4),transparent)]">
+        <p className="font-display text-[9px] tracking-[0.55em] text-gold uppercase flex items-center gap-2.5 mb-3 after:content-[''] after:flex-1 after:h-px after:bg-[linear-gradient(to_right,color-mix(in_srgb,var(--color-gold)_40%,transparent),transparent)]">
           {venue.icon} {venue.tag}
         </p>
         <h3 className="font-script text-[34px] text-gold-deep leading-[1.1] mb-2.5">{venue.name}</h3>
-        <p className="text-[14px] font-light leading-[1.75] text-[#5a4830] italic mb-[18px]">
+        <p className="text-[14px] font-light leading-[1.75] text-[var(--text-muted)] italic mb-[18px]">
           {venue.addressLines.map((line, index) => (
             <span key={`${index}-${line}`}>
               {line}
@@ -43,7 +43,7 @@ export function VenueCard({ venue }: VenueCardProps) {
         </div>
         <br />
         <a
-          className="inline-flex items-center gap-2 font-display text-[9px] tracking-[0.4em] uppercase text-gold-deep no-underline border-b border-[rgba(160,120,48,0.3)] pb-0.5 transition-colors duration-200 hover:text-gold hover:border-gold [&_svg]:w-3 [&_svg]:h-3 [&_svg]:fill-current"
+          className="inline-flex items-center gap-2 font-display text-[9px] tracking-[0.4em] uppercase text-gold-deep no-underline border-b border-gold-deep/30 pb-0.5 transition-colors duration-200 hover:text-gold hover:border-gold [&_svg]:w-3 [&_svg]:h-3 [&_svg]:fill-current"
           href={venue.directionsUrl}
           target="_blank"
           rel="noopener noreferrer"

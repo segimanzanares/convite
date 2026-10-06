@@ -1,0 +1,31 @@
+/* Rosa antiguo, malva y vino: a warm, mature floral palette for a 76th
+   birthday. --gold is a mid-tone rose chosen to stay legible on both the
+   cream sections and the dark wine ones. */
+.theme-flora {
+  --gold: #b0657d;
+  --gold-light: #e2aebd;
+  --gold-pale: #f7e6eb;
+  --gold-deep: #7d3550;
+  --white: #fffafa;
+  --cream: #fbf2f3;
+  --off-white: #f2e3e6;
+  --text-dark: #3a1f2a;
+
+  --text-body: #5b3a47;
+  --text-muted: #6b4a57;
+  --dark-from: #2a1420;
+  --dark-to: #452234;
+  --envelope-bg: radial-gradient(circle at 50% 40%, #4a2436 0%, #1f0e17 65%, #0d0509 100%);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+}

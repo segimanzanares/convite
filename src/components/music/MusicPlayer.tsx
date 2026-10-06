@@ -1,16 +1,37 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
+// Tipos permitidos para la posición del reproductor
+export type MusicPlayerPosition = 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
+
 interface MusicPlayerProps {
     src?: string;
+    /** Tiempo en milisegundos para ocultar el reproductor tras inactividad (por defecto 3000ms) */
+    hideTimeout?: number;
+    /** Posición en la pantalla (por defecto 'bottom-right') */
+    position?: MusicPlayerPosition;
 }
 
 export interface MusicPlayerHandle {
     play: () => void;
 }
 
-export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({ src }, ref) => {
+// Mapeo de posiciones a clases de Tailwind
+const POSITION_CLASSES: Record<MusicPlayerPosition, string> = {
+    'bottom-right': 'bottom-5 right-5',
+    'bottom-left': 'bottom-5 left-5',
+    'top-right': 'top-5 right-5',
+    'top-left': 'top-5 left-5',
+};
+
+export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({
+    src,
+    hideTimeout = 3000,
+    position = 'bottom-right',
+}, ref) => {
     const audioRef = useRef<HTMLAudioElement>(null);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const play = () => {
         audioRef.current?.play()
@@ -31,6 +52,34 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({ sr
         }
     };
 
+    // Control de visibilidad según la interacción del usuario
+    useEffect(() => {
+        const handleInteraction = () => {
+            setIsVisible(true);
+
+            // Limpiamos el temporizador previo si existe
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+
+            // Ocultamos el reproductor tras el tiempo configurado sin interacción
+            timeoutRef.current = setTimeout(() => {
+                setIsVisible(false);
+            }, hideTimeout);
+        };
+
+        const events = ['scroll', 'click', 'mousemove', 'keydown', 'touchstart'];
+        events.forEach((event) => window.addEventListener(event, handleInteraction, { passive: true }));
+
+        return () => {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+            events.forEach((event) => window.removeEventListener(event, handleInteraction));
+        };
+    }, [hideTimeout]);
+
+    // Escuchadores de eventos nativos de audio
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
@@ -47,8 +96,16 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({ sr
         };
     }, []);
 
+    if (!src) return null;
+
+    const positionClass = POSITION_CLASSES[position] || POSITION_CLASSES['bottom-right'];
+
     return (
-        src ? <div className="fixed bottom-5 right-5 z-[1000]">
+        <div
+            className={`fixed ${positionClass} z-[1000] transition-opacity duration-500 ${
+                isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+            }`}
+        >
             <audio ref={audioRef} loop src={src} />
             <button
                 type="button"
@@ -69,7 +126,6 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({ sr
                 )}
             </button>
         </div>
-        : null
     );
 });
 

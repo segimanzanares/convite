@@ -5,6 +5,7 @@ import type {
   CoupleInfo,
   DetailCardData,
   GalleryImage,
+  ProgramItem,
   Venue,
 } from '../../types/wedding';
 
@@ -35,7 +36,7 @@ export const EVENT_DETAILS: DetailCardData[] = [
   {
     icon: '🥂',
     label: 'Recepción & Banquete',
-    title: 'Salón De Fiestas',
+    title: 'Jardín Las Bugambilias',
     lines: ['Av. Hidalgo S/N', 'Col. Centro, Puerto Escondido, Oax.'],
     time: '16:00 HRS',
   },
@@ -45,6 +46,45 @@ export const EVENT_DETAILS: DetailCardData[] = [
     title: 'Vestimenta Formal',
     lines: ['Solicitamos a nuestros invitados vestimenta formal.'],
     note: 'Evitar el color blanco y el negro riguroso.',
+  },
+];
+
+export const PROGRAM: ProgramItem[] = [
+  {
+    time: '13:00 hrs',
+    icon: '⛪',
+    title: 'Ceremonia religiosa',
+    description: 'Acompañanos a unir nuestras vidas en la Parroquia de la Soledad.',
+  },
+  {
+    time: '14:30 hrs',
+    icon: '🥂',
+    title: 'Coctel de bienvenida',
+    description: 'Recepción y brindis de honor en el Jardín Las Bugambilias.',
+  },
+  {
+    time: '15:30 hrs',
+    icon: '🍽️',
+    title: 'Banquete de bodas',
+    description: 'Disfrutaremos de una comida especial para celebrar nuestro amor.',
+  },
+  {
+    time: '17:00 hrs',
+    icon: '💃',
+    title: 'Primer baile',
+    description: 'Apertura de pista con el tradicional baile de los novios.',
+  },
+  {
+    time: '17:30 hrs',
+    icon: '🎂',
+    title: 'Corte de pastel',
+    description: 'El momento dulce de la tarde y brindis con la familia.',
+  },
+  {
+    time: '18:00 hrs',
+    icon: '🪩',
+    title: 'Fiesta y baile',
+    description: 'Música, fiesta y mucha diversión hasta que el cuerpo aguante.',
   },
 ];
 
@@ -63,12 +103,12 @@ export const VENUES: Venue[] = [
   {
     icon: '🥂',
     tag: 'Recepción & Banquete',
-    name: 'Salón De Fiestas',
+    name: 'Jardín Las Bugambilias',
     addressLines: ['Av. Hidalgo S/N', 'Col. Centro, Puerto Escondido, Oax.'],
     time: '16:00 hrs',
     mapEmbedUrl:
       'https://www.google.com/maps?q=15.862436,-97.071639&z=15&output=embed',
-    mapTitle: 'Salón De Fiestas — Recepción',
+    mapTitle: 'Jardín Las Bugambilias — Recepción',
     directionsUrl: 'https://www.google.com/maps/dir//15.8624356,-97.0716393/@15.8624698,-97.0712048,133m/data=!3m1!1e3!4m2!4m1!3e0?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D',
   },
 ];

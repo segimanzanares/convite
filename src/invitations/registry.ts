@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import { meta as demoMeta } from './demo/meta';
 import { meta as matildeNayithMeta } from './matilde-nayith/meta';
+import { meta as floraMeta } from './flora/meta';
 
 export const invitations = {
   'demo': {
@@ -10,6 +11,10 @@ export const invitations = {
   'mati-nayith': {
     Component: lazy(() => import('./matilde-nayith/InvitationPage')),
     meta: matildeNayithMeta,
+  },
+  'flora': {
+    Component: lazy(() => import('./flora/InvitationPage')),
+    meta: floraMeta,
   },
 } as const;
 

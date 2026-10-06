@@ -11,6 +11,14 @@
   --off-white: #efe6d6;
   --text-dark: #2a1a2b;
 
+  /* Invitation surface tokens — body copy, dark section backgrounds and the
+     envelope intro. Per-invitation themes may override them. */
+  --text-body: #4a3820;
+  --text-muted: #5a4830;
+  --dark-from: #1c1308;
+  --dark-to: #2c1f0a;
+  --envelope-bg: radial-gradient(circle at 50% 40%, #2a1d0d 0%, #120c04 65%, #000 100%);
+
   /* Primary brand color for the marketing site — deep plum, used for
      headers, primary CTAs and dark section backgrounds. */
   --primary: #2a1a2b;

@@ -1,4 +1,12 @@
-import type { CoupleInfo, Venue } from '../types/wedding';
+import type { Venue } from '../types/wedding';
+
+export interface CalendarOccasion {
+  /** Event day as "yyyy-MM-ddTHH:mm:ss"; only the date part is used. */
+  dateTime: string;
+  /** Appended to each venue's tag in the entry title, e.g. "Boda Ana & Luis". */
+  name: string;
+  fileName: string;
+}
 
 interface CalendarEvent {
   title: string;
@@ -28,9 +36,8 @@ function parseVenueTime(time: string): [number, number] {
   return match ? [Number(match[1]), Number(match[2])] : [FALLBACK_HOUR, 0];
 }
 
-function buildEvents(couple: CoupleInfo, venues: Venue[]): CalendarEvent[] {
-  const [year, month, day] = couple.weddingDateTime.slice(0, 10).split('-').map(Number);
-  const [first, second] = couple.names;
+function buildEvents(occasion: CalendarOccasion, venues: Venue[]): CalendarEvent[] {
+  const [year, month, day] = occasion.dateTime.slice(0, 10).split('-').map(Number);
 
   const starts = venues.map((venue) => {
     const [hours, minutes] = parseVenueTime(venue.time);
@@ -41,7 +48,7 @@ function buildEvents(couple: CoupleInfo, venues: Venue[]): CalendarEvent[] {
     const start = starts[index];
     const end = starts[index + 1] ?? new Date(start.getTime() + LAST_EVENT_DURATION_MINUTES * 60_000);
     return {
-      title: `${venue.tag} — Boda ${first} & ${second}`,
+      title: `${venue.tag} — ${occasion.name}`,
       location: [venue.name, ...venue.addressLines].join(', '),
       start,
       end,
@@ -84,14 +91,14 @@ function buildIcs(events: CalendarEvent[]) {
   return lines.map(foldLine).join('\r\n') + '\r\n';
 }
 
-export function downloadWeddingCalendar(couple: CoupleInfo, venues: Venue[]) {
-  const ics = buildIcs(buildEvents(couple, venues));
+export function downloadEventCalendar(occasion: CalendarOccasion, venues: Venue[]) {
+  const ics = buildIcs(buildEvents(occasion, venues));
   const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
   const url = URL.createObjectURL(blob);
 
   const link = document.createElement('a');
   link.href = url;
-  link.download = 'boda.ics';
+  link.download = occasion.fileName;
   document.body.appendChild(link);
   link.click();
   link.remove();

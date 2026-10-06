@@ -14,7 +14,7 @@ export function Lightbox({ images, currentIndex, isOpen, onClose, onNavigate }: 
   return (
     <div
       className={[
-        'fixed inset-0 bg-[rgba(20,12,4,0.96)] z-[9000] flex items-center justify-center',
+        'fixed inset-0 bg-[color-mix(in_srgb,var(--dark-from)_96%,transparent)] z-[9000] flex items-center justify-center',
         'transition-opacity duration-[400ms] ease',
         isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
       ].join(' ')}

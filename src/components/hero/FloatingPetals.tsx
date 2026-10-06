@@ -4,7 +4,9 @@ export function FloatingPetals() {
   const petals = usePetals();
 
   return (
-    <div>
+    // Clipping container: petals near the right edge (left ≈ 100vw) and their
+    // rotation would otherwise overflow the viewport and widen the page on mobile.
+    <div className="absolute top-0 inset-x-0 h-screen overflow-hidden pointer-events-none z-[1000]" aria-hidden="true">
       {petals.map((petal) => (
         <div
           key={petal.id}
