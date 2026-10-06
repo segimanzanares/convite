@@ -12,12 +12,14 @@ import { VenuesSection } from '../../components/venues/VenuesSection';
 import { RsvpSection } from '../../components/rsvp/RsvpSection';
 import { Footer } from '../../components/footer/Footer';
 import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/MusicPlayer';
+import { ProgramTimeline } from '../../components/program/ProgramTimeline';
 import { useAutoScroll } from '../../hooks/useAutoScroll';
 import {
   COUPLE,
   DRESS_CODE_SWATCHES,
   EVENT_DETAILS,
   GALLERY_IMAGES,
+  PROGRAM,
   VENUES,
 } from './data';
 import bgHero from './images/bg-hero.jpeg';
@@ -52,6 +54,10 @@ export function InvitationPage() {
       <CoupleMessage couple={COUPLE} />
       <FullDivider text={COUPLE_TITLE} />
       <EventDetails details={EVENT_DETAILS} />
+      <ProgramTimeline
+        items={PROGRAM}
+        intro="Así viviremos este día tan especial, momento a momento."
+      />
       <Countdown targetDateTime={COUPLE.weddingDateTime} />
       <Gallery images={GALLERY_IMAGES} />
       <DressCodePalette swatches={DRESS_CODE_SWATCHES} />
