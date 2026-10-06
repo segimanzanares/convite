@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { Envelope } from '../../components/envelope/Envelope';
-import { PageOrnamentBorder } from '../../components/layout/PageOrnamentBorder';
 import { FloatingPetals } from '../../components/hero/FloatingPetals';
 import { Hero } from '../../components/hero/Hero';
 import { CoupleMessage } from '../../components/message/CoupleMessage';
@@ -23,6 +22,7 @@ import {
 } from './data';
 import bgHero from './images/bg-hero.jpeg';
 import './theme.css';
+import { FloralPageOrnamentBorder } from '../../components/layout/FloralPageOrnamentBorder';
 
 const COUPLE_TITLE = `${COUPLE.names[0]} & ${COUPLE.names[1]}`;
 
@@ -46,7 +46,7 @@ export function InvitationPage() {
         onOpened={() => setAutoScrollActive(true)}
       />
       <MusicPlayer ref={musicPlayerRef} src={COUPLE.musicFile} />
-      <PageOrnamentBorder />
+      <FloralPageOrnamentBorder />
       <FloatingPetals />
       <Hero couple={COUPLE} backgroundImageUrl={bgHero} />
       <CoupleMessage couple={COUPLE} />
