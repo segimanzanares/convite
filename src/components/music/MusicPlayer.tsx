@@ -2,15 +2,19 @@ import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 're
 
 interface MusicPlayerProps {
     src?: string;
+    /** Tiempo en milisegundos para ocultar el reproductor tras inactividad (por defecto 3000ms) */
+    hideTimeout?: number;
 }
 
 export interface MusicPlayerHandle {
     play: () => void;
 }
 
-export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({ src }, ref) => {
+export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({ src, hideTimeout = 3000 }, ref) => {
     const audioRef = useRef<HTMLAudioElement>(null);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const play = () => {
         audioRef.current?.play()
@@ -31,6 +35,34 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({ sr
         }
     };
 
+    // Control de visibilidad según la interacción del usuario
+    useEffect(() => {
+        const handleInteraction = () => {
+            setIsVisible(true);
+
+            // Limpiamos el temporizador previo si existe
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+
+            // Ocultamos el reproductor tras el tiempo configurado sin interacción
+            timeoutRef.current = setTimeout(() => {
+                setIsVisible(false);
+            }, hideTimeout);
+        };
+
+        const events = ['scroll', 'click', 'mousemove', 'keydown', 'touchstart'];
+        events.forEach((event) => window.addEventListener(event, handleInteraction, { passive: true }));
+
+        return () => {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+            events.forEach((event) => window.removeEventListener(event, handleInteraction));
+        };
+    }, [hideTimeout]);
+
+    // Escuchadores de eventos nativos de audio
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
@@ -47,8 +79,14 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({ sr
         };
     }, []);
 
+    if (!src) return null;
+
     return (
-        src ? <div className="fixed bottom-5 right-5 z-[1000]">
+        <div
+            className={`fixed bottom-5 right-5 z-[1000] transition-opacity duration-500 ${
+                isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+            }`}
+        >
             <audio ref={audioRef} loop src={src} />
             <button
                 type="button"
@@ -69,7 +107,6 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({ sr
                 )}
             </button>
         </div>
-        : null
     );
 });
 
