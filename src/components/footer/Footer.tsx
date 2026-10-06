@@ -19,8 +19,9 @@ export function Footer({ title, dateLabel, tagline = 'Con amor eterno · Para si
       <div className="font-display text-[10px] tracking-[0.4em] text-gold mt-2.5">{dateLabel}</div>
       <div className="w-[120px] h-px mx-auto bg-[linear-gradient(to_right,transparent,var(--color-gold),transparent)] animate-[fadeUp_1.2s_0.5s_forwards] mt-[30px]" />
       <p className="font-display text-[9px] tracking-[0.5em] text-gold uppercase mt-3">{tagline}</p>
-      <NavLink to="/" className="block w-fit mx-auto mt-[30px]" end>
-        <img src={logoHorizontal} alt="Logo" className="h-8" />
+      <p className="font-display text-[8px] tracking-[0.3em] text-gold/70 uppercase mt-[30px] mb-2">Invitación creada con</p>
+      <NavLink to="/" className="block w-fit mx-auto" end>
+        <img src={logoHorizontal} alt="Logo" className="h-8 opacity-50" />
       </NavLink>
     </footer>
   );
