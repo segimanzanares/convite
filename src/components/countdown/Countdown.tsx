@@ -25,9 +25,12 @@ export function Countdown({
     <section className="bg-[linear-gradient(160deg,var(--dark-from),var(--dark-to))] border-t border-b border-gold/12 max-w-full py-20 px-10 text-center">
       <Reveal className="max-w-[860px] mx-auto text-center">
         <SectionHeading eyebrow={eyebrow} title={title} tone={headingTone} />
-        <div className="flex justify-center gap-0 mt-[50px] flex-wrap">
+        <div className="grid grid-cols-2 mt-[50px] sm:flex sm:justify-center">
           {UNIT_LABELS.map((label, index) => (
-            <div className="text-center py-5 px-[30px] border-r border-gold/20 last:border-r-0" key={label}>
+            <div
+              className={`text-center py-5 px-[30px] border-gold/20 ${index % 2 === 0 ? 'border-r' : ''} ${index === 1 ? 'sm:border-r' : ''}`}
+              key={label}
+            >
               <span className="font-display text-[clamp(36px,5vw,52px)] text-gold font-light block leading-none">
                 {String(values[index]).padStart(2, '0')}
               </span>
