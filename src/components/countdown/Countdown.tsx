@@ -28,7 +28,7 @@ export function Countdown({
         <div className="grid grid-cols-2 mt-[50px] sm:flex sm:justify-center">
           {UNIT_LABELS.map((label, index) => (
             <div
-              className={`text-center py-5 px-[30px] border-gold/20 ${index % 2 === 0 ? 'border-r' : ''} ${index === 1 ? 'sm:border-r' : ''}`}
+              className={`min-w-0 text-center py-5 px-3 sm:px-[30px] border-gold/20 ${index % 2 === 0 ? 'border-r' : ''} ${index === 1 ? 'sm:border-r' : ''}`}
               key={label}
             >
               <span className="font-display text-[clamp(36px,5vw,52px)] text-gold font-light block leading-none">
