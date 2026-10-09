@@ -19,6 +19,11 @@
   RewriteCond %{DOCUMENT_ROOT}/i/$1/index.html -f
   RewriteRule ^i/([^/]+)/?$ /i/$1/index.html [L]
 
+  # Same for the printable pages at /i/<slug>/tarjeta and /i/<slug>/pases
+  # (only invitations that register a PrintCard / GuestPasses get them)
+  RewriteCond %{DOCUMENT_ROOT}/i/$1/$2/index.html -f
+  RewriteRule ^i/([^/]+)/(tarjeta|pases)/?$ /i/$1/$2/index.html [L]
+
   # Everything else (landing, unknown routes) falls back to the SPA shell,
   # which resolves the route client-side (react-router-dom)
   RewriteRule ^ /index.html [L]

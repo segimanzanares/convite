@@ -1,7 +1,13 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 // Tipos permitidos para la posición del reproductor
-export type MusicPlayerPosition = 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
+export type MusicPlayerPosition =
+    | 'bottom-right'
+    | 'bottom-left'
+    | 'bottom-center'
+    | 'top-right'
+    | 'top-left'
+    | 'top-center';
 
 interface MusicPlayerProps {
     src?: string;
@@ -19,8 +25,10 @@ export interface MusicPlayerHandle {
 const POSITION_CLASSES: Record<MusicPlayerPosition, string> = {
     'bottom-right': 'bottom-5 right-5',
     'bottom-left': 'bottom-5 left-5',
+    'bottom-center': 'bottom-5 left-1/2 -translate-x-1/2',
     'top-right': 'top-5 right-5',
     'top-left': 'top-5 left-5',
+    'top-center': 'top-5 left-1/2 -translate-x-1/2',
 };
 
 export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({

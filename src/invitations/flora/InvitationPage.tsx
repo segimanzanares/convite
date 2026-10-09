@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { Envelope } from '../../components/envelope/Envelope';
-import { PageOrnamentBorder } from '../../components/layout/PageOrnamentBorder';
 import { FloatingPetals } from '../../components/hero/FloatingPetals';
 import { BirthdayHero } from '../../components/hero/BirthdayHero';
 import { InvitationMessage } from '../../components/message/InvitationMessage';
@@ -8,7 +7,6 @@ import { FullDivider } from '../../components/divider/FullDivider';
 import { EventDetails } from '../../components/details/EventDetails';
 import { ProgramTimeline } from '../../components/program/ProgramTimeline';
 import { Countdown } from '../../components/countdown/Countdown';
-import { Gallery } from '../../components/gallery/Gallery';
 import { DressCodePalette } from '../../components/dresscode/DressCodePalette';
 import { VenuesSection } from '../../components/venues/VenuesSection';
 import { RsvpSection } from '../../components/rsvp/RsvpSection';
@@ -19,12 +17,12 @@ import {
   CELEBRANT,
   DRESS_CODE_SWATCHES,
   EVENT_DETAILS,
-  GALLERY_IMAGES,
   PROGRAM,
   VENUES,
 } from './data';
 import bgHero from './images/bg-hero.jpeg';
 import './theme.css';
+import { FloralPageOrnamentBorder } from '../../components/layout/FloralPageOrnamentBorder';
 
 export function InvitationPage() {
   const musicPlayerRef = useRef<MusicPlayerHandle>(null);
@@ -45,8 +43,8 @@ export function InvitationPage() {
         onOpen={() => musicPlayerRef.current?.play()}
         onOpened={() => setAutoScrollActive(true)}
       />
-      <MusicPlayer ref={musicPlayerRef} src={CELEBRANT.musicFile} />
-      <PageOrnamentBorder />
+      <MusicPlayer ref={musicPlayerRef} src={CELEBRANT.musicFile} position="bottom-center" />
+      <FloralPageOrnamentBorder />
       <FloatingPetals />
       <BirthdayHero celebrant={CELEBRANT} backgroundImageUrl={bgHero} />
       <InvitationMessage
@@ -62,14 +60,9 @@ export function InvitationPage() {
         intro="Así viviremos este día tan especial, momento a momento."
       />
       <Countdown targetDateTime={CELEBRANT.eventDateTime} headingTone="dark" />
-      <Gallery
-        images={GALLERY_IMAGES}
-        eyebrow="Recuerdos"
-        title="Una vida en flor"
-        intro="Cada fotografía guarda una historia, y cada historia, el cariño de toda una familia."
-      />
       <DressCodePalette
         swatches={DRESS_CODE_SWATCHES}
+        title="Código de vestimenta"
         intro="Inspirados en las flores que siempre la han acompañado, sugerimos los siguientes tonos para su vestimenta."
       />
       <VenuesSection

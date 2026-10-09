@@ -1,0 +1,259 @@
+/* Printable 5×7 in invitation card (front + back), sized in physical units.
+   Every color here is opaque on purpose: gradients or borders that fade to
+   `transparent` are exported to PDF as soft masks, and several PDF viewers
+   composite those with a visible gray cast. Mix theme tokens with the cream
+   background instead of with transparency. */
+
+.print-card-page {
+  min-height: 100vh;
+  padding: 24px 16px 48px;
+  background: #d9d4cb;
+  font-family: var(--font-body);
+  color: var(--text-body);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.print-card-toolbar {
+  max-width: 127mm;
+  margin: 0 auto 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+}
+.print-card-toolbar__primary {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  background: var(--gold-deep);
+  color: var(--white);
+  border-radius: 2px;
+  cursor: pointer;
+}
+.print-card-toolbar__primary:hover { background: var(--text-dark); }
+.print-card-toolbar__link {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dark);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.print-card-toolbar__hint {
+  flex-basis: 100%;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.print-card {
+  position: relative;
+  width: 127mm;
+  height: 178mm;
+  margin: 0 auto 24px;
+  overflow: hidden;
+  background: linear-gradient(
+    to bottom,
+    var(--white) 0%,
+    var(--cream) 45%,
+    var(--cream) 70%,
+    var(--gold-pale) 100%
+  );
+  box-shadow: 0 4px 24px rgb(0 0 0 / 0.18);
+  break-after: page;
+}
+.print-card:last-child { break-after: auto; }
+
+/* On phones the card (127mm ≈ 480px) is wider than the screen: scale it
+   down in steps that leave the 16px side gutters free. */
+@media screen and (max-width: 520px) { .print-card { zoom: 0.8; } }
+@media screen and (max-width: 415px) { .print-card { zoom: 0.68; } }
+@media screen and (max-width: 359px) { .print-card { zoom: 0.6; } }
+
+@media print {
+  .print-card-page { min-height: 0; padding: 0; background: none; }
+  .print-card-toolbar { display: none; }
+  .print-card { margin: 0; box-shadow: none; }
+}
+
+/* Ornaments */
+.print-card__frame {
+  position: absolute;
+  inset: var(--frame-inset, 6mm);
+  border: 0.3mm solid color-mix(in srgb, var(--gold) 55%, var(--cream));
+  border-radius: 1mm;
+}
+.print-card__frame::before {
+  content: '';
+  position: absolute;
+  inset: var(--frame-gap, 1.4mm);
+  border: 0.2mm dashed color-mix(in srgb, var(--gold) 40%, var(--cream));
+  border-radius: 1mm;
+}
+.print-card__corner {
+  position: absolute;
+  width: var(--corner-size, 30mm);
+  height: var(--corner-size, 30mm);
+  color: var(--gold);
+}
+.print-card__corner--tl { top: var(--corner-offset, 2mm); left: var(--corner-offset, 2mm); }
+.print-card__corner--tr { top: var(--corner-offset, 2mm); right: var(--corner-offset, 2mm); transform: scaleX(-1); }
+.print-card__corner--bl { bottom: var(--corner-offset, 2mm); left: var(--corner-offset, 2mm); transform: scaleY(-1); }
+.print-card__corner--br { bottom: var(--corner-offset, 2mm); right: var(--corner-offset, 2mm); transform: scale(-1); }
+.print-card__mark {
+  position: absolute;
+  left: 50%;
+  padding: 0 2mm;
+  box-sizing: content-box;
+  color: color-mix(in srgb, var(--gold) 75%, var(--cream));
+  transform: translate(-50%, -50%);
+}
+/* Each mark sits over the frame line; its backdrop matches the gradient at that height. */
+.print-card__mark--top { top: 6mm; background: var(--white); }
+.print-card__mark--bottom { top: calc(100% - 6mm); background: color-mix(in srgb, var(--gold-pale) 85%, var(--cream)); }
+
+/* Layout */
+.print-card__content {
+  position: absolute;
+  inset: 16mm 14mm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.print-card--back .print-card__content {
+  inset: 15mm 16mm 19mm;
+  justify-content: space-between;
+}
+
+/* Typography */
+.print-card__eyebrow,
+.print-card__label,
+.print-card__signature {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.print-card__eyebrow { font-size: 7pt; letter-spacing: 0.45em; }
+.print-card__label { font-size: 6.3pt; letter-spacing: 0.25em; margin-bottom: 1.5mm; }
+.print-card__signature { font-size: 6.5pt; letter-spacing: 0.3em; margin-top: 6mm; }
+
+.print-card__rule {
+  width: 28mm;
+  height: 0.25mm;
+  margin: 4mm auto;
+  background: linear-gradient(to right, var(--cream), var(--gold), var(--cream));
+}
+.print-card__names {
+  font-family: var(--font-script);
+  font-size: 44pt;
+  font-weight: 400;
+  line-height: 0.95;
+  color: var(--gold-deep);
+}
+.print-card__names > span { display: block; }
+.print-card__amp {
+  display: block;
+  margin: -1mm 0;
+  font-size: 28pt;
+  color: var(--gold);
+}
+.print-card__subtitle {
+  font-family: var(--font-script);
+  font-size: 24pt;
+  color: var(--gold-deep);
+  margin-bottom: 2mm;
+}
+.print-card__lead {
+  max-width: 88mm;
+  font-size: 11pt;
+  font-style: italic;
+  line-height: 1.45;
+}
+.print-card__date {
+  font-family: var(--font-display);
+  font-size: 8.5pt;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-dark);
+}
+.print-card__place { font-size: 10.5pt; letter-spacing: 0.08em; margin-top: 1.5mm; }
+
+/* Back */
+.print-card__monogram {
+  width: 16mm;
+  height: 16mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0.25mm solid var(--gold);
+  border-radius: 50%;
+  font-family: var(--font-script);
+  font-size: 26pt;
+  line-height: 1;
+  color: var(--gold-deep);
+}
+.print-card__events {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  gap: 4mm;
+  width: 100%;
+}
+.print-card__event { padding: 0 1mm; font-size: 9.5pt; line-height: 1.3; }
+.print-card__event + .print-card__event {
+  border-left: 0.2mm solid color-mix(in srgb, var(--gold) 50%, var(--cream));
+}
+.print-card__event h3,
+.print-card__dress h3 {
+  font-size: 11.5pt;
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--text-dark);
+}
+.print-card__time {
+  font-family: var(--font-display);
+  font-size: 8pt;
+  letter-spacing: 0.2em;
+  color: var(--text-dark);
+  margin-top: 1.5mm;
+}
+.print-card__note { font-size: 9.5pt; font-style: italic; }
+.print-card__swatches { display: flex; justify-content: center; gap: 1.6mm; margin-top: 2mm; }
+.print-card__swatches span {
+  width: 4.2mm;
+  height: 4.2mm;
+  border-radius: 50%;
+  border: 0.2mm solid color-mix(in srgb, var(--text-dark) 10%, var(--cream));
+}
+.print-card__rsvp {
+  display: flex;
+  align-items: center;
+  gap: 5mm;
+  text-align: left;
+  font-size: 9.5pt;
+  line-height: 1.35;
+}
+.print-card__rsvp strong { font-weight: 500; color: var(--text-dark); }
+.print-card__qr {
+  flex: none;
+  width: 22mm;
+  height: 22mm;
+  padding: 1.6mm;
+  background: var(--white);
+  border: 0.25mm solid var(--gold);
+  border-radius: 1mm;
+}
+.print-card__qr svg { display: block; width: 100%; height: 100%; }
+.print-card__url {
+  font-family: var(--font-display);
+  font-size: 6pt;
+  letter-spacing: 0.12em;
+  color: var(--gold-deep);
+  margin-top: 1mm;
+}
