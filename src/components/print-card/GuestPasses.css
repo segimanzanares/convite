@@ -1,0 +1,167 @@
+/* Guest passes: 90×55 mm cards laid out 2×4 on US-letter sheets with crop
+   marks. Like PrintCard.css, every color is opaque so PDF viewers don't
+   darken it. */
+
+/* Editor (screen only — lives inside .print-card-toolbar) */
+.guest-editor {
+  flex-basis: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.guest-editor__label { font-size: 15px; color: var(--text-dark); }
+.guest-editor__label code { font-family: var(--font-jost); font-size: 13px; }
+.guest-editor__input {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: var(--font-jost);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-dark);
+  background: var(--white);
+  border: 1px solid color-mix(in srgb, var(--gold) 60%, var(--cream));
+  border-radius: 2px;
+  resize: vertical;
+}
+.guest-editor__input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+.guest-editor__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+.guest-editor__footer button { cursor: pointer; }
+.guest-editor__note { font-size: 14px; font-style: italic; color: var(--text-muted); }
+
+/* The toolbar is as wide as a sheet here, not as a 5×7 card */
+.print-card-page:has(.guest-sheet) .print-card-toolbar { max-width: 215.9mm; }
+
+/* Sheet */
+.guest-sheet {
+  position: relative;
+  width: 215.9mm;
+  height: 279.4mm;
+  margin: 0 auto 24px;
+  background: #fff;
+  box-shadow: 0 4px 24px rgb(0 0 0 / 0.18);
+  break-after: page;
+}
+.guest-sheet:last-child { break-after: auto; }
+@media screen {
+  .guest-sheet { zoom: var(--sheet-zoom, 1); }
+}
+@media print {
+  .guest-sheet { margin: 0; box-shadow: none; }
+}
+.guest-sheet__marks {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  stroke: #9a9a9a;
+  stroke-width: 0.15;
+}
+.guest-sheet__grid {
+  position: absolute;
+  top: 29.7mm;
+  left: 17.95mm;
+  display: grid;
+  grid-template-columns: repeat(2, 90mm);
+  grid-auto-rows: 55mm;
+}
+
+/* Pass */
+.guest-pass {
+  --frame-inset: 2.6mm;
+  --frame-gap: 0.9mm;
+  --corner-size: 13mm;
+  --corner-offset: 0.8mm;
+
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to bottom, var(--white) 0%, var(--cream) 55%, var(--gold-pale) 100%);
+  font-family: var(--font-body);
+  color: var(--text-body);
+}
+.guest-pass .print-card__frame { border-width: 0.25mm; }
+
+.guest-pass__content {
+  position: absolute;
+  inset: 6mm 7mm;
+  display: grid;
+  grid-template-columns: 1fr 22mm;
+  align-items: center;
+  gap: 4mm;
+}
+.guest-pass__main { min-width: 0; text-align: center; }
+
+.guest-pass__eyebrow,
+.guest-pass__label,
+.guest-pass__unit,
+.guest-pass__table {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.guest-pass__eyebrow { font-size: 5pt; letter-spacing: 0.4em; }
+.guest-pass__names {
+  font-family: var(--font-script);
+  font-size: 17pt;
+  line-height: 1.15;
+  color: var(--gold-deep);
+  white-space: nowrap;
+}
+.guest-pass__amp { margin: 0 1mm; color: var(--gold); }
+.guest-pass__rule {
+  width: 18mm;
+  height: 0.2mm;
+  margin: 1.2mm auto 1.8mm;
+  background: linear-gradient(to right, var(--cream), var(--gold), var(--cream));
+}
+.guest-pass__label { font-size: 4.6pt; letter-spacing: 0.3em; }
+.guest-pass__guest {
+  margin-top: 0.6mm;
+  font-size: 11pt;
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--text-dark);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.guest-pass__date {
+  margin-top: 1.8mm;
+  font-family: var(--font-display);
+  font-size: 5pt;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-dark);
+}
+
+.guest-pass__side { display: flex; flex-direction: column; align-items: center; gap: 1.6mm; }
+.guest-pass__badge {
+  width: 20mm;
+  height: 20mm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 0.25mm solid var(--gold);
+  border-radius: 50%;
+  outline: 0.2mm dashed color-mix(in srgb, var(--gold) 55%, var(--cream));
+  outline-offset: 0.7mm;
+  background: var(--white);
+}
+.guest-pass__seats {
+  font-family: var(--font-display);
+  font-size: 19pt;
+  line-height: 1;
+  color: var(--text-dark);
+}
+.guest-pass__unit { font-size: 4.4pt; letter-spacing: 0.22em; margin-top: 0.8mm; }
+.guest-pass__table { font-size: 5.4pt; letter-spacing: 0.25em; color: var(--text-dark); }

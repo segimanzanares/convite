@@ -42,8 +42,9 @@ function writePage(relativeDir: string, html: string) {
 }
 
 let printCards = 0;
+let guestPasses = 0;
 
-for (const [slug, { meta, PrintCard }] of Object.entries<InvitationEntry>(invitations)) {
+for (const [slug, { meta, PrintCard, GuestPasses }] of Object.entries<InvitationEntry>(invitations)) {
   const pageUrl = `${siteOrigin}/i/${slug}`;
   const ogImageUrl = `${siteOrigin}${meta.ogImage}`;
 
@@ -54,8 +55,14 @@ for (const [slug, { meta, PrintCard }] of Object.entries<InvitationEntry>(invita
     writePage(`i/${slug}/tarjeta`, renderPage(`${pageUrl}/tarjeta`, title, meta.description, ogImageUrl));
     printCards++;
   }
+
+  if (GuestPasses) {
+    const title = `Pases de invitados — ${meta.title}`;
+    writePage(`i/${slug}/pases`, renderPage(`${pageUrl}/pases`, title, meta.description, ogImageUrl));
+    guestPasses++;
+  }
 }
 
 console.log(
-  `Prerendered ${Object.keys(invitations).length} invitation page(s) and ${printCards} print card page(s) with per-invitation meta tags.`,
+  `Prerendered ${Object.keys(invitations).length} invitation page(s), ${printCards} print card page(s) and ${guestPasses} guest pass page(s) with per-invitation meta tags.`,
 );

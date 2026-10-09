@@ -8,6 +8,8 @@ export interface InvitationEntry {
   Component: LazyExoticComponent<ComponentType>;
   /** Printable 5×7 card, served at /i/<slug>/tarjeta. Optional per invitation. */
   PrintCard?: LazyExoticComponent<ComponentType>;
+  /** Printable guest passes (8 per letter sheet), served at /i/<slug>/pases. */
+  GuestPasses?: LazyExoticComponent<ComponentType>;
   meta: InvitationMeta;
 }
 

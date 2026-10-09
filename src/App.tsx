@@ -17,6 +17,9 @@ function App() {
           {Object.entries<InvitationEntry>(invitations).map(([slug, { PrintCard }]) =>
             PrintCard ? <Route key={`${slug}-tarjeta`} path={`/i/${slug}/tarjeta`} element={<PrintCard />} /> : null,
           )}
+          {Object.entries<InvitationEntry>(invitations).map(([slug, { GuestPasses }]) =>
+            GuestPasses ? <Route key={`${slug}-pases`} path={`/i/${slug}/pases`} element={<GuestPasses />} /> : null,
+          )}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
