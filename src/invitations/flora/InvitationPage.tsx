@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { Envelope } from '../../components/envelope/Envelope';
-import { PageOrnamentBorder } from '../../components/layout/PageOrnamentBorder';
 import { FloatingPetals } from '../../components/hero/FloatingPetals';
 import { BirthdayHero } from '../../components/hero/BirthdayHero';
 import { InvitationMessage } from '../../components/message/InvitationMessage';
@@ -25,6 +24,7 @@ import {
 } from './data';
 import bgHero from './images/bg-hero.jpeg';
 import './theme.css';
+import { FloralPageOrnamentBorder } from '../../components/layout/FloralPageOrnamentBorder';
 
 export function InvitationPage() {
   const musicPlayerRef = useRef<MusicPlayerHandle>(null);
@@ -45,8 +45,8 @@ export function InvitationPage() {
         onOpen={() => musicPlayerRef.current?.play()}
         onOpened={() => setAutoScrollActive(true)}
       />
-      <MusicPlayer ref={musicPlayerRef} src={CELEBRANT.musicFile} />
-      <PageOrnamentBorder />
+      <MusicPlayer ref={musicPlayerRef} src={CELEBRANT.musicFile} position="bottom-center" />
+      <FloralPageOrnamentBorder />
       <FloatingPetals />
       <BirthdayHero celebrant={CELEBRANT} backgroundImageUrl={bgHero} />
       <InvitationMessage
@@ -70,6 +70,7 @@ export function InvitationPage() {
       />
       <DressCodePalette
         swatches={DRESS_CODE_SWATCHES}
+        title="Código de vestimenta"
         intro="Inspirados en las flores que siempre la han acompañado, sugerimos los siguientes tonos para su vestimenta."
       />
       <VenuesSection
