@@ -9,15 +9,13 @@ import type {
   Venue,
 } from '../../types/wedding';
 
-// TODO: placeholder data — replace date, venues, photos and contact with the real ones.
-
 const publicPath = (file: string) => `${import.meta.env.BASE_URL}invitations/flora/${file}`;
 
-const eventDate = new Date(2026, 10, 1, 15, 0);
+const eventDate = new Date(2026, 10, 1, 16, 0);
 
 export const CELEBRANT: CelebrantInfo = {
-  name: 'Lucila Santos',
-  firstName: 'Lucila',
+  name: 'Flora Santos',
+  firstName: 'Flora',
   age: 76,
   eventDateTime: format(eventDate, "yyyy-MM-dd'T'HH:mm:ss"),
   dateLabel: format(eventDate, "EEEE '·' dd 'de' MMMM '·' yyyy", { locale: es }),
@@ -34,7 +32,7 @@ export const EVENT_DETAILS: DetailCardData[] = [
     label: 'Comida & Celebración',
     title: 'Domicilio Particular',
     lines: ['Calle Guelatao S/N', 'Col. Sector Reforma C, Puerto Escondido, Oax.'],
-    time: '15:00 HRS',
+    time: '16:00 HRS',
   },
   {
     icon: '🌸',
@@ -47,31 +45,25 @@ export const EVENT_DETAILS: DetailCardData[] = [
 
 export const PROGRAM: ProgramItem[] = [
   {
-    time: '14:30 hrs',
+    time: '16:00 hrs',
     icon: '🥂',
     title: 'Recepción',
     description: 'Bienvenida en su domicilio particular del Sector Reforma C.',
   },
   {
-    time: '15:00 hrs',
+    time: '16:30 hrs',
     icon: '🍽️',
     title: 'Comida',
     description: 'Disfrutaremos juntos de una comida en familia.',
   },
   {
-    time: '16:00 hrs',
-    icon: '💐',
-    title: 'Homenaje',
-    description: 'Palabras de la familia y un recorrido por sus recuerdos.',
-  },
-  {
-    time: '16:30 hrs',
+    time: '17:30 hrs',
     icon: '🎂',
     title: 'Pastel y mañanitas',
     description: 'Cantaremos juntos para celebrarla.',
   },
   {
-    time: '17:00 hrs',
+    time: '18:00 hrs',
     icon: '🎶',
     title: 'Baile y convivencia',
     description: 'Música, baile y la mejor compañía hasta el anochecer.',
@@ -84,7 +76,7 @@ export const VENUES: Venue[] = [
     tag: 'Comida & Celebración',
     name: 'Domicilio Particular',
     addressLines: ['Calle Guelatao S/N', 'Col. Sector Reforma C, Puerto Escondido, Oax.'],
-    time: '15:00 hrs',
+    time: '16:00 hrs',
     mapEmbedUrl: 'https://www.google.com/maps?q=15.871279,-97.064253&z=16&output=embed',
     mapTitle: 'Domicilio Particular — Celebración',
     directionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=15.871279,-97.064253',

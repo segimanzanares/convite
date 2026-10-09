@@ -7,7 +7,6 @@ import { FullDivider } from '../../components/divider/FullDivider';
 import { EventDetails } from '../../components/details/EventDetails';
 import { ProgramTimeline } from '../../components/program/ProgramTimeline';
 import { Countdown } from '../../components/countdown/Countdown';
-import { Gallery } from '../../components/gallery/Gallery';
 import { DressCodePalette } from '../../components/dresscode/DressCodePalette';
 import { VenuesSection } from '../../components/venues/VenuesSection';
 import { RsvpSection } from '../../components/rsvp/RsvpSection';
@@ -18,7 +17,6 @@ import {
   CELEBRANT,
   DRESS_CODE_SWATCHES,
   EVENT_DETAILS,
-  GALLERY_IMAGES,
   PROGRAM,
   VENUES,
 } from './data';
@@ -62,12 +60,6 @@ export function InvitationPage() {
         intro="Así viviremos este día tan especial, momento a momento."
       />
       <Countdown targetDateTime={CELEBRANT.eventDateTime} headingTone="dark" />
-      <Gallery
-        images={GALLERY_IMAGES}
-        eyebrow="Recuerdos"
-        title="Una vida en flor"
-        intro="Cada fotografía guarda una historia, y cada historia, el cariño de toda una familia."
-      />
       <DressCodePalette
         swatches={DRESS_CODE_SWATCHES}
         title="Código de vestimenta"
