@@ -1,9 +1,8 @@
-import { useEffect, type ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import type { ReactNode } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import { FloralCornerSvg } from '../layout/FloralCornerOrnament';
+import { CardOrnaments, PrintPage } from './PrintShared';
+import { useInvitationUrl } from '../../hooks/useInvitationUrl';
 import type { ColorSwatchData } from '../../types/wedding';
-import './PrintCard.css';
 
 export interface PrintCardEvent {
   label: string;
@@ -15,7 +14,6 @@ export interface PrintCardEvent {
 export interface PrintCardProps {
   /** Wrapper class that scopes the invitation's theme tokens, e.g. "theme-demo". */
   themeClassName: string;
-  /** Used for the page title, which browsers also suggest as the PDF file name. */
   documentTitle: string;
   front: {
     eyebrow: string;
@@ -35,44 +33,6 @@ export interface PrintCardProps {
   };
 }
 
-/** 5×7 in card, matching the @page size below. */
-const CARD_PAGE_STYLE = '@page { size: 127mm 178mm; margin: 0; }';
-
-/** The digital invitation lives one segment up from /i/<slug>/tarjeta. */
-function useInvitationUrl() {
-  const url = new URL(window.location.href);
-  url.pathname = url.pathname.replace(/\/tarjeta\/?$/, '');
-  url.search = '';
-  url.hash = '';
-  return url.toString();
-}
-
-function CardOrnaments() {
-  return (
-    <>
-      <div className="print-card__frame" />
-      {(['tl', 'tr', 'bl', 'br'] as const).map((pos) => (
-        <FloralCornerSvg key={pos} className={`print-card__corner print-card__corner--${pos}`} />
-      ))}
-      {(['top', 'bottom'] as const).map((pos) => (
-        <svg
-          key={pos}
-          className={`print-card__mark print-card__mark--${pos}`}
-          width="60"
-          height="12"
-          viewBox="0 0 60 12"
-          fill="none"
-        >
-          <path d="M0 6 H22 M38 6 H60" stroke="currentColor" strokeWidth="0.6" />
-          <circle cx="30" cy="6" r="2.5" stroke="currentColor" strokeWidth="0.8" />
-          <circle cx="24" cy="6" r="1" fill="currentColor" />
-          <circle cx="36" cy="6" r="1" fill="currentColor" />
-        </svg>
-      ))}
-    </>
-  );
-}
-
 function Card({ className, children }: { className: string; children: ReactNode }) {
   return (
     <section className={`print-card ${className}`}>
@@ -86,28 +46,13 @@ export function PrintCard({ themeClassName, documentTitle, front, back }: PrintC
   const invitationUrl = useInvitationUrl();
   const displayUrl = invitationUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
 
-  useEffect(() => {
-    document.title = documentTitle;
-  }, [documentTitle]);
-
   return (
-    <div className={`${themeClassName} print-card-page`}>
-      {/* Rendered only while this page is mounted, so the card size never
-          leaks into printing other pages of the SPA. */}
-      <style>{CARD_PAGE_STYLE}</style>
-
-      <div className="print-card-toolbar">
-        <button type="button" onClick={() => window.print()} className="print-card-toolbar__primary">
-          Imprimir / Descargar PDF
-        </button>
-        <Link to=".." relative="path" className="print-card-toolbar__link">
-          Ver invitación digital
-        </Link>
-        <p className="print-card-toolbar__hint">
-          Para PDF elige «Guardar como PDF», márgenes «Ninguno» y activa «Gráficos de fondo».
-        </p>
-      </div>
-
+    <PrintPage
+      themeClassName={themeClassName}
+      documentTitle={documentTitle}
+      pageSize="127mm 178mm"
+      hint="Para PDF elige «Guardar como PDF», márgenes «Ninguno» y activa «Gráficos de fondo»."
+    >
       <Card className="print-card--front">
         <p className="print-card__eyebrow">{front.eyebrow}</p>
         <div className="print-card__rule" />
@@ -174,6 +119,6 @@ export function PrintCard({ themeClassName, documentTitle, front, back }: PrintC
           </div>
         </div>
       </Card>
-    </div>
+    </PrintPage>
   );
 }

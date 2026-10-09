@@ -83,27 +83,27 @@
 /* Ornaments */
 .print-card__frame {
   position: absolute;
-  inset: 6mm;
+  inset: var(--frame-inset, 6mm);
   border: 0.3mm solid color-mix(in srgb, var(--gold) 55%, var(--cream));
   border-radius: 1mm;
 }
 .print-card__frame::before {
   content: '';
   position: absolute;
-  inset: 1.4mm;
+  inset: var(--frame-gap, 1.4mm);
   border: 0.2mm dashed color-mix(in srgb, var(--gold) 40%, var(--cream));
   border-radius: 1mm;
 }
 .print-card__corner {
   position: absolute;
-  width: 30mm;
-  height: 30mm;
+  width: var(--corner-size, 30mm);
+  height: var(--corner-size, 30mm);
   color: var(--gold);
 }
-.print-card__corner--tl { top: 2mm; left: 2mm; }
-.print-card__corner--tr { top: 2mm; right: 2mm; transform: scaleX(-1); }
-.print-card__corner--bl { bottom: 2mm; left: 2mm; transform: scaleY(-1); }
-.print-card__corner--br { bottom: 2mm; right: 2mm; transform: scale(-1); }
+.print-card__corner--tl { top: var(--corner-offset, 2mm); left: var(--corner-offset, 2mm); }
+.print-card__corner--tr { top: var(--corner-offset, 2mm); right: var(--corner-offset, 2mm); transform: scaleX(-1); }
+.print-card__corner--bl { bottom: var(--corner-offset, 2mm); left: var(--corner-offset, 2mm); transform: scaleY(-1); }
+.print-card__corner--br { bottom: var(--corner-offset, 2mm); right: var(--corner-offset, 2mm); transform: scale(-1); }
 .print-card__mark {
   position: absolute;
   left: 50%;
