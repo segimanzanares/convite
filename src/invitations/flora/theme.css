@@ -1,21 +1,22 @@
-/* Rosa antiguo, malva y vino: a warm, mature floral palette for a 76th
-   birthday. --gold is a mid-tone rose chosen to stay legible on both the
-   cream sections and the dark wine ones. */
+/* Rosa: blush backgrounds with a rose-pink accent, and deep raspberry for
+   the dark sections (countdown, RSVP) so pink text keeps its contrast.
+   --gold is a mid-tone rose that stays legible on both the blush sections
+   and the raspberry ones. */
 .theme-flora {
-  --gold: #b0657d;
-  --gold-light: #e2aebd;
-  --gold-pale: #f7e6eb;
-  --gold-deep: #7d3550;
-  --white: #fffafa;
-  --cream: #fbf2f3;
-  --off-white: #f2e3e6;
-  --text-dark: #3a1f2a;
+  --gold: #d0527f;
+  --gold-light: #f4a6c0;
+  --gold-pale: #fde4ec;
+  --gold-deep: #a8365f;
+  --white: #fffafb;
+  --cream: #fff0f4;
+  --off-white: #fbe1ea;
+  --text-dark: #4a1830;
 
-  --text-body: #5b3a47;
-  --text-muted: #6b4a57;
-  --dark-from: #2a1420;
-  --dark-to: #452234;
-  --envelope-bg: radial-gradient(circle at 50% 40%, #4a2436 0%, #1f0e17 65%, #0d0509 100%);
+  --text-body: #6e3450;
+  --text-muted: #7d4560;
+  --dark-from: #3f0f29;
+  --dark-to: #5a1838;
+  --envelope-bg: radial-gradient(circle at 50% 40%, #c95985 0%, #8f2a55 60%, #5a1838 100%);
 
   /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
      :root and inherit their already-resolved value, so they don't pick up
