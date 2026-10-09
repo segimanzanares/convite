@@ -12,7 +12,7 @@ export function CookieConsentBanner() {
   };
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 bg-ink text-white px-6 py-5 shadow-[0_-4px_20px_rgba(0,0,0,0.15)]">
+    <div className="fixed inset-x-0 bottom-0 z-50 print:hidden bg-ink text-white px-6 py-5 shadow-[0_-4px_20px_rgba(0,0,0,0.15)]">
       <div className="max-w-[900px] mx-auto flex flex-col sm:flex-row items-center gap-4">
         <p className="font-jost text-[13px] leading-[1.7] text-white/85 flex-1 text-center sm:text-left">
           Usamos cookies de análisis para entender cómo se usa este sitio. Puedes aceptarlas o rechazarlas.
