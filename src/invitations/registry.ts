@@ -17,6 +17,7 @@ export const invitations = {
   'demo': {
     Component: lazy(() => import('./demo/InvitationPage')),
     PrintCard: lazy(() => import('./demo/PrintCardPage')),
+    GuestPasses: lazy(() => import('./demo/GuestPassesPage')),
     meta: demoMeta,
   },
   'mati-nayith': {
