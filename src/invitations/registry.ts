@@ -14,6 +14,7 @@ export interface InvitationEntry {
 export const invitations = {
   'demo': {
     Component: lazy(() => import('./demo/InvitationPage')),
+    PrintCard: lazy(() => import('./demo/PrintCardPage')),
     meta: demoMeta,
   },
   'mati-nayith': {
