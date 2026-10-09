@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LandingPage } from './pages/landing/LandingPage';
 import { NotFoundPage } from './pages/not-found/NotFoundPage';
-import { invitations } from './invitations/registry';
+import { invitations, type InvitationEntry } from './invitations/registry';
 import { CookieConsentBanner } from './components/cookie-consent/CookieConsentBanner';
 
 function App() {
@@ -11,9 +11,12 @@ function App() {
       <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          {Object.entries(invitations).map(([slug, { Component }]) => (
-            <Route key={slug} path={`/i/${slug}`} element={<Component />} />
+          {Object.entries(invitations).map(([slug, entry]) => (
+            <Route key={slug} path={`/i/${slug}`} element={<entry.Component />} />
           ))}
+          {Object.entries<InvitationEntry>(invitations).map(([slug, { PrintCard }]) =>
+            PrintCard ? <Route key={`${slug}-tarjeta`} path={`/i/${slug}/tarjeta`} element={<PrintCard />} /> : null,
+          )}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
