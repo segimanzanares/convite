@@ -39,7 +39,6 @@ export const EVENT_DETAILS: DetailCardData[] = [
     label: 'Dresscode',
     title: 'Formal de Día',
     lines: ['Te sugerimos vestir en tonos suaves y florales.'],
-    note: 'Evitar colores oscuros.',
   },
 ];
 
