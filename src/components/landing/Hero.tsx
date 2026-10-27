@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { buildWhatsappUrl } from '../../config/contact';
-import convitePetal from '../../assets/images/convite-icon.svg';
+import convitePetal from '../../assets/images/convite-icon.png';
 import { ACCENT_CLASSES, type Accent } from './accents';
 
 const TAGS: { label: string; accent: Accent }[] = [

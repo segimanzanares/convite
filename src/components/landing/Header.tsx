@@ -1,5 +1,5 @@
 import { buildWhatsappUrl } from '../../config/contact';
-import logoNegativo from '../../assets/images/logo-negativo.svg';
+import logoNegativo from '../../assets/images/logo-negativo.png';
 
 export function Header() {
   const whatsappUrl = buildWhatsappUrl('Hola 👋 Quiero cotizar una invitación digital para mi evento.');
