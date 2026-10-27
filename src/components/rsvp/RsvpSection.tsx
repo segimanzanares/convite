@@ -10,7 +10,6 @@ interface RsvpSectionProps {
   /** Enables the "add to calendar" button (together with `venues`) after confirming. */
   calendar?: CalendarOccasion;
   venues?: Venue[];
-  requestEmail?: boolean;
 }
 
 const ATTENDANCE_OPTIONS: { value: AttendanceStatus; label: string }[] = [
@@ -21,8 +20,8 @@ const ATTENDANCE_OPTIONS: { value: AttendanceStatus; label: string }[] = [
 const RSVP_INPUT_CLASS =
   'bg-[rgba(255,255,255,0.04)] border border-gold/30 text-gold-pale font-body text-base font-light py-3.5 px-5 outline-none transition-colors duration-300 w-full tracking-[0.05em] placeholder:text-gold-light/35 placeholder:italic focus:border-gold';
 
-export function RsvpSection({ whatsappNumber, deadlineLabel, calendar, venues, requestEmail }: RsvpSectionProps) {
-  const { form, setField, isSubmitted, handleSubmit } = useRsvpForm(whatsappNumber, requestEmail);
+export function RsvpSection({ whatsappNumber, deadlineLabel, calendar, venues }: RsvpSectionProps) {
+  const { form, setField, isSubmitted, handleSubmit } = useRsvpForm(whatsappNumber);
 
   return (
     <div className="bg-[linear-gradient(160deg,var(--dark-from),var(--dark-to))] text-gold-pale py-[100px] px-10 text-center">
@@ -43,14 +42,6 @@ export function RsvpSection({ whatsappNumber, deadlineLabel, calendar, venues, r
               value={form.name}
               onChange={(event) => setField('name', event.target.value)}
             />
-            {requestEmail ? <input
-              className={RSVP_INPUT_CLASS}
-              type="email"
-              required
-              placeholder="Correo electrónico"
-              value={form.email}
-              onChange={(event) => setField('email', event.target.value)}
-            /> : null}
             <div className="flex gap-3 justify-center">
               {ATTENDANCE_OPTIONS.map((option) => (
                 <div

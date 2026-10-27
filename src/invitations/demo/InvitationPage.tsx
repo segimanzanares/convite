@@ -67,7 +67,6 @@ export function InvitationPage() {
         deadlineLabel={COUPLE.rsvpDeadlineLabel}
         calendar={{ dateTime: COUPLE.weddingDateTime, name: `Boda ${COUPLE_TITLE}`, fileName: 'boda.ics' }}
         venues={VENUES}
-        requestEmail
       />
       <Footer title={COUPLE_TITLE} dateLabel={COUPLE.footerDateLabel} />
     </div>
