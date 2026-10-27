@@ -19,6 +19,10 @@ export interface Venue {
   mapEmbedUrl: string;
   mapTitle: string;
   directionsUrl: string;
+  /** Optional photo of the place, shown at the top of its card. */
+  image?: string;
+  /** Alt text for `image`; defaults to the venue name. */
+  imageAlt?: string;
 }
 
 export interface GalleryImage {

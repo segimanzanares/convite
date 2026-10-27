@@ -15,6 +15,16 @@ export function VenueCard({ venue }: VenueCardProps) {
         "before:content-[''] before:block before:h-0.5 before:bg-[linear-gradient(to_right,transparent,var(--color-gold),transparent)] before:opacity-60",
       ].join(' ')}
     >
+      {venue.image && (
+        <div className="relative w-full h-[260px] overflow-hidden bg-off-white after:content-[''] after:absolute after:inset-0 after:border after:border-gold/18 after:pointer-events-none">
+          <img
+            src={venue.image}
+            alt={venue.imageAlt ?? venue.name}
+            loading="lazy"
+            className="w-full h-full object-cover block transition-transform duration-[600ms] ease group-hover:scale-[1.03]"
+          />
+        </div>
+      )}
       <div className="relative w-full h-[240px] overflow-hidden bg-off-white after:content-[''] after:absolute after:inset-0 after:border after:border-gold/18 after:pointer-events-none after:z-[1]">
         <iframe
           src={venue.mapEmbedUrl}
