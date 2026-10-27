@@ -117,7 +117,7 @@ export const MusicPlayer = forwardRef<MusicPlayerHandle, MusicPlayerProps>(({
             <audio ref={audioRef} loop src={src} />
             <button
                 type="button"
-                className="flex items-center justify-center w-12 h-12 rounded-full border-none cursor-pointer text-gold bg-transparent shadow-[0_0_10px_var(--color-gold)]"
+                className="flex items-center justify-center w-8 h-8 rounded-full border-none cursor-pointer text-gold bg-transparent shadow-[0_0_10px_var(--color-gold)]"
                 onClick={togglePlayback}
                 aria-label={isPlaying ? 'Pausar música' : 'Reproducir música'}
                 aria-pressed={isPlaying}
