@@ -3,6 +3,11 @@ import { Reveal } from '../shared/Reveal';
 import { DetailCard } from './DetailCard';
 import type { DetailCardData } from '../../types/wedding';
 
+const GRID_COLUMNS: Record<number, string> = {
+  1: 'grid-cols-1 max-w-[360px] mx-auto',
+  2: 'grid-cols-2 max-w-[640px] mx-auto',
+};
+
 interface EventDetailsProps {
   details: DetailCardData[];
   eyebrow?: string;
@@ -14,7 +19,7 @@ export function EventDetails({ details, eyebrow = 'La ceremonia', title = 'Detal
     <section className="max-w-[920px] mx-auto text-center py-[100px] px-10">
       <Reveal>
         <SectionHeading eyebrow={eyebrow} title={title} />
-        <div className="grid grid-cols-3 gap-10 mt-[60px] max-[640px]:grid-cols-1">
+        <div className={`grid gap-10 mt-[60px] max-[640px]:grid-cols-1 ${GRID_COLUMNS[details.length] ?? 'grid-cols-3'}`}>
           {details.map((detail) => (
             <DetailCard key={detail.title} detail={detail} />
           ))}

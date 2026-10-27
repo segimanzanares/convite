@@ -48,3 +48,20 @@ export interface ProgramItem {
   description?: string;
   icon?: string;
 }
+
+export interface ReservedColor {
+  name: string;
+  /** Optional swatch shown next to the color name. */
+  hex?: string;
+  /** Text that follows the color name, e.g. "está reservado para la novia, evita llevar ese color." */
+  description: string;
+}
+
+export interface DressCodeData {
+  /** Attire type headline, e.g. "Formal", "Etiqueta rigurosa", "Cóctel". */
+  type: string;
+  description?: string;
+  men?: string;
+  women?: string;
+  reservedColor?: ReservedColor;
+}

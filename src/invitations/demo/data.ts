@@ -4,6 +4,7 @@ import type {
   ColorSwatchData,
   CoupleInfo,
   DetailCardData,
+  DressCodeData,
   GalleryImage,
   ProgramItem,
   Venue,
@@ -40,14 +41,19 @@ export const EVENT_DETAILS: DetailCardData[] = [
     lines: ['Av. Hidalgo S/N', 'Col. Centro, Puerto Escondido, Oax.'],
     time: '16:00 HRS',
   },
-  {
-    icon: '🌹',
-    label: 'Dresscode',
-    title: 'Vestimenta Formal',
-    lines: ['Solicitamos a nuestros invitados vestimenta formal.'],
-    note: 'Evitar el color blanco y el negro riguroso.',
-  },
 ];
+
+export const DRESS_CODE: DressCodeData = {
+  type: 'Formal',
+  description: 'Solicitamos a nuestros invitados vestimenta formal.',
+  men: 'Traje',
+  women: 'Vestido largo',
+  reservedColor: {
+    name: 'Blanco',
+    hex: '#FFFFFF',
+    description: 'está reservado para la novia, evita llevar ese color.',
+  },
+};
 
 export const PROGRAM: ProgramItem[] = [
   {

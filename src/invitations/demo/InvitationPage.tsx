@@ -8,6 +8,7 @@ import { EventDetails } from '../../components/details/EventDetails';
 import { Countdown } from '../../components/countdown/Countdown';
 import { Gallery } from '../../components/gallery/Gallery';
 import { DressCodePalette } from '../../components/dresscode/DressCodePalette';
+import { DressCodeSection } from '../../components/dresscode/DressCodeSection';
 import { VenuesSection } from '../../components/venues/VenuesSection';
 import { RsvpSection } from '../../components/rsvp/RsvpSection';
 import { Footer } from '../../components/footer/Footer';
@@ -16,6 +17,7 @@ import { ProgramTimeline } from '../../components/program/ProgramTimeline';
 import { useAutoScroll } from '../../hooks/useAutoScroll';
 import {
   COUPLE,
+  DRESS_CODE,
   DRESS_CODE_SWATCHES,
   EVENT_DETAILS,
   GALLERY_IMAGES,
@@ -60,6 +62,7 @@ export function InvitationPage() {
       />
       <Countdown targetDateTime={COUPLE.weddingDateTime} />
       <Gallery images={GALLERY_IMAGES} />
+      <DressCodeSection dressCode={DRESS_CODE} />
       <DressCodePalette swatches={DRESS_CODE_SWATCHES} />
       <VenuesSection venues={VENUES} />
       <RsvpSection
