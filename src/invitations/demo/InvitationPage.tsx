@@ -49,7 +49,7 @@ export function InvitationPage() {
         onOpen={() => musicPlayerRef.current?.play()}
         onOpened={() => setAutoScrollActive(true)}
       />
-      <MusicPlayer ref={musicPlayerRef} src={COUPLE.musicFile} />
+      <MusicPlayer ref={musicPlayerRef} src={COUPLE.musicFile} position="bottom-center" />
       <FloralPageOrnamentBorder />
       <FloatingPetals />
       <Hero couple={COUPLE} backgroundImageUrl={bgHero} />
