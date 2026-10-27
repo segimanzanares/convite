@@ -10,6 +10,7 @@ import type {
 } from '../../types/wedding';
 
 const publicPath = (file: string) => `${import.meta.env.BASE_URL}invitations/demo/${file}`;
+const imagePath = (file: string) => publicPath(`images/${file}`);
 
 const eventDate = addDays(new Date(), 60);
 
@@ -87,6 +88,7 @@ export const VENUES: Venue[] = [
       'https://www.google.com/maps?q=15.861208,-97.065710&z=15&output=embed',
     mapTitle: 'Parroquia de la Soledad — Ceremonia',
     directionsUrl: 'https://www.google.com/maps/dir//Parroquia+de+la+Virgen+de+la+Soledad,+Fundadores+205,+Centro,+71980+Puerto+Escondido,+Oax./@15.8611489,-97.0682913,1064m/data=!3m1!1e3!4m17!1m7!3m6!1s0x85b8f78ea8585f57:0xeb58d0f79a8faa6b!2sParroquia+de+la+Virgen+de+la+Soledad!8m2!3d15.8611489!4d-97.0657164!16s%2Fg%2F11g6bnwxbd!4m8!1m0!1m5!1m1!1s0x85b8f78ea8585f57:0xeb58d0f79a8faa6b!2m2!1d-97.0657164!2d15.8611489!3e0?entry=ttu&g_ep=EgoyMDI2MDgyNC4wIKXMDSoASAFQAw%3D%3D',
+    image: imagePath('catedral.jpg'),
   },
   {
     icon: '🥂',
@@ -98,10 +100,9 @@ export const VENUES: Venue[] = [
       'https://www.google.com/maps?q=15.862436,-97.071639&z=15&output=embed',
     mapTitle: 'Jardín Las Bugambilias — Recepción',
     directionsUrl: 'https://www.google.com/maps/dir//15.8624356,-97.0716393/@15.8624698,-97.0712048,133m/data=!3m1!1e3!4m2!4m1!3e0?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D',
+    image: imagePath('salon.jpeg'),
   },
 ];
-
-const imagePath = (file: string) => publicPath(`images/${file}`);
 
 export const GALLERY_IMAGES: GalleryImage[] = [
   { src: imagePath('01.jpeg'), alt: 'Foto1', caption: 'El comienzo' },
