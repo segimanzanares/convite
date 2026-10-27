@@ -10,16 +10,6 @@ export interface CoupleInfo {
   musicFile?: string;
 }
 
-export interface DetailCardData {
-  icon: string;
-  label: string;
-  title: string;
-  lines: string[];
-  time?: string;
-  note?: string;
-  code?: string;
-}
-
 export interface Venue {
   icon: string;
   tag: string;

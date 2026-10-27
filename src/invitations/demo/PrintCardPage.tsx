@@ -1,8 +1,6 @@
 import { PrintCard } from '../../components/print-card/PrintCard';
-import { COUPLE, DRESS_CODE, DRESS_CODE_SWATCHES, EVENT_DETAILS } from './data';
+import { COUPLE, DRESS_CODE, DRESS_CODE_SWATCHES, VENUES } from './data';
 import './theme.css';
-
-const [ceremony, reception] = EVENT_DETAILS;
 
 export function PrintCardPage() {
   return (
@@ -21,7 +19,12 @@ export function PrintCardPage() {
       }}
       back={{
         monogram: `${COUPLE.names[0].charAt(0)}${COUPLE.names[1].charAt(0)}`,
-        events: [ceremony, reception],
+        events: VENUES.map((venue) => ({
+          label: venue.tag,
+          title: venue.name,
+          lines: venue.addressLines,
+          time: venue.time,
+        })),
         dressCode: {
           title: `Vestimenta ${DRESS_CODE.type}`,
           note: DRESS_CODE.reservedColor && `El color ${DRESS_CODE.reservedColor.name} ${DRESS_CODE.reservedColor.description}`,

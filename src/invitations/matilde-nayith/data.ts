@@ -3,7 +3,6 @@ import { es } from 'date-fns/locale';
 import type {
   ColorSwatchData,
   CoupleInfo,
-  DetailCardData,
   DressCodeData,
   GalleryImage,
   Venue,
@@ -24,23 +23,6 @@ export const COUPLE: CoupleInfo = {
   rsvpWhatsappNumber: '521234567890',
   musicFile: publicPath('music.mp3'),
 };
-
-export const EVENT_DETAILS: DetailCardData[] = [
-  {
-    icon: '⛪',
-    label: 'Ceremonia Religiosa',
-    title: 'Parroquia de la Soledad',
-    lines: ['Calle Fundadores SN', 'Puerto Escondido, Oax.'],
-    time: '15:00 HRS',
-  },
-  {
-    icon: '🥂',
-    label: 'Recepción & Banquete',
-    title: 'Salón De Fiestas',
-    lines: ['Av. Hidalgo S/N', 'Col. Centro, Puerto Escondido, Oax.'],
-    time: '16:00 HRS',
-  },
-];
 
 export const DRESS_CODE: DressCodeData = {
   type: 'Formal',

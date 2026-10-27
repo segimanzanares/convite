@@ -4,7 +4,6 @@ import { FloatingPetals } from '../../components/hero/FloatingPetals';
 import { BirthdayHero } from '../../components/hero/BirthdayHero';
 import { InvitationMessage } from '../../components/message/InvitationMessage';
 import { FullDivider } from '../../components/divider/FullDivider';
-import { EventDetails } from '../../components/details/EventDetails';
 import { ProgramTimeline } from '../../components/program/ProgramTimeline';
 import { Countdown } from '../../components/countdown/Countdown';
 import { DressCodePalette } from '../../components/dresscode/DressCodePalette';
@@ -18,7 +17,6 @@ import {
   CELEBRANT,
   DRESS_CODE,
   DRESS_CODE_SWATCHES,
-  EVENT_DETAILS,
   PROGRAM,
   VENUES,
 } from './data';
@@ -56,7 +54,11 @@ export function InvitationPage() {
         signature={CELEBRANT.hosts}
       />
       <FullDivider text={`${CELEBRANT.firstName} · ${CELEBRANT.age}`} />
-      <EventDetails details={EVENT_DETAILS} eyebrow="La celebración" />
+      <VenuesSection
+        venues={VENUES}
+        eyebrow="La celebración"
+        intro="Con mucho cariño, les compartimos los lugares donde celebraremos juntos este día tan especial."
+      />
       <ProgramTimeline
         items={PROGRAM}
         intro="Así viviremos este día tan especial, momento a momento."
@@ -66,10 +68,6 @@ export function InvitationPage() {
       <DressCodePalette
         swatches={DRESS_CODE_SWATCHES}
         intro="Inspirados en las flores que siempre la han acompañado, sugerimos los siguientes tonos para su vestimenta."
-      />
-      <VenuesSection
-        venues={VENUES}
-        intro="Con mucho cariño, les compartimos los lugares donde celebraremos juntos este día tan especial."
       />
       <RsvpSection
         whatsappNumber={CELEBRANT.rsvpWhatsappNumber}

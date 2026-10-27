@@ -4,7 +4,6 @@ import { FloatingPetals } from '../../components/hero/FloatingPetals';
 import { Hero } from '../../components/hero/Hero';
 import { CoupleMessage } from '../../components/message/CoupleMessage';
 import { FullDivider } from '../../components/divider/FullDivider';
-import { EventDetails } from '../../components/details/EventDetails';
 import { Countdown } from '../../components/countdown/Countdown';
 import { Gallery } from '../../components/gallery/Gallery';
 import { DressCodePalette } from '../../components/dresscode/DressCodePalette';
@@ -19,7 +18,6 @@ import {
   COUPLE,
   DRESS_CODE,
   DRESS_CODE_SWATCHES,
-  EVENT_DETAILS,
   GALLERY_IMAGES,
   PROGRAM,
   VENUES,
@@ -55,7 +53,7 @@ export function InvitationPage() {
       <Hero couple={COUPLE} backgroundImageUrl={bgHero} />
       <CoupleMessage couple={COUPLE} />
       <FullDivider text={COUPLE_TITLE} />
-      <EventDetails details={EVENT_DETAILS} />
+      <VenuesSection venues={VENUES} />
       <ProgramTimeline
         items={PROGRAM}
         intro="Así viviremos este día tan especial, momento a momento."
@@ -64,7 +62,6 @@ export function InvitationPage() {
       <Gallery images={GALLERY_IMAGES} />
       <DressCodeSection dressCode={DRESS_CODE} />
       <DressCodePalette swatches={DRESS_CODE_SWATCHES} />
-      <VenuesSection venues={VENUES} />
       <RsvpSection
         whatsappNumber={COUPLE.rsvpWhatsappNumber}
         deadlineLabel={COUPLE.rsvpDeadlineLabel}
