@@ -35,7 +35,7 @@ export function VenueCard({ venue }: VenueCardProps) {
           className="w-full h-full border-none block [filter:sepia(30%)_contrast(0.92)_brightness(1.04)] transition-[filter] duration-[400ms] ease group-hover:[filter:sepia(10%)_contrast(0.95)_brightness(1.06)]"
         />
       </div>
-      <div className="pt-7 px-8 pb-8 text-left">
+      <div className="pt-7 px-8 pb-8 text-center">
         <p className="font-display text-[9px] tracking-[0.55em] text-gold uppercase flex items-center gap-2.5 mb-3 after:content-[''] after:flex-1 after:h-px after:bg-[linear-gradient(to_right,color-mix(in_srgb,var(--color-gold)_40%,transparent),transparent)]">
           {venue.icon} {venue.tag}
         </p>
