@@ -9,6 +9,7 @@ import { Gallery } from '../../components/gallery/Gallery';
 import { DressCodePalette } from '../../components/dresscode/DressCodePalette';
 import { DressCodeSection } from '../../components/dresscode/DressCodeSection';
 import { VenuesSection } from '../../components/venues/VenuesSection';
+import { GiftsSection } from '../../components/gifts/GiftsSection';
 import { RsvpSection } from '../../components/rsvp/RsvpSection';
 import { Footer } from '../../components/footer/Footer';
 import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/MusicPlayer';
@@ -19,6 +20,7 @@ import {
   DRESS_CODE,
   DRESS_CODE_SWATCHES,
   GALLERY_IMAGES,
+  GIFTS,
   PROGRAM,
   VENUES,
 } from './data';
@@ -62,6 +64,7 @@ export function InvitationPage() {
       <Gallery images={GALLERY_IMAGES} />
       <DressCodeSection dressCode={DRESS_CODE} />
       <DressCodePalette swatches={DRESS_CODE_SWATCHES} />
+      <GiftsSection gifts={GIFTS} />
       <RsvpSection
         whatsappNumber={COUPLE.rsvpWhatsappNumber}
         deadlineLabel={COUPLE.rsvpDeadlineLabel}

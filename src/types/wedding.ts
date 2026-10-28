@@ -59,3 +59,23 @@ export interface DressCodeData {
   women?: string;
   reservedColor?: ReservedColor;
 }
+
+export type GiftKind = 'bank' | 'registry' | 'envelope';
+
+export interface GiftDetail {
+  /** e.g. "Banco", "Titular", "CLABE", "Cuenta". */
+  label: string;
+  value: string;
+}
+
+export interface GiftOption {
+  /** Picks the icon shown on the card. */
+  kind: GiftKind;
+  title: string;
+  description?: string;
+  details?: GiftDetail[];
+  /** Adds a button that copies `value` to the clipboard, e.g. the account number without spaces. */
+  copy?: { value: string; label?: string };
+  /** Adds a button that opens an external page, e.g. a department store gift registry. */
+  link?: { url: string; label?: string };
+}

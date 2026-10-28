@@ -5,6 +5,7 @@ import type {
   CoupleInfo,
   DressCodeData,
   GalleryImage,
+  GiftOption,
   ProgramItem,
   Venue,
 } from '../../types/wedding';
@@ -124,4 +125,24 @@ export const DRESS_CODE_SWATCHES: ColorSwatchData[] = [
   { hex: '#C9A84C', label: 'Dorado' },
   { hex: '#7A8FA0', label: 'Azul Pálido' },
   { hex: '#C4A0A0', label: 'Rosa Antiguo' },
+];
+
+export const GIFTS: GiftOption[] = [
+  {
+    kind: 'bank',
+    title: 'Transferencia Bancaria',
+    details: [
+      { label: 'Banco', value: 'BBVA' },
+      { label: 'Titular', value: 'Mariana López Pérez' },
+      { label: 'Cuenta', value: '4189 1431 8018 4403' },
+    ],
+    copy: { value: '4189143180184403', label: 'Copiar número' },
+  },
+  {
+    kind: 'registry',
+    title: 'Mesa de Regalos',
+    description: 'También pueden elegir un detalle de nuestra mesa de regalos.',
+    details: [{ label: 'Número de evento', value: '51234567' }],
+    link: { url: 'https://mesaderegalos.liverpool.com.mx/', label: 'Ver mesa de regalos' },
+  },
 ];
