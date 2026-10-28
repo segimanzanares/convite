@@ -14,7 +14,7 @@ export function PrintCardPage() {
         message:
           'Junto a nuestras familias, tenemos el honor y la dicha de invitarles a compartir con nosotros el momento más especial de nuestras vidas.',
         dateLabel: COUPLE.dateLabel,
-        place: 'Puerto Escondido, Oaxaca',
+        place: 'Villa del Mar',
         signature: COUPLE.families,
       }}
       back={{

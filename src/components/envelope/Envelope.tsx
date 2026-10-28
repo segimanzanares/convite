@@ -25,7 +25,7 @@ export function Envelope({ monogram, title, ariaName, onOpen, onOpened }: Envelo
 
   useEffect(() => {
     if (!isOpen) return;
-    const timer = window.setTimeout(() => setIsHidden(true), 1800);
+    const timer = window.setTimeout(() => setIsHidden(true), 2200);
     return () => window.clearTimeout(timer);
   }, [isOpen]);
 
@@ -40,7 +40,7 @@ export function Envelope({ monogram, title, ariaName, onOpen, onOpened }: Envelo
       className={[
         'fixed inset-0 z-[3000] flex flex-col items-center justify-center gap-8',
         '[background:var(--envelope-bg)]',
-        'transition-[opacity,visibility] duration-[900ms] delay-[900ms]',
+        'transition-[opacity,visibility] duration-[700ms] delay-[1500ms]',
         isOpen ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible',
       ].join(' ')}
       aria-hidden={isOpen}
@@ -60,19 +60,18 @@ export function Envelope({ monogram, title, ariaName, onOpen, onOpened }: Envelo
           }}
           aria-label={`Abrir la invitación de ${ariaName}`}
         >
-          <span className="absolute inset-0 overflow-hidden rounded-[4px] shadow-[0_20px_60px_rgba(0,0,0,0.5)] z-[1]">
-            <span className="absolute inset-0 bg-[linear-gradient(160deg,var(--color-cream),var(--color-off-white))]" />
-            <span className="absolute inset-0 bg-[linear-gradient(160deg,var(--color-gold-pale),var(--color-off-white))] [clip-path:polygon(0_0,50%_50%,0_100%)] brightness-[0.94]" />
-            <span className="absolute inset-0 bg-[linear-gradient(160deg,var(--color-gold-pale),var(--color-off-white))] [clip-path:polygon(100%_0,50%_50%,100%_100%)] brightness-90" />
-            <span className="absolute inset-0 bg-[linear-gradient(160deg,var(--color-gold-pale),var(--color-off-white))] [clip-path:polygon(0_100%,100%_100%,50%_50%)] brightness-[1.05] z-[2]" />
+          {/* No overflow-hidden here: the card has to rise out past the envelope's top edge. */}
+          <span className="absolute inset-0 rounded-[4px] shadow-[0_20px_60px_rgba(0,0,0,0.5)] z-[1]">
+            <span className="absolute inset-0 rounded-[4px] bg-[linear-gradient(160deg,var(--color-cream),var(--color-off-white))]" />
+            {/* The card sits between the back and the flaps, so it stays hidden until the top flap opens. */}
             <span
               className={[
-                'absolute left-[6%] right-[6%] bottom-[6%] h-[80%] z-[3] bg-ivory border border-gold-light rounded-[2px]',
+                'absolute left-[6%] right-[6%] bottom-[6%] h-[80%] z-[1] bg-ivory border border-gold-light rounded-[2px]',
                 'flex flex-col items-center justify-center gap-1.5',
-                'transition-transform duration-[1100ms] [transition-timing-function:cubic-bezier(0.65,0,0.35,1)] delay-[500ms]',
+                'transition-transform duration-[1000ms] [transition-timing-function:cubic-bezier(0.65,0,0.35,1)] delay-[600ms]',
                 'shadow-[0_-6px_20px_rgba(0,0,0,0.08)]',
                 'motion-reduce:animate-none motion-reduce:duration-200',
-                isOpen ? 'translate-y-[-135%]' : 'translate-y-[72%]',
+                isOpen ? 'translate-y-[-95%]' : 'translate-y-0',
               ].join(' ')}
             >
               <span className="font-script text-[30px] text-gold-deep">{monogram}</span>
@@ -80,6 +79,9 @@ export function Envelope({ monogram, title, ariaName, onOpen, onOpened }: Envelo
                 {title}
               </span>
             </span>
+            <span className="absolute inset-0 z-[2] rounded-[4px] bg-[linear-gradient(160deg,var(--color-gold-pale),var(--color-off-white))] [clip-path:polygon(0_0,50%_50%,0_100%)] brightness-[0.94]" />
+            <span className="absolute inset-0 z-[2] rounded-[4px] bg-[linear-gradient(160deg,var(--color-gold-pale),var(--color-off-white))] [clip-path:polygon(100%_0,50%_50%,100%_100%)] brightness-90" />
+            <span className="absolute inset-0 z-[2] rounded-[4px] bg-[linear-gradient(160deg,var(--color-gold-pale),var(--color-off-white))] [clip-path:polygon(0_100%,100%_100%,50%_50%)] brightness-[1.05]" />
           </span>
           <span
             className={[

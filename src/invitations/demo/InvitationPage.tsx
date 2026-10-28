@@ -38,7 +38,7 @@ export function InvitationPage() {
     document.title = `${COUPLE_TITLE} — Nuestra Boda`;
   }, []);
 
-  useAutoScroll({ active: autoScrollActive, speed: 60 });
+  useAutoScroll({ active: autoScrollActive, speed: 100 });
 
   return (
     <div className="theme-demo">
