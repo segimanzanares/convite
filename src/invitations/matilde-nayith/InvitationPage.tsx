@@ -5,10 +5,10 @@ import { FloatingPetals } from '../../components/hero/FloatingPetals';
 import { Hero } from '../../components/hero/Hero';
 import { CoupleMessage } from '../../components/message/CoupleMessage';
 import { FullDivider } from '../../components/divider/FullDivider';
-import { EventDetails } from '../../components/details/EventDetails';
 import { Countdown } from '../../components/countdown/Countdown';
 import { Gallery } from '../../components/gallery/Gallery';
 import { DressCodePalette } from '../../components/dresscode/DressCodePalette';
+import { DressCodeSection } from '../../components/dresscode/DressCodeSection';
 import { VenuesSection } from '../../components/venues/VenuesSection';
 import { RsvpSection } from '../../components/rsvp/RsvpSection';
 import { Footer } from '../../components/footer/Footer';
@@ -16,8 +16,8 @@ import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/Musi
 import { useAutoScroll } from '../../hooks/useAutoScroll';
 import {
   COUPLE,
+  DRESS_CODE,
   DRESS_CODE_SWATCHES,
-  EVENT_DETAILS,
   GALLERY_IMAGES,
   VENUES,
 } from './data';
@@ -51,11 +51,11 @@ export function InvitationPage() {
       <Hero couple={COUPLE} backgroundImageUrl={bgHero} />
       <CoupleMessage couple={COUPLE} />
       <FullDivider text={COUPLE_TITLE} />
-      <EventDetails details={EVENT_DETAILS} />
+      <VenuesSection venues={VENUES} />
       <Countdown targetDateTime={COUPLE.weddingDateTime} />
       <Gallery images={GALLERY_IMAGES} />
+      <DressCodeSection dressCode={DRESS_CODE} />
       <DressCodePalette swatches={DRESS_CODE_SWATCHES} />
-      <VenuesSection venues={VENUES} />
       <RsvpSection
         whatsappNumber={COUPLE.rsvpWhatsappNumber}
         deadlineLabel={COUPLE.rsvpDeadlineLabel}

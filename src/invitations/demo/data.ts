@@ -3,13 +3,15 @@ import { es } from 'date-fns/locale';
 import type {
   ColorSwatchData,
   CoupleInfo,
-  DetailCardData,
+  DressCodeData,
   GalleryImage,
+  GiftOption,
   ProgramItem,
   Venue,
 } from '../../types/wedding';
 
 const publicPath = (file: string) => `${import.meta.env.BASE_URL}invitations/demo/${file}`;
+const imagePath = (file: string) => publicPath(`images/${file}`);
 
 const eventDate = addDays(new Date(), 60);
 
@@ -25,29 +27,17 @@ export const COUPLE: CoupleInfo = {
   musicFile: publicPath('music.mp3'),
 };
 
-export const EVENT_DETAILS: DetailCardData[] = [
-  {
-    icon: '⛪',
-    label: 'Ceremonia Religiosa',
-    title: 'Parroquia de la Soledad',
-    lines: ['Calle Fundadores SN', 'Puerto Escondido, Oax.'],
-    time: '15:00 HRS',
+export const DRESS_CODE: DressCodeData = {
+  type: 'Formal',
+  description: 'Solicitamos a nuestros invitados vestimenta formal.',
+  men: 'Traje',
+  women: 'Vestido largo',
+  reservedColor: {
+    name: 'Blanco',
+    hex: '#FFFFFF',
+    description: 'está reservado para la novia, evita llevar ese color.',
   },
-  {
-    icon: '🥂',
-    label: 'Recepción & Banquete',
-    title: 'Jardín Las Bugambilias',
-    lines: ['Av. Hidalgo S/N', 'Col. Centro, Puerto Escondido, Oax.'],
-    time: '16:00 HRS',
-  },
-  {
-    icon: '🌹',
-    label: 'Dresscode',
-    title: 'Vestimenta Formal',
-    lines: ['Solicitamos a nuestros invitados vestimenta formal.'],
-    note: 'Evitar el color blanco y el negro riguroso.',
-  },
-];
+};
 
 export const PROGRAM: ProgramItem[] = [
   {
@@ -99,6 +89,7 @@ export const VENUES: Venue[] = [
       'https://www.google.com/maps?q=15.861208,-97.065710&z=15&output=embed',
     mapTitle: 'Parroquia de la Soledad — Ceremonia',
     directionsUrl: 'https://www.google.com/maps/dir//Parroquia+de+la+Virgen+de+la+Soledad,+Fundadores+205,+Centro,+71980+Puerto+Escondido,+Oax./@15.8611489,-97.0682913,1064m/data=!3m1!1e3!4m17!1m7!3m6!1s0x85b8f78ea8585f57:0xeb58d0f79a8faa6b!2sParroquia+de+la+Virgen+de+la+Soledad!8m2!3d15.8611489!4d-97.0657164!16s%2Fg%2F11g6bnwxbd!4m8!1m0!1m5!1m1!1s0x85b8f78ea8585f57:0xeb58d0f79a8faa6b!2m2!1d-97.0657164!2d15.8611489!3e0?entry=ttu&g_ep=EgoyMDI2MDgyNC4wIKXMDSoASAFQAw%3D%3D',
+    image: imagePath('catedral.jpg'),
   },
   {
     icon: '🥂',
@@ -110,10 +101,9 @@ export const VENUES: Venue[] = [
       'https://www.google.com/maps?q=15.862436,-97.071639&z=15&output=embed',
     mapTitle: 'Jardín Las Bugambilias — Recepción',
     directionsUrl: 'https://www.google.com/maps/dir//15.8624356,-97.0716393/@15.8624698,-97.0712048,133m/data=!3m1!1e3!4m2!4m1!3e0?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D',
+    image: imagePath('salon.jpeg'),
   },
 ];
-
-const imagePath = (file: string) => publicPath(`images/${file}`);
 
 export const GALLERY_IMAGES: GalleryImage[] = [
   { src: imagePath('01.jpeg'), alt: 'Foto1', caption: 'El comienzo' },
@@ -135,4 +125,24 @@ export const DRESS_CODE_SWATCHES: ColorSwatchData[] = [
   { hex: '#C9A84C', label: 'Dorado' },
   { hex: '#7A8FA0', label: 'Azul Pálido' },
   { hex: '#C4A0A0', label: 'Rosa Antiguo' },
+];
+
+export const GIFTS: GiftOption[] = [
+  {
+    kind: 'bank',
+    title: 'Transferencia Bancaria',
+    details: [
+      { label: 'Banco', value: 'BBVA' },
+      { label: 'Titular', value: 'Mariana López Pérez' },
+      { label: 'Cuenta', value: '4189 1431 8018 4403' },
+    ],
+    copy: { value: '4189143180184403', label: 'Copiar número' },
+  },
+  {
+    kind: 'registry',
+    title: 'Mesa de Regalos',
+    description: 'También pueden elegir un detalle de nuestra mesa de regalos.',
+    details: [{ label: 'Número de evento', value: '51234567' }],
+    link: { url: 'https://mesaderegalos.liverpool.com.mx/', label: 'Ver mesa de regalos' },
+  },
 ];

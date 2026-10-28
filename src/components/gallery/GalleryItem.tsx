@@ -4,6 +4,7 @@ interface GalleryItemProps {
   image: GalleryImage;
   index: number;
   onSelect: () => void;
+  className?: string;
 }
 
 function spanClasses(index: number) {
@@ -12,10 +13,10 @@ function spanClasses(index: number) {
   return 'aspect-[4/3]';
 }
 
-export function GalleryItem({ image, index, onSelect }: GalleryItemProps) {
+export function GalleryItem({ image, index, onSelect, className = '' }: GalleryItemProps) {
   return (
     <div
-      className={`group relative overflow-hidden cursor-pointer bg-off-white ${spanClasses(index)}`}
+      className={`group relative overflow-hidden cursor-pointer bg-off-white ${spanClasses(index)} ${className}`}
       onClick={onSelect}
     >
       <img

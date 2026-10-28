@@ -10,16 +10,6 @@ export interface CoupleInfo {
   musicFile?: string;
 }
 
-export interface DetailCardData {
-  icon: string;
-  label: string;
-  title: string;
-  lines: string[];
-  time?: string;
-  note?: string;
-  code?: string;
-}
-
 export interface Venue {
   icon: string;
   tag: string;
@@ -29,6 +19,10 @@ export interface Venue {
   mapEmbedUrl: string;
   mapTitle: string;
   directionsUrl: string;
+  /** Optional photo of the place, shown at the top of its card. */
+  image?: string;
+  /** Alt text for `image`; defaults to the venue name. */
+  imageAlt?: string;
 }
 
 export interface GalleryImage {
@@ -47,4 +41,41 @@ export interface ProgramItem {
   title: string;
   description?: string;
   icon?: string;
+}
+
+export interface ReservedColor {
+  name: string;
+  /** Optional swatch shown next to the color name. */
+  hex?: string;
+  /** Text that follows the color name, e.g. "está reservado para la novia, evita llevar ese color." */
+  description: string;
+}
+
+export interface DressCodeData {
+  /** Attire type headline, e.g. "Formal", "Etiqueta rigurosa", "Cóctel". */
+  type: string;
+  description?: string;
+  men?: string;
+  women?: string;
+  reservedColor?: ReservedColor;
+}
+
+export type GiftKind = 'bank' | 'registry' | 'envelope';
+
+export interface GiftDetail {
+  /** e.g. "Banco", "Titular", "CLABE", "Cuenta". */
+  label: string;
+  value: string;
+}
+
+export interface GiftOption {
+  /** Picks the icon shown on the card. */
+  kind: GiftKind;
+  title: string;
+  description?: string;
+  details?: GiftDetail[];
+  /** Adds a button that copies `value` to the clipboard, e.g. the account number without spaces. */
+  copy?: { value: string; label?: string };
+  /** Adds a button that opens an external page, e.g. a department store gift registry. */
+  link?: { url: string; label?: string };
 }

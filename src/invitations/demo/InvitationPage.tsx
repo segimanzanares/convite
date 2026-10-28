@@ -4,11 +4,12 @@ import { FloatingPetals } from '../../components/hero/FloatingPetals';
 import { Hero } from '../../components/hero/Hero';
 import { CoupleMessage } from '../../components/message/CoupleMessage';
 import { FullDivider } from '../../components/divider/FullDivider';
-import { EventDetails } from '../../components/details/EventDetails';
 import { Countdown } from '../../components/countdown/Countdown';
 import { Gallery } from '../../components/gallery/Gallery';
 import { DressCodePalette } from '../../components/dresscode/DressCodePalette';
+import { DressCodeSection } from '../../components/dresscode/DressCodeSection';
 import { VenuesSection } from '../../components/venues/VenuesSection';
+import { GiftsSection } from '../../components/gifts/GiftsSection';
 import { RsvpSection } from '../../components/rsvp/RsvpSection';
 import { Footer } from '../../components/footer/Footer';
 import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/MusicPlayer';
@@ -16,9 +17,10 @@ import { ProgramTimeline } from '../../components/program/ProgramTimeline';
 import { useAutoScroll } from '../../hooks/useAutoScroll';
 import {
   COUPLE,
+  DRESS_CODE,
   DRESS_CODE_SWATCHES,
-  EVENT_DETAILS,
   GALLERY_IMAGES,
+  GIFTS,
   PROGRAM,
   VENUES,
 } from './data';
@@ -47,27 +49,27 @@ export function InvitationPage() {
         onOpen={() => musicPlayerRef.current?.play()}
         onOpened={() => setAutoScrollActive(true)}
       />
-      <MusicPlayer ref={musicPlayerRef} src={COUPLE.musicFile} />
+      <MusicPlayer ref={musicPlayerRef} src={COUPLE.musicFile} position="bottom-center" />
       <FloralPageOrnamentBorder />
       <FloatingPetals />
       <Hero couple={COUPLE} backgroundImageUrl={bgHero} />
       <CoupleMessage couple={COUPLE} />
       <FullDivider text={COUPLE_TITLE} />
-      <EventDetails details={EVENT_DETAILS} />
+      <VenuesSection venues={VENUES} />
       <ProgramTimeline
         items={PROGRAM}
         intro="Así viviremos este día tan especial, momento a momento."
       />
       <Countdown targetDateTime={COUPLE.weddingDateTime} />
       <Gallery images={GALLERY_IMAGES} />
+      <DressCodeSection dressCode={DRESS_CODE} />
       <DressCodePalette swatches={DRESS_CODE_SWATCHES} />
-      <VenuesSection venues={VENUES} />
+      <GiftsSection gifts={GIFTS} />
       <RsvpSection
         whatsappNumber={COUPLE.rsvpWhatsappNumber}
         deadlineLabel={COUPLE.rsvpDeadlineLabel}
         calendar={{ dateTime: COUPLE.weddingDateTime, name: `Boda ${COUPLE_TITLE}`, fileName: 'boda.ics' }}
         venues={VENUES}
-        requestEmail
       />
       <Footer title={COUPLE_TITLE} dateLabel={COUPLE.footerDateLabel} />
     </div>

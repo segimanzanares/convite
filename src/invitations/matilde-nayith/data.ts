@@ -3,7 +3,7 @@ import { es } from 'date-fns/locale';
 import type {
   ColorSwatchData,
   CoupleInfo,
-  DetailCardData,
+  DressCodeData,
   GalleryImage,
   Venue,
 } from '../../types/wedding';
@@ -24,29 +24,15 @@ export const COUPLE: CoupleInfo = {
   musicFile: publicPath('music.mp3'),
 };
 
-export const EVENT_DETAILS: DetailCardData[] = [
-  {
-    icon: '⛪',
-    label: 'Ceremonia Religiosa',
-    title: 'Parroquia de la Soledad',
-    lines: ['Calle Fundadores S/N', 'Puerto Escondido, Oax.'],
-    time: '15:00 HRS',
+export const DRESS_CODE: DressCodeData = {
+  type: 'Formal',
+  description: 'Solicitamos a nuestros invitados vestimenta formal.',
+  reservedColor: {
+    name: 'Blanco',
+    hex: '#FFFFFF',
+    description: 'está reservado para la novia; evita también el negro riguroso.',
   },
-  {
-    icon: '🥂',
-    label: 'Recepción & Banquete',
-    title: 'Salón Nochetly',
-    lines: ['Calle Ignacio Barrera S/N', 'Col. Aeropuerto, Puerto Escondido, Oax.'],
-    time: '16:00 HRS',
-  },
-  {
-    icon: '🌹',
-    label: 'Dresscode',
-    title: 'Vestimenta Formal',
-    lines: ['Solicitamos a nuestros invitados vestimenta formal.'],
-    note: 'Evitar el color blanco y el negro riguroso.',
-  },
-];
+};
 
 export const VENUES: Venue[] = [
   {

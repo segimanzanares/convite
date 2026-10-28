@@ -3,7 +3,7 @@ import { es } from 'date-fns/locale';
 import type { CelebrantInfo } from '../../types/birthday';
 import type {
   ColorSwatchData,
-  DetailCardData,
+  DressCodeData,
   GalleryImage,
   ProgramItem,
   Venue,
@@ -26,21 +26,10 @@ export const CELEBRANT: CelebrantInfo = {
   musicFile: publicPath('music.mp3'),
 };
 
-export const EVENT_DETAILS: DetailCardData[] = [
-  {
-    icon: '🥂',
-    label: 'Comida & Celebración',
-    title: 'Domicilio Particular',
-    lines: ['Calle Guelatao S/N', 'Col. Sector Reforma C, Puerto Escondido, Oax.'],
-    time: '16:00 HRS',
-  },
-  {
-    icon: '🌸',
-    label: 'Dresscode',
-    title: 'Formal de Día',
-    lines: ['Te sugerimos vestir en tonos suaves y florales.'],
-  },
-];
+export const DRESS_CODE: DressCodeData = {
+  type: 'Formal de día',
+  description: 'Te sugerimos vestir en tonos suaves y florales.',
+};
 
 export const PROGRAM: ProgramItem[] = [
   {
