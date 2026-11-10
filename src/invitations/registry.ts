@@ -3,6 +3,7 @@ import type { InvitationMeta } from './types';
 import { meta as demoMeta } from './demo/meta';
 import { meta as matildeNayithMeta } from './matilde-nayith/meta';
 import { meta as floraMeta } from './flora/meta';
+import { meta as demoXvMeta } from './demo-xv/meta';
 
 export interface InvitationEntry {
   Component: LazyExoticComponent<ComponentType>;
@@ -19,6 +20,10 @@ export const invitations = {
     PrintCard: lazy(() => import('./demo/PrintCardPage')),
     GuestPasses: lazy(() => import('./demo/GuestPassesPage')),
     meta: demoMeta,
+  },
+  'demo-xv': {
+    Component: lazy(() => import('./demo-xv/InvitationPage')),
+    meta: demoXvMeta,
   },
   'mati-nayith': {
     Component: lazy(() => import('./matilde-nayith/InvitationPage')),

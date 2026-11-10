@@ -1,0 +1,39 @@
+/* Jardín encantado: pine and forest greens with antique gold on warm
+   paper tones. --gold-deep is a forest green (titles, buttons) rather than
+   a darker gold, so headings read as foliage and gold stays an accent.
+   The dark sections (countdown, RSVP, closing) are deep pine. */
+.theme-demo-xv {
+  --gold: #a8894a;
+  --gold-light: #dcc994;
+  --gold-pale: #e6e9da;
+  --gold-deep: #2f4a38;
+  --white: #fffdf8;
+  --cream: #faf7ef;
+  --off-white: #efeadb;
+  --text-dark: #243c30;
+
+  --text-body: #3c4a38;
+  --text-muted: #66705a;
+  --dark-from: #1b2e24;
+  --dark-to: #2f4a38;
+  --envelope-bg: radial-gradient(circle at 50% 38%, #34513f 0%, #1d3127 55%, #0f1c15 100%);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+}
+
+/* The dark pine sections (countdown, RSVP) need a brighter gold than the
+   paper sections for legible numbers, labels and form text. */
+.theme-demo-xv [data-tone='dark'] {
+  --gold: #cdb176;
+  --color-gold: var(--gold);
+}

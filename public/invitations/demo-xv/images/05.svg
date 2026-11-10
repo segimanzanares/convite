@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#67754b"/><stop offset="1" stop-color="#2f4a38"/></linearGradient>
+    <radialGradient id="l" cx="0.5" cy="0.35" r="0.6"><stop offset="0" stop-color="#ffffff" stop-opacity="0.18"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#g)"/>
+  <rect width="800" height="600" fill="url(#l)"/>
+  <g fill="none" stroke="#dcc994" stroke-opacity="0.55" stroke-width="1.5">
+    <path d="M290 470 V250 A110 110 0 0 1 510 250 V470 Z"/>
+    <path d="M302 470 V252 A98 98 0 0 1 498 252 V470" stroke-opacity="0.3"/>
+  </g>
+  <g fill="#dcc994" fill-opacity="0.5">
+    <circle cx="400" cy="262" r="34"/>
+    <path d="M330 470 C334 382 362 334 400 334 C438 334 466 382 470 470 Z"/>
+  </g>
+  <g fill="#dcc994" fill-opacity="0.35">
+    <path d="M250 470 C230 420 238 380 262 350 C270 390 268 432 250 470Z"/>
+    <path d="M550 470 C570 420 562 380 538 350 C530 390 532 432 550 470Z"/>
+    <path d="M230 470 C206 444 200 414 210 390 C226 414 234 442 230 470Z"/>
+    <path d="M570 470 C594 444 600 414 590 390 C574 414 566 442 570 470Z"/>
+  </g>
+  <g fill="#dcc994" fill-opacity="0.7">
+    <circle cx="180" cy="140" r="3"/><circle cx="640" cy="180" r="2.5"/><circle cx="600" cy="90" r="2"/>
+    <circle cx="140" cy="420" r="2"/><circle cx="680" cy="460" r="3"/><circle cx="230" cy="70" r="2"/>
+  </g>
+  <text x="400" y="530" text-anchor="middle" font-family="Georgia, serif" font-size="20" letter-spacing="6" fill="#dcc994" fill-opacity="0.75">TU FOTO AQUÍ · 05</text>
+</svg>
