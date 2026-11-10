@@ -40,6 +40,8 @@ export const MONOGRAM = 'SV';
 export const SHORT_DATE = format(eventDate, "dd '·' MMM '·' yyyy", { locale: es }).replace('.', '').toUpperCase();
 /** e.g. "05.12.2026" */
 export const DOTTED_DATE = format(eventDate, 'dd.MM.yyyy');
+/** e.g. "Sábado · 09 enero 2027" */
+export const CARD_DATE = format(eventDate, "EEEE '·' dd MMMM yyyy", { locale: es }).replace(/^./, (c) => c.toUpperCase());
 
 /** Portrait for the hero; set `position` (e.g. '50% 20%') to keep the face in the crop. */
 export const HERO_PHOTO: XvPhoto = { src: imagePath('portada.jpg'), alt: `Retrato de ${CELEBRANT.name}` };

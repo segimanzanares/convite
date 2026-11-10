@@ -6,6 +6,7 @@ import { StoryChapter } from '../../components/xv/StoryChapter';
 import { HonorSection } from '../../components/xv/HonorSection';
 import { ClosingChapter } from '../../components/xv/ClosingChapter';
 import { StoryGallery } from '../../components/xv/StoryGallery';
+import { StoryRsvp } from '../../components/xv/StoryRsvp';
 import { FloatingPetals } from '../../components/hero/FloatingPetals';
 import { FullDivider } from '../../components/divider/FullDivider';
 import { VenuesSection } from '../../components/venues/VenuesSection';
@@ -14,11 +15,11 @@ import { Countdown } from '../../components/countdown/Countdown';
 import { DressCodeSection } from '../../components/dresscode/DressCodeSection';
 import { DressCodePalette } from '../../components/dresscode/DressCodePalette';
 import { GiftsSection } from '../../components/gifts/GiftsSection';
-import { RsvpSection } from '../../components/rsvp/RsvpSection';
 import { Footer } from '../../components/footer/Footer';
 import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/MusicPlayer';
 import { useAutoScroll } from '../../hooks/useAutoScroll';
 import {
+  CARD_DATE,
   CELEBRANT,
   CHAPTERS,
   DOTTED_DATE,
@@ -139,9 +140,12 @@ export function InvitationPage() {
       </div>
 
       <div id="confirmar" className={ANCHOR}>
-        <RsvpSection
+        <StoryRsvp
           whatsappNumber={CELEBRANT.rsvpWhatsappNumber}
+          celebrantName={CELEBRANT.name}
+          dateLabel={CARD_DATE}
           deadlineLabel={CELEBRANT.rsvpDeadlineLabel}
+          signature={`Con cariño, ${CELEBRANT.firstName}`}
           calendar={{
             dateTime: CELEBRANT.eventDateTime,
             name: `XV años de ${CELEBRANT.name}`,
