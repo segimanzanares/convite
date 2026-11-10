@@ -1,30 +1,25 @@
-<IfModule mod_dir.c>
-  # Prevent Apache from redirecting /i/<slug> to /i/<slug>/ before our
-  # rewrite rules below get a chance to serve the prerendered file directly
-  DirectorySlash Off
-</IfModule>
-
 <IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteBase /
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
 
-  # Serve existing files as-is (assets, images, etc.)
-  RewriteCond %{REQUEST_FILENAME} -f
-  RewriteRule ^ - [L]
+    RewriteEngine On
 
-  # Prerendered invitation pages carry their own social meta tags (see
-  # scripts/prerender.ts) — serve them directly, without a redirect, so
-  # the shared URL stays exactly as-is. Falls through when the slug has
-  # no prerendered page (e.g. a typo), so the SPA's 404 handles it below.
-  RewriteCond %{DOCUMENT_ROOT}/i/$1/index.html -f
-  RewriteRule ^i/([^/]+)/?$ /i/$1/index.html [L]
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-  # Same for the printable pages at /i/<slug>/tarjeta and /i/<slug>/pases
-  # (only invitations that register a PrintCard / GuestPasses get them)
-  RewriteCond %{DOCUMENT_ROOT}/i/$1/$2/index.html -f
-  RewriteRule ^i/([^/]+)/(tarjeta|pases)/?$ /i/$1/$2/index.html [L]
+    # Handle X-XSRF-Token Header
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
-  # Everything else (landing, unknown routes) falls back to the SPA shell,
-  # which resolves the route client-side (react-router-dom)
-  RewriteRule ^ /index.html [L]
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
 </IfModule>
