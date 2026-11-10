@@ -5,12 +5,12 @@ import { XvHero } from '../../components/xv/XvHero';
 import { StoryChapter } from '../../components/xv/StoryChapter';
 import { HonorSection } from '../../components/xv/HonorSection';
 import { ClosingChapter } from '../../components/xv/ClosingChapter';
+import { StoryGallery } from '../../components/xv/StoryGallery';
 import { FloatingPetals } from '../../components/hero/FloatingPetals';
 import { FullDivider } from '../../components/divider/FullDivider';
 import { VenuesSection } from '../../components/venues/VenuesSection';
 import { ProgramTimeline } from '../../components/program/ProgramTimeline';
 import { Countdown } from '../../components/countdown/Countdown';
-import { Gallery } from '../../components/gallery/Gallery';
 import { DressCodeSection } from '../../components/dresscode/DressCodeSection';
 import { DressCodePalette } from '../../components/dresscode/DressCodePalette';
 import { GiftsSection } from '../../components/gifts/GiftsSection';
@@ -112,10 +112,10 @@ export function InvitationPage() {
       />
 
       <div id="galeria" className={ANCHOR}>
-        <Gallery
+        <StoryGallery
           images={GALLERY_IMAGES}
           eyebrow="Fragmentos de mi historia"
-          title="Mis recuerdos"
+          title="Mis momentos favoritos"
           intro="Quince años de momentos que me trajeron hasta aquí."
         />
       </div>
