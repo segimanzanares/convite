@@ -24,7 +24,7 @@ export function RsvpSection({ whatsappNumber, deadlineLabel, calendar, venues }:
   const { form, setField, isSubmitted, handleSubmit } = useRsvpForm(whatsappNumber);
 
   return (
-    <div className="bg-[linear-gradient(160deg,var(--dark-from),var(--dark-to))] text-gold-pale py-[100px] px-10 text-center">
+    <div data-tone="dark" className="bg-[linear-gradient(160deg,var(--dark-from),var(--dark-to))] text-gold-pale py-[100px] px-10 text-center">
       <Reveal className="max-w-[680px] mx-auto">
         <SectionHeading eyebrow="Confirmación" title="RSVP" tone="dark" />
         <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] italic text-gold-pale opacity-80 mt-5">
