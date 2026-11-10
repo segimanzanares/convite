@@ -1,5 +1,6 @@
 import { useEffect, type ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from '@inertiajs/react';
+import { useInvitationUrl } from '../../hooks/useInvitationUrl';
 import { FloralCornerSvg } from '../layout/FloralCornerOrnament';
 import './PrintCard.css';
 
@@ -18,6 +19,8 @@ interface PrintPageProps {
 
 /** Screen/print shell shared by the printable pages of an invitation. */
 export function PrintPage({ themeClassName, documentTitle, pageSize, hint, controls, children }: PrintPageProps) {
+  const invitationUrl = useInvitationUrl();
+
   useEffect(() => {
     document.title = documentTitle;
   }, [documentTitle]);
@@ -32,7 +35,7 @@ export function PrintPage({ themeClassName, documentTitle, pageSize, hint, contr
         <button type="button" onClick={() => window.print()} className="print-card-toolbar__primary">
           Imprimir / Descargar PDF
         </button>
-        <Link to=".." relative="path" className="print-card-toolbar__link">
+        <Link href={invitationUrl} className="print-card-toolbar__link">
           Ver invitación digital
         </Link>
         <p className="print-card-toolbar__hint">{hint}</p>

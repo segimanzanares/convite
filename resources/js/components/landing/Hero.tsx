@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from '@inertiajs/react';
 import { buildWhatsappUrl } from '../../config/contact';
 import convitePetal from '../../assets/images/convite-icon.png';
 import { ACCENT_CLASSES, type Accent } from './accents';
@@ -60,7 +60,7 @@ export function Hero() {
                 Cotiza tu invitación
               </a>
               <Link
-                to="/i/demo"
+                href="/i/demo"
                 className="font-jost text-[11px] tracking-[0.35em] uppercase text-primary border border-primary/40 py-4 px-9 transition-colors duration-200 hover:bg-primary/5"
               >
                 Ver invitación de ejemplo
@@ -101,7 +101,7 @@ export function Hero() {
               aria-hidden="true"
             />
             <Link
-              to="/i/demo"
+              href="/i/demo"
               className="group relative block rounded-[1.75rem] border border-primary/15 bg-primary p-3 shadow-[0_30px_60px_-15px_rgba(42,26,43,0.45)] transition-transform duration-300 hover:-translate-y-1"
             >
               <div className="rounded-[1.35rem] border border-gold/30 bg-[linear-gradient(175deg,var(--color-ivory),var(--color-cream))] px-8 py-12 text-center">
