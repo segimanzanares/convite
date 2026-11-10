@@ -1,6 +1,11 @@
 import { usePetals } from '../../hooks/usePetals';
 
-export function FloatingPetals() {
+interface FloatingPetalsProps {
+  /** Glyphs to float down the page; defaults to the flower set from usePetals. */
+  symbols?: string[];
+}
+
+export function FloatingPetals({ symbols }: FloatingPetalsProps = {}) {
   const petals = usePetals();
 
   return (
@@ -19,7 +24,7 @@ export function FloatingPetals() {
             fontSize: `${petal.fontSize}px`,
           }}
         >
-          {petal.symbol}
+          {symbols ? symbols[petal.id % symbols.length] : petal.symbol}
         </div>
       ))}
     </div>
