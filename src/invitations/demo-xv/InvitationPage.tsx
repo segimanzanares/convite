@@ -13,7 +13,6 @@ import { VenuesSection } from '../../components/venues/VenuesSection';
 import { ProgramTimeline } from '../../components/program/ProgramTimeline';
 import { Countdown } from '../../components/countdown/Countdown';
 import { DressCodeSection } from '../../components/dresscode/DressCodeSection';
-import { DressCodePalette } from '../../components/dresscode/DressCodePalette';
 import { GiftsSection } from '../../components/gifts/GiftsSection';
 import { Footer } from '../../components/footer/Footer';
 import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/MusicPlayer';
@@ -24,7 +23,6 @@ import {
   CHAPTERS,
   DOTTED_DATE,
   DRESS_CODE,
-  DRESS_CODE_SWATCHES,
   GALLERY_IMAGES,
   GIFTS,
   GODPARENTS,
@@ -122,10 +120,6 @@ export function InvitationPage() {
       </div>
 
       <DressCodeSection dressCode={DRESS_CODE} />
-      <DressCodePalette
-        swatches={DRESS_CODE_SWATCHES}
-        intro="Inspirados en un jardín al anochecer, te sugerimos estos tonos para tu vestimenta."
-      />
 
       <div id="deseos" className={ANCHOR}>
         <GiftsSection
