@@ -11,6 +11,7 @@ export const planFeatureLabels: Record<PlanFeature, string> = {
     online_rsvp: 'Confirmaciones en línea',
     print_card: 'Tarjeta imprimible',
     guest_passes: 'Pases imprimibles',
+    custom_design: 'Diseño personalizado',
 };
 
 export const orderStatusLabels: Record<OrderStatus, string> = {

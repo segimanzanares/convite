@@ -2,7 +2,8 @@ export type PlanFeature =
     | 'guest_management'
     | 'online_rsvp'
     | 'print_card'
-    | 'guest_passes';
+    | 'guest_passes'
+    | 'custom_design';
 
 export type Plan = {
     id: number;

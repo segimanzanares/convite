@@ -14,12 +14,17 @@ class PlanSeeder extends Seeder
      */
     public function run(): void
     {
+        $catalogFeatures = array_values(array_filter(
+            PlanFeature::cases(),
+            fn (PlanFeature $feature): bool => $feature !== PlanFeature::CustomDesign,
+        ));
+
         $plans = [
             [
                 'slug' => 'basico',
                 'name' => 'Básico',
-                'price' => 1500,
-                'description' => 'Invitación digital a medida con confirmación de asistencia por WhatsApp.',
+                'price' => 499,
+                'description' => 'Elijan un diseño de nuestro catálogo y lo personalizamos con los datos de su evento.',
                 'max_guests' => null,
                 'features' => [],
                 'sort_order' => 1,
@@ -27,20 +32,29 @@ class PlanSeeder extends Seeder
             [
                 'slug' => 'estandar',
                 'name' => 'Estándar',
-                'price' => 2500,
-                'description' => 'Todo lo del plan Básico, más lista de invitados con enlaces personalizados y confirmaciones en línea.',
-                'max_guests' => 100,
-                'features' => [PlanFeature::GuestManagement, PlanFeature::OnlineRsvp],
+                'price' => 899,
+                'description' => 'Todo lo del plan Básico, más tarjeta y pases imprimibles.',
+                'max_guests' => null,
+                'features' => [PlanFeature::PrintCard, PlanFeature::GuestPasses],
                 'sort_order' => 2,
             ],
             [
                 'slug' => 'premium',
                 'name' => 'Premium',
-                'price' => 3500,
-                'description' => 'Todo lo del plan Estándar, más tarjeta y pases imprimibles.',
-                'max_guests' => 250,
-                'features' => PlanFeature::cases(),
+                'price' => 1599,
+                'description' => 'Todo lo del plan Estándar, más lista de invitados con enlaces personalizados y confirmaciones en línea.',
+                'max_guests' => 100,
+                'features' => $catalogFeatures,
                 'sort_order' => 3,
+            ],
+            [
+                'slug' => 'exclusivo',
+                'name' => 'Exclusivo',
+                'price' => 2099,
+                'description' => 'Todo lo del plan Premium sin límite de invitados, con un diseño creado solo para su evento.',
+                'max_guests' => null,
+                'features' => PlanFeature::cases(),
+                'sort_order' => 4,
             ],
         ];
 

@@ -7,11 +7,13 @@ import { ACCENT_CLASSES, type Accent } from './accents';
 
 const ACCENTS: Accent[] = ['gold', 'terracotta', 'rose', 'teal'];
 
-const FEATURE_LABELS: Record<PlanFeature, string> = {
+const FEATURE_LABELS: Record<PlanFeature | 'catalog_design', string> = {
+  catalog_design: 'Invitación digital con un diseño de nuestro catálogo',
   guest_management: 'Lista de invitados con enlaces personalizados',
   online_rsvp: 'Confirmaciones en línea en tu panel',
   print_card: 'Tarjeta imprimible',
   guest_passes: 'Pases imprimibles para tus invitados',
+  custom_design: 'Diseño exclusivo creado para su evento',
 };
 
 export function Pricing({ plans }: { plans: Plan[] }) {
@@ -29,10 +31,14 @@ export function Pricing({ plans }: { plans: Plan[] }) {
           const accent = ACCENT_CLASSES[ACCENTS[index % ACCENTS.length]];
           const whatsappUrl = buildWhatsappUrl(`Hola 👋 Me interesa el plan ${plan.name} para mi evento.`);
           const includes = [
-            'Invitación digital a medida',
+            FEATURE_LABELS[plan.features.includes('custom_design') ? 'custom_design' : 'catalog_design'],
             plan.features.includes('online_rsvp') ? null : 'Confirmación de asistencia por WhatsApp',
-            plan.max_guests ? `Hasta ${plan.max_guests} invitaciones personalizadas` : null,
-            ...plan.features.map((feature) => FEATURE_LABELS[feature]),
+            plan.max_guests
+              ? `Hasta ${plan.max_guests} invitaciones personalizadas`
+              : plan.features.includes('guest_management')
+                ? 'Invitaciones personalizadas sin límite'
+                : null,
+            ...plan.features.filter((feature) => feature !== 'custom_design').map((feature) => FEATURE_LABELS[feature]),
           ].filter((item): item is string => item !== null);
 
           return (

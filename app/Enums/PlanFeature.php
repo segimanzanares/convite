@@ -16,6 +16,9 @@ enum PlanFeature: string
     /** Printable guest passes served at /i/{slug}/pases. */
     case GuestPasses = 'guest_passes';
 
+    /** The invitation gets a design made for the client (an exclusive template) instead of one from the catalog. */
+    case CustomDesign = 'custom_design';
+
     /**
      * Whether a plan with this feature gives the client an account for the panel.
      */
