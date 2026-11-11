@@ -20,6 +20,8 @@ export type InvitationTemplate = {
     kind: InvitationKind;
     /** The optional sections its design shows. */
     sections: InvitationSection[];
+    /** Made for one client: only offered to the invitation that uses it. */
+    exclusive: boolean;
 };
 
 export type Invitation = {

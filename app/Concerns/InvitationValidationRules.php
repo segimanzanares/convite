@@ -21,7 +21,7 @@ trait InvitationValidationRules
     {
         return [
             'slug' => ['required', 'string', 'max:255', 'alpha_dash', Rule::unique(Invitation::class)->ignore($invitation?->id)],
-            'template' => ['required', 'string', Rule::in(array_keys(Invitation::templates()))],
+            'template' => ['required', 'string', Rule::in(array_keys(Invitation::assignableTemplates($invitation)))],
             'order_id' => ['nullable', 'integer', Rule::exists(Order::class, 'id')],
             'event_date' => ['nullable', 'required_if:status,'.InvitationStatus::Published->value, 'date_format:Y-m-d'],
             'event_time' => ['nullable', 'required_if:status,'.InvitationStatus::Published->value, 'date_format:H:i'],

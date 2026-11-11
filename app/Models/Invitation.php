@@ -264,10 +264,25 @@ class Invitation extends Model
     }
 
     /**
-     * The templates that can be assigned to an invitation: every folder that ships an InvitationPage and declares
-     * its kind in a template.json manifest, keyed by folder name.
+     * The templates the given invitation may use: every template that is not exclusive, plus the one it already
+     * uses. A new invitation (null) only gets the shared ones.
      *
-     * @return array<string, array{kind: InvitationKind, label: string, sections: list<string>}>
+     * @return array<string, array{kind: InvitationKind, label: string, sections: list<string>, exclusive: bool}>
+     */
+    public static function assignableTemplates(?self $invitation = null): array
+    {
+        return array_filter(
+            self::templates(),
+            fn (array $template, string $name) => ! $template['exclusive'] || $name === $invitation?->template,
+            ARRAY_FILTER_USE_BOTH,
+        );
+    }
+
+    /**
+     * Every template: each folder that ships an InvitationPage and declares its kind in a template.json manifest,
+     * keyed by folder name. A design made for one client sets "exclusive": true, so other invitations cannot pick it.
+     *
+     * @return array<string, array{kind: InvitationKind, label: string, sections: list<string>, exclusive: bool}>
      */
     public static function templates(): array
     {
@@ -287,6 +302,7 @@ class Invitation extends Model
                     'kind' => $kind,
                     'label' => (string) ($manifest['label'] ?? basename($folder)),
                     'sections' => array_values(array_intersect($manifest['sections'] ?? [], self::SECTIONS)),
+                    'exclusive' => (bool) ($manifest['exclusive'] ?? false),
                 ];
             }
 

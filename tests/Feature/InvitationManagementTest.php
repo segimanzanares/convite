@@ -6,6 +6,7 @@ use App\Models\Invitation;
 use App\Models\Order;
 use App\Models\Plan;
 use App\Models\User;
+use Illuminate\Support\Facades\File;
 use Inertia\Testing\AssertableInertia as Assert;
 
 /**
@@ -98,3 +99,32 @@ it('serves the printable pages only when the plan of the order includes them', f
     'print card only' => [[PlanFeature::PrintCard], 200, 404],
     'guest passes only' => [[PlanFeature::GuestPasses], 404, 200],
 ]);
+
+it('only offers an exclusive template to the invitation that uses it', function () {
+    $folder = resource_path('js/site/templates/test-exclusiva');
+    File::ensureDirectoryExists($folder);
+    File::put("{$folder}/InvitationPage.tsx", '');
+    File::put("{$folder}/template.json", json_encode(['kind' => 'wedding', 'label' => 'Boda de Ana', 'exclusive' => true]));
+
+    try {
+        $owner = Invitation::factory()->create(['template' => 'test-exclusiva']);
+        $other = Invitation::factory()->create();
+        $admin = User::factory()->create();
+
+        $this->actingAs($admin)
+            ->get(route('admin.invitations.edit', $other))
+            ->assertInertia(fn (Assert $page) => $page->where('templates', fn ($templates) => ! collect($templates)->contains('name', 'test-exclusiva')));
+        $this->actingAs($admin)
+            ->get(route('admin.invitations.edit', $owner))
+            ->assertInertia(fn (Assert $page) => $page->where('templates', fn ($templates) => collect($templates)->contains('name', 'test-exclusiva')));
+
+        $this->actingAs($admin)
+            ->post(route('admin.invitations.store'), invitationFields(['template' => 'test-exclusiva']))
+            ->assertSessionHasErrors('template');
+        $this->actingAs($admin)
+            ->put(route('admin.invitations.update', $owner), invitationFields(['slug' => $owner->slug, 'template' => 'test-exclusiva']))
+            ->assertSessionHasNoErrors();
+    } finally {
+        File::deleteDirectory($folder);
+    }
+});
