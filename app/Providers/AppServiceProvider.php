@@ -4,10 +4,13 @@ namespace App\Providers;
 
 use App\Models\User;
 use Carbon\CarbonImmutable;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -28,6 +31,15 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDefaults();
         $this->configureAuthorization();
+        $this->configureRateLimiting();
+    }
+
+    /**
+     * Answers from the public invitation pages need no account, so they are limited per visitor.
+     */
+    protected function configureRateLimiting(): void
+    {
+        RateLimiter::for('rsvp', fn (Request $request): Limit => Limit::perMinute(10)->by($request->ip()));
     }
 
     /**

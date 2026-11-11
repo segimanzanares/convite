@@ -52,5 +52,6 @@
     "Hello :name!": "¡Hola, :name!",
     "We created your account in the :app panel, where you can manage the guests and RSVPs of your invitation.": "Creamos tu cuenta en el panel de :app, donde podrás administrar los invitados y las confirmaciones de tu invitación.",
     "Choose my password": "Elegir mi contraseña",
-    "This link will expire in :count minutes. After that, you can request a new one with \"Forgot password?\" on the sign-in page.": "Este enlace vence en :count minutos. Después podrás pedir uno nuevo con \"¿Olvidaste tu contraseña?\" en la página de inicio de sesión."
+    "This link will expire in :count minutes. After that, you can request a new one with \"Forgot password?\" on the sign-in page.": "Este enlace vence en :count minutos. Después podrás pedir uno nuevo con \"¿Olvidaste tu contraseña?\" en la página de inicio de sesión.",
+    "The RSVP form is closed.": "El plazo para confirmar asistencia terminó."
 }

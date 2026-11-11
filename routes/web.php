@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\RsvpController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', LandingController::class)->name('landing');
@@ -10,7 +11,13 @@ Route::controller(InvitationController::class)->prefix('i/{invitation}')->name('
     Route::get('/', 'show')->name('show');
     Route::get('tarjeta', 'printCard')->name('print-card');
     Route::get('pases', 'guestPasses')->name('guest-passes');
+    // Personalized links. Declared after the fixed paths above so these win
+    Route::get('{token}', 'guest')->where('token', '[A-Za-z0-9]+')->name('guest');
 });
+
+Route::post('i/{invitation}/rsvp', [RsvpController::class, 'store'])
+    ->middleware(['invitation.feature:online_rsvp', 'throttle:rsvp'])
+    ->name('invitations.rsvp.store');
 
 /*
 | Admin panel. Fortify registers its authentication routes under the same

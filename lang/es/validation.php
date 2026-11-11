@@ -225,6 +225,9 @@ return [
         'rsvp_deadline' => 'fecha límite para confirmar',
         'title' => 'título',
         'og_image' => 'imagen para compartir',
+        'seats' => 'lugares',
+        'attending' => 'asistencia',
+        'message' => 'mensaje',
     ],
 
 ];

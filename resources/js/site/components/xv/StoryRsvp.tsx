@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { Reveal } from '../shared/Reveal';
 import { GardenVine } from './GardenVine';
 import { downloadEventCalendar, type CalendarOccasion } from '../../utils/calendar';
+import { seatsLabel, useOnlineRsvp } from '../../hooks/useOnlineRsvp';
 import type { Venue } from '../../types/wedding';
 
 interface StoryRsvpProps {
@@ -62,6 +63,161 @@ const CORNERS = [
 
 const FIELD_LABEL = 'block font-display text-[9px] tracking-[0.32em] uppercase text-[var(--text-muted)] mb-2';
 
+const STEP_BUTTON =
+  'w-10 h-10 rounded-full border border-gold/60 text-gold-deep text-xl leading-none flex items-center justify-center transition-colors duration-200 hover:bg-gold-deep hover:text-ivory disabled:opacity-30 disabled:pointer-events-none';
+
+const SUBMIT_BUTTON =
+  'group mt-8 w-full min-h-[64px] inline-flex items-center justify-center gap-2.5 sm:gap-3.5 px-4 sm:px-6 py-4 rounded-[3px] border border-gold-deep/60 bg-[linear-gradient(125deg,var(--dark-to),var(--dark-from))] text-[#fff7dc] font-display text-[10px] sm:text-[11px] tracking-[0.08em] sm:tracking-[0.16em] uppercase whitespace-nowrap shadow-[0_11px_25px_color-mix(in_srgb,var(--dark-from)_25%,transparent),inset_0_1px_0_rgba(255,255,255,0.18)] transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-gold-light hover:shadow-[0_17px_35px_color-mix(in_srgb,var(--dark-from)_35%,transparent),inset_0_1px_0_rgba(255,255,255,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-4 disabled:opacity-60 disabled:pointer-events-none';
+
+const SECONDARY_BUTTON =
+  'font-display text-[10px] tracking-[0.25em] uppercase border border-gold-deep/40 text-gold-deep py-3.5 px-6 transition-colors hover:bg-gold-deep/5';
+
+const CALENDAR_BUTTON =
+  'font-display text-[10px] tracking-[0.25em] uppercase bg-gold-deep text-ivory py-3.5 px-6 transition-colors hover:bg-[var(--dark-from)]';
+
+function FieldError({ message }: { message?: string }) {
+  return message ? <p className="text-[15px] italic text-[#a3412c] mt-2">{message}</p> : null;
+}
+
+/**
+ * The card's content when the invitation stores answers online: the guest of
+ * a personalized link answers for their reserved seats, anyone else through
+ * the open form.
+ */
+function OnlineStoryForm({
+  online,
+  calendar,
+  venues,
+}: {
+  online: ReturnType<typeof useOnlineRsvp>;
+  calendar?: CalendarOccasion;
+  venues?: Venue[];
+}) {
+  const { guest, form, setField, errors, isAnswered, isOpen, maxSeats } = online;
+  const firstName = (guest?.name ?? form.name).trim().split(/\s+/)[0];
+
+  if (isAnswered) {
+    return (
+      <div className="relative">
+        <p className="font-script text-[clamp(36px,8vw,48px)] text-gold-deep leading-tight">
+          {form.attending ? `¡Gracias, ${firstName}!` : '¡Gracias por avisarme!'}
+        </p>
+        <p className="text-[17px] italic text-[var(--text-body)] mt-2">
+          {form.attending
+            ? `Confirmaste ${form.seats === 1 ? '1 persona' : `${form.seats} personas`}. Ya cuento los días para celebrar contigo.`
+            : 'Te voy a extrañar esa noche.'}
+        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-7">
+          {form.attending && calendar && venues?.length ? (
+            <button type="button" onClick={() => downloadEventCalendar(calendar, venues)} className={CALENDAR_BUTTON}>
+              Añadir al calendario
+            </button>
+          ) : null}
+          {guest && isOpen ? (
+            <button type="button" onClick={online.editAnswer} className={SECONDARY_BUTTON}>
+              Cambiar respuesta
+            </button>
+          ) : null}
+        </div>
+      </div>
+    );
+  }
+
+  if (!isOpen) {
+    return <p className="relative font-script text-[clamp(30px,7vw,40px)] text-gold-deep leading-tight">El plazo para confirmar terminó.</p>;
+  }
+
+  const companions = form.seats - 1;
+
+  return (
+    <form onSubmit={online.submit} className="relative max-w-[410px] mx-auto text-left">
+      {guest ? (
+        <p className="text-center text-[18px] leading-[1.6] text-[var(--text-body)] mb-7">
+          <strong className="block font-semibold text-gold-deep text-[1.1em]">{guest.name}</strong>
+          Reservé {seatsLabel(guest.seats)} para ti.
+        </p>
+      ) : (
+        <>
+          <label htmlFor="rsvp-name" className={FIELD_LABEL}>
+            Tu nombre
+          </label>
+          <input
+            id="rsvp-name"
+            type="text"
+            required
+            autoComplete="name"
+            placeholder="Nombre y apellido"
+            value={form.name}
+            onChange={(event) => setField('name', event.target.value)}
+            className="w-full bg-transparent border-0 border-b border-gold/50 px-0 pb-2.5 pt-1 font-body text-[20px] text-ink placeholder:text-[var(--text-muted)]/60 placeholder:italic outline-none transition-colors focus:border-gold-deep"
+          />
+          <FieldError message={errors.name} />
+        </>
+      )}
+
+      <div className="grid grid-cols-2 gap-3 mt-7" role="radiogroup" aria-label="Asistencia">
+        {[
+          { value: true, label: 'Ahí estaré' },
+          { value: false, label: 'No podré ir' },
+        ].map((option) => (
+          <button
+            key={option.label}
+            type="button"
+            role="radio"
+            aria-checked={form.attending === option.value}
+            onClick={() => setField('attending', option.value)}
+            className={`font-display text-[10px] tracking-[0.2em] uppercase py-3.5 border transition-colors ${
+              form.attending === option.value ? 'bg-gold-deep text-ivory border-gold-deep' : 'border-gold/50 text-gold-deep hover:bg-gold-deep/5'
+            }`}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+
+      {form.attending && maxSeats > 1 ? (
+        <>
+          <div className="flex items-center justify-between gap-4 mt-7">
+            <span id="rsvp-guests-label" className={`${FIELD_LABEL} mb-0`}>
+              Acompañantes
+            </span>
+            <div className="flex items-center gap-4" role="group" aria-labelledby="rsvp-guests-label">
+              <button type="button" className={STEP_BUTTON} onClick={() => setField('seats', form.seats - 1)} disabled={companions === 0} aria-label="Quitar un acompañante">
+                −
+              </button>
+              <output aria-live="polite" className="w-8 text-center font-body text-[26px] text-gold-deep">
+                {companions}
+              </output>
+              <button type="button" className={STEP_BUTTON} onClick={() => setField('seats', form.seats + 1)} disabled={form.seats >= maxSeats} aria-label="Agregar un acompañante">
+                +
+              </button>
+            </div>
+          </div>
+          <p className="text-[14px] italic text-[var(--text-muted)] mt-2 text-right">Máximo {maxSeats - 1}, sin contarte a ti.</p>
+          <FieldError message={errors.seats} />
+        </>
+      ) : null}
+
+      <label htmlFor="rsvp-message" className={`${FIELD_LABEL} mt-7`}>
+        Un mensaje para mí (opcional)
+      </label>
+      <textarea
+        id="rsvp-message"
+        rows={2}
+        maxLength={1000}
+        value={form.message}
+        onChange={(event) => setField('message', event.target.value)}
+        className="w-full resize-none bg-transparent border-0 border-b border-gold/50 px-0 pb-2.5 pt-1 font-body text-[18px] text-ink outline-none transition-colors focus:border-gold-deep"
+      />
+      <FieldError message={errors.message ?? errors.rsvp} />
+
+      <button type="submit" className={SUBMIT_BUTTON} disabled={online.processing}>
+        {online.processing ? 'Enviando…' : 'Enviar confirmación'}
+      </button>
+    </form>
+  );
+}
+
 /**
  * RSVP as a stationery card: a light framed card with a monogram medallion,
  * a two-field form (name + companions) and a WhatsApp button that opens a
@@ -77,6 +233,7 @@ export function StoryRsvp({
   calendar,
   venues,
 }: StoryRsvpProps) {
+  const online = useOnlineRsvp();
   const [name, setName] = useState('');
   const [guests, setGuests] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -90,8 +247,7 @@ export function StoryRsvp({
     setIsSubmitted(true);
   };
 
-  const stepButton =
-    'w-10 h-10 rounded-full border border-gold/60 text-gold-deep text-xl leading-none flex items-center justify-center transition-colors duration-200 hover:bg-gold-deep hover:text-ivory disabled:opacity-30 disabled:pointer-events-none';
+  const stepButton = STEP_BUTTON;
 
   return (
     <section className="relative isolate overflow-hidden py-[100px] sm:py-[110px] px-5 bg-[linear-gradient(180deg,var(--color-cream)_0%,var(--color-gold-pale)_46%,var(--color-cream)_100%)]">
@@ -140,7 +296,9 @@ export function StoryRsvp({
             <span className="w-6 sm:w-11 h-px bg-[linear-gradient(270deg,transparent,var(--color-gold))]" />
           </div>
 
-          {!isSubmitted ? (
+          {online.isOnline ? (
+            <OnlineStoryForm online={online} calendar={calendar} venues={venues} />
+          ) : !isSubmitted ? (
             <form onSubmit={handleSubmit} className="relative max-w-[410px] mx-auto text-left">
               <label htmlFor="rsvp-name" className={FIELD_LABEL}>
                 Tu nombre
@@ -217,8 +375,12 @@ export function StoryRsvp({
 
           <p className="relative font-display text-[9px] leading-[1.9] tracking-[0.22em] uppercase text-gold-deep/70 mt-8">
             Confirma antes del <span className="whitespace-nowrap">{deadlineLabel}</span>
-            <br />
-            Confirmaciones · <span className="whitespace-nowrap">{formatPhone(whatsappNumber)}</span>
+            {!online.isOnline ? (
+              <>
+                <br />
+                Confirmaciones · <span className="whitespace-nowrap">{formatPhone(whatsappNumber)}</span>
+              </>
+            ) : null}
           </p>
           <p className="relative font-script text-[clamp(28px,6vw,34px)] text-gold mt-5">{signature}</p>
         </div>
