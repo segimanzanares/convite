@@ -1,7 +1,8 @@
-@import 'tailwindcss';
+@import 'tailwindcss' source(none);
 
-/* The admin panel has its own theme (resources/js/admin/app.css). */
-@source not './admin';
+/* Only the public site: the admin panel has its own theme (resources/js/admin/app.css). */
+@source '.';
+@source '../../views/app.blade.php';
 
 @theme {
   --color-gold: var(--gold);

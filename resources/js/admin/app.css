@@ -2,7 +2,7 @@
 
 @import 'tw-animate-css';
 
-/* Only the admin panel: the public site has its own theme (resources/js/index.css). */
+/* Only the admin panel: the public site has its own theme (resources/js/site/index.css). */
 @source '.';
 @source '../../views/admin.blade.php';
 

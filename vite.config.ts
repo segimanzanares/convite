@@ -12,7 +12,7 @@ export default defineConfig({
     laravel({
       // Public site and admin panel are separate Inertia apps (see
       // app/Http/Middleware/HandleInertiaRequests.php).
-      input: ['resources/js/app.tsx', 'resources/js/admin/app.tsx'],
+      input: ['resources/js/site/app.tsx', 'resources/js/admin/app.tsx'],
       refresh: true,
       // Admin panel font, loaded by @fonts in resources/views/admin.blade.php
       fonts: [

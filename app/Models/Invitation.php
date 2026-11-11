@@ -39,6 +39,6 @@ class Invitation extends Model
      */
     public function hasPage(string $page): bool
     {
-        return is_file(resource_path("js/{$this->component($page)}.tsx"));
+        return is_file(resource_path("js/site/{$this->component($page)}.tsx"));
     }
 }
