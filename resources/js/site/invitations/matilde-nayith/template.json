@@ -1,0 +1,10 @@
+{
+  "kind": "wedding",
+  "label": "Boda floral",
+  "sections": [
+    "venues",
+    "gallery",
+    "dress_code",
+    "swatches"
+  ]
+}

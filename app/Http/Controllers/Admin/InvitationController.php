@@ -89,7 +89,9 @@ class InvitationController extends Controller
             'invitations' => InvitationResource::collection($this->invitations->paginate()),
             'modal' => $modal,
             'invitation' => $invitation ? InvitationResource::make($invitation) : null,
-            'templates' => Invitation::templates(),
+            'templates' => collect(Invitation::templates())
+                ->map(fn (array $template, string $name) => ['name' => $name, ...$template])
+                ->values(),
             'orders' => $modal ? OrderResource::collection($this->invitations->linkableOrders()) : [],
         ]);
     }

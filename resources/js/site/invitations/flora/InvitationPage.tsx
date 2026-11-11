@@ -13,76 +13,78 @@ import { RsvpSection } from '../../components/rsvp/RsvpSection';
 import { Footer } from '../../components/footer/Footer';
 import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/MusicPlayer';
 import { useAutoScroll } from '../../hooks/useAutoScroll';
-import {
-  CELEBRANT,
-  DRESS_CODE,
-  DRESS_CODE_SWATCHES,
-  PROGRAM,
-  VENUES,
-} from './data';
+import { initials, toCelebrant } from '../../lib/eventContent';
+import type { BirthdayContent } from '../../types/invitation';
 import bgHero from './images/bg-hero.jpeg';
 import './theme.css';
 import { FloralPageOrnamentBorder } from '../../components/layout/FloralPageOrnamentBorder';
 
-export function InvitationPage() {
+export function InvitationPage({ invitation }: { invitation: BirthdayContent }) {
   const musicPlayerRef = useRef<MusicPlayerHandle>(null);
   const [autoScrollActive, setAutoScrollActive] = useState(false);
+  const celebrant = toCelebrant(invitation);
 
   useEffect(() => {
-    document.title = `${CELEBRANT.name} — ${CELEBRANT.age} años`;
-  }, []);
+    document.title = `${celebrant.name} — ${celebrant.age} años`;
+  }, [celebrant.name, celebrant.age]);
 
   useAutoScroll({ active: autoScrollActive, speed: 60 });
 
   return (
     <div className="theme-flora bg-ivory text-ink">
       <Envelope
-        monogram="LS"
-        title={`${CELEBRANT.firstName} · ${CELEBRANT.age} años`}
-        ariaName={CELEBRANT.name}
+        monogram={initials(...celebrant.name.split(/\s+/).slice(0, 2))}
+        title={`${celebrant.firstName} · ${celebrant.age} años`}
+        ariaName={celebrant.name}
         onOpen={() => musicPlayerRef.current?.play()}
         onOpened={() => setAutoScrollActive(true)}
       />
-      <MusicPlayer ref={musicPlayerRef} src={CELEBRANT.musicFile} position="bottom-center" />
+      <MusicPlayer ref={musicPlayerRef} src={celebrant.musicFile} position="bottom-center" />
       <FloralPageOrnamentBorder />
       <FloatingPetals />
-      <BirthdayHero celebrant={CELEBRANT} backgroundImageUrl={bgHero} />
+      <BirthdayHero celebrant={celebrant} backgroundImageUrl={invitation.cover ?? bgHero} />
       <InvitationMessage
         eyebrow="La invitación"
         title="Celebremos su vida"
-        message={`Setenta y seis años de vida, de amor y de historias compartidas. Con el corazón lleno de gratitud, queremos invitarte a celebrar junto a nuestra querida ${CELEBRANT.firstName} un día para agradecer, abrazarla y seguir sembrando recuerdos en familia.`}
-        signature={CELEBRANT.hosts}
+        message={
+          invitation.message ||
+          `Con el corazón lleno de gratitud, queremos invitarte a celebrar junto a ${celebrant.firstName} un día para agradecer, abrazarla y seguir sembrando recuerdos en familia.`
+        }
+        signature={celebrant.hosts}
       />
-      <FullDivider text={`${CELEBRANT.firstName} · ${CELEBRANT.age}`} />
-      <VenuesSection
-        venues={VENUES}
-        eyebrow="La celebración"
-        intro="Con mucho cariño, les compartimos los lugares donde celebraremos juntos este día tan especial."
-      />
-      <ProgramTimeline
-        items={PROGRAM}
-        intro="Así viviremos este día tan especial, momento a momento."
-      />
-      <Countdown targetDateTime={CELEBRANT.eventDateTime} headingTone="dark" />
-      <DressCodeSection dressCode={DRESS_CODE} />
-      <DressCodePalette
-        swatches={DRESS_CODE_SWATCHES}
-        intro="Inspirados en las flores que siempre la han acompañado, sugerimos los siguientes tonos para su vestimenta."
-      />
+      <FullDivider text={`${celebrant.firstName} · ${celebrant.age}`} />
+      {invitation.venues.length > 0 && (
+        <VenuesSection
+          venues={invitation.venues}
+          eyebrow="La celebración"
+          intro="Con mucho cariño, les compartimos los lugares donde celebraremos juntos este día tan especial."
+        />
+      )}
+      {invitation.program.length > 0 && (
+        <ProgramTimeline items={invitation.program} intro="Así viviremos este día tan especial, momento a momento." />
+      )}
+      {invitation.eventAt && <Countdown targetDateTime={invitation.eventAt} headingTone="dark" />}
+      {invitation.dressCode && <DressCodeSection dressCode={invitation.dressCode} />}
+      {invitation.swatches.length > 0 && (
+        <DressCodePalette
+          swatches={invitation.swatches}
+          intro="Inspirados en las flores que siempre la han acompañado, sugerimos los siguientes tonos para su vestimenta."
+        />
+      )}
       <RsvpSection
-        whatsappNumber={CELEBRANT.rsvpWhatsappNumber}
-        deadlineLabel={CELEBRANT.rsvpDeadlineLabel}
+        whatsappNumber={celebrant.rsvpWhatsappNumber}
+        deadlineLabel={celebrant.rsvpDeadlineLabel}
         calendar={{
-          dateTime: CELEBRANT.eventDateTime,
-          name: `Cumpleaños ${CELEBRANT.age} de ${CELEBRANT.name}`,
+          dateTime: celebrant.eventDateTime,
+          name: `Cumpleaños ${celebrant.age} de ${celebrant.name}`,
           fileName: 'cumpleanos.ics',
         }}
-        venues={VENUES}
+        venues={invitation.venues}
       />
       <Footer
-        title={CELEBRANT.name}
-        dateLabel={CELEBRANT.footerDateLabel}
-        tagline={`${CELEBRANT.age} años de amor · Gracias por tanto`}
+        title={celebrant.name}
+        dateLabel={celebrant.footerDateLabel}
+        tagline={invitation.tagline || `${celebrant.age} años de amor · Gracias por tanto`}
       />
     </div>
   );

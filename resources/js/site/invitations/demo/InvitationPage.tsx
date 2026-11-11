@@ -15,63 +15,55 @@ import { Footer } from '../../components/footer/Footer';
 import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/MusicPlayer';
 import { ProgramTimeline } from '../../components/program/ProgramTimeline';
 import { useAutoScroll } from '../../hooks/useAutoScroll';
-import {
-  COUPLE,
-  DRESS_CODE,
-  DRESS_CODE_SWATCHES,
-  GALLERY_IMAGES,
-  GIFTS,
-  PROGRAM,
-  VENUES,
-} from './data';
+import { initials, toCouple } from '../../lib/eventContent';
+import type { WeddingContent } from '../../types/invitation';
 import bgHero from './images/bg-hero.jpeg';
 import './theme.css';
 import { FloralPageOrnamentBorder } from '../../components/layout/FloralPageOrnamentBorder';
 
-const COUPLE_TITLE = `${COUPLE.names[0]} & ${COUPLE.names[1]}`;
-
-export function InvitationPage() {
+export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
   const musicPlayerRef = useRef<MusicPlayerHandle>(null);
   const [autoScrollActive, setAutoScrollActive] = useState(false);
+  const couple = toCouple(invitation);
+  const coupleTitle = `${couple.names[0]} & ${couple.names[1]}`;
 
   useEffect(() => {
-    document.title = `${COUPLE_TITLE} — Nuestra Boda`;
-  }, []);
+    document.title = `${coupleTitle} — Nuestra Boda`;
+  }, [coupleTitle]);
 
   useAutoScroll({ active: autoScrollActive, speed: 100 });
 
   return (
     <div className="theme-demo">
       <Envelope
-        monogram={`${COUPLE.names[0].charAt(0)}${COUPLE.names[1].charAt(0)}`}
-        title={COUPLE_TITLE}
-        ariaName={`${COUPLE.names[0]} y ${COUPLE.names[1]}`}
+        monogram={initials(...couple.names)}
+        title={coupleTitle}
+        ariaName={`${couple.names[0]} y ${couple.names[1]}`}
         onOpen={() => musicPlayerRef.current?.play()}
         onOpened={() => setAutoScrollActive(true)}
       />
-      <MusicPlayer ref={musicPlayerRef} src={COUPLE.musicFile} position="bottom-center" />
+      <MusicPlayer ref={musicPlayerRef} src={couple.musicFile} position="bottom-center" />
       <FloralPageOrnamentBorder />
       <FloatingPetals />
-      <Hero couple={COUPLE} backgroundImageUrl={bgHero} />
-      <CoupleMessage couple={COUPLE} />
-      <FullDivider text={COUPLE_TITLE} />
-      <VenuesSection venues={VENUES} />
-      <ProgramTimeline
-        items={PROGRAM}
-        intro="Así viviremos este día tan especial, momento a momento."
-      />
-      <Countdown targetDateTime={COUPLE.weddingDateTime} />
-      <Gallery images={GALLERY_IMAGES} />
-      <DressCodeSection dressCode={DRESS_CODE} />
-      <DressCodePalette swatches={DRESS_CODE_SWATCHES} />
-      <GiftsSection gifts={GIFTS} />
+      <Hero couple={couple} backgroundImageUrl={invitation.cover ?? bgHero} />
+      <CoupleMessage couple={couple} message={invitation.message} />
+      <FullDivider text={coupleTitle} />
+      {invitation.venues.length > 0 && <VenuesSection venues={invitation.venues} />}
+      {invitation.program.length > 0 && (
+        <ProgramTimeline items={invitation.program} intro="Así viviremos este día tan especial, momento a momento." />
+      )}
+      {invitation.eventAt && <Countdown targetDateTime={invitation.eventAt} />}
+      {invitation.gallery.length > 0 && <Gallery images={invitation.gallery} />}
+      {invitation.dressCode && <DressCodeSection dressCode={invitation.dressCode} />}
+      {invitation.swatches.length > 0 && <DressCodePalette swatches={invitation.swatches} />}
+      {invitation.gifts.length > 0 && <GiftsSection gifts={invitation.gifts} />}
       <RsvpSection
-        whatsappNumber={COUPLE.rsvpWhatsappNumber}
-        deadlineLabel={COUPLE.rsvpDeadlineLabel}
-        calendar={{ dateTime: COUPLE.weddingDateTime, name: `Boda ${COUPLE_TITLE}`, fileName: 'boda.ics' }}
-        venues={VENUES}
+        whatsappNumber={couple.rsvpWhatsappNumber}
+        deadlineLabel={couple.rsvpDeadlineLabel}
+        calendar={{ dateTime: couple.weddingDateTime, name: `Boda ${coupleTitle}`, fileName: 'boda.ics' }}
+        venues={invitation.venues}
       />
-      <Footer title={COUPLE_TITLE} dateLabel={COUPLE.footerDateLabel} />
+      <Footer title={coupleTitle} dateLabel={couple.footerDateLabel} tagline={invitation.tagline ?? undefined} />
     </div>
   );
 }

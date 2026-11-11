@@ -17,145 +17,173 @@ import { GiftsSection } from '../../components/gifts/GiftsSection';
 import { Footer } from '../../components/footer/Footer';
 import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/MusicPlayer';
 import { useAutoScroll } from '../../hooks/useAutoScroll';
-import {
-  CARD_DATE,
-  CELEBRANT,
-  CHAPTERS,
-  DOTTED_DATE,
-  DRESS_CODE,
-  GALLERY_IMAGES,
-  GIFTS,
-  GODPARENTS,
-  HERO_PHOTO,
-  MONOGRAM,
-  PARENTS,
-  PROGRAM,
-  SHORT_DATE,
-  STORY,
-  VENUES,
-} from './data';
+import { eventDates, formatDate, initials, toCelebrant } from '../../lib/eventContent';
+import type { XvContent } from '../../types/invitation';
+import type { ChapterLink } from '../../components/xv/ChapterNav';
 import './theme.css';
 
 const FALLING_SPARKLES = ['✦', '❀', '✧', '❦', '✿'];
+
+const CHAPTERS: (ChapterLink & { section?: 'story' | 'gallery' | 'gifts' })[] = [
+  { href: '#historia', label: 'Mi historia', section: 'story' },
+  { href: '#celebracion', label: 'La celebración' },
+  { href: '#galeria', label: 'Galería', section: 'gallery' },
+  { href: '#deseos', label: 'Mis deseos', section: 'gifts' },
+  { href: '#confirmar', label: 'Confirmar' },
+];
 // Sections get a top offset so the fixed chapter bar doesn't cover their heading.
 const ANCHOR = 'scroll-mt-12';
 
-export function InvitationPage() {
+export function InvitationPage({ invitation }: { invitation: XvContent }) {
   const musicPlayerRef = useRef<MusicPlayerHandle>(null);
   const [autoScrollActive, setAutoScrollActive] = useState(false);
+  const celebrant = toCelebrant(invitation);
+  const { eventDate } = eventDates(invitation);
+  const monogram = invitation.monogram || initials(...celebrant.name.split(/\s+/).slice(0, 2));
+  /** e.g. "sábado 05 de diciembre de 2026" */
+  const dateLabel = formatDate(eventDate, "EEEE dd 'de' MMMM 'de' yyyy");
+  /** e.g. "05 · DIC · 2026" */
+  const shortDate = formatDate(eventDate, "dd '·' MMM '·' yyyy").replace('.', '').toUpperCase();
+  /** e.g. "05.12.2026" */
+  const dottedDate = formatDate(eventDate, 'dd.MM.yyyy');
+  /** e.g. "Sábado · 09 enero 2027" */
+  const cardDate = formatDate(eventDate, "EEEE '·' dd MMMM yyyy").replace(/^./, (c) => c.toUpperCase());
+  const hasSection = { story: invitation.story !== null, gallery: invitation.gallery.length > 0, gifts: invitation.gifts.length > 0 };
+  const chapters = CHAPTERS.filter((chapter) => !chapter.section || hasSection[chapter.section]);
 
   useEffect(() => {
-    document.title = `${CELEBRANT.name} — Mis XV Años`;
-  }, []);
+    document.title = `${celebrant.name} — Mis XV Años`;
+  }, [celebrant.name]);
 
   useAutoScroll({ active: autoScrollActive, speed: 100 });
 
   return (
     <div className="theme-demo-xv bg-ivory text-ink">
       <StoryCover
-        monogram={MONOGRAM}
-        name={CELEBRANT.name}
-        subtitle={`Mis XV años · ${DOTTED_DATE}`}
-        ariaName={CELEBRANT.name}
+        monogram={monogram}
+        name={celebrant.name}
+        subtitle={`Mis XV años · ${dottedDate}`}
+        ariaName={celebrant.name}
         onOpen={() => musicPlayerRef.current?.play()}
         onOpened={() => setAutoScrollActive(true)}
       />
-      <ChapterNav monogram={MONOGRAM} links={CHAPTERS} />
-      <MusicPlayer ref={musicPlayerRef} src={CELEBRANT.musicFile} position="bottom-center" />
+      <ChapterNav monogram={monogram} links={chapters} />
+      <MusicPlayer ref={musicPlayerRef} src={celebrant.musicFile} position="bottom-center" />
       <FloatingPetals symbols={FALLING_SPARKLES} />
 
       <div id="inicio">
         <XvHero
-          name={CELEBRANT.name}
+          name={celebrant.name}
           eyebrow="Una noche en el jardín encantado"
-          shortDate={SHORT_DATE}
-          dateLabel={CELEBRANT.dateLabel}
-          storyHref="#historia"
+          shortDate={shortDate}
+          dateLabel={dateLabel}
+          storyHref={invitation.story ? '#historia' : '#celebracion'}
           rsvpHref="#confirmar"
-          photo={HERO_PHOTO}
+          photo={invitation.heroPhoto ?? undefined}
         />
       </div>
 
-      <StoryChapter id="historia" {...STORY} />
+      {invitation.story && (
+        <StoryChapter id="historia" {...invitation.story} photo={invitation.story.photo ?? undefined} />
+      )}
 
-      <HonorSection
-        eyebrow="Una noche más especial"
-        title="Junto a quienes amo"
-        intro="Con la bendición de Dios y el amor de mi familia, tengo el honor de invitarte a celebrar conmigo."
-        featured={PARENTS}
-        groups={GODPARENTS}
-      />
+      {invitation.parents && (
+        <HonorSection
+          eyebrow="Una noche más especial"
+          title="Junto a quienes amo"
+          intro="Con la bendición de Dios y el amor de mi familia, tengo el honor de invitarte a celebrar conmigo."
+          featured={invitation.parents}
+          groups={invitation.godparents}
+        />
+      )}
 
-      <FullDivider text={`${CELEBRANT.firstName} · XV`} />
+      <FullDivider text={`${celebrant.firstName} · XV`} />
 
       <div id="celebracion" className={ANCHOR}>
-        <VenuesSection
-          venues={VENUES}
-          eyebrow="La gran noche"
-          title="La celebración"
-          intro="Estos son los lugares donde comenzará y continuará nuestro cuento."
-        />
-        <ProgramTimeline
-          items={PROGRAM}
-          eyebrow="Así será la noche"
-          title="Programa"
-          intro="Cada momento ha sido pensado para compartirlo contigo."
-        />
+        {invitation.venues.length > 0 && (
+          <VenuesSection
+            venues={invitation.venues}
+            eyebrow="La gran noche"
+            title="La celebración"
+            intro="Estos son los lugares donde comenzará y continuará nuestro cuento."
+          />
+        )}
+        {invitation.program.length > 0 && (
+          <ProgramTimeline
+            items={invitation.program}
+            eyebrow="Así será la noche"
+            title="Programa"
+            intro="Cada momento ha sido pensado para compartirlo contigo."
+          />
+        )}
       </div>
 
-      <Countdown
-        targetDateTime={CELEBRANT.eventDateTime}
-        eyebrow="Faltan"
-        title="Cada segundo, más cerca del sueño"
-        headingTone="dark"
-      />
-
-      <div id="galeria" className={ANCHOR}>
-        <StoryGallery
-          images={GALLERY_IMAGES}
-          eyebrow="Fragmentos de mi historia"
-          title="Mis momentos favoritos"
-          intro="Quince años de momentos que me trajeron hasta aquí."
+      {invitation.eventAt && (
+        <Countdown
+          targetDateTime={invitation.eventAt}
+          eyebrow="Faltan"
+          title="Cada segundo, más cerca del sueño"
+          headingTone="dark"
         />
-      </div>
+      )}
 
-      <DressCodeSection dressCode={DRESS_CODE} />
+      {hasSection.gallery && (
+        <div id="galeria" className={ANCHOR}>
+          <StoryGallery
+            images={invitation.gallery}
+            eyebrow="Fragmentos de mi historia"
+            title="Mis momentos favoritos"
+            intro="Quince años de momentos que me trajeron hasta aquí."
+          />
+        </div>
+      )}
 
-      <div id="deseos" className={ANCHOR}>
-        <GiftsSection
-          gifts={GIFTS}
-          eyebrow="Mis deseos"
-          title="Un detalle para mí"
-          intro={[
-            'Tu presencia es el regalo más bonito de esta noche.',
-            'Si además deseas obsequiarme algo, puedes hacerlo así:',
-          ]}
-        />
-      </div>
+      {invitation.dressCode && <DressCodeSection dressCode={invitation.dressCode} />}
+
+      {hasSection.gifts && (
+        <div id="deseos" className={ANCHOR}>
+          <GiftsSection
+            gifts={invitation.gifts}
+            eyebrow="Mis deseos"
+            title="Un detalle para mí"
+            intro={[
+              'Tu presencia es el regalo más bonito de esta noche.',
+              'Si además deseas obsequiarme algo, puedes hacerlo así:',
+            ]}
+          />
+        </div>
+      )}
 
       <div id="confirmar" className={ANCHOR}>
         <StoryRsvp
-          whatsappNumber={CELEBRANT.rsvpWhatsappNumber}
-          celebrantName={CELEBRANT.name}
-          dateLabel={CARD_DATE}
-          deadlineLabel={CELEBRANT.rsvpDeadlineLabel}
-          signature={`Con cariño, ${CELEBRANT.firstName}`}
+          whatsappNumber={celebrant.rsvpWhatsappNumber}
+          celebrantName={celebrant.name}
+          dateLabel={cardDate}
+          deadlineLabel={celebrant.rsvpDeadlineLabel}
+          signature={`Con cariño, ${celebrant.firstName}`}
           calendar={{
-            dateTime: CELEBRANT.eventDateTime,
-            name: `XV años de ${CELEBRANT.name}`,
+            dateTime: celebrant.eventDateTime,
+            name: `XV años de ${celebrant.name}`,
             fileName: 'xv-anos.ics',
           }}
-          venues={VENUES}
+          venues={invitation.venues}
         />
       </div>
 
       <ClosingChapter
-        message="…este cuento apenas comienza, y no hay mejor forma de escribir su siguiente página que a tu lado."
-        signature={CELEBRANT.name}
-        dateLabel={CELEBRANT.footerDateLabel}
+        message={
+          invitation.closingMessage ||
+          '…este cuento apenas comienza, y no hay mejor forma de escribir su siguiente página que a tu lado.'
+        }
+        signature={celebrant.name}
+        dateLabel={celebrant.footerDateLabel}
       />
 
-      <Footer title={CELEBRANT.name} dateLabel={CELEBRANT.footerDateLabel} tagline="Una noche para recordar" />
+      <Footer
+        title={celebrant.name}
+        dateLabel={celebrant.footerDateLabel}
+        tagline={invitation.tagline || 'Una noche para recordar'}
+      />
     </div>
   );
 }

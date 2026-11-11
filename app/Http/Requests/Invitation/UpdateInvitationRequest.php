@@ -25,6 +25,6 @@ class UpdateInvitationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return $this->invitationRules($this->route('invitation')->id);
+        return $this->invitationRules($this->route('invitation'));
     }
 }

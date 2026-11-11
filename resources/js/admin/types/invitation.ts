@@ -3,15 +3,37 @@ import type { PlanFeature } from './plan';
 
 export type InvitationStatus = 'draft' | 'published' | 'archived';
 
+export type InvitationKind = 'wedding' | 'birthday' | 'xv';
+
+export type InvitationSection =
+    | 'venues'
+    | 'program'
+    | 'gallery'
+    | 'dress_code'
+    | 'swatches'
+    | 'gifts';
+
+/** A design under resources/js/site/invitations, as its template.json declares it. */
+export type InvitationTemplate = {
+    name: string;
+    label: string;
+    kind: InvitationKind;
+    /** The optional sections its design shows. */
+    sections: InvitationSection[];
+};
+
 export type Invitation = {
     id: number;
     slug: string;
     /** Public URL of the invitation. */
     url: string;
     template: string;
+    kind: InvitationKind | null;
     client_id: number | null;
     order_id: number | null;
     event_date: string | null;
+    /** "HH:mm" */
+    event_time: string | null;
     rsvp_deadline: string | null;
     status: InvitationStatus;
     title: string;

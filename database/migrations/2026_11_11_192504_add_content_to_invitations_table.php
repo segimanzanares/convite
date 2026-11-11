@@ -1,0 +1,30 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('invitations', function (Blueprint $table) {
+            $table->time('event_time')->nullable()->after('event_date');
+            // Names, venues, program, gallery... as the admin captures them; its shape depends on the template's kind
+            $table->jsonb('content')->nullable()->after('og_image');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('invitations', function (Blueprint $table) {
+            $table->dropColumn(['event_time', 'content']);
+        });
+    }
+};

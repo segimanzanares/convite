@@ -8,8 +8,8 @@ use Illuminate\Database\Seeder;
 class InvitationSeeder extends Seeder
 {
     /**
-     * Seed the invitations that already have a template under
-     * resources/js/invitations/. Safe to re-run: rows are matched by slug.
+     * Seed the demo invitations, with the content of database/seeders/data/invitations/<template>.php. Safe to
+     * re-run: rows are matched by slug.
      */
     public function run(): void
     {
@@ -45,7 +45,9 @@ class InvitationSeeder extends Seeder
         ];
 
         foreach ($invitations as $invitation) {
-            Invitation::updateOrCreate(['slug' => $invitation['slug']], $invitation);
+            $content = require __DIR__."/data/invitations/{$invitation['template']}.php";
+
+            Invitation::updateOrCreate(['slug' => $invitation['slug']], [...$invitation, ...$content]);
         }
     }
 }

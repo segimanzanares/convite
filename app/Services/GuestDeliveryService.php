@@ -100,7 +100,7 @@ class GuestDeliveryService
      * The phone number in the international format wa.me expects (digits only), or null without one. Ten-digit
      * numbers are taken as local and get the default country code.
      */
-    private function whatsappPhone(?string $phone): ?string
+    public function whatsappPhone(?string $phone): ?string
     {
         $digits = preg_replace('/\D+/', '', (string) $phone);
 

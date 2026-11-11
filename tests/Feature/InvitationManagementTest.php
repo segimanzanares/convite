@@ -16,7 +16,7 @@ function invitationFields(array $overrides = []): array
     return [
         'slug' => 'ana-y-luis',
         'template' => 'demo',
-        'status' => 'published',
+        'status' => 'draft',
         'title' => 'Ana & Luis — Nuestra Boda',
         'description' => 'Acompáñanos a celebrar.',
         ...$overrides,
@@ -40,7 +40,7 @@ it('creates an invitation that belongs to the client of its order', function () 
     expect($invitation->order_id)->toBe($order->id)
         ->and($invitation->client_id)->toBe($order->client_id)
         ->and($invitation->event_date->toDateString())->toBe('2027-03-20')
-        ->and($invitation->status)->toBe(InvitationStatus::Published);
+        ->and($invitation->status)->toBe(InvitationStatus::Draft);
 });
 
 it('leaves an invitation without a client when it is unlinked from its order', function () {
@@ -81,7 +81,8 @@ it('opens the edit form with the orders an invitation can be linked to', functio
             ->where('modal', 'edit')
             ->where('invitation.id', $invitation->id)
             ->has('orders', 2)
-            ->where('templates', Invitation::templates()));
+            ->where('templates.0.name', 'demo')
+            ->where('templates.0.kind', 'wedding'));
 });
 
 it('serves the printable pages only when the plan of the order includes them', function (array $features, int $cardStatus, int $passesStatus) {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\InvitationKind;
 use App\Enums\InvitationStatus;
 use App\Enums\PlanFeature;
 use Carbon\CarbonImmutable;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Routing and meta data of an invitation. Its content is React code under resources/js/site/invitations/{template}/.
@@ -24,16 +26,18 @@ use Illuminate\Support\Carbon;
  * @property string $slug
  * @property string $template
  * @property Carbon|null $event_date
+ * @property string|null $event_time
  * @property Carbon|null $rsvp_deadline
  * @property InvitationStatus $status
  * @property string $title
  * @property string $description
  * @property string|null $og_image
+ * @property array<string, mixed>|null $content
  * @property Carbon|null $guests_purged_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['client_id', 'order_id', 'slug', 'template', 'event_date', 'rsvp_deadline', 'status', 'title', 'description', 'og_image'])]
+#[Fillable(['client_id', 'order_id', 'slug', 'template', 'event_date', 'event_time', 'rsvp_deadline', 'status', 'title', 'description', 'og_image', 'content'])]
 class Invitation extends Model
 {
     /** @use HasFactory<InvitationFactory> */
@@ -44,6 +48,14 @@ class Invitation extends Model
 
     /** Printable guest passes, served at /i/{slug}/pases. */
     public const string GUEST_PASSES_PAGE = 'GuestPassesPage';
+
+    /**
+     * The optional sections a template may show. Each template lists the ones its design has in its template.json,
+     * and the content form only asks for those.
+     *
+     * @var list<string>
+     */
+    public const array SECTIONS = ['venues', 'program', 'gallery', 'dress_code', 'swatches', 'gifts'];
 
     /**
      * The plan feature each printable page requires when the invitation belongs to an order.
@@ -67,6 +79,7 @@ class Invitation extends Model
             'rsvp_deadline' => 'date',
             'status' => InvitationStatus::class,
             'guests_purged_at' => 'datetime',
+            'content' => 'array',
         ];
     }
 
@@ -201,14 +214,84 @@ class Invitation extends Model
     }
 
     /**
-     * The templates that can be assigned to an invitation: every folder that ships an InvitationPage.
+     * The kind of event of the invitation's template, which decides the shape of its content.
+     */
+    public function kind(): ?InvitationKind
+    {
+        return self::templates()[$this->template]['kind'] ?? null;
+    }
+
+    /**
+     * Whether the content was captured far enough to publish the invitation: it names the couple or the celebrant.
+     */
+    public function hasContent(): bool
+    {
+        $kind = $this->kind();
+
+        if ($kind === null) {
+            return false;
+        }
+
+        if ($kind->hasCelebrant()) {
+            return filled($this->content['name'] ?? null);
+        }
+
+        $names = $this->content['names'] ?? [];
+
+        return is_array($names) && count(array_filter($names, filled(...))) === 2;
+    }
+
+    /**
+     * The public URL of a media path of the invitation. Paths starting with "/" are static files shipped in
+     * public/ (the seeded demos) and stay relative to the site; the rest were uploaded to the public disk.
+     */
+    public static function mediaUrl(?string $path): ?string
+    {
+        if (blank($path)) {
+            return null;
+        }
+
+        return str_starts_with($path, '/') ? $path : Storage::disk('public')->url($path);
+    }
+
+    /**
+     * The folder of the public disk the invitation's uploads go to.
+     */
+    public function mediaDirectory(): string
+    {
+        return "invitations/{$this->id}";
+    }
+
+    /**
+     * The templates that can be assigned to an invitation: every folder that ships an InvitationPage and declares
+     * its kind in a template.json manifest, keyed by folder name.
      *
-     * @return list<string>
+     * @return array<string, array{kind: InvitationKind, label: string, sections: list<string>}>
      */
     public static function templates(): array
     {
-        $pages = glob(resource_path('js/site/invitations/*/InvitationPage.tsx')) ?: [];
+        return once(function (): array {
+            $templates = [];
 
-        return collect($pages)->map(fn (string $path) => basename(dirname($path)))->sort()->values()->all();
+            foreach (glob(resource_path('js/site/invitations/*/template.json')) ?: [] as $manifestPath) {
+                $folder = dirname($manifestPath);
+                $manifest = json_decode((string) file_get_contents($manifestPath), true);
+                $kind = InvitationKind::tryFrom($manifest['kind'] ?? '');
+
+                if ($kind === null || ! is_file("{$folder}/InvitationPage.tsx")) {
+                    continue;
+                }
+
+                $templates[basename($folder)] = [
+                    'kind' => $kind,
+                    'label' => (string) ($manifest['label'] ?? basename($folder)),
+                    'sections' => array_values(array_intersect($manifest['sections'] ?? [], self::SECTIONS)),
+                ];
+            }
+
+            ksort($templates);
+
+            return $templates;
+        });
     }
 }

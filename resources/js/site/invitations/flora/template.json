@@ -1,0 +1,10 @@
+{
+  "kind": "birthday",
+  "label": "Cumpleaños floral",
+  "sections": [
+    "venues",
+    "program",
+    "dress_code",
+    "swatches"
+  ]
+}

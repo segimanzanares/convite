@@ -1,5 +1,11 @@
 import { Head, Link } from '@inertiajs/react';
-import { ExternalLinkIcon, PencilIcon, PlusIcon } from 'lucide-react';
+import {
+    ExternalLinkIcon,
+    FileTextIcon,
+    PencilIcon,
+    PlusIcon,
+} from 'lucide-react';
+import { edit as editContent } from '@/actions/App/Http/Controllers/Admin/InvitationContentController';
 import { show as showClient } from '@/actions/App/Http/Controllers/Admin/ClientController';
 import {
     create,
@@ -17,7 +23,7 @@ import { Button } from '@/components/ui/button';
 import UrlModal from '@/components/url-modal';
 import { formatDate } from '@/lib/format';
 import { invitationStatusLabels } from '@/lib/labels';
-import type { Invitation, Order, Paginated } from '@/types';
+import type { Invitation, InvitationTemplate, Order, Paginated } from '@/types';
 import InvitationForm from './components/invitation-form';
 
 export default function InvitationsIndex({
@@ -30,7 +36,7 @@ export default function InvitationsIndex({
     invitations: Paginated<Invitation>;
     modal: 'create' | 'edit' | null;
     invitation: Invitation | null;
-    templates: string[];
+    templates: InvitationTemplate[];
     orders: Order[];
 }) {
     return (
@@ -89,10 +95,30 @@ export default function InvitationsIndex({
                             </td>
                             <td className="px-4 py-3 text-right">
                                 <div className="flex items-center justify-end gap-2">
+                                    {invitation.kind && (
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            asChild
+                                        >
+                                            <Link
+                                                href={editContent(
+                                                    invitation.slug,
+                                                )}
+                                            >
+                                                <FileTextIcon />
+                                                Contenido
+                                            </Link>
+                                        </Button>
+                                    )}
                                     <InvitationSectionLinks
                                         invitation={invitation}
                                     />
-                                    <Button variant="outline" size="icon" asChild>
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        asChild
+                                    >
                                         <a
                                             href={invitation.url}
                                             target="_blank"
@@ -102,7 +128,11 @@ export default function InvitationsIndex({
                                             <ExternalLinkIcon />
                                         </a>
                                     </Button>
-                                    <Button variant="outline" size="icon" asChild>
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        asChild
+                                    >
                                         <Link
                                             href={edit(invitation.slug)}
                                             preserveScroll
@@ -125,7 +155,9 @@ export default function InvitationsIndex({
                 content={modal === 'edit' ? invitation : modal}
                 closeHref={index()}
                 title={(shown) =>
-                    shown === 'create' ? 'Nueva invitación' : 'Editar invitación'
+                    shown === 'create'
+                        ? 'Nueva invitación'
+                        : 'Editar invitación'
                 }
                 className="sm:max-w-2xl"
             >

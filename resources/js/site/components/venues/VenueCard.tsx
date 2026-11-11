@@ -25,16 +25,18 @@ export function VenueCard({ venue }: VenueCardProps) {
           />
         </div>
       )}
-      <div className="relative w-full h-[240px] overflow-hidden bg-off-white after:content-[''] after:absolute after:inset-0 after:border after:border-gold/18 after:pointer-events-none after:z-[1]">
-        <iframe
-          src={venue.mapEmbedUrl}
-          loading="lazy"
-          allowFullScreen
-          referrerPolicy="no-referrer-when-downgrade"
-          title={venue.mapTitle}
-          className="w-full h-full border-none block [filter:sepia(30%)_contrast(0.92)_brightness(1.04)] transition-[filter] duration-[400ms] ease group-hover:[filter:sepia(10%)_contrast(0.95)_brightness(1.06)]"
-        />
-      </div>
+      {venue.mapEmbedUrl && (
+        <div className="relative w-full h-[240px] overflow-hidden bg-off-white after:content-[''] after:absolute after:inset-0 after:border after:border-gold/18 after:pointer-events-none after:z-[1]">
+          <iframe
+            src={venue.mapEmbedUrl}
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+            title={venue.mapTitle}
+            className="w-full h-full border-none block [filter:sepia(30%)_contrast(0.92)_brightness(1.04)] transition-[filter] duration-[400ms] ease group-hover:[filter:sepia(10%)_contrast(0.95)_brightness(1.06)]"
+          />
+        </div>
+      )}
       <div className="pt-7 px-8 pb-8 text-center">
         <p className="font-display text-[9px] tracking-[0.55em] text-gold uppercase flex items-center gap-2.5 mb-3 after:content-[''] after:flex-1 after:h-px after:bg-[linear-gradient(to_right,color-mix(in_srgb,var(--color-gold)_40%,transparent),transparent)]">
           {venue.icon} {venue.tag}
@@ -51,16 +53,20 @@ export function VenueCard({ venue }: VenueCardProps) {
         <div className="inline-block font-display text-[10px] tracking-[0.35em] text-gold border border-gold/40 py-1.5 px-4 mb-[18px]">
           {venue.time}
         </div>
-        <br />
-        <a
-          className="inline-flex items-center gap-2 font-display text-[9px] tracking-[0.4em] uppercase text-gold-deep no-underline border-b border-gold-deep/30 pb-0.5 transition-colors duration-200 hover:text-gold hover:border-gold [&_svg]:w-3 [&_svg]:h-3 [&_svg]:fill-current"
-          href={venue.directionsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <DirectionsIcon />
-          Cómo llegar
-        </a>
+        {venue.directionsUrl && (
+          <>
+            <br />
+            <a
+              className="inline-flex items-center gap-2 font-display text-[9px] tracking-[0.4em] uppercase text-gold-deep no-underline border-b border-gold-deep/30 pb-0.5 transition-colors duration-200 hover:text-gold hover:border-gold [&_svg]:w-3 [&_svg]:h-3 [&_svg]:fill-current"
+              href={venue.directionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <DirectionsIcon />
+              Cómo llegar
+            </a>
+          </>
+        )}
       </div>
     </div>
   );

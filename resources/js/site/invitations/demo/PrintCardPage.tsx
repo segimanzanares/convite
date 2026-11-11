@@ -1,36 +1,45 @@
 import { PrintCard } from '../../components/print-card/PrintCard';
-import { COUPLE, DRESS_CODE, DRESS_CODE_SWATCHES, VENUES } from './data';
+import { initials, toCouple } from '../../lib/eventContent';
+import type { WeddingContent } from '../../types/invitation';
 import './theme.css';
 
-export function PrintCardPage() {
+export function PrintCardPage({ invitation }: { invitation: WeddingContent }) {
+  const couple = toCouple(invitation);
+  const { dressCode } = invitation;
+
   return (
     <PrintCard
       themeClassName="theme-demo"
-      documentTitle={`Tarjeta — ${COUPLE.names[0]} & ${COUPLE.names[1]}`}
+      documentTitle={`Tarjeta — ${couple.names[0]} & ${couple.names[1]}`}
       front={{
         eyebrow: 'Con gran alegría anunciamos',
-        names: COUPLE.names,
+        names: couple.names,
         subtitle: 'Nos casamos',
         message:
+          invitation.message ||
           'Junto a nuestras familias, tenemos el honor y la dicha de invitarles a compartir con nosotros el momento más especial de nuestras vidas.',
-        dateLabel: COUPLE.dateLabel,
-        place: 'Villa del Mar',
-        signature: COUPLE.families,
+        dateLabel: couple.dateLabel,
+        place: invitation.venues[0]?.addressLines.at(-1),
+        signature: couple.families,
       }}
       back={{
-        monogram: `${COUPLE.names[0].charAt(0)}${COUPLE.names[1].charAt(0)}`,
-        events: VENUES.map((venue) => ({
+        monogram: initials(...couple.names),
+        events: invitation.venues.map((venue) => ({
           label: venue.tag,
           title: venue.name,
           lines: venue.addressLines,
           time: venue.time,
         })),
-        dressCode: {
-          title: `Vestimenta ${DRESS_CODE.type}`,
-          note: DRESS_CODE.reservedColor && `El color ${DRESS_CODE.reservedColor.name} ${DRESS_CODE.reservedColor.description}`,
-          swatches: DRESS_CODE_SWATCHES,
-        },
-        rsvpDeadlineLabel: COUPLE.rsvpDeadlineLabel,
+        dressCode: dressCode
+          ? {
+              title: `Vestimenta ${dressCode.type}`,
+              note: dressCode.reservedColor
+                ? `El color ${dressCode.reservedColor.name} ${dressCode.reservedColor.description}`
+                : undefined,
+              swatches: invitation.swatches,
+            }
+          : undefined,
+        rsvpDeadlineLabel: couple.rsvpDeadlineLabel,
       }}
     />
   );

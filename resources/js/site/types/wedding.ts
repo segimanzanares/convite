@@ -16,11 +16,12 @@ export interface Venue {
   name: string;
   addressLines: string[];
   time: string;
-  mapEmbedUrl: string;
+  /** Google Maps embed, null when the venue has no coordinates. */
+  mapEmbedUrl?: string | null;
   mapTitle: string;
-  directionsUrl: string;
+  directionsUrl?: string | null;
   /** Optional photo of the place, shown at the top of its card. */
-  image?: string;
+  image?: string | null;
   /** Alt text for `image`; defaults to the venue name. */
   imageAlt?: string;
 }

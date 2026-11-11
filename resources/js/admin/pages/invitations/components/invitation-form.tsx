@@ -14,11 +14,12 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useInertiaFormValidation } from '@/hooks/use-inertia-form-validation';
-import { invitationStatusLabels } from '@/lib/labels';
+import { invitationKindLabels, invitationStatusLabels } from '@/lib/labels';
 import { maxLength, required } from '@/lib/validators';
 import type {
     Invitation,
     InvitationStatus,
+    InvitationTemplate,
     Order,
     ValidationSchema,
 } from '@/types';
@@ -37,7 +38,7 @@ const schema: ValidationSchema = {
 type Props = {
     formRequest: RouteFormDefinition<'post'>;
     submitLabel: string;
-    templates: string[];
+    templates: InvitationTemplate[];
     orders: Order[];
     defaultValues?: Invitation;
 };
@@ -89,16 +90,24 @@ export default function InvitationForm({
                                     name="template"
                                     defaultValue={defaultValues?.template}
                                 >
-                                    <SelectTrigger id="template" className="w-full">
+                                    <SelectTrigger
+                                        id="template"
+                                        className="w-full"
+                                    >
                                         <SelectValue placeholder="Elige una plantilla" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {templates.map((template) => (
                                             <SelectItem
-                                                key={template}
-                                                value={template}
+                                                key={template.name}
+                                                value={template.name}
                                             >
-                                                {template}
+                                                {template.label} ·{' '}
+                                                {
+                                                    invitationKindLabels[
+                                                        template.kind
+                                                    ]
+                                                }
                                             </SelectItem>
                                         ))}
                                     </SelectContent>
@@ -141,7 +150,7 @@ export default function InvitationForm({
                             <InputError message={errors.order_id} />
                         </div>
 
-                        <div className="grid gap-4 sm:grid-cols-3">
+                        <div className="grid gap-4 sm:grid-cols-2">
                             <div className="grid gap-2">
                                 <Label htmlFor="event_date">
                                     Fecha del evento
@@ -158,6 +167,21 @@ export default function InvitationForm({
                             </div>
 
                             <div className="grid gap-2">
+                                <Label htmlFor="event_time">
+                                    Hora del evento
+                                </Label>
+                                <Input
+                                    id="event_time"
+                                    name="event_time"
+                                    type="time"
+                                    defaultValue={
+                                        defaultValues?.event_time ?? undefined
+                                    }
+                                />
+                                <InputError message={errors.event_time} />
+                            </div>
+
+                            <div className="grid gap-2">
                                 <Label htmlFor="rsvp_deadline">
                                     Confirmar antes del
                                 </Label>
@@ -166,7 +190,8 @@ export default function InvitationForm({
                                     name="rsvp_deadline"
                                     type="date"
                                     defaultValue={
-                                        defaultValues?.rsvp_deadline ?? undefined
+                                        defaultValues?.rsvp_deadline ??
+                                        undefined
                                     }
                                 />
                                 <InputError message={errors.rsvp_deadline} />
@@ -174,11 +199,20 @@ export default function InvitationForm({
 
                             <div className="grid gap-2">
                                 <Label htmlFor="status">Estado</Label>
+                                <p className="text-muted-foreground text-xs">
+                                    Para publicarla, primero captura su
+                                    contenido, la fecha y la hora.
+                                </p>
                                 <Select
                                     name="status"
-                                    defaultValue={defaultValues?.status ?? 'draft'}
+                                    defaultValue={
+                                        defaultValues?.status ?? 'draft'
+                                    }
                                 >
-                                    <SelectTrigger id="status" className="w-full">
+                                    <SelectTrigger
+                                        id="status"
+                                        className="w-full"
+                                    >
                                         <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -187,7 +221,10 @@ export default function InvitationForm({
                                                 invitationStatusLabels,
                                             ) as [InvitationStatus, string][]
                                         ).map(([value, label]) => (
-                                            <SelectItem key={value} value={value}>
+                                            <SelectItem
+                                                key={value}
+                                                value={value}
+                                            >
                                                 {label}
                                             </SelectItem>
                                         ))}
@@ -222,19 +259,6 @@ export default function InvitationForm({
                                     defaultValue={defaultValues?.description}
                                 />
                                 <InputError message={errors.description} />
-                            </div>
-
-                            <div className="grid gap-2">
-                                <Label htmlFor="og_image">Imagen</Label>
-                                <Input
-                                    id="og_image"
-                                    name="og_image"
-                                    placeholder="/invitations/plantilla/og-image.jpg"
-                                    defaultValue={
-                                        defaultValues?.og_image ?? undefined
-                                    }
-                                />
-                                <InputError message={errors.og_image} />
                             </div>
                         </fieldset>
                     </DialogBody>

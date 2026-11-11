@@ -1,4 +1,5 @@
 import type {
+    InvitationKind,
     InvitationStatus,
     OrderStatus,
     PaymentMethod,
@@ -23,6 +24,12 @@ export const paymentMethodLabels: Record<PaymentMethod, string> = {
     cash: 'Efectivo',
     transfer: 'Transferencia',
     other: 'Otro',
+};
+
+export const invitationKindLabels: Record<InvitationKind, string> = {
+    wedding: 'Boda',
+    birthday: 'Cumpleaños',
+    xv: 'XV años',
 };
 
 export const invitationStatusLabels: Record<InvitationStatus, string> = {

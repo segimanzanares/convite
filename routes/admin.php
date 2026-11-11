@@ -5,7 +5,9 @@ use App\Http\Controllers\Admin\ClientUserController;
 use App\Http\Controllers\Admin\GuestController;
 use App\Http\Controllers\Admin\GuestDeliveryController;
 use App\Http\Controllers\Admin\GuestImportController;
+use App\Http\Controllers\Admin\InvitationContentController;
 use App\Http\Controllers\Admin\InvitationController;
+use App\Http\Controllers\Admin\InvitationMediaController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\PlanController;
@@ -28,6 +30,9 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 
     Route::get('invitations/mine', [InvitationController::class, 'mine'])->name('invitations.mine');
     Route::resource('invitations', InvitationController::class)->except(['show', 'destroy']);
+    Route::get('invitations/{invitation}/content', [InvitationContentController::class, 'edit'])->name('invitations.content.edit');
+    Route::put('invitations/{invitation}/content', [InvitationContentController::class, 'update'])->name('invitations.content.update');
+    Route::post('invitations/{invitation}/media', [InvitationMediaController::class, 'store'])->name('invitations.media.store');
 
     // Guest lists and RSVPs only exist when the invitation's plan includes them, for admins too
     Route::middleware('invitation.feature:guest_management')->scopeBindings()->group(function () {

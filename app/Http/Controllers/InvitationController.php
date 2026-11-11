@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\PlanFeature;
+use App\Http\Resources\InvitationContentResource;
 use App\Http\Resources\PassGuestResource;
 use App\Http\Resources\PublicGuestResource;
 use App\Models\Invitation;
@@ -90,13 +91,14 @@ class InvitationController extends Controller
 
         return Inertia::render($invitation->component($page), [
             ...$props,
+            'invitation' => InvitationContentResource::make($invitation),
             // Drafts and archived invitations only reach their panel users (see EnsureInvitationIsVisible)
             'preview' => $invitation->isPublished() ? null : $invitation->status->value,
             // Read by resources/views/app.blade.php for link previews
             'meta' => [
                 'title' => $title,
                 'description' => $invitation->description,
-                'image' => $invitation->og_image ? url($invitation->og_image) : null,
+                'image' => $invitation->og_image ? url(Invitation::mediaUrl($invitation->og_image)) : null,
                 'robots' => 'noindex, nofollow',
             ],
         ]);

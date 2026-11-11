@@ -82,5 +82,8 @@
     "See the RSVPs": "Ver las confirmaciones",
     "You get this summary on each day after someone answers. You can turn it off in your profile:": "Recibes este resumen el día después de que alguien responde. Puedes desactivarlo en tu perfil:",
     "Notification preferences updated.": "Preferencias de avisos actualizadas.",
-    "The invitation must be published before it is sent to the guests.": "La invitación debe estar publicada antes de enviarla a los invitados."
+    "The invitation must be published before it is sent to the guests.": "La invitación debe estar publicada antes de enviarla a los invitados.",
+    "Capture the content of the invitation before publishing it.": "Captura el contenido de la invitación antes de publicarla.",
+    "The file does not belong to this invitation.": "El archivo no pertenece a esta invitación.",
+    "Content saved.": "Contenido guardado."
 }

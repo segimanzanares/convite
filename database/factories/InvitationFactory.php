@@ -43,6 +43,25 @@ class InvitationFactory extends Factory
     }
 
     /**
+     * Indicate that the wedding content was captured (the default "demo" template is a wedding).
+     *
+     * @param  array<string, mixed>  $content
+     */
+    public function withContent(array $content = []): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'event_date' => '2027-03-20',
+            'event_time' => '17:00:00',
+            'content' => [
+                'names' => ['Ana', 'Luis'],
+                'families' => 'Familia Pérez & Familia López',
+                'rsvp_whatsapp' => '5512345678',
+                ...$content,
+            ],
+        ]);
+    }
+
+    /**
      * Indicate that the invitation is a draft, only shown to its panel users.
      */
     public function draft(): static

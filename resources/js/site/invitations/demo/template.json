@@ -1,0 +1,12 @@
+{
+  "kind": "wedding",
+  "label": "Boda clásica",
+  "sections": [
+    "venues",
+    "program",
+    "gallery",
+    "dress_code",
+    "swatches",
+    "gifts"
+  ]
+}
