@@ -73,12 +73,15 @@ return [
 
         'ensure_pages_exist' => false,
 
-        // Components are named by their path under resources/js, e.g.
-        // "pages/landing/LandingPage" or "invitations/demo/InvitationPage"
-        // (see the resolver in resources/js/app.tsx).
+        // Public site components are named by their path under resources/js,
+        // e.g. "pages/landing/LandingPage" or "invitations/demo/InvitationPage"
+        // (see resources/js/app.tsx). Admin panel components are named by
+        // their path under resources/js/admin/pages, e.g. "auth/login"
+        // (see resources/js/admin/app.tsx).
         'paths' => [
 
             resource_path('js'),
+            resource_path('js/admin/pages'),
 
         ],
 

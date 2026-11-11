@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -16,7 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
+
         $middleware->web(append: [
+            HandleAppearance::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
@@ -26,10 +30,12 @@ return Application::configure(basePath: dirname(__DIR__))
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
 
-        // Unknown pages and invitations render the React 404 page, keeping
-        // the 404 status, instead of Laravel's default error view.
+        // Unknown pages and invitations render the public site's React 404
+        // page, keeping the 404 status, instead of Laravel's default error
+        // view. The admin panel keeps the default one, since its Inertia app
+        // does not bundle the public site's pages.
         $exceptions->respond(function (Response $response, Throwable $e, Request $request) {
-            if ($response->getStatusCode() !== 404 || $request->expectsJson()) {
+            if ($response->getStatusCode() !== 404 || $request->expectsJson() || $request->is('admin', 'admin/*')) {
                 return $response;
             }
 

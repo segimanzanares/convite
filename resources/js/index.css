@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+/* The admin panel has its own theme (resources/js/admin/app.css). */
+@source not './admin';
+
 @theme {
   --color-gold: var(--gold);
   --color-gold-light: var(--gold-light);
