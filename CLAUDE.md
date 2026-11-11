@@ -22,7 +22,7 @@ PHP ^8.3 and Node (pinned via `.nvmrc`, v24.7.0). The database is PostgreSQL (`c
 
 ### Backend (Laravel)
 
-- `routes/web.php`: `/` renders the landing page; `/i/{invitation}` (`show`), `/i/{invitation}/tarjeta` (`printCard`) and `/i/{invitation}/pases` (`guestPasses`) go to `InvitationController`. `{invitation}` binds by `slug`.
+- `routes/web.php`: `/` renders the landing page (`LandingController`, which sends the active plans for the pricing section); `/i/{invitation}` (`show`), `/i/{invitation}/tarjeta` (`printCard`) and `/i/{invitation}/pases` (`guestPasses`) go to `InvitationController`. `{invitation}` binds by `slug`.
 - `App\Models\Invitation`: `slug` (URL) is separate from `template` (folder under `resources/js/site/invitations/`). For example slug `mati-nayith` uses template `matilde-nayith`. `component($page)` builds the Inertia component name; `hasPage($page)` checks that the template ships that `.tsx` file. The printable pages are optional per template and 404 when the file is missing.
 - Meta tags (title, description, og:image, robots) are rendered server-side in `resources/views/app.blade.php` from an optional `meta` prop. Its defaults are the landing page's own. Invitation pages are `noindex, nofollow`. This replaces the old `scripts/prerender.ts`.
 - 404s (unknown routes, unknown slugs) render the React `pages/not-found/NotFoundPage` with a 404 status (see `bootstrap/app.php`). URLs under `/admin` keep Laravel's default 404 page.
@@ -33,6 +33,14 @@ PHP ^8.3 and Node (pinned via `.nvmrc`, v24.7.0). The database is PostgreSQL (`c
 - Fortify routes are prefixed with `admin` and `home` is `/admin` (see `config/fortify.php`). Registration is off; the other kit features are on: password reset, email verification, two-factor authentication and passkeys. `FortifyServiceProvider` renders the auth pages.
 - `routes/web.php` holds the dashboard and `routes/settings.php` holds the account settings. Both are inside the `admin` prefix group, and route names keep the starter kit's (`dashboard`, `profile.edit`, `security.edit`, ...).
 - The UI is in Spanish. Server messages come from `lang/es/*.php` and `lang/es.json`, which also covers Fortify, passkey and mail notification strings.
+
+### Clients, plans and orders
+
+- `users.role` (`App\Enums\UserRole`): `admin` (the Convite team) or `client`. A client user belongs to a `Client` through `users.client_id`. `AppServiceProvider` lets admins through every ability with `Gate::before`, so the policies in `app/Policies` only describe what client users may do (read their own invitations).
+- Panel sections live in `routes/admin.php` (prefix `admin`, names `admin.*` so they do not clash with the public `invitations.*` routes) and `app/Http/Controllers/Admin`. Controllers stay thin: logic lives in `app/Services`, validation in `app/Http/Requests/<Model>` (shared rules in `app/Concerns/*ValidationRules`), and props go through `app/Http/Resources` (`JsonResource::withoutWrapping()`). Forms open in modals whose state comes from the URL (`create`/`edit` routes render the listing with a `modal` prop), as in the nabamenu project.
+- `Order::$plan_snapshot` keeps a copy of the plan's `max_guests` and `features` (`App\Enums\PlanFeature`); limits and features are always read from it, never from the live plan. Only orders whose features include `guest_management` or `online_rsvp` let the admin give the client panel access (`ClientService::grantAccess`, which emails a Fortify reset link as a welcome).
+- An invitation with an order belongs to the order's client, and its printable pages only exist if the plan includes `print_card` / `guest_passes` (`Invitation::offersPage`). Invitations without an order (the demos) serve every page their template has.
+- `guests:purge` (daily, see `routes/console.php`) purges guest data of invitations whose `event_date` is more than `config('convite.guest_retention_days')` days old.
 
 ### Frontend (Inertia + React)
 
