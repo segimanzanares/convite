@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project state
 
-Convite: a site for custom digital invitations (weddings, XV años, birthdays). It is a Laravel 13 app that serves a React 19 + TypeScript frontend through Inertia v3. Each invitation is hand-built React code under `resources/js/invitations/<template>/`; the database only holds per-invitation routing and meta data.
+Convite: a site for custom digital invitations (weddings, XV años, birthdays). It is a Laravel 13 app that serves a React 19 + TypeScript frontend through Inertia v3. Each invitation is hand-built React code under `resources/js/invitations/<template>/`; the database only holds per-invitation routing and meta data. An admin panel, built from the Laravel React starter kit with Fortify authentication, lives under `/admin`.
 
 ## Commands
 
@@ -14,6 +14,7 @@ Convite: a site for custom digital invitations (weddings, XV años, birthdays). 
 - `php artisan test`: Pest test suite (runs against the `convite_testing` PostgreSQL database, see `phpunit.xml`)
 - `./vendor/bin/pint`: format PHP code
 - `php artisan migrate --seed`: create tables and seed the existing invitations (`InvitationSeeder` is idempotent)
+- `php artisan admin:create`: create an admin panel account. Public registration is disabled.
 
 PHP ^8.3 and Node (pinned via `.nvmrc`, v24.7.0). The database is PostgreSQL (`convite` locally).
 
@@ -24,7 +25,14 @@ PHP ^8.3 and Node (pinned via `.nvmrc`, v24.7.0). The database is PostgreSQL (`c
 - `routes/web.php`: `/` renders the landing page; `/i/{invitation}` (`show`), `/i/{invitation}/tarjeta` (`printCard`) and `/i/{invitation}/pases` (`guestPasses`) go to `InvitationController`. `{invitation}` binds by `slug`.
 - `App\Models\Invitation`: `slug` (URL) is separate from `template` (folder under `resources/js/invitations/`). For example slug `mati-nayith` uses template `matilde-nayith`. `component($page)` builds the Inertia component name; `hasPage($page)` checks that the template ships that `.tsx` file. The printable pages are optional per template and 404 when the file is missing.
 - Meta tags (title, description, og:image, robots) are rendered server-side in `resources/views/app.blade.php` from an optional `meta` prop. Its defaults are the landing page's own. Invitation pages are `noindex, nofollow`. This replaces the old `scripts/prerender.ts`.
-- 404s (unknown routes, unknown slugs) render the React `pages/not-found/NotFoundPage` with a 404 status (see `bootstrap/app.php`).
+- 404s (unknown routes, unknown slugs) render the React `pages/not-found/NotFoundPage` with a 404 status (see `bootstrap/app.php`). URLs under `/admin` keep Laravel's default 404 page.
+
+### Admin panel (Fortify + React starter kit)
+
+- The public site and the admin panel are two separate Inertia apps. `HandleInertiaRequests` picks the root view (`app` or `admin`) by URL and gives `/admin` its own asset version. An Inertia visit that crosses between the two apps therefore gets a version mismatch, which triggers a full page reload. Only the admin app gets the shared `auth`, `name` and `sidebarOpen` props.
+- Fortify routes are prefixed with `admin` and `home` is `/admin` (see `config/fortify.php`). Registration is off; the other kit features are on: password reset, email verification, two-factor authentication and passkeys. `FortifyServiceProvider` renders the auth pages.
+- `routes/web.php` holds the dashboard and `routes/settings.php` holds the account settings. Both are inside the `admin` prefix group, and route names keep the starter kit's (`dashboard`, `profile.edit`, `security.edit`, ...).
+- The UI is in Spanish. Server messages come from `lang/es/*.php` and `lang/es.json`, which also covers Fortify, passkey and mail notification strings.
 
 ### Frontend (Inertia + React)
 
@@ -35,6 +43,8 @@ PHP ^8.3 and Node (pinned via `.nvmrc`, v24.7.0). The database is PostgreSQL (`c
 - Static assets: per-invitation images and audio live in `public/invitations/<template>/` and are referenced by absolute path. Bundled images live under `resources/js/assets/`.
 - `VITE_CONTACT_WHATSAPP` and `VITE_GA_ID` come from `.env` and are read by `resources/js/config/`.
 - TypeScript project references: `tsconfig.app.json` covers `resources/js`, `tsconfig.node.json` covers `vite.config.ts`.
+- Admin panel frontend: everything lives under `resources/js/admin/`, laid out as in the starter kit. Its entry is `admin/app.tsx` and its stylesheet is `admin/app.css`, which holds the shadcn/ui theme. The admin CSS only scans the admin folder, and the public `index.css` excludes it, so neither app's tokens (e.g. `--primary`) leak into the other. Admin page components are named by their path under `admin/pages` (e.g. `auth/login`, `settings/profile`). The `@/` alias points to `resources/js/admin`, and only admin code uses it.
+- Wayfinder's Vite plugin generates typed route helpers into `resources/js/admin/{actions,routes,wayfinder}`. These folders are gitignored; run `php artisan wayfinder:generate --path=resources/js/admin --with-form` if they are missing outside of Vite. ESLint skips them, along with the vendored `admin/components/ui`.
 
 ===
 

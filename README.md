@@ -10,6 +10,7 @@ npm install
 cp .env.example .env        # ajusta DB_* y las variables VITE_*
 php artisan key:generate
 php artisan migrate --seed  # crea las tablas y registra las invitaciones existentes
+php artisan admin:create    # crea la primera cuenta del panel (/admin)
 composer dev                # servidor de Laravel + Vite
 ```
 
