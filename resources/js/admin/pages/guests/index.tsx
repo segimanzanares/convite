@@ -1,4 +1,4 @@
-import { Head, Link, router } from "@inertiajs/react";
+import { Head, Link, router } from '@inertiajs/react';
 import {
     CheckIcon,
     ClipboardCheckIcon,
@@ -13,8 +13,8 @@ import {
     SearchIcon,
     SendIcon,
     TrashIcon,
-} from "lucide-react";
-import { useMemo, useState } from "react";
+} from 'lucide-react';
+import { useMemo, useState } from 'react';
 import {
     create,
     destroy,
@@ -22,37 +22,37 @@ import {
     index,
     store,
     update,
-} from "@/actions/App/Http/Controllers/Admin/GuestController";
+} from '@/actions/App/Http/Controllers/Admin/GuestController';
 import {
     email as emailGuest,
     emailPending,
     markSent,
-} from "@/actions/App/Http/Controllers/Admin/GuestDeliveryController";
-import { create as importGuests } from "@/actions/App/Http/Controllers/Admin/GuestImportController";
-import { index as rsvpsIndex } from "@/actions/App/Http/Controllers/Admin/RsvpController";
-import ConfirmDialog from "@/components/confirm-dialog";
-import DataTable from "@/components/data-table";
-import Heading from "@/components/heading";
+} from '@/actions/App/Http/Controllers/Admin/GuestDeliveryController';
+import { create as importGuests } from '@/actions/App/Http/Controllers/Admin/GuestImportController';
+import { index as rsvpsIndex } from '@/actions/App/Http/Controllers/Admin/RsvpController';
+import ConfirmDialog from '@/components/confirm-dialog';
+import DataTable from '@/components/data-table';
+import Heading from '@/components/heading';
 import {
     invitationBreadcrumbs,
     invitationSections,
-} from "@/lib/invitation-sections";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import UrlModal from "@/components/url-modal";
-import { useClipboard } from "@/hooks/use-clipboard";
-import { formatDay } from "@/lib/format";
-import type { Auth, Guest, Invitation } from "@/types";
-import GuestForm from "./components/guest-form";
-import GuestImportForm from "./components/guest-import-form";
+} from '@/lib/invitation-sections';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import UrlModal from '@/components/url-modal';
+import { useClipboard } from '@/hooks/use-clipboard';
+import { formatDay } from '@/lib/format';
+import type { Auth, Guest, Invitation } from '@/types';
+import GuestForm from './components/guest-form';
+import GuestImportForm from './components/guest-import-form';
 
 type Props = {
     invitation: Invitation;
     guests: Guest[];
     /** How many more guests the plan allows, or null without a limit. */
     remaining: number | null;
-    modal: "create" | "edit" | "import" | null;
+    modal: 'create' | 'edit' | 'import' | null;
     guest: Guest | null;
 };
 
@@ -63,19 +63,19 @@ export default function GuestsIndex({
     modal,
     guest,
 }: Props) {
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState('');
     const [copiedUrl, copy] = useClipboard();
     const showsRsvps = invitationSections(invitation).rsvps;
     const isFull = remaining === 0;
     // Guests can only open a published invitation, so drafts and archived ones are not sent
-    const canSend = invitation.status === "published";
+    const canSend = invitation.status === 'published';
 
     const shown = useMemo(() => {
-        const term = search.trim().toLocaleLowerCase("es");
+        const term = search.trim().toLocaleLowerCase('es');
 
         return term
             ? guests.filter((guest) =>
-                  guest.name.toLocaleLowerCase("es").includes(term),
+                  guest.name.toLocaleLowerCase('es').includes(term),
               )
             : guests;
     }, [guests, search]);
@@ -127,7 +127,7 @@ export default function GuestsIndex({
                 <div className="flex flex-wrap items-start justify-between gap-4">
                     <Heading
                         title="Invitados"
-                        description={`${invitation.title} · ${guests.length}${invitation.max_guests ? ` de ${invitation.max_guests}` : ""} invitados, ${seats} lugares`}
+                        description={`${invitation.title} · ${guests.length}${invitation.max_guests ? ` de ${invitation.max_guests}` : ''} invitados, ${seats} lugares`}
                     />
 
                     <div className="flex flex-wrap gap-2">
@@ -152,7 +152,7 @@ export default function GuestsIndex({
                                     </Button>
                                 }
                                 title="¿Enviar la invitación por correo?"
-                                description={`Se enviará a ${pendingEmails === 1 ? "el invitado que tiene" : `los ${pendingEmails} invitados que tienen`} correo y aún no la han recibido. Cada quien recibe su enlace personalizado.`}
+                                description={`Se enviará a ${pendingEmails === 1 ? 'el invitado que tiene' : `los ${pendingEmails} invitados que tienen`} correo y aún no la han recibido. Cada quien recibe su enlace personalizado.`}
                                 confirmLabel="Enviar"
                                 onConfirm={sendPendingEmails}
                             />
@@ -194,15 +194,15 @@ export default function GuestsIndex({
 
                 {!canSend && (
                     <p className="text-muted-foreground text-sm">
-                        {invitation.status === "draft"
-                            ? "La invitación aún es un borrador: los enlaces solo abren como vista previa para el equipo, y el envío se habilita cuando se publique."
-                            : "La invitación está archivada: los invitados ya no pueden abrirla y no se puede enviar."}
+                        {invitation.status === 'draft'
+                            ? 'La invitación aún es un borrador: los enlaces solo abren como vista previa para el equipo, y el envío se habilita cuando se publique.'
+                            : 'La invitación está archivada: los invitados ya no pueden abrirla y no se puede enviar.'}
                     </p>
                 )}
 
                 {isFull && (
                     <p className="text-muted-foreground text-sm">
-                        La lista está completa: tu plan permite{" "}
+                        La lista está completa: tu plan permite{' '}
                         {invitation.max_guests} invitados.
                     </p>
                 )}
@@ -220,17 +220,17 @@ export default function GuestsIndex({
 
                 <DataTable
                     columns={[
-                        "Invitado",
-                        "Lugares",
-                        "Mesa",
-                        ...(showsRsvps ? ["Respuesta"] : []),
-                        "Enlace y envío",
-                        "",
+                        'Invitado',
+                        'Lugares',
+                        'Mesa',
+                        ...(showsRsvps ? ['Respuesta'] : []),
+                        'Enlace y envío',
+                        '',
                     ]}
                     empty={
                         guests.length === 0
-                            ? "Aún no hay invitados. Agrégalos uno por uno o importa tu lista."
-                            : "Ningún invitado coincide con la búsqueda."
+                            ? 'Aún no hay invitados. Agrégalos uno por uno o importa tu lista.'
+                            : 'Ningún invitado coincide con la búsqueda.'
                     }
                     isEmpty={shown.length === 0}
                 >
@@ -242,13 +242,13 @@ export default function GuestsIndex({
                                     <div className="text-muted-foreground text-xs font-normal">
                                         {[guest.phone, guest.email]
                                             .filter(Boolean)
-                                            .join(" · ")}
+                                            .join(' · ')}
                                     </div>
                                 )}
                             </td>
                             <td className="px-4 py-3">{guest.seats}</td>
                             <td className="px-4 py-3">
-                                {guest.table_label ?? "—"}
+                                {guest.table_label ?? '—'}
                             </td>
                             {showsRsvps && (
                                 <td className="px-4 py-3">
@@ -314,7 +314,7 @@ export default function GuestsIndex({
                                             title={`¿Enviar la invitación a ${guest.email}?`}
                                             description={
                                                 guest.sent_at
-                                                    ? "Este invitado ya la recibió; se le enviará de nuevo."
+                                                    ? 'Este invitado ya la recibió; se le enviará de nuevo.'
                                                     : undefined
                                             }
                                             confirmLabel="Enviar"
@@ -367,24 +367,24 @@ export default function GuestsIndex({
             </div>
 
             <UrlModal
-                content={modal === "edit" ? guest : modal}
+                content={modal === 'edit' ? guest : modal}
                 closeHref={index(invitation.slug)}
                 title={(content) =>
-                    content === "create"
-                        ? "Agregar invitado"
-                        : content === "import"
-                          ? "Importar invitados"
-                          : "Editar invitado"
+                    content === 'create'
+                        ? 'Agregar invitado'
+                        : content === 'import'
+                          ? 'Importar invitados'
+                          : 'Editar invitado'
                 }
-                className={modal === "import" ? "sm:max-w-2xl" : undefined}
+                className={modal === 'import' ? 'sm:max-w-2xl' : undefined}
             >
                 {(content) =>
-                    content === "create" ? (
+                    content === 'create' ? (
                         <GuestForm
                             formRequest={store.form(invitation.slug)}
                             submitLabel="Agregar invitado"
                         />
-                    ) : content === "import" ? (
+                    ) : content === 'import' ? (
                         <GuestImportForm invitation={invitation} />
                     ) : (
                         <GuestForm
@@ -406,12 +406,12 @@ export default function GuestsIndex({
 function DeliveryStatus({ guest }: { guest: Guest }) {
     const status = [
         guest.sent_at && `Enviada el ${formatDay(guest.sent_at)}`,
-        guest.first_opened_at && "Abierta",
+        guest.first_opened_at && 'Abierta',
     ].filter(Boolean);
 
     return status.length > 0 ? (
         <div className="text-muted-foreground text-xs">
-            {status.join(" · ")}
+            {status.join(' · ')}
         </div>
     ) : null;
 }
@@ -430,7 +430,7 @@ function RsvpBadge({ guest }: { guest: Guest }) {
 
 GuestsIndex.layout = (props: Props & { auth: Auth }) => ({
     breadcrumbs: invitationBreadcrumbs(props.auth.user.role, props.invitation, {
-        title: "Invitados",
+        title: 'Invitados',
         href: index(props.invitation.slug),
     }),
 });
