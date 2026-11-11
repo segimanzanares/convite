@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project state
 
-Convite: a site for custom digital invitations (weddings, XV años, birthdays). It is a Laravel 13 app that serves a React 19 + TypeScript frontend through Inertia v3. Each invitation is hand-built React code under `resources/js/invitations/<template>/`; the database only holds per-invitation routing and meta data. An admin panel, built from the Laravel React starter kit with Fortify authentication, lives under `/admin`.
+Convite: a site for custom digital invitations (weddings, XV años, birthdays). It is a Laravel 13 app that serves a React 19 + TypeScript frontend through Inertia v3. Each invitation is hand-built React code under `resources/js/site/invitations/<template>/`; the database only holds per-invitation routing and meta data. An admin panel, built from the Laravel React starter kit with Fortify authentication, lives under `/admin`.
 
 ## Commands
 
@@ -23,7 +23,7 @@ PHP ^8.3 and Node (pinned via `.nvmrc`, v24.7.0). The database is PostgreSQL (`c
 ### Backend (Laravel)
 
 - `routes/web.php`: `/` renders the landing page; `/i/{invitation}` (`show`), `/i/{invitation}/tarjeta` (`printCard`) and `/i/{invitation}/pases` (`guestPasses`) go to `InvitationController`. `{invitation}` binds by `slug`.
-- `App\Models\Invitation`: `slug` (URL) is separate from `template` (folder under `resources/js/invitations/`). For example slug `mati-nayith` uses template `matilde-nayith`. `component($page)` builds the Inertia component name; `hasPage($page)` checks that the template ships that `.tsx` file. The printable pages are optional per template and 404 when the file is missing.
+- `App\Models\Invitation`: `slug` (URL) is separate from `template` (folder under `resources/js/site/invitations/`). For example slug `mati-nayith` uses template `matilde-nayith`. `component($page)` builds the Inertia component name; `hasPage($page)` checks that the template ships that `.tsx` file. The printable pages are optional per template and 404 when the file is missing.
 - Meta tags (title, description, og:image, robots) are rendered server-side in `resources/views/app.blade.php` from an optional `meta` prop. Its defaults are the landing page's own. Invitation pages are `noindex, nofollow`. This replaces the old `scripts/prerender.ts`.
 - 404s (unknown routes, unknown slugs) render the React `pages/not-found/NotFoundPage` with a 404 status (see `bootstrap/app.php`). URLs under `/admin` keep Laravel's default 404 page.
 
@@ -36,14 +36,15 @@ PHP ^8.3 and Node (pinned via `.nvmrc`, v24.7.0). The database is PostgreSQL (`c
 
 ### Frontend (Inertia + React)
 
-- Entry: `resources/js/app.tsx`. Inertia component names are paths relative to `resources/js` without the extension, resolved with `import.meta.glob` over `./pages/**/*Page.tsx` and `./invitations/*/*Page.tsx`. `config/inertia.php` points `pages.paths` at `resources/js` so `assertInertia` can check that these files exist.
-- To add an invitation, create `resources/js/invitations/<template>/InvitationPage.tsx` (optionally `PrintCardPage.tsx` / `GuestPassesPage.tsx`) and add a row to `invitations`, usually through `InvitationSeeder`.
+- The public site's frontend lives under `resources/js/site/`, and the admin panel's under `resources/js/admin/`. Neither imports from the other, except that the admin logo reuses `site/assets/images/convite-icon.png`.
+- Entry: `resources/js/site/app.tsx`. Inertia component names are paths relative to `resources/js/site` without the extension, resolved with `import.meta.glob` over `./pages/**/*Page.tsx` and `./invitations/*/*Page.tsx`. `config/inertia.php` points `pages.paths` at `resources/js/site` so `assertInertia` can check that these files exist.
+- To add an invitation, create `resources/js/site/invitations/<template>/InvitationPage.tsx` (optionally `PrintCardPage.tsx` / `GuestPassesPage.tsx`) and add a row to `invitations`, usually through `InvitationSeeder`.
 - Navigation uses `Link` from `@inertiajs/react`. There is no client-side router. Pages still set `document.title` themselves on mount.
-- Styling: Tailwind v4 via `@tailwindcss/vite` (`resources/js/index.css`) plus plain per-theme CSS files.
-- Static assets: per-invitation images and audio live in `public/invitations/<template>/` and are referenced by absolute path. Bundled images live under `resources/js/assets/`.
-- `VITE_CONTACT_WHATSAPP` and `VITE_GA_ID` come from `.env` and are read by `resources/js/config/`.
+- Styling: Tailwind v4 via `@tailwindcss/vite` (`resources/js/site/index.css`) plus plain per-theme CSS files.
+- Static assets: per-invitation images and audio live in `public/invitations/<template>/` and are referenced by absolute path. Bundled images live under `resources/js/site/assets/`.
+- `VITE_CONTACT_WHATSAPP` and `VITE_GA_ID` come from `.env` and are read by `resources/js/site/config/`.
 - TypeScript project references: `tsconfig.app.json` covers `resources/js`, `tsconfig.node.json` covers `vite.config.ts`.
-- Admin panel frontend: everything lives under `resources/js/admin/`, laid out as in the starter kit. Its entry is `admin/app.tsx` and its stylesheet is `admin/app.css`, which holds the shadcn/ui theme. The admin CSS only scans the admin folder, and the public `index.css` excludes it, so neither app's tokens (e.g. `--primary`) leak into the other. Admin page components are named by their path under `admin/pages` (e.g. `auth/login`, `settings/profile`). The `@/` alias points to `resources/js/admin`, and only admin code uses it.
+- Admin panel frontend: everything lives under `resources/js/admin/`, laid out as in the starter kit. Its entry is `admin/app.tsx` and its stylesheet is `admin/app.css`, which holds the shadcn/ui theme. Each app's CSS only scans its own folder and its Blade root view, so neither app's tokens (e.g. `--primary`) leak into the other. Admin page components are named by their path under `admin/pages` (e.g. `auth/login`, `settings/profile`). The `@/` alias points to `resources/js/admin`, and only admin code uses it.
 - Wayfinder's Vite plugin generates typed route helpers into `resources/js/admin/{actions,routes,wayfinder}`. These folders are gitignored; run `php artisan wayfinder:generate --path=resources/js/admin --with-form` if they are missing outside of Vite. ESLint skips them, along with the vendored `admin/components/ui`.
 
 ===
