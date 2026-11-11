@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project state
 
-Convite: a site for custom digital invitations (weddings, XV años, birthdays). It is a Laravel 13 app that serves a React 19 + TypeScript frontend through Inertia v3. Each invitation is hand-built React code under `resources/js/site/invitations/<template>/`; the database only holds per-invitation routing and meta data. An admin panel, built from the Laravel React starter kit with Fortify authentication, lives under `/admin`.
+Convite: a site for custom digital invitations (weddings, XV años, birthdays). It is a Laravel 13 app that serves a React 19 + TypeScript frontend through Inertia v3. Templates are hand-built React designs under `resources/js/site/invitations/<template>/`; each invitation's content (names, date, venues, photos, music...) is captured by the admin in the panel and stored in the database, so one template serves many invitations. An admin panel, built from the Laravel React starter kit with Fortify authentication, lives under `/admin`.
 
 ## Commands
 
@@ -13,7 +13,8 @@ Convite: a site for custom digital invitations (weddings, XV años, birthdays). 
 - `npm run lint`: ESLint over the frontend
 - `php artisan test`: Pest test suite (runs against the `convite_testing` PostgreSQL database, see `phpunit.xml`)
 - `./vendor/bin/pint`: format PHP code
-- `php artisan migrate --seed`: create tables and seed the existing invitations (`InvitationSeeder` is idempotent)
+- `php artisan migrate --seed`: create tables and seed the demo invitations (`InvitationSeeder` is idempotent; their content lives in `database/seeders/data/invitations/<template>.php`)
+- `php artisan storage:link`: needed once, so uploaded photos and music (public disk) are served
 - `php artisan admin:create`: create an admin panel account. Public registration is disabled.
 
 PHP ^8.3 and Node (pinned via `.nvmrc`, v24.7.0). The database is PostgreSQL (`convite` locally).
@@ -23,10 +24,11 @@ PHP ^8.3 and Node (pinned via `.nvmrc`, v24.7.0). The database is PostgreSQL (`c
 ### Backend (Laravel)
 
 - `routes/web.php`: `/` renders the landing page (`LandingController`, which sends the active plans for the pricing section); `/i/{invitation}` (`show`), `/i/{invitation}/tarjeta` (`printCard`) and `/i/{invitation}/pases` (`guestPasses`) go to `InvitationController`. `{invitation}` binds by `slug`.
-- `App\Models\Invitation`: `slug` (URL) is separate from `template` (folder under `resources/js/site/invitations/`). For example slug `mati-nayith` uses template `matilde-nayith`. `component($page)` builds the Inertia component name; `hasPage($page)` checks that the template ships that `.tsx` file. The printable pages are optional per template and 404 when the file is missing.
+- `App\Models\Invitation`: `slug` (URL) is separate from `template` (folder under `resources/js/site/invitations/`). For example slug `mati-nayith` uses template `matilde-nayith`. Each template declares in its `template.json` its `kind` (`App\Enums\InvitationKind`: `wedding`, `birthday`, `xv`) and the optional `sections` its design shows; `Invitation::templates()` reads these manifests. `component($page)` builds the Inertia component name; `hasPage($page)` checks that the template ships that `.tsx` file. The printable pages are optional per template and 404 when the file is missing.
 - Meta tags (title, description, og:image, robots) are rendered server-side in `resources/views/app.blade.php` from an optional `meta` prop. Its defaults are the landing page's own. Invitation pages are `noindex, nofollow`. This replaces the old `scripts/prerender.ts`.
 - 404s (unknown routes, unknown slugs) render the React `pages/not-found/NotFoundPage` with a 404 status (see `bootstrap/app.php`). URLs under `/admin` keep Laravel's default 404 page.
 - `invitations.status` (`App\Enums\InvitationStatus`): only `published` invitations are public. The `invitation.visible` middleware (every `/i/{slug}` route, RSVP included) answers 404 for a `draft` and 410 for an `archived` one (`pages/unavailable/UnavailablePage`), but lets panel users who may `view` the invitation open it as a preview: the page gets a `preview` prop with the status, shown by `site/components/preview/PreviewBanner`. Unpublished invitations take no RSVPs (`acceptsRsvps`) and cannot be sent to guests (`GuestDeliveryService::ensureSendable`). New rows default to `published`.
+- Invitation content (`invitations.content`, jsonb, plus `event_time`): edited only by admins in `Admin\InvitationContentController`, validated per kind by `App\Concerns\InvitationContentRules`. `InvitationContentResource` resolves media URLs, builds the maps from each venue's coordinates and, for invitations without an order (the demos), moves the date to 60 days from today keeping the time and the deadline offset. Publishing requires the date, the time and the names (`InvitationValidationRules`).
 
 ### Admin panel (Fortify + React starter kit)
 
@@ -52,10 +54,10 @@ PHP ^8.3 and Node (pinned via `.nvmrc`, v24.7.0). The database is PostgreSQL (`c
 
 - The public site's frontend lives under `resources/js/site/`, and the admin panel's under `resources/js/admin/`. Neither imports from the other, except that the admin logo reuses `site/assets/images/convite-icon.png`.
 - Entry: `resources/js/site/app.tsx`. Inertia component names are paths relative to `resources/js/site` without the extension, resolved with `import.meta.glob` over `./pages/**/*Page.tsx` and `./invitations/*/*Page.tsx`. `config/inertia.php` points `pages.paths` at `resources/js/site` so `assertInertia` can check that these files exist.
-- To add an invitation, create `resources/js/site/invitations/<template>/InvitationPage.tsx` (optionally `PrintCardPage.tsx` / `GuestPassesPage.tsx`) and add a row to `invitations`, usually through `InvitationSeeder`.
+- To add an invitation, create it in the panel as a draft, capture its content (`admin/invitations/{slug}/content`) and publish it. To add a template, create `resources/js/site/invitations/<template>/InvitationPage.tsx` (optionally `PrintCardPage.tsx` / `GuestPassesPage.tsx`) plus its `template.json`. Template pages read the `invitation` prop (`InvitationContentResource`, typed in `site/types/invitation.ts`), build the date labels with `site/lib/eventContent.ts` and hide sections without data.
 - Navigation uses `Link` from `@inertiajs/react`. There is no client-side router. Pages still set `document.title` themselves on mount.
 - Styling: Tailwind v4 via `@tailwindcss/vite` (`resources/js/site/index.css`) plus plain per-theme CSS files.
-- Static assets: per-invitation images and audio live in `public/invitations/<template>/` and are referenced by absolute path. Bundled images live under `resources/js/site/assets/`.
+- Media: the admin uploads photos and music (`InvitationMediaController`) to the public disk under `invitations/{id}/`; content stores the path, and saving the content deletes the uploads it no longer uses. Paths starting with `/` are static files in `public/invitations/<template>/`, used by the seeded demos. Bundled images (e.g. each template's default hero background) live next to the template or under `resources/js/site/assets/`.
 - `VITE_CONTACT_WHATSAPP` and `VITE_GA_ID` come from `.env` and are read by `resources/js/site/config/`.
 - TypeScript project references: `tsconfig.app.json` covers `resources/js`, `tsconfig.node.json` covers `vite.config.ts`.
 - Admin panel frontend: everything lives under `resources/js/admin/`, laid out as in the starter kit. Its entry is `admin/app.tsx` and its stylesheet is `admin/app.css`, which holds the shadcn/ui theme. Each app's CSS only scans its own folder and its Blade root view, so neither app's tokens (e.g. `--primary`) leak into the other. Admin page components are named by their path under `admin/pages` (e.g. `auth/login`, `settings/profile`). The `@/` alias points to `resources/js/admin`, and only admin code uses it.
