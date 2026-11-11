@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\InvitationStatus;
 use App\Models\Invitation;
 use App\Models\Order;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -39,5 +40,21 @@ class InvitationFactory extends Factory
             'order_id' => $order->id,
             'client_id' => $order->client_id,
         ]);
+    }
+
+    /**
+     * Indicate that the invitation is a draft, only shown to its panel users.
+     */
+    public function draft(): static
+    {
+        return $this->state(fn (array $attributes) => ['status' => InvitationStatus::Draft]);
+    }
+
+    /**
+     * Indicate that the invitation was archived, so its guests can no longer open it.
+     */
+    public function archived(): static
+    {
+        return $this->state(fn (array $attributes) => ['status' => InvitationStatus::Archived]);
     }
 }

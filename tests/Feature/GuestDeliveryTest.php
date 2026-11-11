@@ -1,12 +1,14 @@
 <?php
 
 use App\Enums\PlanFeature;
+use App\Jobs\SendGuestInvitation;
 use App\Mail\GuestInvitationMail;
 use App\Models\Guest;
 use App\Models\Invitation;
 use App\Models\Order;
 use App\Models\Plan;
 use App\Models\User;
+use App\Services\GuestDeliveryService;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -84,6 +86,33 @@ it('does not email a guest without an email address', function () {
         ->assertSessionHasErrors(['email' => 'Ana no tiene correo electrónico.']);
 
     Mail::assertNothingSent();
+});
+
+it('does not send an invitation that is not published', function (string $route) {
+    $invitation = Invitation::factory()->forOrder(Order::factory()->withPanel()->create())->draft()->create();
+    $guest = Guest::factory()->for($invitation)->create(['email' => 'ana@example.com']);
+    Mail::fake();
+
+    $parameters = $route === 'email-pending' ? $invitation : [$invitation, $guest];
+
+    $this->actingAs(User::factory()->create())
+        ->post(route("admin.invitations.guests.{$route}", $parameters))
+        ->assertSessionHasErrors(['invitation' => 'La invitación debe estar publicada antes de enviarla a los invitados.']);
+
+    Mail::assertNothingSent();
+    expect($guest->fresh()->sent_at)->toBeNull();
+})->with(['email', 'email-pending', 'mark-sent']);
+
+it('drops a queued email when the invitation stopped being published', function () {
+    $invitation = Invitation::factory()->forOrder(Order::factory()->withPanel()->create())->create();
+    $guest = Guest::factory()->for($invitation)->create(['email' => 'ana@example.com']);
+    Mail::fake();
+    $invitation->update(['status' => 'archived']);
+
+    (new SendGuestInvitation($guest->fresh()))->handle(app(GuestDeliveryService::class));
+
+    Mail::assertNothingSent();
+    expect($guest->fresh()->sent_at)->toBeNull();
 });
 
 it('emails only the guests with an email address who were not sent their invitation', function () {

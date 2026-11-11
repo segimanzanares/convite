@@ -25,6 +25,7 @@ class GuestDeliveryController extends Controller
     {
         Gate::authorize('manageGuests', $invitation);
 
+        $this->delivery->ensureSendable($invitation);
         $this->delivery->markSent($guest);
 
         return to_route('admin.invitations.guests.index', $invitation);

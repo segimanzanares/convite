@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', LandingController::class)->name('landing');
 
-Route::controller(InvitationController::class)->prefix('i/{invitation}')->name('invitations.')->group(function () {
+Route::controller(InvitationController::class)->prefix('i/{invitation}')->name('invitations.')->middleware('invitation.visible')->group(function () {
     Route::get('/', 'show')->name('show');
     Route::get('tarjeta', 'printCard')->name('print-card');
     Route::get('pases', 'guestPasses')->name('guest-passes');
@@ -16,7 +16,7 @@ Route::controller(InvitationController::class)->prefix('i/{invitation}')->name('
 });
 
 Route::post('i/{invitation}/rsvp', [RsvpController::class, 'store'])
-    ->middleware(['invitation.feature:online_rsvp', 'throttle:rsvp'])
+    ->middleware(['invitation.visible', 'invitation.feature:online_rsvp', 'throttle:rsvp'])
     ->name('invitations.rsvp.store');
 
 /*

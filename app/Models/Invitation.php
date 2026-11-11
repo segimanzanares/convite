@@ -126,12 +126,21 @@ class Invitation extends Model
     }
 
     /**
-     * Whether the invitation stores RSVPs and still takes them: the plan includes online RSVPs, the deadline has not
-     * passed and its guest data was not purged.
+     * Whether the public may open the invitation. Drafts and archived invitations are only shown to its panel users,
+     * as a preview (see EnsureInvitationIsVisible).
+     */
+    public function isPublished(): bool
+    {
+        return $this->status === InvitationStatus::Published;
+    }
+
+    /**
+     * Whether the invitation stores RSVPs and still takes them: it is published, the plan includes online RSVPs, the
+     * deadline has not passed and its guest data was not purged. A preview never leaves test answers behind.
      */
     public function acceptsRsvps(): bool
     {
-        if (! $this->hasFeature(PlanFeature::OnlineRsvp) || $this->guests_purged_at !== null) {
+        if (! $this->isPublished() || ! $this->hasFeature(PlanFeature::OnlineRsvp) || $this->guests_purged_at !== null) {
             return false;
         }
 

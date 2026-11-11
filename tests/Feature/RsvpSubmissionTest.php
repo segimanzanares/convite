@@ -89,6 +89,22 @@ it('closes the form at the end of the deadline day', function (string $now, bool
     'the day after' => ['2026-12-02 00:00:00', false],
 ]);
 
+it('does not take answers for a draft', function () {
+    $invitation = invitationWithOnlineRsvp(['status' => 'draft']);
+
+    $this->postJson(route('invitations.rsvp.store', $invitation), ['name' => 'Ana', 'attending' => false])
+        ->assertNotFound();
+
+    // A preview from the panel shows the form closed and does not store test answers
+    $this->actingAs(User::factory()->client($invitation->client)->create())
+        ->postJson(route('invitations.rsvp.store', $invitation), ['name' => 'Ana', 'attending' => false])
+        ->assertJsonValidationErrors('rsvp');
+
+    $this->get("/i/{$invitation->slug}")->assertInertia(fn (Assert $page) => $page->where('rsvp.open', false));
+
+    expect(Rsvp::count())->toBe(0);
+});
+
 it('has no online form when the plan does not include it', function (Closure $invitation) {
     $this->postJson(route('invitations.rsvp.store', $invitation()), ['name' => 'Ana', 'attending' => false])
         ->assertNotFound();

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\EnsureInvitationHasFeature;
+use App\Http\Middleware\EnsureInvitationIsVisible;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
@@ -22,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'invitation.feature' => EnsureInvitationHasFeature::class,
+            'invitation.visible' => EnsureInvitationIsVisible::class,
         ]);
 
         $middleware->web(append: [
@@ -36,19 +38,26 @@ return Application::configure(basePath: dirname(__DIR__))
         );
 
         // Unknown pages and invitations render the public site's React 404
-        // page, keeping the 404 status, instead of Laravel's default error
-        // view. The admin panel keeps the default one, since its Inertia app
-        // does not bundle the public site's pages.
+        // page, and archived invitations its 410 page, keeping the status,
+        // instead of Laravel's default error view. The admin panel keeps the
+        // default one, since its Inertia app does not bundle the public
+        // site's pages.
         $exceptions->respond(function (Response $response, Throwable $e, Request $request) {
-            if ($response->getStatusCode() !== 404 || $request->expectsJson() || $request->is('admin', 'admin/*')) {
+            $status = $response->getStatusCode();
+
+            if (! in_array($status, [404, 410], true) || $request->expectsJson() || $request->is('admin', 'admin/*')) {
                 return $response;
             }
 
-            return Inertia::render('pages/not-found/NotFoundPage', [
+            [$component, $title] = $status === 410
+                ? ['pages/unavailable/UnavailablePage', 'Invitación no disponible']
+                : ['pages/not-found/NotFoundPage', 'Página no encontrada'];
+
+            return Inertia::render($component, [
                 'meta' => [
-                    'title' => 'Página no encontrada',
+                    'title' => $title,
                     'robots' => 'noindex, nofollow',
                 ],
-            ])->toResponse($request)->setStatusCode(404);
+            ])->toResponse($request)->setStatusCode($status);
         });
     })->create();

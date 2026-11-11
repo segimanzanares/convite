@@ -90,6 +90,8 @@ class InvitationController extends Controller
 
         return Inertia::render($invitation->component($page), [
             ...$props,
+            // Drafts and archived invitations only reach their panel users (see EnsureInvitationIsVisible)
+            'preview' => $invitation->isPublished() ? null : $invitation->status->value,
             // Read by resources/views/app.blade.php for link previews
             'meta' => [
                 'title' => $title,

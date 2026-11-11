@@ -5,6 +5,7 @@ import './index.css';
 import './styles/variables.css';
 import { initAnalytics } from './config/analytics';
 import { CookieConsentBanner } from './components/cookie-consent/CookieConsentBanner';
+import { PreviewBanner } from './components/preview/PreviewBanner';
 
 // Page components live in two places: site pages under ./pages and each
 // invitation's own pages under ./invitations/<template>. The server names
@@ -24,6 +25,7 @@ createInertiaApp({
     createRoot(el!).render(
       <StrictMode>
         <App {...props} />
+        <PreviewBanner initialProps={props.initialPage.props} />
         <CookieConsentBanner />
       </StrictMode>,
     );

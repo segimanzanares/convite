@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Mail;
 
 /**
  * Email a guest their invitation, then mark them as sent. The guest is only marked once the mail went out, so a
- * failed job leaves them pending and the next bulk send retries them.
+ * failed job leaves them pending and the next bulk send retries them. Nothing is sent when the invitation stopped
+ * being published after the job was queued.
  */
 class SendGuestInvitation implements ShouldQueue
 {
@@ -29,7 +30,7 @@ class SendGuestInvitation implements ShouldQueue
      */
     public function handle(GuestDeliveryService $delivery): void
     {
-        if (blank($this->guest->email)) {
+        if (blank($this->guest->email) || ! $this->guest->invitation->isPublished()) {
             return;
         }
 

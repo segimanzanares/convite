@@ -39,6 +39,20 @@ class GuestDeliveryService
     }
 
     /**
+     * Guests may only be sent a published invitation: the link of a draft or an archived one does not open for them.
+     *
+     * @throws ValidationException when the invitation is not published.
+     */
+    public function ensureSendable(Invitation $invitation): void
+    {
+        if (! $invitation->isPublished()) {
+            throw ValidationException::withMessages([
+                'invitation' => __('The invitation must be published before it is sent to the guests.'),
+            ]);
+        }
+    }
+
+    /**
      * Record that the guest was sent their invitation, keeping the latest time when it is sent again.
      */
     public function markSent(Guest $guest): void
@@ -49,10 +63,12 @@ class GuestDeliveryService
     /**
      * Queue the invitation email to one guest.
      *
-     * @throws ValidationException when the guest has no email address.
+     * @throws ValidationException when the invitation is not published or the guest has no email address.
      */
     public function email(Guest $guest): void
     {
+        $this->ensureSendable($guest->invitation);
+
         if (blank($guest->email)) {
             throw ValidationException::withMessages([
                 'email' => __(':name has no email address.', ['name' => $guest->name]),
@@ -66,9 +82,13 @@ class GuestDeliveryService
      * Queue the invitation email to every guest with an email address who was not sent their invitation yet.
      *
      * @return int How many emails were queued.
+     *
+     * @throws ValidationException when the invitation is not published.
      */
     public function emailPending(Invitation $invitation): int
     {
+        $this->ensureSendable($invitation);
+
         $guests = $invitation->guests()->whereNull('sent_at')->whereNotNull('email')->where('email', '!=', '')->get();
 
         $guests->each(fn (Guest $guest) => SendGuestInvitation::dispatch($guest));
