@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\InvitationStatus;
 use App\Enums\PlanFeature;
+use Carbon\CarbonImmutable;
 use Database\Factories\InvitationFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -83,6 +85,59 @@ class Invitation extends Model
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
+    }
+
+    /** @return HasMany<Guest, $this> */
+    public function guests(): HasMany
+    {
+        return $this->hasMany(Guest::class)->chaperone();
+    }
+
+    /** @return HasMany<Rsvp, $this> */
+    public function rsvps(): HasMany
+    {
+        return $this->hasMany(Rsvp::class);
+    }
+
+    /**
+     * Whether the order the invitation was sold through includes the given feature. Invitations without an order (the
+     * demos) have no guest list and no online RSVPs, so visitors of a demo never leave data behind.
+     */
+    public function hasFeature(PlanFeature $feature): bool
+    {
+        return $this->order?->hasFeature($feature) ?? false;
+    }
+
+    /**
+     * The most guests the invitation may have, or null when the plan sets no limit.
+     */
+    public function guestLimit(): ?int
+    {
+        return $this->order?->maxGuests();
+    }
+
+    /**
+     * When the RSVP form closes: the end of the deadline day, or of the event day without a deadline, in the
+     * application's time zone. Null when the invitation has neither date.
+     */
+    public function rsvpClosesAt(): ?CarbonImmutable
+    {
+        return ($this->rsvp_deadline ?? $this->event_date)?->toImmutable()->endOfDay();
+    }
+
+    /**
+     * Whether the invitation stores RSVPs and still takes them: the plan includes online RSVPs, the deadline has not
+     * passed and its guest data was not purged.
+     */
+    public function acceptsRsvps(): bool
+    {
+        if (! $this->hasFeature(PlanFeature::OnlineRsvp) || $this->guests_purged_at !== null) {
+            return false;
+        }
+
+        $closesAt = $this->rsvpClosesAt();
+
+        return $closesAt === null || now()->lessThanOrEqualTo($closesAt);
     }
 
     /**

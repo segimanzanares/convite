@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Guest;
 use App\Models\Invitation;
+use App\Models\Rsvp;
 
 it('purges only the invitations whose event ended more than the retention period ago', function () {
     config(['convite.guest_retention_days' => 30]);
@@ -23,6 +25,21 @@ it('purges only the invitations whose event ended more than the retention period
         ->and($upcoming->fresh()->guests_purged_at)->toBeNull()
         ->and($undated->fresh()->guests_purged_at)->toBeNull()
         ->and($alreadyPurged->fresh()->guests_purged_at->toDateTimeString())->toBe(now()->subDays(50)->toDateTimeString());
+});
+
+it('deletes the guests and answers of a purged invitation and keeps those of the others', function () {
+    config(['convite.guest_retention_days' => 30]);
+    $expired = Invitation::factory()->create(['event_date' => today()->subDays(31)]);
+    $upcoming = Invitation::factory()->create(['event_date' => today()->addDays(10)]);
+    Rsvp::factory()->forGuest(Guest::factory()->for($expired)->create())->create();
+    Rsvp::factory()->for($expired)->create();
+    $keptGuest = Guest::factory()->for($upcoming)->create();
+    $keptAnswer = Rsvp::factory()->for($upcoming)->create();
+
+    $this->artisan('guests:purge')->assertSuccessful();
+
+    expect(Guest::pluck('id')->all())->toBe([$keptGuest->id])
+        ->and(Rsvp::pluck('id')->all())->toBe([$keptAnswer->id]);
 });
 
 it('runs the purge every day', function () {
