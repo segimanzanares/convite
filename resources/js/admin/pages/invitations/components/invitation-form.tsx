@@ -54,6 +54,11 @@ export default function InvitationForm({
     const [orderId, setOrderId] = useState(
         defaultValues?.order_id ? String(defaultValues.order_id) : NO_ORDER,
     );
+    const selectedOrder = orders.find((order) => String(order.id) === orderId);
+    // Mirrors the server rule: an exclusive template needs a plan with a custom design, or no order (a demo)
+    const allowsExclusive =
+        !selectedOrder ||
+        selectedOrder.plan.features.includes('custom_design');
 
     return (
         <Form
@@ -101,6 +106,10 @@ export default function InvitationForm({
                                             <SelectItem
                                                 key={template.name}
                                                 value={template.name}
+                                                disabled={
+                                                    template.exclusive &&
+                                                    !allowsExclusive
+                                                }
                                             >
                                                 {template.label} ·{' '}
                                                 {
@@ -112,6 +121,15 @@ export default function InvitationForm({
                                         ))}
                                     </SelectContent>
                                 </Select>
+                                {!allowsExclusive &&
+                                    templates.some(
+                                        (template) => template.exclusive,
+                                    ) && (
+                                        <p className="text-muted-foreground text-xs">
+                                            Las plantillas exclusivas requieren
+                                            un plan con diseño personalizado.
+                                        </p>
+                                    )}
                                 <InputError message={errors.template} />
                             </div>
                         </div>

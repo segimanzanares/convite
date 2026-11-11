@@ -3,6 +3,7 @@
 namespace App\Concerns;
 
 use App\Enums\InvitationStatus;
+use App\Enums\PlanFeature;
 use App\Models\Invitation;
 use App\Models\Order;
 use Closure;
@@ -13,7 +14,8 @@ trait InvitationValidationRules
 {
     /**
      * Get the validation rules used to validate invitations. A published invitation needs its date, time and
-     * content, so the admin creates it as a draft, captures its content and then publishes it.
+     * content, so the admin creates it as a draft, captures its content and then publishes it. An exclusive template
+     * needs an order whose plan includes a custom design; an invitation without an order (a demo) may use one.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
@@ -21,7 +23,23 @@ trait InvitationValidationRules
     {
         return [
             'slug' => ['required', 'string', 'max:255', 'alpha_dash', Rule::unique(Invitation::class)->ignore($invitation?->id)],
-            'template' => ['required', 'string', Rule::in(array_keys(Invitation::assignableTemplates($invitation)))],
+            'template' => [
+                'required',
+                'string',
+                Rule::in(array_keys(Invitation::assignableTemplates($invitation))),
+                function (string $attribute, mixed $value, Closure $fail) use ($invitation): void {
+                    $orderId = $this->has('order_id') ? $this->input('order_id') : $invitation?->order_id;
+                    $isExclusive = is_string($value) && (Invitation::templates()[$value]['exclusive'] ?? false);
+
+                    if (! $isExclusive || ! is_numeric($orderId)) {
+                        return;
+                    }
+
+                    if (Order::find($orderId)?->hasFeature(PlanFeature::CustomDesign) === false) {
+                        $fail(__('The plan of the order does not include a custom design.'));
+                    }
+                },
+            ],
             'order_id' => ['nullable', 'integer', Rule::exists(Order::class, 'id')],
             'event_date' => ['nullable', 'required_if:status,'.InvitationStatus::Published->value, 'date_format:Y-m-d'],
             'event_time' => ['nullable', 'required_if:status,'.InvitationStatus::Published->value, 'date_format:H:i'],

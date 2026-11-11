@@ -128,3 +128,27 @@ it('only offers an exclusive template to the invitation that uses it', function 
         File::deleteDirectory($folder);
     }
 });
+
+it('only lets an exclusive template be used with an order whose plan includes a custom design', function () {
+    $folder = resource_path('js/site/templates/test-exclusiva');
+    File::ensureDirectoryExists($folder);
+    File::put("{$folder}/InvitationPage.tsx", '');
+    File::put("{$folder}/template.json", json_encode(['kind' => 'wedding', 'label' => 'Boda de Ana', 'exclusive' => true]));
+
+    try {
+        $catalogOrder = Order::factory()->for(Plan::factory()->withFeatures(PlanFeature::PrintCard))->create();
+        $customOrder = Order::factory()->for(Plan::factory()->withFeatures(PlanFeature::CustomDesign))->create();
+        $invitation = Invitation::factory()->forOrder($customOrder)->create(['template' => 'test-exclusiva']);
+        $admin = User::factory()->create();
+        $update = fn (?Order $order) => $this->actingAs($admin)->put(
+            route('admin.invitations.update', $invitation),
+            invitationFields(['slug' => $invitation->slug, 'template' => 'test-exclusiva', 'order_id' => $order?->id]),
+        );
+
+        $update($catalogOrder)->assertSessionHasErrors('template');
+        $update($customOrder)->assertSessionHasNoErrors();
+        $update(null)->assertSessionHasNoErrors();
+    } finally {
+        File::deleteDirectory($folder);
+    }
+});
