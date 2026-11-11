@@ -26,6 +26,7 @@ PHP ^8.3 and Node (pinned via `.nvmrc`, v24.7.0). The database is PostgreSQL (`c
 - `App\Models\Invitation`: `slug` (URL) is separate from `template` (folder under `resources/js/site/invitations/`). For example slug `mati-nayith` uses template `matilde-nayith`. `component($page)` builds the Inertia component name; `hasPage($page)` checks that the template ships that `.tsx` file. The printable pages are optional per template and 404 when the file is missing.
 - Meta tags (title, description, og:image, robots) are rendered server-side in `resources/views/app.blade.php` from an optional `meta` prop. Its defaults are the landing page's own. Invitation pages are `noindex, nofollow`. This replaces the old `scripts/prerender.ts`.
 - 404s (unknown routes, unknown slugs) render the React `pages/not-found/NotFoundPage` with a 404 status (see `bootstrap/app.php`). URLs under `/admin` keep Laravel's default 404 page.
+- `invitations.status` (`App\Enums\InvitationStatus`): only `published` invitations are public. The `invitation.visible` middleware (every `/i/{slug}` route, RSVP included) answers 404 for a `draft` and 410 for an `archived` one (`pages/unavailable/UnavailablePage`), but lets panel users who may `view` the invitation open it as a preview: the page gets a `preview` prop with the status, shown by `site/components/preview/PreviewBanner`. Unpublished invitations take no RSVPs (`acceptsRsvps`) and cannot be sent to guests (`GuestDeliveryService::ensureSendable`). New rows default to `published`.
 
 ### Admin panel (Fortify + React starter kit)
 
