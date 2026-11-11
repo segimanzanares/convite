@@ -1,6 +1,8 @@
 import { Link } from '@inertiajs/react';
 import { buildWhatsappUrl } from '../../config/contact';
 import convitePetal from '../../assets/images/convite-icon.png';
+import type { Plan } from '../../types/plan';
+import { formatPrice } from '../../utils/formatPrice';
 import { ACCENT_CLASSES, type Accent } from './accents';
 
 const TAGS: { label: string; accent: Accent }[] = [
@@ -16,8 +18,9 @@ const STATS: { value: string; label: string }[] = [
   { value: '2', label: 'Rondas de ajustes incluidas' },
 ];
 
-export function Hero() {
+export function Hero({ plans }: { plans: Plan[] }) {
   const whatsappUrl = buildWhatsappUrl('Hola 👋 Quiero cotizar una invitación digital para mi evento.');
+  const lowestPrice = plans.length > 0 ? Math.min(...plans.map((plan) => Number(plan.price))) : null;
 
   return (
     <section className="relative overflow-hidden">
@@ -67,9 +70,14 @@ export function Hero() {
               </Link>
             </div>
 
-            <p className="font-jost text-[11px] tracking-[0.2em] uppercase text-primary/80 mb-8">
-              Invitaciones desde <span className="text-gold">$899 pesos</span>
-            </p>
+            {lowestPrice !== null && (
+              <p className="font-jost text-[11px] tracking-[0.2em] uppercase text-primary/80 mb-8">
+                Invitaciones desde{' '}
+                <a href="#planes" className="text-gold hover:underline">
+                  {formatPrice(lowestPrice)} pesos
+                </a>
+              </p>
+            )}
 
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 mb-12">
               {TAGS.map(({ label, accent }) => (

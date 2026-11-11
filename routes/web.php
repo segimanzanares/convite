@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'pages/landing/LandingPage')->name('landing');
+Route::get('/', LandingController::class)->name('landing');
 
 Route::controller(InvitationController::class)->prefix('i/{invitation}')->name('invitations.')->group(function () {
     Route::get('/', 'show')->name('show');
@@ -23,6 +24,8 @@ Route::prefix('admin')->group(function () {
 
     require __DIR__.'/settings.php';
 });
+
+require __DIR__.'/admin.php';
 
 Route::get('.well-known/passkey-endpoints', function () {
     return response()->json([

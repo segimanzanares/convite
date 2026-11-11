@@ -25,7 +25,7 @@ class InvitationController extends Controller
 
     private function render(Invitation $invitation, string $page, string $title): Response
     {
-        abort_unless($invitation->hasPage($page), 404);
+        abort_unless($invitation->offersPage($page), 404);
 
         return Inertia::render($invitation->component($page), [
             // Read by resources/views/app.blade.php for link previews

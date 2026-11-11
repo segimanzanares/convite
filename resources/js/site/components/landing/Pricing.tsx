@@ -1,0 +1,74 @@
+import { SectionHeading } from '../shared/SectionHeading';
+import { Reveal } from '../shared/Reveal';
+import { buildWhatsappUrl } from '../../config/contact';
+import type { Plan, PlanFeature } from '../../types/plan';
+import { formatPrice } from '../../utils/formatPrice';
+import { ACCENT_CLASSES, type Accent } from './accents';
+
+const ACCENTS: Accent[] = ['gold', 'terracotta', 'rose', 'teal'];
+
+const FEATURE_LABELS: Record<PlanFeature, string> = {
+  guest_management: 'Lista de invitados con enlaces personalizados',
+  online_rsvp: 'Confirmaciones en línea en tu panel',
+  print_card: 'Tarjeta imprimible',
+  guest_passes: 'Pases imprimibles para tus invitados',
+};
+
+export function Pricing({ plans }: { plans: Plan[] }) {
+  if (plans.length === 0) {
+    return null;
+  }
+
+  return (
+    <section id="planes" className="max-w-[1100px] mx-auto px-8 pb-[120px]">
+      <Reveal className="text-center mb-16">
+        <SectionHeading eyebrow="Planes" title="Elijan el suyo" />
+      </Reveal>
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-8">
+        {plans.map((plan, index) => {
+          const accent = ACCENT_CLASSES[ACCENTS[index % ACCENTS.length]];
+          const whatsappUrl = buildWhatsappUrl(`Hola 👋 Me interesa el plan ${plan.name} para mi evento.`);
+          const includes = [
+            'Invitación digital a medida',
+            plan.features.includes('online_rsvp') ? null : 'Confirmación de asistencia por WhatsApp',
+            plan.max_guests ? `Hasta ${plan.max_guests} invitaciones personalizadas` : null,
+            ...plan.features.map((feature) => FEATURE_LABELS[feature]),
+          ].filter((item): item is string => item !== null);
+
+          return (
+            <Reveal key={plan.id}>
+              <div
+                className={`h-full flex flex-col border ${accent.border} py-10 px-7 bg-[linear-gradient(160deg,var(--color-ivory),var(--color-cream))]`}
+              >
+                <h3 className={`font-jost text-sm tracking-[0.2em] uppercase mb-4 ${accent.text}`}>{plan.name}</h3>
+                <p className="font-display text-4xl text-primary mb-1">{formatPrice(plan.price)}</p>
+                <p className="font-jost text-[10px] tracking-[0.2em] uppercase text-primary/60 mb-6">pesos, pago único</p>
+                {plan.description && (
+                  <p className="text-[15px] font-light leading-[1.8] text-[#4a3820] mb-6">{plan.description}</p>
+                )}
+                <ul className="space-y-2 mb-8 text-[14px] font-light text-[#4a3820]">
+                  {includes.map((item) => (
+                    <li key={item} className="flex gap-2">
+                      <span className={accent.text} aria-hidden="true">
+                        ✓
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-auto text-center font-jost text-[11px] tracking-[0.3em] uppercase text-primary border border-primary/40 py-4 px-6 transition-colors duration-200 hover:bg-primary/5"
+                >
+                  Lo quiero
+                </a>
+              </div>
+            </Reveal>
+          );
+        })}
+      </div>
+    </section>
+  );
+}

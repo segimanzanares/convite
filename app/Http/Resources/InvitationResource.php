@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Http\Resources;
+
+use App\Models\Invitation;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+/**
+ * @mixin Invitation
+ */
+class InvitationResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'slug' => $this->slug,
+            'url' => route('invitations.show', $this->resource),
+            'template' => $this->template,
+            'client_id' => $this->client_id,
+            'order_id' => $this->order_id,
+            'event_date' => $this->event_date?->toDateString(),
+            'rsvp_deadline' => $this->rsvp_deadline?->toDateString(),
+            'status' => $this->status,
+            'title' => $this->title,
+            'description' => $this->description,
+            'og_image' => $this->og_image,
+            'guests_purged_at' => $this->guests_purged_at,
+            'client' => ClientResource::make($this->whenLoaded('client')),
+        ];
+    }
+}

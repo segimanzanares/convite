@@ -3,12 +3,14 @@ import { Header } from '../../components/landing/Header';
 import { Hero } from '../../components/landing/Hero';
 import { Features } from '../../components/landing/Features';
 import { Steps } from '../../components/landing/Steps';
+import { Pricing } from '../../components/landing/Pricing';
 import { Faq } from '../../components/landing/Faq';
 import { Cta } from '../../components/landing/Cta';
 import { Footer } from '../../components/landing/Footer';
 import { FullDivider } from '../../components/divider/FullDivider';
+import type { Plan } from '../../types/plan';
 
-export function LandingPage() {
+export function LandingPage({ plans }: { plans: Plan[] }) {
   useEffect(() => {
     document.title = 'Convite — Invitaciones digitales a medida';
   }, []);
@@ -16,10 +18,11 @@ export function LandingPage() {
   return (
     <div>
       <Header />
-      <Hero />
+      <Hero plans={plans} />
       <Features />
       <FullDivider text="Su evento, su invitación" />
       <Steps />
+      <Pricing plans={plans} />
       <Faq />
       <Cta />
       <Footer />
