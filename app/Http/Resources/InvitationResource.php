@@ -34,6 +34,9 @@ class InvitationResource extends JsonResource
             'guests_purged_at' => $this->guests_purged_at,
             'features' => $this->whenLoaded('order', fn () => $this->order?->plan_snapshot['features'] ?? []),
             'max_guests' => $this->whenLoaded('order', fn () => $this->guestLimit()),
+            'guest_passes_url' => $this->whenLoaded('order', fn () => $this->offersPage(Invitation::GUEST_PASSES_PAGE)
+                ? route('invitations.guest-passes', $this->resource)
+                : null),
             'client' => ClientResource::make($this->whenLoaded('client')),
         ];
     }

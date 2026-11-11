@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { usePage } from '@inertiajs/react';
+import { QRCodeSVG } from 'qrcode.react';
 import { CardOrnaments, PrintPage } from './PrintShared';
+import type { GuestPassesPageProps } from '../../types/guestPasses';
 import './GuestPasses.css';
 
 export interface GuestPassesProps {
@@ -9,7 +12,7 @@ export interface GuestPassesProps {
   names: string[];
   eyebrow?: string;
   dateLabel: string;
-  /** localStorage key for the guest list typed on the page. */
+  /** localStorage key for the guest list typed on the page, when the plan has no guest list. */
   storageKey: string;
   /** Prefilled list shown until the user types their own (one guest per line). */
   sampleGuests: string;
@@ -18,7 +21,9 @@ export interface GuestPassesProps {
 interface Guest {
   name: string;
   seats: number;
-  table?: string;
+  table?: string | null;
+  /** Personalized link, printed as a QR code; only guests from the guest list have one. */
+  url?: string;
 }
 
 /** 8 passes of 90×55 mm per US-letter sheet (2 columns × 4 rows). */
@@ -98,7 +103,7 @@ function CropMarks({ passCount }: { passCount: number }) {
 
 function GuestPass({ guest, names, eyebrow, dateLabel }: { guest: Guest; names: string[]; eyebrow: string; dateLabel: string }) {
   return (
-    <article className="guest-pass">
+    <article className={guest.url ? 'guest-pass guest-pass--qr' : 'guest-pass'}>
       <CardOrnaments marks={false} />
       <div className="guest-pass__content">
         <div className="guest-pass__main">
@@ -122,6 +127,16 @@ function GuestPass({ guest, names, eyebrow, dateLabel }: { guest: Guest; names: 
             <span className="guest-pass__unit">{guest.seats === 1 ? 'Persona' : 'Personas'}</span>
           </div>
           {guest.table && <p className="guest-pass__table">Mesa {guest.table}</p>}
+          {guest.url && (
+            <QRCodeSVG
+              className="guest-pass__qr"
+              value={guest.url}
+              level="M"
+              marginSize={0}
+              fgColor="#2c1f0a"
+              bgColor="#fdfaf4"
+            />
+          )}
         </div>
       </div>
     </article>
@@ -137,23 +152,34 @@ export function GuestPasses({
   storageKey,
   sampleGuests,
 }: GuestPassesProps) {
-  const [text, setText] = useState(() => readStored(storageKey) ?? sampleGuests);
-  const guests = useMemo(() => parseGuests(text), [text]);
+  // With a guest list, the server sends it and the passes are printed from it
+  const listedGuests = usePage<GuestPassesPageProps>().props.guests ?? null;
+  const isListed = listedGuests !== null;
+  const [text, setText] = useState(() => (isListed ? '' : (readStored(storageKey) ?? sampleGuests)));
+  const typedGuests = useMemo(() => parseGuests(text), [text]);
+  const guests: Guest[] = listedGuests ?? typedGuests;
   const zoom = useSheetZoom();
 
   useEffect(() => {
+    if (isListed) return;
     try {
       localStorage.setItem(storageKey, text);
     } catch {
       // Private mode or blocked storage: the list just won't survive a reload.
     }
-  }, [storageKey, text]);
+  }, [isListed, storageKey, text]);
 
   const sheets: Guest[][] = [];
   for (let i = 0; i < guests.length; i += PASSES_PER_SHEET) {
     sheets.push(guests.slice(i, i + PASSES_PER_SHEET));
   }
   const totalSeats = guests.reduce((sum, guest) => sum + guest.seats, 0);
+  const summary = (
+    <span>
+      {guests.length} {guests.length === 1 ? 'pase' : 'pases'} · {totalSeats} {totalSeats === 1 ? 'persona' : 'personas'}{' '}
+      · {sheets.length} {sheets.length === 1 ? 'hoja' : 'hojas'}
+    </span>
+  );
 
   return (
     <PrintPage
@@ -162,29 +188,37 @@ export function GuestPasses({
       pageSize="letter"
       hint="Imprime en hoja carta, escala 100 % (sin «Ajustar a la página»), márgenes «Ninguno» y con «Gráficos de fondo» para que cada pase mida 9 × 5.5 cm. Recorta siguiendo las marcas."
       controls={
-        <div className="guest-editor">
-          <label htmlFor="guest-list" className="guest-editor__label">
-            Invitados — uno por línea: <code>Nombre, pases, mesa</code> (la mesa es opcional)
-          </label>
-          <textarea
-            id="guest-list"
-            className="guest-editor__input"
-            rows={8}
-            value={text}
-            onChange={(event) => setText(event.target.value)}
-            spellCheck={false}
-          />
-          <div className="guest-editor__footer">
-            <span>
-              {guests.length} {guests.length === 1 ? 'pase' : 'pases'} · {totalSeats}{' '}
-              {totalSeats === 1 ? 'persona' : 'personas'} · {sheets.length} {sheets.length === 1 ? 'hoja' : 'hojas'}
-            </span>
-            <button type="button" onClick={() => setText(sampleGuests)} className="print-card-toolbar__link">
-              Restaurar ejemplo
-            </button>
+        isListed ? (
+          <div className="guest-editor">
+            <div className="guest-editor__footer">{summary}</div>
+            <p className="guest-editor__note">
+              {guests.length === 0
+                ? 'Aún no hay invitados en la lista. Agrégalos desde el panel y vuelve a esta página.'
+                : 'Los pases salen de la lista de invitados del panel. El código QR de cada pase abre su invitación personalizada.'}
+            </p>
           </div>
-          <p className="guest-editor__note">La lista se guarda solo en este navegador; no se envía a ningún lado.</p>
-        </div>
+        ) : (
+          <div className="guest-editor">
+            <label htmlFor="guest-list" className="guest-editor__label">
+              Invitados — uno por línea: <code>Nombre, pases, mesa</code> (la mesa es opcional)
+            </label>
+            <textarea
+              id="guest-list"
+              className="guest-editor__input"
+              rows={8}
+              value={text}
+              onChange={(event) => setText(event.target.value)}
+              spellCheck={false}
+            />
+            <div className="guest-editor__footer">
+              {summary}
+              <button type="button" onClick={() => setText(sampleGuests)} className="print-card-toolbar__link">
+                Restaurar ejemplo
+              </button>
+            </div>
+            <p className="guest-editor__note">La lista se guarda solo en este navegador; no se envía a ningún lado.</p>
+          </div>
+        )
       }
     >
       {sheets.map((sheet, index) => (

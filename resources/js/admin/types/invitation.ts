@@ -22,5 +22,7 @@ export type Invitation = {
     features?: PlanFeature[];
     /** The plan's guest limit, null without one; only sent when the order was loaded. */
     max_guests?: number | null;
+    /** The printable passes, null when the plan or template has none; only sent when the order was loaded. */
+    guest_passes_url?: string | null;
     client?: Client;
 };

@@ -7,6 +7,7 @@ import {
     FileUpIcon,
     PencilIcon,
     PlusIcon,
+    PrinterIcon,
     SearchIcon,
     TrashIcon,
 } from 'lucide-react';
@@ -90,6 +91,18 @@ export default function GuestsIndex({
                     />
 
                     <div className="flex flex-wrap gap-2">
+                        {invitation.guest_passes_url && (
+                            <Button variant="outline" asChild>
+                                <a
+                                    href={invitation.guest_passes_url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    <PrinterIcon />
+                                    Pases
+                                </a>
+                            </Button>
+                        )}
                         {showsRsvps && (
                             <Button variant="outline" asChild>
                                 <Link href={rsvpsIndex(invitation.slug)}>

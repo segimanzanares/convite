@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\PlanFeature;
+use App\Http\Resources\PassGuestResource;
 use App\Http\Resources\PublicGuestResource;
 use App\Models\Invitation;
 use App\Services\GuestService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -53,9 +56,29 @@ class InvitationController extends Controller
         return $this->render($invitation, Invitation::PRINT_CARD_PAGE, "Tarjeta impresa — {$invitation->title}");
     }
 
-    public function guestPasses(Invitation $invitation): Response
+    /**
+     * The printable passes. With a guest list they are printed from it, so only the invitation's panel users may open
+     * them (the list has every guest's personal link); without one, the page lets the visitor type the list.
+     */
+    public function guestPasses(Request $request, Invitation $invitation): Response|RedirectResponse
     {
-        return $this->render($invitation, Invitation::GUEST_PASSES_PAGE, "Pases de invitados — {$invitation->title}");
+        abort_unless($invitation->offersPage(Invitation::GUEST_PASSES_PAGE), 404);
+
+        $guests = null;
+
+        if ($invitation->hasFeature(PlanFeature::GuestManagement)) {
+            if ($request->user() === null) {
+                return redirect()->guest(route('login'));
+            }
+
+            Gate::authorize('manageGuests', $invitation);
+
+            $guests = PassGuestResource::collection($this->guests->list($invitation));
+        }
+
+        return $this->render($invitation, Invitation::GUEST_PASSES_PAGE, "Pases de invitados — {$invitation->title}", [
+            'guests' => $guests,
+        ]);
     }
 
     /**

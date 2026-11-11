@@ -165,3 +165,11 @@
 }
 .guest-pass__unit { font-size: 4.4pt; letter-spacing: 0.22em; margin-top: 0.8mm; }
 .guest-pass__table { font-size: 5.4pt; letter-spacing: 0.25em; color: var(--text-dark); }
+
+/* Passes printed from the guest list also carry a QR code of the guest's
+   personalized link, so the seats badge shrinks to make room for it */
+.guest-pass--qr .guest-pass__side { gap: 1.2mm; }
+.guest-pass--qr .guest-pass__badge { width: 15mm; height: 15mm; }
+.guest-pass--qr .guest-pass__seats { font-size: 15pt; }
+.guest-pass--qr .guest-pass__unit { font-size: 3.8pt; margin-top: 0.5mm; }
+.guest-pass__qr { width: 15mm; height: 15mm; }
