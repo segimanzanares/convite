@@ -53,5 +53,11 @@
     "We created your account in the :app panel, where you can manage the guests and RSVPs of your invitation.": "Creamos tu cuenta en el panel de :app, donde podrás administrar los invitados y las confirmaciones de tu invitación.",
     "Choose my password": "Elegir mi contraseña",
     "This link will expire in :count minutes. After that, you can request a new one with \"Forgot password?\" on the sign-in page.": "Este enlace vence en :count minutos. Después podrás pedir uno nuevo con \"¿Olvidaste tu contraseña?\" en la página de inicio de sesión.",
+    "Guest added.": "Invitado agregado.",
+    "Guest updated.": "Invitado actualizado.",
+    "Guest deleted.": "Invitado eliminado.",
+    "{1} :count guest imported.|[2,*] :count guests imported.": "{1} Se importó :count invitado.|[2,*] Se importaron :count invitados.",
+    "{0} The plan allows :limit guests and the list is full.|[1,*] The plan allows :limit guests, so only :count more can be added.": "{0} El plan permite :limit invitados y la lista está completa.|[1,*] El plan permite :limit invitados, así que solo puedes agregar :count más.",
+    "Answer deleted.": "Respuesta eliminada.",
     "The RSVP form is closed.": "El plazo para confirmar asistencia terminó."
 }

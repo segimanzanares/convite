@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ClientUserController;
+use App\Http\Controllers\Admin\GuestController;
+use App\Http\Controllers\Admin\GuestImportController;
 use App\Http\Controllers\Admin\InvitationController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\RsvpController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,4 +27,22 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 
     Route::get('invitations/mine', [InvitationController::class, 'mine'])->name('invitations.mine');
     Route::resource('invitations', InvitationController::class)->except(['show', 'destroy']);
+
+    // Guest lists and RSVPs only exist when the invitation's plan includes them, for admins too
+    Route::middleware('invitation.feature:guest_management')->scopeBindings()->group(function () {
+        Route::controller(GuestImportController::class)->prefix('invitations/{invitation}/guests/import')->name('invitations.guests.import.')->group(function () {
+            Route::get('/', 'create')->name('create');
+            Route::post('preview', 'preview')->name('preview');
+            Route::post('/', 'store')->name('store');
+        });
+        Route::resource('invitations.guests', GuestController::class)->except('show');
+    });
+
+    Route::middleware('invitation.feature:online_rsvp')->scopeBindings()->group(function () {
+        Route::controller(RsvpController::class)->prefix('invitations/{invitation}/rsvps')->name('invitations.rsvps.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('export', 'export')->name('export');
+            Route::delete('{rsvp}', 'destroy')->name('destroy');
+        });
+    });
 });

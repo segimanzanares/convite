@@ -1,4 +1,5 @@
 import type { Client } from './client';
+import type { PlanFeature } from './plan';
 
 export type InvitationStatus = 'draft' | 'published' | 'archived';
 
@@ -17,5 +18,9 @@ export type Invitation = {
     description: string;
     og_image: string | null;
     guests_purged_at: string | null;
+    /** The features of the order's plan; only sent when the order was loaded. */
+    features?: PlanFeature[];
+    /** The plan's guest limit, null without one; only sent when the order was loaded. */
+    max_guests?: number | null;
     client?: Client;
 };

@@ -1,0 +1,43 @@
+export type Rsvp = {
+    id: number;
+    /** Null for answers sent through the open form. */
+    guest_id: number | null;
+    name: string;
+    attending: boolean;
+    seats_confirmed: number;
+    message: string | null;
+    responded_at: string;
+};
+
+export type Guest = {
+    id: number;
+    name: string;
+    seats: number;
+    phone: string | null;
+    email: string | null;
+    table_label: string | null;
+    /** The guest's personalized link to the invitation. */
+    url: string;
+    sent_at: string | null;
+    first_opened_at: string | null;
+    rsvp?: Rsvp | null;
+};
+
+/** A row of a CSV file as the import preview returns it. */
+export type GuestImportRow = {
+    line: number;
+    name: string;
+    seats: number | string;
+    table_label: string | null;
+    phone: string | null;
+    email: string | null;
+    errors: string[];
+};
+
+export type RsvpSummary = {
+    guests: number;
+    attending: number;
+    declined: number;
+    pending: number;
+    people: number;
+};

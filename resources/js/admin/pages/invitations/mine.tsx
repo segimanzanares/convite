@@ -2,6 +2,7 @@ import { Head } from '@inertiajs/react';
 import { ExternalLinkIcon, MailOpenIcon } from 'lucide-react';
 import { mine } from '@/actions/App/Http/Controllers/Admin/InvitationController';
 import Heading from '@/components/heading';
+import InvitationSectionLinks from '@/components/invitation-sections';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -51,16 +52,21 @@ export default function InvitationsMine({
                                     <Badge variant="outline">
                                         {invitationStatusLabels[invitation.status]}
                                     </Badge>
-                                    <Button variant="outline" size="sm" asChild>
-                                        <a
-                                            href={invitation.url}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                        >
-                                            <ExternalLinkIcon />
-                                            Ver invitación
-                                        </a>
-                                    </Button>
+                                    <div className="flex flex-wrap gap-2">
+                                        <InvitationSectionLinks
+                                            invitation={invitation}
+                                        />
+                                        <Button variant="outline" size="sm" asChild>
+                                            <a
+                                                href={invitation.url}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                            >
+                                                <ExternalLinkIcon />
+                                                Ver invitación
+                                            </a>
+                                        </Button>
+                                    </div>
                                 </CardContent>
                             </Card>
                         ))}

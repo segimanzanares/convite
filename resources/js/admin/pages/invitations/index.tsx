@@ -10,6 +10,7 @@ import {
 } from '@/actions/App/Http/Controllers/Admin/InvitationController';
 import DataTable from '@/components/data-table';
 import Heading from '@/components/heading';
+import InvitationSectionLinks from '@/components/invitation-sections';
 import Pagination from '@/components/pagination';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -88,6 +89,9 @@ export default function InvitationsIndex({
                             </td>
                             <td className="px-4 py-3 text-right">
                                 <div className="flex items-center justify-end gap-2">
+                                    <InvitationSectionLinks
+                                        invitation={invitation}
+                                    />
                                     <Button variant="outline" size="icon" asChild>
                                         <a
                                             href={invitation.url}

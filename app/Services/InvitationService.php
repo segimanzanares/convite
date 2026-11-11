@@ -31,7 +31,7 @@ class InvitationService
      */
     public function ownedBy(Client $client): Collection
     {
-        return $client->invitations()->orderBy('event_date')->orderBy('slug')->get();
+        return $client->invitations()->with('order')->orderBy('event_date')->orderBy('slug')->get();
     }
 
     /**
