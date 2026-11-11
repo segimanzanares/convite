@@ -7,6 +7,8 @@ use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,6 +25,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property Carbon|null $email_verified_at
  * @property UserRole $role
  * @property int|null $client_id
+ * @property bool $receives_rsvp_digest
  * @property string $password
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
@@ -31,7 +34,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['name', 'email', 'password', 'role', 'client_id'])]
+#[Fillable(['name', 'email', 'password', 'role', 'client_id', 'receives_rsvp_digest'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
 {
@@ -46,6 +49,7 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
      */
     protected $attributes = [
         'role' => 'admin',
+        'receives_rsvp_digest' => true,
     ];
 
     /**
@@ -59,6 +63,7 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'role' => UserRole::class,
+            'receives_rsvp_digest' => 'boolean',
             'two_factor_confirmed_at' => 'datetime',
         ];
     }
@@ -67,6 +72,19 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
+    }
+
+    /**
+     * Limit the query to the client users who get the daily summary of their invitations' RSVPs.
+     *
+     * @param  Builder<User>  $query
+     */
+    #[Scope]
+    protected function receivingRsvpDigest(Builder $query): void
+    {
+        $query->where('role', UserRole::Client)
+            ->where('receives_rsvp_digest', true)
+            ->whereNotNull('email_verified_at');
     }
 
     public function isAdmin(): bool

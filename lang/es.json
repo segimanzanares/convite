@@ -69,5 +69,17 @@
     ":name has no email address.": ":name no tiene correo electrónico.",
     "The invitation is on its way to :email.": "La invitación va en camino a :email.",
     "Every guest with an email address was already sent the invitation.": "Ya se envió la invitación a todos los invitados con correo.",
-    "{1} Sending the invitation to :count guest.|[2,*] Sending the invitation to :count guests.": "{1} Enviando la invitación a :count invitado.|[2,*] Enviando la invitación a :count invitados."
+    "{1} Sending the invitation to :count guest.|[2,*] Sending the invitation to :count guests.": "{1} Enviando la invitación a :count invitado.|[2,*] Enviando la invitación a :count invitados.",
+    "RSVPs of :date: :title": "Confirmaciones del :date: :title",
+    "{1} On :date, :count person answered your invitation :title.|[2,*] On :date, :count people answered your invitation :title.": "{1} El :date respondió :count persona a tu invitación :title.|[2,*] El :date respondieron :count personas a tu invitación :title.",
+    "Name": "Nombre",
+    "Answer": "Respuesta",
+    "{1} Will attend (:count person)|[2,*] Will attend (:count people)": "{1} Asistirá (:count persona)|[2,*] Asistirá (:count personas)",
+    "Will not attend": "No asistirá",
+    "{1} And :count more answer, which you can see in the panel.|[2,*] And :count more answers, which you can see in the panel.": "{1} Y :count respuesta más, que puedes ver en el panel.|[2,*] Y :count respuestas más, que puedes ver en el panel.",
+    "So far": "Hasta ahora",
+    ":attending will attend (:people people), :declined will not attend and :pending are pending.": ":attending asistirán (:people personas), :declined no asistirán y :pending están pendientes.",
+    "See the RSVPs": "Ver las confirmaciones",
+    "You get this summary on each day after someone answers. You can turn it off in your profile:": "Recibes este resumen el día después de que alguien responde. Puedes desactivarlo en tu perfil:",
+    "Notification preferences updated.": "Preferencias de avisos actualizadas."
 }

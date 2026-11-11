@@ -7,6 +7,8 @@ export type User = {
     avatar?: string;
     role: UserRole;
     client_id: number | null;
+    /** Whether a client user gets the daily summary of their invitations' RSVPs. */
+    receives_rsvp_digest: boolean;
     email_verified_at: string | null;
     two_factor_enabled?: boolean;
     created_at: string;

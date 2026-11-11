@@ -5,6 +5,7 @@ import DeleteUser from '@/components/delete-user';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { edit } from '@/routes/profile';
@@ -120,6 +121,52 @@ export default function Profile(
                     )}
                 </Form>
             </div>
+
+            {auth.user.role === 'client' && (
+                <div className="space-y-6">
+                    <Heading
+                        variant="small"
+                        title="Avisos"
+                        description="Elige qué correos quieres recibir"
+                    />
+
+                    <Form
+                        {...ProfileController.updateNotifications.form()}
+                        options={{
+                            preserveScroll: true,
+                        }}
+                        className="space-y-6"
+                    >
+                        {({ processing }) => (
+                            <>
+                                <div className="flex items-start gap-3">
+                                    <Checkbox
+                                        id="receives_rsvp_digest"
+                                        name="receives_rsvp_digest"
+                                        value="1"
+                                        defaultChecked={
+                                            auth.user.receives_rsvp_digest
+                                        }
+                                    />
+                                    <div className="grid gap-1">
+                                        <Label htmlFor="receives_rsvp_digest">
+                                            Resumen diario de confirmaciones
+                                        </Label>
+                                        <p className="text-sm text-muted-foreground">
+                                            Un correo por la mañana con quién
+                                            respondió tu invitación el día
+                                            anterior. Solo llega los días
+                                            después de que alguien responde.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <Button disabled={processing}>Guardar</Button>
+                            </>
+                        )}
+                    </Form>
+                </div>
+            )}
 
             <DeleteUser />
         </>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Settings\NotificationPreferencesUpdateRequest;
 use App\Http\Requests\Settings\ProfileDeleteRequest;
 use App\Http\Requests\Settings\ProfileUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -39,6 +40,18 @@ class ProfileController extends Controller
         $request->user()->save();
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Profile updated.')]);
+
+        return to_route('profile.edit');
+    }
+
+    /**
+     * Update the emails the client user chooses to get.
+     */
+    public function updateNotifications(NotificationPreferencesUpdateRequest $request): RedirectResponse
+    {
+        $request->user()->update($request->validated());
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Notification preferences updated.')]);
 
         return to_route('profile.edit');
     }

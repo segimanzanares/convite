@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('guests:purge')->daily();
+Schedule::command('rsvps:digest')->dailyAt('08:00');
