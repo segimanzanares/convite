@@ -59,5 +59,15 @@
     "{1} :count guest imported.|[2,*] :count guests imported.": "{1} Se importó :count invitado.|[2,*] Se importaron :count invitados.",
     "{0} The plan allows :limit guests and the list is full.|[1,*] The plan allows :limit guests, so only :count more can be added.": "{0} El plan permite :limit invitados y la lista está completa.|[1,*] El plan permite :limit invitados, así que solo puedes agregar :count más.",
     "Answer deleted.": "Respuesta eliminada.",
-    "The RSVP form is closed.": "El plazo para confirmar asistencia terminó."
+    "The RSVP form is closed.": "El plazo para confirmar asistencia terminó.",
+    "Your invitation: :title": "Tu invitación: :title",
+    "We are happy to share your invitation to :title.": "Con mucho cariño te compartimos tu invitación a :title.",
+    "Open my invitation": "Ver mi invitación",
+    "Please confirm your attendance on the invitation before :date.": "Por favor confirma tu asistencia en la invitación antes del :date.",
+    "This link is personal: it was made for you.": "Este enlace es personal: fue hecho especialmente para ti.",
+    "Hello :name! We are happy to share your invitation to :title. Open it to see the details and confirm your attendance:\n:url": "¡Hola, :name! Con mucho cariño te compartimos tu invitación a :title. Ábrela para ver los detalles y confirmar tu asistencia:\n:url",
+    ":name has no email address.": ":name no tiene correo electrónico.",
+    "The invitation is on its way to :email.": "La invitación va en camino a :email.",
+    "Every guest with an email address was already sent the invitation.": "Ya se envió la invitación a todos los invitados con correo.",
+    "{1} Sending the invitation to :count guest.|[2,*] Sending the invitation to :count guests.": "{1} Enviando la invitación a :count invitado.|[2,*] Enviando la invitación a :count invitados."
 }

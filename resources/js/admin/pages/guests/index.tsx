@@ -5,10 +5,13 @@ import {
     CopyIcon,
     ExternalLinkIcon,
     FileUpIcon,
+    MailIcon,
+    MessageCircleIcon,
     PencilIcon,
     PlusIcon,
     PrinterIcon,
     SearchIcon,
+    SendIcon,
     TrashIcon,
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
@@ -20,6 +23,11 @@ import {
     store,
     update,
 } from '@/actions/App/Http/Controllers/Admin/GuestController';
+import {
+    email as emailGuest,
+    emailPending,
+    markSent,
+} from '@/actions/App/Http/Controllers/Admin/GuestDeliveryController';
 import { create as importGuests } from '@/actions/App/Http/Controllers/Admin/GuestImportController';
 import { index as rsvpsIndex } from '@/actions/App/Http/Controllers/Admin/RsvpController';
 import ConfirmDialog from '@/components/confirm-dialog';
@@ -34,6 +42,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import UrlModal from '@/components/url-modal';
 import { useClipboard } from '@/hooks/use-clipboard';
+import { formatDay } from '@/lib/format';
 import type { Auth, Guest, Invitation } from '@/types';
 import GuestForm from './components/guest-form';
 import GuestImportForm from './components/guest-import-form';
@@ -70,6 +79,35 @@ export default function GuestsIndex({
     }, [guests, search]);
 
     const seats = guests.reduce((total, guest) => total + guest.seats, 0);
+    const pendingEmails = guests.filter(
+        (guest) => guest.email && !guest.sent_at,
+    ).length;
+
+    // The wa.me link opens in a new tab on its own; this only records the send
+    const recordWhatsappSend = (guest: Guest) =>
+        router.post(
+            markSent([invitation.slug, guest.id]),
+            {},
+            { preserveScroll: true },
+        );
+
+    const sendEmail = (guest: Guest) =>
+        new Promise((resolve) =>
+            router.post(
+                emailGuest([invitation.slug, guest.id]),
+                {},
+                { preserveScroll: true, onFinish: resolve },
+            ),
+        );
+
+    const sendPendingEmails = () =>
+        new Promise((resolve) =>
+            router.post(
+                emailPending(invitation.slug),
+                {},
+                { preserveScroll: true, onFinish: resolve },
+            ),
+        );
 
     const removeGuest = (guest: Guest) =>
         new Promise((resolve) =>
@@ -102,6 +140,20 @@ export default function GuestsIndex({
                                     Pases
                                 </a>
                             </Button>
+                        )}
+                        {pendingEmails > 0 && (
+                            <ConfirmDialog
+                                trigger={
+                                    <Button variant="outline">
+                                        <SendIcon />
+                                        Enviar por correo ({pendingEmails})
+                                    </Button>
+                                }
+                                title="¿Enviar la invitación por correo?"
+                                description={`Se enviará a ${pendingEmails === 1 ? 'el invitado que tiene' : `los ${pendingEmails} invitados que tienen`} correo y aún no la han recibido. Cada quien recibe su enlace personalizado.`}
+                                confirmLabel="Enviar"
+                                onConfirm={sendPendingEmails}
+                            />
                         )}
                         {showsRsvps && (
                             <Button variant="outline" asChild>
@@ -162,7 +214,7 @@ export default function GuestsIndex({
                         'Lugares',
                         'Mesa',
                         ...(showsRsvps ? ['Respuesta'] : []),
-                        'Enlace',
+                        'Enlace y envío',
                         '',
                     ]}
                     empty={
@@ -217,12 +269,44 @@ export default function GuestsIndex({
                                             <ExternalLinkIcon />
                                         </a>
                                     </Button>
-                                    {guest.first_opened_at && (
-                                        <span className="text-muted-foreground text-xs">
-                                            Abierta
-                                        </span>
+                                    <Button variant="ghost" size="icon" asChild>
+                                        <a
+                                            href={guest.whatsapp_url}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            onClick={() =>
+                                                recordWhatsappSend(guest)
+                                            }
+                                            aria-label={`Enviar por WhatsApp a ${guest.name}`}
+                                            title="Enviar por WhatsApp"
+                                        >
+                                            <MessageCircleIcon />
+                                        </a>
+                                    </Button>
+                                    {guest.email && (
+                                        <ConfirmDialog
+                                            trigger={
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    aria-label={`Enviar por correo a ${guest.name}`}
+                                                    title="Enviar por correo"
+                                                >
+                                                    <MailIcon />
+                                                </Button>
+                                            }
+                                            title={`¿Enviar la invitación a ${guest.email}?`}
+                                            description={
+                                                guest.sent_at
+                                                    ? 'Este invitado ya la recibió; se le enviará de nuevo.'
+                                                    : undefined
+                                            }
+                                            confirmLabel="Enviar"
+                                            onConfirm={() => sendEmail(guest)}
+                                        />
                                     )}
                                 </div>
+                                <DeliveryStatus guest={guest} />
                             </td>
                             <td className="px-4 py-3 text-right">
                                 <div className="flex items-center justify-end gap-2">
@@ -297,6 +381,19 @@ export default function GuestsIndex({
             </UrlModal>
         </>
     );
+}
+
+function DeliveryStatus({ guest }: { guest: Guest }) {
+    const status = [
+        guest.sent_at && `Enviada el ${formatDay(guest.sent_at)}`,
+        guest.first_opened_at && 'Abierta',
+    ].filter(Boolean);
+
+    return status.length > 0 ? (
+        <div className="text-muted-foreground text-xs">
+            {status.join(' · ')}
+        </div>
+    ) : null;
 }
 
 function RsvpBadge({ guest }: { guest: Guest }) {

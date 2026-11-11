@@ -18,6 +18,8 @@ export type Guest = {
     table_label: string | null;
     /** The guest's personalized link to the invitation. */
     url: string;
+    /** Opens WhatsApp with the invitation message ready to send to the guest. */
+    whatsapp_url: string;
     sent_at: string | null;
     first_opened_at: string | null;
     rsvp?: Rsvp | null;

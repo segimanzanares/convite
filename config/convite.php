@@ -26,4 +26,16 @@ return [
 
     'open_rsvp_max_seats' => (int) env('CONVITE_OPEN_RSVP_MAX_SEATS', 5),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Default Phone Country Code
+    |--------------------------------------------------------------------------
+    |
+    | Guests' phone numbers with ten digits are taken as local and get this
+    | country code when the panel opens WhatsApp to send their invitation.
+    |
+    */
+
+    'default_phone_country_code' => env('CONVITE_DEFAULT_PHONE_COUNTRY_CODE', '52'),
+
 ];

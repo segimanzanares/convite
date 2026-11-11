@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ClientUserController;
 use App\Http\Controllers\Admin\GuestController;
+use App\Http\Controllers\Admin\GuestDeliveryController;
 use App\Http\Controllers\Admin\GuestImportController;
 use App\Http\Controllers\Admin\InvitationController;
 use App\Http\Controllers\Admin\OrderController;
@@ -34,6 +35,11 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
             Route::get('/', 'create')->name('create');
             Route::post('preview', 'preview')->name('preview');
             Route::post('/', 'store')->name('store');
+        });
+        Route::controller(GuestDeliveryController::class)->prefix('invitations/{invitation}/guests')->name('invitations.guests.')->group(function () {
+            Route::post('email', 'emailPending')->name('email-pending');
+            Route::post('{guest}/email', 'email')->name('email');
+            Route::post('{guest}/sent', 'markSent')->name('mark-sent');
         });
         Route::resource('invitations.guests', GuestController::class)->except('show');
     });
