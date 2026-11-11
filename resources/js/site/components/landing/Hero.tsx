@@ -6,15 +6,14 @@ import { formatPrice } from '../../utils/formatPrice';
 import { ACCENT_CLASSES, type Accent } from './accents';
 
 const TAGS: { label: string; accent: Accent }[] = [
-  { label: 'Diseño a medida', accent: 'gold' },
-  { label: 'RSVP por WhatsApp', accent: 'terracotta' },
+  { label: 'Diseño de catálogo o exclusivo', accent: 'gold' },
+  { label: 'Confirmación de asistencia', accent: 'terracotta' },
   { label: 'Cuenta regresiva', accent: 'rose' },
   { label: 'Música ambiental', accent: 'teal' },
 ];
 
 const STATS: { value: string; label: string }[] = [
   { value: '3–5 días', label: 'Tiempo de entrega' },
-  { value: '100%', label: 'Diseño a su gusto' },
   { value: '2', label: 'Rondas de ajustes incluidas' },
 ];
 
@@ -48,9 +47,9 @@ export function Hero({ plans }: { plans: Plan[] }) {
               La invitación que su evento merece
             </h1>
             <p className="text-[clamp(16px,2vw,20px)] font-light leading-[1.9] text-[#4a3820] italic max-w-[560px] mx-auto lg:mx-0 mb-9">
-              Diseñamos y publicamos su invitación digital a medida — contenido, paleta de
-              colores y detalles propios para cada evento — lista para compartir por WhatsApp
-              en minutos.
+              Elijan un diseño de nuestro catálogo o pidan uno exclusivo para su evento; nosotros
+              lo llenamos con su contenido y fotos y lo publicamos, listo para compartir por
+              WhatsApp en minutos.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-11">
@@ -92,7 +91,10 @@ export function Hero({ plans }: { plans: Plan[] }) {
             </div>
 
             <div className="flex items-center justify-center lg:justify-start gap-8 sm:gap-10 border-t border-primary/10 pt-8">
-              {STATS.map((stat) => (
+              {[
+                ...STATS,
+                ...(plans.length > 1 ? [{ value: `${plans.length}`, label: 'Planes para elegir' }] : []),
+              ].map((stat) => (
                 <div key={stat.label} className="text-center lg:text-left">
                   <p className="font-display text-lg sm:text-xl text-primary mb-1">{stat.value}</p>
                   <p className="font-jost text-[9px] tracking-[0.15em] uppercase text-[#4a3820]/70 max-w-[110px]">

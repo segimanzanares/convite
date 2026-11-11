@@ -6,12 +6,12 @@ const STEPS: { accent: Accent; title: string; body: string }[] = [
   {
     accent: 'gold',
     title: 'Cuéntanos su historia',
-    body: 'Fecha, lugar, fotos y la paleta de colores que quieren para su invitación.',
+    body: 'Elijan su plan y su diseño, y compártannos la fecha, el lugar y sus fotos.',
   },
   {
     accent: 'terracotta',
-    title: 'Diseñamos a medida',
-    body: 'Creamos su invitación con su contenido, su estilo y los detalles que la hacen única.',
+    title: 'Preparamos su invitación',
+    body: 'La armamos con su contenido y sus fotos, o creamos un diseño exclusivo si lo eligieron.',
   },
   {
     accent: 'rose',

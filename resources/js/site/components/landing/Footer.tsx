@@ -7,7 +7,7 @@ export function Footer() {
   return (
     <footer className="text-center py-[60px] px-8 bg-primary-dark">
       <img src={logoNegativo} alt="Convite — Invitaciones digitales" className="h-9 mx-auto mb-5" />
-      <p className="font-jost text-[9px] tracking-[0.5em] text-gold uppercase">Invitaciones digitales a medida</p>
+      <p className="font-jost text-[9px] tracking-[0.5em] text-gold uppercase">Invitaciones digitales para cada evento</p>
       <div className="w-[120px] h-px mx-auto bg-[linear-gradient(to_right,transparent,var(--color-gold),transparent)] my-[30px]" />
       <a
         href={whatsappUrl}

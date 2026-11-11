@@ -12,7 +12,7 @@ import type { Plan } from '../../types/plan';
 
 export function LandingPage({ plans }: { plans: Plan[] }) {
   useEffect(() => {
-    document.title = 'Convite — Invitaciones digitales a medida';
+    document.title = 'Convite — Invitaciones digitales para bodas, XV años y eventos';
   }, []);
 
   return (
@@ -23,7 +23,7 @@ export function LandingPage({ plans }: { plans: Plan[] }) {
       <FullDivider text="Su evento, su invitación" />
       <Steps />
       <Pricing plans={plans} />
-      <Faq />
+      <Faq plans={plans} />
       <Cta />
       <Footer />
     </div>

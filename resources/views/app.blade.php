@@ -2,8 +2,8 @@
     // Pages may pass a `meta` prop to override these defaults, which are the
     // landing page's own (see InvitationController and bootstrap/app.php).
     $meta = array_merge([
-        'title' => 'Convite — Invitaciones Digitales a Medida para Bodas, XV años y Eventos',
-        'description' => 'Invitaciones digitales a medida para bodas, XV años y cualquier evento: diseño personalizado, RSVP por WhatsApp, cuenta regresiva y galería de fotos. Lista para compartir en días.',
+        'title' => 'Convite — Invitaciones Digitales para Bodas, XV años y Eventos',
+        'description' => 'Invitaciones digitales para bodas, XV años y cualquier evento: diseños de catálogo o exclusivos, confirmación de asistencia, cuenta regresiva y galería de fotos. Lista para compartir en días.',
         'image' => asset('og-image.jpg'),
         'robots' => 'index, follow',
     ], array_filter(data_get($page, 'props.meta') ?? []));
@@ -56,7 +56,7 @@
                     'name' => 'Convite',
                     'url' => url('/'),
                     'logo' => asset('app-icon.png'),
-                    'description' => 'Diseño y publicación de invitaciones digitales a medida para bodas, XV años y cualquier evento, con RSVP por WhatsApp, cuenta regresiva, galería y música ambiental.',
+                    'description' => 'Diseño y publicación de invitaciones digitales para bodas, XV años y cualquier evento, con confirmación de asistencia, cuenta regresiva, galería y música ambiental.',
                     'areaServed' => 'MX',
                     'knowsLanguage' => 'es',
                 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}

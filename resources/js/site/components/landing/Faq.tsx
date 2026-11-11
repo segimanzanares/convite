@@ -1,12 +1,11 @@
 import { SectionHeading } from '../shared/SectionHeading';
 import { Reveal } from '../shared/Reveal';
+import type { Plan } from '../../types/plan';
+import { formatPrice } from '../../utils/formatPrice';
 
-const FAQS: { question: string; answer: string }[] = [
-  {
-    question: '¿Cuánto cuesta una invitación digital?',
-    answer:
-      'Desde $899 pesos por invitación. El costo final depende de lo que necesite su evento; escríbanos por WhatsApp y les compartimos una propuesta clara antes de empezar, sin compromiso.',
-  },
+type Question = { question: string; answer: string };
+
+const FAQS: Question[] = [
   {
     question: '¿Cuánto tiempo tarda en estar lista?',
     answer:
@@ -29,14 +28,27 @@ const FAQS: { question: string; answer: string }[] = [
   },
 ];
 
-export function Faq() {
+export function Faq({ plans }: { plans: Plan[] }) {
+  const lowestPrice = plans.length > 0 ? Math.min(...plans.map((plan) => Number(plan.price))) : null;
+  const faqs: Question[] = [
+    ...(lowestPrice === null
+      ? []
+      : [
+          {
+            question: '¿Cuánto cuesta una invitación digital?',
+            answer: `Desde ${formatPrice(lowestPrice)} pesos por invitación, con un diseño de nuestro catálogo. Los planes más completos suman lista de invitados, confirmaciones en línea, tarjeta y pases imprimibles, o un diseño exclusivo para su evento.`,
+          },
+        ]),
+    ...FAQS,
+  ];
+
   return (
     <section className="max-w-[820px] mx-auto px-8 pb-[120px]">
       <Reveal className="text-center mb-14">
         <SectionHeading eyebrow="Preguntas frecuentes" title="Antes de escribirnos" />
       </Reveal>
       <div className="flex flex-col gap-4">
-        {FAQS.map((faq) => (
+        {faqs.map((faq) => (
           <Reveal key={faq.question}>
             <details className="group border border-primary/15 bg-[linear-gradient(160deg,var(--color-ivory),var(--color-cream))] px-6 py-5 open:shadow-[0_12px_40px_rgba(42,26,43,0.08)]">
               <summary className="flex items-center justify-between gap-4 cursor-pointer list-none font-jost text-[13px] sm:text-sm tracking-[0.03em] text-primary">

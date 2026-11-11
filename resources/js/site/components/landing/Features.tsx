@@ -6,14 +6,14 @@ const FEATURES: { accent: Accent; icon: string; title: string; body: string }[] 
   {
     accent: 'gold',
     icon: '✎',
-    title: 'Diseño 100% a medida',
-    body: 'Tipografía, colores y contenido propios de cada evento — nada de plantillas genéricas reutilizadas.',
+    title: 'Diseños con personalidad',
+    body: 'Elijan uno de nuestros diseños con su propio contenido y fotos, o pidan uno exclusivo creado solo para su evento.',
   },
   {
     accent: 'terracotta',
     icon: '✆',
-    title: 'RSVP por WhatsApp',
-    body: 'Tus invitados confirman con un solo toque, directo a tu WhatsApp. Sin apps ni registros.',
+    title: 'Confirmación de asistencia',
+    body: 'Sus invitados confirman con un solo toque, directo a su WhatsApp o, en los planes Premium y Exclusivo, en línea con sus respuestas en su panel. Sin apps ni registros.',
   },
   {
     accent: 'rose',
