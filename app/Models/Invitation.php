@@ -2,12 +2,36 @@
 
 namespace App\Models;
 
+use App\Enums\InvitationStatus;
+use App\Enums\PlanFeature;
 use Database\Factories\InvitationFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
-#[Fillable(['slug', 'template', 'title', 'description', 'og_image'])]
+/**
+ * Routing and meta data of an invitation. Its content is React code under resources/js/site/invitations/{template}/.
+ *
+ * @property int $id
+ * @property int|null $client_id
+ * @property int|null $order_id
+ * @property string $slug
+ * @property string $template
+ * @property Carbon|null $event_date
+ * @property Carbon|null $rsvp_deadline
+ * @property InvitationStatus $status
+ * @property string $title
+ * @property string $description
+ * @property string|null $og_image
+ * @property Carbon|null $guests_purged_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ */
+#[Fillable(['client_id', 'order_id', 'slug', 'template', 'event_date', 'rsvp_deadline', 'status', 'title', 'description', 'og_image'])]
 class Invitation extends Model
 {
     /** @use HasFactory<InvitationFactory> */
@@ -19,9 +43,60 @@ class Invitation extends Model
     /** Printable guest passes, served at /i/{slug}/pases. */
     public const string GUEST_PASSES_PAGE = 'GuestPassesPage';
 
+    /**
+     * The plan feature each printable page requires when the invitation belongs to an order.
+     *
+     * @var array<string, PlanFeature>
+     */
+    private const array PAGE_FEATURES = [
+        self::PRINT_CARD_PAGE => PlanFeature::PrintCard,
+        self::GUEST_PASSES_PAGE => PlanFeature::GuestPasses,
+    ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'event_date' => 'date',
+            'rsvp_deadline' => 'date',
+            'status' => InvitationStatus::class,
+            'guests_purged_at' => 'datetime',
+        ];
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /** @return BelongsTo<Client, $this> */
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    /** @return BelongsTo<Order, $this> */
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    /**
+     * Limit the query to the invitations whose guest data must be deleted: their event ended the given number of
+     * days ago or more, and they were not purged yet.
+     *
+     * @param  Builder<Invitation>  $query
+     */
+    #[Scope]
+    protected function dueForGuestPurge(Builder $query, int $retentionDays): void
+    {
+        $query->whereNull('guests_purged_at')
+            ->whereNotNull('event_date')
+            ->whereDate('event_date', '<', today()->subDays($retentionDays));
     }
 
     /**
@@ -40,5 +115,36 @@ class Invitation extends Model
     public function hasPage(string $page): bool
     {
         return is_file(resource_path("js/site/{$this->component($page)}.tsx"));
+    }
+
+    /**
+     * Whether the given page may be served: the template ships it and, when the invitation was sold through an order,
+     * the order's plan includes it. Invitations without an order (the demos) serve every page their template has.
+     */
+    public function offersPage(string $page): bool
+    {
+        if (! $this->hasPage($page)) {
+            return false;
+        }
+
+        $feature = self::PAGE_FEATURES[$page] ?? null;
+
+        if ($feature === null || $this->order === null) {
+            return true;
+        }
+
+        return $this->order->hasFeature($feature);
+    }
+
+    /**
+     * The templates that can be assigned to an invitation: every folder that ships an InvitationPage.
+     *
+     * @return list<string>
+     */
+    public static function templates(): array
+    {
+        $pages = glob(resource_path('js/site/invitations/*/InvitationPage.tsx')) ?: [];
+
+        return collect($pages)->map(fn (string $path) => basename(dirname($path)))->sort()->values()->all();
     }
 }

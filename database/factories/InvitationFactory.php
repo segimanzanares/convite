@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Invitation;
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -27,5 +28,16 @@ class InvitationFactory extends Factory
             'description' => fake()->sentence(),
             'og_image' => "/invitations/{$slug}/og-image.jpg",
         ];
+    }
+
+    /**
+     * Indicate that the invitation was sold through the given order, so it belongs to the order's client.
+     */
+    public function forOrder(Order $order): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'order_id' => $order->id,
+            'client_id' => $order->client_id,
+        ]);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -13,6 +14,7 @@ it('creates an admin with a verified email address', function () {
     $admin = User::firstWhere('email', 'ana@example.com');
 
     expect($admin->name)->toBe('Ana Admin')
+        ->and($admin->fresh()->role)->toBe(UserRole::Admin)
         ->and($admin->hasVerifiedEmail())->toBeTrue()
         ->and(Hash::check('secreto-largo-123', $admin->password))->toBeTrue();
 });
