@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\RsvpController;
@@ -26,7 +27,7 @@ Route::post('i/{invitation}/rsvp', [RsvpController::class, 'store'])
 */
 Route::prefix('admin')->group(function () {
     Route::middleware(['auth', 'verified'])->group(function () {
-        Route::inertia('/', 'dashboard')->name('dashboard');
+        Route::get('/', DashboardController::class)->name('dashboard');
     });
 
     require __DIR__.'/settings.php';

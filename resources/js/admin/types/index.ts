@@ -1,5 +1,6 @@
 export type * from './auth';
 export type * from './client';
+export type * from './dashboard';
 export type * from './guest';
 export type * from './invitation';
 export type * from './navigation';

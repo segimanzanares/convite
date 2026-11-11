@@ -1,3 +1,5 @@
+import type { Invitation } from './invitation';
+
 export type Rsvp = {
     id: number;
     /** Null for answers sent through the open form. */
@@ -7,6 +9,8 @@ export type Rsvp = {
     seats_confirmed: number;
     message: string | null;
     responded_at: string;
+    /** Only sent when the invitation was loaded, e.g. on the dashboard. */
+    invitation?: Invitation;
 };
 
 export type Guest = {

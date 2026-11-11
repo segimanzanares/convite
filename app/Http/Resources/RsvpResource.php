@@ -26,6 +26,7 @@ class RsvpResource extends JsonResource
             'seats_confirmed' => $this->seats_confirmed,
             'message' => $this->message,
             'responded_at' => $this->responded_at,
+            'invitation' => InvitationResource::make($this->whenLoaded('invitation')),
         ];
     }
 }
