@@ -5,7 +5,7 @@ import { FloralCornerSvg } from '../layout/FloralCornerOrnament';
 import './PrintCard.css';
 
 interface PrintPageProps {
-  /** Wrapper class that scopes the invitation's theme tokens, e.g. "theme-demo". */
+  /** Wrapper class that scopes the invitation's theme tokens, e.g. "theme-boda-clasica". */
   themeClassName: string;
   /** Used for the page title, which browsers also suggest as the PDF file name. */
   documentTitle: string;

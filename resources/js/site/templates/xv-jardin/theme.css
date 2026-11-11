@@ -2,7 +2,7 @@
    paper tones. --gold-deep is a forest green (titles, buttons) rather than
    a darker gold, so headings read as foliage and gold stays an accent.
    The dark sections (countdown, RSVP, closing) are deep pine. */
-.theme-demo-xv {
+.theme-xv-jardin {
   --gold: #a8894a;
   --gold-light: #dcc994;
   --gold-pale: #e6e9da;
@@ -33,7 +33,7 @@
 
 /* The dark pine sections (countdown, RSVP) need a brighter gold than the
    paper sections for legible numbers, labels and form text. */
-.theme-demo-xv [data-tone='dark'] {
+.theme-xv-jardin [data-tone='dark'] {
   --gold: #cdb176;
   --color-gold: var(--gold);
 }

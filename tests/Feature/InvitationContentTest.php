@@ -12,13 +12,13 @@ beforeEach(function () {
 });
 
 it('reads the templates and their kind from the manifests', function () {
-    expect(Invitation::templates())->toHaveKeys(['demo', 'demo-xv', 'flora', 'matilde-nayith'])
-        ->and(Invitation::factory()->make(['template' => 'flora'])->kind()->value)->toBe('birthday')
-        ->and(Invitation::factory()->make(['template' => 'demo-xv'])->kind()->value)->toBe('xv');
+    expect(Invitation::templates())->toHaveKeys(['boda-clasica', 'boda-floral', 'cumpleanos-floral', 'xv-jardin'])
+        ->and(Invitation::factory()->make(['template' => 'cumpleanos-floral'])->kind()->value)->toBe('birthday')
+        ->and(Invitation::factory()->make(['template' => 'xv-jardin'])->kind()->value)->toBe('xv');
 });
 
 it('opens the content form for the admin', function () {
-    $invitation = Invitation::factory()->withContent()->create(['template' => 'demo']);
+    $invitation = Invitation::factory()->withContent()->create(['template' => 'boda-clasica']);
 
     $this->actingAs(User::factory()->create())
         ->get(route('admin.invitations.content.edit', $invitation))
@@ -30,7 +30,7 @@ it('opens the content form for the admin', function () {
 });
 
 it('saves the content of a wedding', function () {
-    $invitation = Invitation::factory()->create(['template' => 'demo']);
+    $invitation = Invitation::factory()->create(['template' => 'boda-clasica']);
 
     $this->actingAs(User::factory()->create())
         ->put(route('admin.invitations.content.update', $invitation), [
@@ -65,13 +65,13 @@ it('requires the names the kind of the template needs', function (string $templa
         ->put(route('admin.invitations.content.update', $invitation), ['content' => $content])
         ->assertSessionHasErrors($error);
 })->with([
-    'wedding with one name' => ['demo', ['names' => ['Ana']], 'content.names'],
-    'birthday without a name' => ['flora', ['first_name' => 'Flora'], 'content.name'],
-    'xv godparents without names' => ['demo-xv', ['name' => 'Sofía', 'first_name' => 'Sofía', 'godparents' => [['role' => 'Padrinos']]], 'content.godparents.0.names'],
+    'wedding with one name' => ['boda-clasica', ['names' => ['Ana']], 'content.names'],
+    'birthday without a name' => ['cumpleanos-floral', ['first_name' => 'Flora'], 'content.name'],
+    'xv godparents without names' => ['xv-jardin', ['name' => 'Sofía', 'first_name' => 'Sofía', 'godparents' => [['role' => 'Padrinos']]], 'content.godparents.0.names'],
 ]);
 
 it('only accepts files of the invitation itself', function () {
-    $invitation = Invitation::factory()->create(['template' => 'demo']);
+    $invitation = Invitation::factory()->create(['template' => 'boda-clasica']);
 
     $this->actingAs(User::factory()->create())
         ->put(route('admin.invitations.content.update', $invitation), [
@@ -99,7 +99,7 @@ it('uploads photos and music for the invitation', function (string $type, Upload
 ]);
 
 it('deletes the uploads the saved content no longer uses', function () {
-    $invitation = Invitation::factory()->create(['template' => 'demo']);
+    $invitation = Invitation::factory()->create(['template' => 'boda-clasica']);
     $disk = Storage::disk('public');
     $disk->put("invitations/{$invitation->id}/vieja.jpg", 'x');
     $disk->put("invitations/{$invitation->id}/nueva.jpg", 'x');
@@ -131,8 +131,8 @@ it('does not let clients edit the content or upload files', function () {
 });
 
 it('publishes an invitation only once its date, time and content are captured', function () {
-    $invitation = Invitation::factory()->draft()->create(['template' => 'demo']);
-    $fields = ['slug' => $invitation->slug, 'template' => 'demo', 'status' => 'published', 'title' => 'Boda', 'description' => 'Ven'];
+    $invitation = Invitation::factory()->draft()->create(['template' => 'boda-clasica']);
+    $fields = ['slug' => $invitation->slug, 'template' => 'boda-clasica', 'status' => 'published', 'title' => 'Boda', 'description' => 'Ven'];
     $admin = User::factory()->create();
 
     $this->actingAs($admin)
@@ -153,8 +153,8 @@ it('sends the content to the template pages', function () {
     $order = Order::factory()->create();
     $invitation = Invitation::factory()->forOrder($order)->withContent([
         'venues' => [['tag' => 'Ceremonia', 'name' => 'Parroquia', 'latitude' => 15.86, 'longitude' => -97.06]],
-        'gallery' => [['image' => '/invitations/demo/images/01.jpeg', 'caption' => 'El comienzo']],
-    ])->create(['template' => 'demo', 'rsvp_deadline' => '2027-03-01']);
+        'gallery' => [['image' => '/invitations/boda-clasica/images/01.jpeg', 'caption' => 'El comienzo']],
+    ])->create(['template' => 'boda-clasica', 'rsvp_deadline' => '2027-03-01']);
 
     $this->get("/i/{$invitation->slug}")
         ->assertInertia(fn (Assert $page) => $page
@@ -164,13 +164,13 @@ it('sends the content to the template pages', function () {
             ->where('invitation.rsvpDeadline', '2027-03-01')
             ->where('invitation.rsvpWhatsappNumber', '525512345678')
             ->where('invitation.venues.0.mapEmbedUrl', 'https://www.google.com/maps?q=15.86,-97.06&z=16&output=embed')
-            ->where('invitation.gallery.0.src', '/invitations/demo/images/01.jpeg')
+            ->where('invitation.gallery.0.src', '/invitations/boda-clasica/images/01.jpeg')
             ->where('invitation.dressCode', null));
 });
 
 it('moves the date of demo invitations ahead of today, keeping the time and the deadline', function () {
     $this->travelTo('2026-11-11 10:00:00');
-    $invitation = Invitation::factory()->withContent()->create(['template' => 'demo', 'rsvp_deadline' => '2027-02-27']);
+    $invitation = Invitation::factory()->withContent()->create(['template' => 'boda-clasica', 'rsvp_deadline' => '2027-02-27']);
 
     $this->get("/i/{$invitation->slug}")
         ->assertInertia(fn (Assert $page) => $page

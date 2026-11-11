@@ -18,7 +18,8 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Routing and meta data of an invitation. Its content is React code under resources/js/site/invitations/{template}/.
+ * An invitation: its routing and meta data, and the content the admin captured. Its design is a template under
+ * resources/js/site/templates/{template}/.
  *
  * @property int $id
  * @property int|null $client_id
@@ -178,11 +179,11 @@ class Invitation extends Model
 
     /**
      * Inertia component name of one of this invitation's React pages,
-     * e.g. "invitations/demo/InvitationPage".
+     * e.g. "templates/boda-clasica/InvitationPage".
      */
     public function component(string $page = 'InvitationPage'): string
     {
-        return "invitations/{$this->template}/{$page}";
+        return "templates/{$this->template}/{$page}";
     }
 
     /**
@@ -273,7 +274,7 @@ class Invitation extends Model
         return once(function (): array {
             $templates = [];
 
-            foreach (glob(resource_path('js/site/invitations/*/template.json')) ?: [] as $manifestPath) {
+            foreach (glob(resource_path('js/site/templates/*/template.json')) ?: [] as $manifestPath) {
                 $folder = dirname($manifestPath);
                 $manifest = json_decode((string) file_get_contents($manifestPath), true);
                 $kind = InvitationKind::tryFrom($manifest['kind'] ?? '');

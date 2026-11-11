@@ -10,30 +10,30 @@ use Inertia\Testing\AssertableInertia as Assert;
 it('renders an invitation with its template page and meta tags', function () {
     $invitation = Invitation::factory()->create([
         'slug' => 'ana-y-luis',
-        'template' => 'demo',
+        'template' => 'boda-clasica',
         'title' => 'Ana & Luis — Nuestra Boda',
         'description' => 'Acompáñanos a celebrar.',
-        'og_image' => '/invitations/demo/og-image.jpg',
+        'og_image' => '/invitations/boda-clasica/og-image.jpg',
     ]);
 
     $this->get("/i/{$invitation->slug}")
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
-            ->component('invitations/demo/InvitationPage')
+            ->component('templates/boda-clasica/InvitationPage')
             ->where('meta.title', 'Ana & Luis — Nuestra Boda')
             ->where('meta.robots', 'noindex, nofollow'))
         ->assertSee('<title>Ana &amp; Luis — Nuestra Boda</title>', escape: false)
-        ->assertSee('<meta property="og:image" content="'.url('/invitations/demo/og-image.jpg').'" />', escape: false)
+        ->assertSee('<meta property="og:image" content="'.url('/invitations/boda-clasica/og-image.jpg').'" />', escape: false)
         ->assertSee('<meta name="robots" content="noindex, nofollow" />', escape: false);
 });
 
 it('serves the printable pages a template provides', function (string $path, string $page, string $title) {
-    $invitation = Invitation::factory()->create(['template' => 'demo', 'title' => 'Boda Demo']);
+    $invitation = Invitation::factory()->create(['template' => 'boda-clasica', 'title' => 'Boda Demo']);
 
     $this->get("/i/{$invitation->slug}/{$path}")
         ->assertOk()
         ->assertInertia(fn (Assert $inertia) => $inertia
-            ->component("invitations/demo/{$page}")
+            ->component("templates/boda-clasica/{$page}")
             ->where('meta.title', $title));
 })->with([
     'print card' => ['tarjeta', 'PrintCardPage', 'Tarjeta impresa — Boda Demo'],
@@ -41,7 +41,7 @@ it('serves the printable pages a template provides', function (string $path, str
 ]);
 
 it('returns 404 for printable pages a template does not provide', function (string $path) {
-    $invitation = Invitation::factory()->create(['template' => 'flora']);
+    $invitation = Invitation::factory()->create(['template' => 'cumpleanos-floral']);
 
     $this->get("/i/{$invitation->slug}/{$path}")->assertNotFound();
 })->with(['tarjeta', 'pases']);
@@ -53,7 +53,7 @@ it('returns 404 for an unknown invitation', function () {
 });
 
 it('hides drafts from the public', function (string $path) {
-    $invitation = Invitation::factory()->draft()->create(['slug' => 'borrador', 'template' => 'demo']);
+    $invitation = Invitation::factory()->draft()->create(['slug' => 'borrador', 'template' => 'boda-clasica']);
     Guest::factory()->for($invitation)->create(['token' => 'abc123']);
 
     $this->get("/i/borrador{$path}")
@@ -84,7 +84,7 @@ it('shows unpublished invitations to their panel users as a preview', function (
         ->get("/i/{$invitation->slug}")
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
-            ->component('invitations/demo/InvitationPage')
+            ->component('templates/boda-clasica/InvitationPage')
             ->where('preview', $status));
 })->with(['draft', 'archived'])->with([
     'admin' => [false],

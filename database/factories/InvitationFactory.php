@@ -24,7 +24,7 @@ class InvitationFactory extends Factory
         return [
             'slug' => $slug,
             // An existing template, so the Inertia page resolves in tests
-            'template' => 'demo',
+            'template' => 'boda-clasica',
             'title' => fake()->name().' — Nuestra Boda',
             'description' => fake()->sentence(),
             'og_image' => "/invitations/{$slug}/og-image.jpg",

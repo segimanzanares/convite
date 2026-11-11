@@ -8,10 +8,10 @@ import { CookieConsentBanner } from './components/cookie-consent/CookieConsentBa
 import { PreviewBanner } from './components/preview/PreviewBanner';
 
 // Page components live in two places: site pages under ./pages and each
-// invitation's own pages under ./invitations/<template>. The server names
+// template's pages under ./templates/<template>. The server names
 // them by path, e.g. "pages/landing/LandingPage" or
-// "invitations/demo/PrintCardPage" (see app/Http/Controllers).
-const pages = import.meta.glob(['./pages/**/*Page.tsx', './invitations/*/*Page.tsx']);
+// "templates/boda-clasica/PrintCardPage" (see app/Http/Controllers).
+const pages = import.meta.glob(['./pages/**/*Page.tsx', './templates/*/*Page.tsx']);
 
 initAnalytics();
 

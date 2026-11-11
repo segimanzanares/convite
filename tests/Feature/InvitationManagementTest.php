@@ -15,7 +15,7 @@ function invitationFields(array $overrides = []): array
 {
     return [
         'slug' => 'ana-y-luis',
-        'template' => 'demo',
+        'template' => 'boda-clasica',
         'status' => 'draft',
         'title' => 'Ana & Luis — Nuestra Boda',
         'description' => 'Acompáñanos a celebrar.',
@@ -80,14 +80,15 @@ it('opens the edit form with the orders an invitation can be linked to', functio
             ->component('invitations/index')
             ->where('modal', 'edit')
             ->where('invitation.id', $invitation->id)
+            ->where('invitation.template_label', 'Boda clásica')
             ->has('orders', 2)
-            ->where('templates.0.name', 'demo')
+            ->where('templates.0.name', 'boda-clasica')
             ->where('templates.0.kind', 'wedding'));
 });
 
 it('serves the printable pages only when the plan of the order includes them', function (array $features, int $cardStatus, int $passesStatus) {
     $order = Order::factory()->for(Plan::factory()->withFeatures(...$features))->create();
-    $invitation = Invitation::factory()->forOrder($order)->create(['template' => 'demo']);
+    $invitation = Invitation::factory()->forOrder($order)->create(['template' => 'boda-clasica']);
 
     $this->get("/i/{$invitation->slug}/tarjeta")->assertStatus($cardStatus);
     $this->get("/i/{$invitation->slug}/pases")->assertStatus($passesStatus);

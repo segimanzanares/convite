@@ -12,7 +12,7 @@ export interface PrintCardEvent {
 }
 
 export interface PrintCardProps {
-  /** Wrapper class that scopes the invitation's theme tokens, e.g. "theme-demo". */
+  /** Wrapper class that scopes the invitation's theme tokens, e.g. "theme-boda-clasica". */
   themeClassName: string;
   documentTitle: string;
   front: {

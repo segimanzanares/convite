@@ -23,7 +23,7 @@ it('prints the passes from the guest list with each personal link', function () 
         ->get(route('invitations.guest-passes', $invitation))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
-            ->component('invitations/demo/GuestPassesPage')
+            ->component('templates/boda-clasica/GuestPassesPage')
             ->where('guests', [['name' => 'Familia Pérez', 'seats' => 4, 'table' => '3', 'url' => $guest->url()]]));
 });
 

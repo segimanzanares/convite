@@ -47,7 +47,7 @@ export default function InvitationsIndex({
                 <div className="flex flex-wrap items-start justify-between gap-4">
                     <Heading
                         title="Invitaciones"
-                        description="Cada invitación usa una plantilla de resources/js/site/invitations"
+                        description="Cada invitación usa una plantilla de resources/js/site/templates"
                     />
 
                     <Button asChild>
@@ -68,7 +68,7 @@ export default function InvitationsIndex({
                             <td className="px-4 py-3 font-medium">
                                 {invitation.title}
                                 <div className="text-muted-foreground text-xs font-normal">
-                                    /i/{invitation.slug} · {invitation.template}
+                                    /i/{invitation.slug} · {invitation.template_label}
                                 </div>
                             </td>
                             <td className="px-4 py-3">

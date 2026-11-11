@@ -5,7 +5,7 @@
 | InvitationContentResource); the dates below only set the time and how long before the event the RSVP closes.
 */
 
-$image = fn (string $file): string => "/invitations/demo/images/{$file}";
+$image = fn (string $file): string => "/invitations/boda-clasica/images/{$file}";
 
 return [
     'event_date' => '2027-06-12',
@@ -15,7 +15,7 @@ return [
         'names' => ['Mariana', 'Alejandro'],
         'families' => 'La Familia López & La Familia Pérez',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/demo/music.mp3',
+        'music' => '/invitations/boda-clasica/music.mp3',
         'venues' => [
             [
                 'icon' => '⛪',

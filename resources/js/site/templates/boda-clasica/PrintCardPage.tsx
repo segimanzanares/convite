@@ -9,7 +9,7 @@ export function PrintCardPage({ invitation }: { invitation: WeddingContent }) {
 
   return (
     <PrintCard
-      themeClassName="theme-demo"
+      themeClassName="theme-boda-clasica"
       documentTitle={`Tarjeta — ${couple.names[0]} & ${couple.names[1]}`}
       front={{
         eyebrow: 'Con gran alegría anunciamos',

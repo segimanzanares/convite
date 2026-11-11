@@ -15,7 +15,7 @@ export function GuestPassesPage({ invitation }: { invitation: WeddingContent }) 
 
   return (
     <GuestPasses
-      themeClassName="theme-demo"
+      themeClassName="theme-boda-clasica"
       documentTitle={`Pases — ${couple.names[0]} & ${couple.names[1]}`}
       names={couple.names}
       dateLabel={couple.footerDateLabel}

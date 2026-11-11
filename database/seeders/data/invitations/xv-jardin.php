@@ -5,7 +5,7 @@
 | The song and the venue photos are shared with the wedding demo.
 */
 
-$image = fn (string $file): string => "/invitations/demo-xv/images/{$file}";
+$image = fn (string $file): string => "/invitations/xv-jardin/images/{$file}";
 
 return [
     'event_date' => '2027-06-12',
@@ -18,7 +18,7 @@ return [
         'hosts' => 'Con cariño, Sofía',
         'monogram' => 'SV',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/demo/music.mp3',
+        'music' => '/invitations/boda-clasica/music.mp3',
         'hero_photo' => $image('portada.jpg'),
         'closing_message' => '…este cuento apenas comienza, y no hay mejor forma de escribir su siguiente página que a tu lado.',
         'tagline' => 'Una noche para recordar',
@@ -51,7 +51,7 @@ return [
                 'time' => '17:30 hrs',
                 'latitude' => 15.861208,
                 'longitude' => -97.065710,
-                'image' => '/invitations/demo/images/catedral.jpg',
+                'image' => '/invitations/boda-clasica/images/catedral.jpg',
             ],
             [
                 'icon' => '✨',
@@ -61,7 +61,7 @@ return [
                 'time' => '19:00 hrs',
                 'latitude' => 15.862436,
                 'longitude' => -97.071639,
-                'image' => '/invitations/demo/images/salon.jpeg',
+                'image' => '/invitations/boda-clasica/images/salon.jpeg',
             ],
         ],
         'program' => [

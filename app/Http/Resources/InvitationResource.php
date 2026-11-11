@@ -23,6 +23,7 @@ class InvitationResource extends JsonResource
             'slug' => $this->slug,
             'url' => route('invitations.show', $this->resource),
             'template' => $this->template,
+            'template_label' => Invitation::templates()[$this->template]['label'] ?? $this->template,
             'kind' => $this->kind(),
             'client_id' => $this->client_id,
             'order_id' => $this->order_id,

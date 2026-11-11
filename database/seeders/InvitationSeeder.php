@@ -16,31 +16,31 @@ class InvitationSeeder extends Seeder
         $invitations = [
             [
                 'slug' => 'demo',
-                'template' => 'demo',
+                'template' => 'boda-clasica',
                 'title' => 'Mariana & Alejandro — Nuestra Boda',
                 'description' => 'Acompáñanos a celebrar la boda de Mariana & Alejandro.',
-                'og_image' => '/invitations/demo/og-image.jpg',
+                'og_image' => '/invitations/boda-clasica/og-image.jpg',
             ],
             [
                 'slug' => 'demo-xv',
-                'template' => 'demo-xv',
+                'template' => 'xv-jardin',
                 'title' => 'Sofía Valentina — Mis XV Años',
                 'description' => 'Una noche en el jardín encantado: acompáñame a celebrar mis XV años.',
-                'og_image' => '/invitations/demo-xv/og-image.jpg',
+                'og_image' => '/invitations/xv-jardin/og-image.jpg',
             ],
             [
                 'slug' => 'mati-nayith',
-                'template' => 'matilde-nayith',
+                'template' => 'boda-floral',
                 'title' => 'Matilde & Nayith — Nuestra Boda',
                 'description' => 'Acompáñanos a celebrar la boda de Matilde & Nayith.',
-                'og_image' => '/invitations/matilde-nayith/og-image.jpg',
+                'og_image' => '/invitations/boda-floral/og-image.jpg',
             ],
             [
                 'slug' => 'flora',
-                'template' => 'flora',
+                'template' => 'cumpleanos-floral',
                 'title' => 'Lucila Santos — 76 años',
                 'description' => 'Acompáñanos a celebrar el cumpleaños número 76 de la Sra. Lucila Santos.',
-                'og_image' => '/invitations/flora/og-image.jpg',
+                'og_image' => '/invitations/cumpleanos-floral/og-image.jpg',
             ],
         ];
 

@@ -15,7 +15,7 @@ return [
         'age' => 76,
         'hosts' => 'Con cariño, sus hijos y nietos',
         'rsvp_whatsapp' => '529541621208',
-        'music' => '/invitations/flora/music.mp3',
+        'music' => '/invitations/cumpleanos-floral/music.mp3',
         'message' => 'Setenta y seis años de vida, de amor y de historias compartidas. Con el corazón lleno de gratitud, queremos invitarte a celebrar junto a nuestra querida Flora un día para agradecer, abrazarla y seguir sembrando recuerdos en familia.',
         'tagline' => '76 años de amor · Gracias por tanto',
         'venues' => [

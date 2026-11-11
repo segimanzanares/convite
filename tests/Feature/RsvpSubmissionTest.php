@@ -137,7 +137,7 @@ it('greets the guest of a personalized link and records when they first opened i
     $this->get(route('invitations.guest', [$invitation, $guest->token]))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
-            ->component('invitations/demo/InvitationPage')
+            ->component('templates/boda-clasica/InvitationPage')
             ->where('guest.name', 'Familia Pérez')
             ->where('guest.seats', 4)
             ->where('guest.rsvp.seats_confirmed', 3)
@@ -164,7 +164,7 @@ it('shows the open invitation for an unknown token', function () {
     $this->get(route('invitations.guest', [$invitation, 'tokenquenoexiste']))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
-            ->component('invitations/demo/InvitationPage')
+            ->component('templates/boda-clasica/InvitationPage')
             ->where('guest', null));
 });
 

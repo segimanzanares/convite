@@ -58,7 +58,7 @@ export function InvitationPage({ invitation }: { invitation: XvContent }) {
   useAutoScroll({ active: autoScrollActive, speed: 100 });
 
   return (
-    <div className="theme-demo-xv bg-ivory text-ink">
+    <div className="theme-xv-jardin bg-ivory text-ink">
       <StoryCover
         monogram={monogram}
         name={celebrant.name}

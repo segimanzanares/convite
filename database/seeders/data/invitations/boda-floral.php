@@ -4,7 +4,7 @@
 | Content of the Matilde & Nayith wedding. Without an order its date shows 60 days ahead, like the demos.
 */
 
-$image = fn (string $file): string => "/invitations/matilde-nayith/images/{$file}";
+$image = fn (string $file): string => "/invitations/boda-floral/images/{$file}";
 
 return [
     'event_date' => '2026-11-21',
@@ -14,7 +14,7 @@ return [
         'names' => ['Matilde', 'Nayith'],
         'families' => 'La Familia González & La Familia Gallardo',
         'rsvp_whatsapp' => '523321852205',
-        'music' => '/invitations/matilde-nayith/music.mp3',
+        'music' => '/invitations/boda-floral/music.mp3',
         'venues' => [
             [
                 'icon' => '⛪',
