@@ -1,8 +1,12 @@
+export type UserRole = 'admin' | 'client';
+
 export type User = {
     id: number;
     name: string;
     email: string;
     avatar?: string;
+    role: UserRole;
+    client_id: number | null;
     email_verified_at: string | null;
     two_factor_enabled?: boolean;
     created_at: string;

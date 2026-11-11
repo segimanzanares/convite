@@ -19,3 +19,21 @@ export type AuthLayoutProps = {
     title?: string;
     description?: string;
 };
+
+/** Shape produced by an Eloquent API Resource collection wrapping a paginator. */
+export type Paginated<T> = {
+    data: T[];
+    links: {
+        first: string | null;
+        last: string | null;
+        prev: string | null;
+        next: string | null;
+    };
+    meta: {
+        current_page: number;
+        last_page: number;
+        per_page: number;
+        total: number;
+        links: { url: string | null; label: string; active: boolean }[];
+    };
+};
