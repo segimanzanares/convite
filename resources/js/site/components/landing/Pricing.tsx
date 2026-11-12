@@ -17,6 +17,30 @@ const FEATURE_LABELS: Record<PlanFeature | 'catalog_design', string> = {
   check_in: 'Registro de llegadas escaneando el QR de cada pase',
 };
 
+/** Sections every template shows, whatever the plan. */
+const INVITATION_SECTIONS = ['Cuenta regresiva', 'Ubicación con mapa', 'Código de vestimenta', 'Música de fondo'];
+
+/** Sections only some catalog templates have; a custom design includes the ones the event needs. */
+const OPTIONAL_SECTIONS = {
+  catalog: 'Programa, galería de fotos y mesa de regalos, según el diseño',
+  custom: 'Programa, galería de fotos, mesa de regalos y las secciones que pida su evento',
+};
+
+function Checklist({ items, markClassName, className }: { items: string[]; markClassName: string; className: string }) {
+  return (
+    <ul className={`space-y-2 text-[14px] font-light text-[#4a3820] ${className}`}>
+      {items.map((item) => (
+        <li key={item} className="flex gap-2">
+          <span className={markClassName} aria-hidden="true">
+            ✓
+          </span>
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function Pricing({ plans }: { plans: Plan[] }) {
   if (plans.length === 0) {
     return null;
@@ -41,6 +65,10 @@ export function Pricing({ plans }: { plans: Plan[] }) {
                 : null,
             ...plan.features.filter((feature) => feature !== 'custom_design').map((feature) => FEATURE_LABELS[feature]),
           ].filter((item): item is string => item !== null);
+          const sections = [
+            ...INVITATION_SECTIONS,
+            OPTIONAL_SECTIONS[plan.features.includes('custom_design') ? 'custom' : 'catalog'],
+          ];
 
           return (
             <Reveal key={plan.id}>
@@ -53,16 +81,11 @@ export function Pricing({ plans }: { plans: Plan[] }) {
                 {plan.description && (
                   <p className="text-[15px] font-light leading-[1.8] text-[#4a3820] mb-6">{plan.description}</p>
                 )}
-                <ul className="space-y-2 mb-8 text-[14px] font-light text-[#4a3820]">
-                  {includes.map((item) => (
-                    <li key={item} className="flex gap-2">
-                      <span className={accent.text} aria-hidden="true">
-                        ✓
-                      </span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                <Checklist items={includes} markClassName={accent.text} className="mb-6" />
+                <p className="font-jost text-[10px] tracking-[0.2em] uppercase text-primary/60 mb-3">
+                  Secciones de la invitación
+                </p>
+                <Checklist items={sections} markClassName={accent.text} className="mb-8" />
                 <a
                   href={whatsappUrl}
                   target="_blank"
