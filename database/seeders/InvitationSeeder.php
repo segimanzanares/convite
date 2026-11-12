@@ -24,7 +24,7 @@ class InvitationSeeder extends Seeder
                 'template' => 'boda-floral',
                 'title' => 'Daniela & Sebastián — Nuestra Boda',
                 'description' => 'Acompáñanos a celebrar la boda de Daniela & Sebastián.',
-                'og_image' => '/invitations/boda-floral/og-image-demo.jpg',
+                'og_image' => '/invitations/boda-floral/og-image.jpg',
             ],
             [
                 'template' => 'cumpleanos-floral',
