@@ -65,7 +65,11 @@ export default function OrderShow({ order, paymentMethods, modal }: Props) {
 
                     <div className="flex gap-2">
                         <Button variant="outline" asChild>
-                            <Link href={edit(order.id)} preserveScroll preserveState>
+                            <Link
+                                href={edit(order.id)}
+                                preserveScroll
+                                preserveState
+                            >
                                 <PencilIcon />
                                 Editar
                             </Link>
@@ -148,25 +152,37 @@ export default function OrderShow({ order, paymentMethods, modal }: Props) {
                     </div>
 
                     <DataTable
-                        columns={['Fecha', 'Monto', 'Método', 'Notas', '']}
+                        columns={[
+                            'Fecha',
+                            'Monto',
+                            { label: 'Método', desktop: true },
+                            { label: 'Notas', desktop: true },
+                            '',
+                        ]}
                         empty="Aún no hay pagos registrados."
                         isEmpty={payments.length === 0}
                     >
                         {payments.map((payment) => (
                             <tr key={payment.id}>
-                                <td className="px-4 py-3">
-                                    {formatDate(payment.paid_at)}
+                                <td className="px-2 py-3 md:px-4">
+                                    <span className="whitespace-nowrap">
+                                        {formatDate(payment.paid_at)}
+                                    </span>
+                                    <div className="text-muted-foreground text-xs md:hidden">
+                                        {paymentMethodLabels[payment.method]}
+                                        {payment.notes && ` · ${payment.notes}`}
+                                    </div>
                                 </td>
-                                <td className="px-4 py-3 font-medium">
+                                <td className="px-2 py-3 font-medium whitespace-nowrap md:px-4">
                                     {formatMoney(payment.amount)}
                                 </td>
-                                <td className="text-muted-foreground px-4 py-3">
+                                <td className="text-muted-foreground hidden px-4 py-3 md:table-cell">
                                     {paymentMethodLabels[payment.method]}
                                 </td>
-                                <td className="text-muted-foreground px-4 py-3">
+                                <td className="text-muted-foreground hidden px-4 py-3 md:table-cell">
                                     {payment.notes ?? '—'}
                                 </td>
-                                <td className="px-4 py-3 text-right">
+                                <td className="px-2 py-3 text-right md:px-4">
                                     <ConfirmDialog
                                         trigger={
                                             <Button

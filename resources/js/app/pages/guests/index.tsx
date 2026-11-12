@@ -38,12 +38,17 @@ import { index as rsvpsIndex } from '@/actions/App/Http/Controllers/Admin/RsvpCo
 import ConfirmDialog from '@/components/confirm-dialog';
 import DataTable from '@/components/data-table';
 import Heading from '@/components/heading';
+import RowActionsMenu from '@/components/row-actions-menu';
 import {
     invitationBreadcrumbs,
     invitationSections,
 } from '@/lib/invitation-sections';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import UrlModal from '@/components/url-modal';
 import { useClipboard } from '@/hooks/use-clipboard';
@@ -263,11 +268,13 @@ export default function GuestsIndex({
                 <DataTable
                     columns={[
                         'Invitado',
-                        'Lugares',
-                        'Mesa',
-                        ...(showsRsvps ? ['Respuesta'] : []),
+                        { label: 'Lugares', desktop: true },
+                        { label: 'Mesa', desktop: true },
+                        ...(showsRsvps
+                            ? [{ label: 'Respuesta', desktop: true }]
+                            : []),
                         ...(checkInSettings ? ['Llegada'] : []),
-                        'Enlace y envío',
+                        { label: 'Enlace y envío', desktop: true },
                         '',
                     ]}
                     empty={
@@ -278,145 +285,22 @@ export default function GuestsIndex({
                     isEmpty={shown.length === 0}
                 >
                     {shown.map((guest) => (
-                        <tr key={guest.id}>
-                            <td className="px-4 py-3 font-medium">
-                                {guest.name}
-                                {(guest.phone || guest.email) && (
-                                    <div className="text-muted-foreground text-xs font-normal">
-                                        {[guest.phone, guest.email]
-                                            .filter(Boolean)
-                                            .join(' · ')}
-                                    </div>
-                                )}
-                            </td>
-                            <td className="px-4 py-3">{guest.seats}</td>
-                            <td className="px-4 py-3">
-                                {guest.table_label ?? '—'}
-                            </td>
-                            {showsRsvps && (
-                                <td className="px-4 py-3">
-                                    <RsvpBadge guest={guest} />
-                                </td>
-                            )}
-                            {checkInSettings && (
-                                <td className="px-4 py-3">
-                                    <ArrivalCell
-                                        guest={guest}
-                                        isOpen={checkInIsOpen}
-                                        onRegister={() =>
-                                            registerArrival(guest)
-                                        }
-                                        onUndo={() => undoArrival(guest)}
-                                    />
-                                </td>
-                            )}
-                            <td className="px-4 py-3">
-                                <div className="flex items-center gap-1">
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        onClick={() => copy(guest.url)}
-                                        aria-label={`Copiar el enlace de ${guest.name}`}
-                                    >
-                                        {copiedUrl === guest.url ? (
-                                            <CheckIcon />
-                                        ) : (
-                                            <CopyIcon />
-                                        )}
-                                    </Button>
-                                    <Button variant="ghost" size="icon" asChild>
-                                        <a
-                                            href={guest.url}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            aria-label={`Abrir la invitación de ${guest.name}`}
-                                        >
-                                            <ExternalLinkIcon />
-                                        </a>
-                                    </Button>
-                                    {canSend && (
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            asChild
-                                        >
-                                            <a
-                                                href={guest.whatsapp_url}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                onClick={() =>
-                                                    recordWhatsappSend(guest)
-                                                }
-                                                aria-label={`Enviar por WhatsApp a ${guest.name}`}
-                                                title="Enviar por WhatsApp"
-                                            >
-                                                <MessageCircleIcon />
-                                            </a>
-                                        </Button>
-                                    )}
-                                    {canSend && guest.email && (
-                                        <ConfirmDialog
-                                            trigger={
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    aria-label={`Enviar por correo a ${guest.name}`}
-                                                    title="Enviar por correo"
-                                                >
-                                                    <MailIcon />
-                                                </Button>
-                                            }
-                                            title={`¿Enviar la invitación a ${guest.email}?`}
-                                            description={
-                                                guest.sent_at
-                                                    ? 'Este invitado ya la recibió; se le enviará de nuevo.'
-                                                    : undefined
-                                            }
-                                            confirmLabel="Enviar"
-                                            onConfirm={() => sendEmail(guest)}
-                                        />
-                                    )}
-                                </div>
-                                <DeliveryStatus guest={guest} />
-                            </td>
-                            <td className="px-4 py-3 text-right">
-                                <div className="flex items-center justify-end gap-2">
-                                    <Button
-                                        variant="outline"
-                                        size="icon"
-                                        asChild
-                                    >
-                                        <Link
-                                            href={edit([
-                                                invitation.slug,
-                                                guest.id,
-                                            ])}
-                                            preserveScroll
-                                            preserveState
-                                            aria-label={`Editar ${guest.name}`}
-                                        >
-                                            <PencilIcon />
-                                        </Link>
-                                    </Button>
-                                    <ConfirmDialog
-                                        trigger={
-                                            <Button
-                                                variant="outline"
-                                                size="icon"
-                                                aria-label={`Eliminar ${guest.name}`}
-                                            >
-                                                <TrashIcon />
-                                            </Button>
-                                        }
-                                        title={`¿Eliminar a ${guest.name}?`}
-                                        description="También se borra su respuesta, y su enlace mostrará la invitación general."
-                                        confirmLabel="Eliminar"
-                                        variant="destructive"
-                                        onConfirm={() => removeGuest(guest)}
-                                    />
-                                </div>
-                            </td>
-                        </tr>
+                        <GuestRow
+                            key={guest.id}
+                            invitation={invitation}
+                            guest={guest}
+                            canSend={canSend}
+                            showsRsvps={showsRsvps}
+                            showsArrival={checkInSettings !== null}
+                            checkInIsOpen={checkInIsOpen}
+                            isCopied={copiedUrl === guest.url}
+                            onCopy={() => copy(guest.url)}
+                            onWhatsappSend={() => recordWhatsappSend(guest)}
+                            onEmailSend={() => sendEmail(guest)}
+                            onRegisterArrival={() => registerArrival(guest)}
+                            onUndoArrival={() => undoArrival(guest)}
+                            onRemove={() => removeGuest(guest)}
+                        />
                     ))}
                 </DataTable>
             </div>
@@ -455,6 +339,245 @@ export default function GuestsIndex({
                 }
             </UrlModal>
         </>
+    );
+}
+
+/**
+ * On small screens the seats, table, answer and delivery collapse under the
+ * name, and the link, sending and editing actions into a menu.
+ */
+function GuestRow({
+    invitation,
+    guest,
+    canSend,
+    showsRsvps,
+    showsArrival,
+    checkInIsOpen,
+    isCopied,
+    onCopy,
+    onWhatsappSend,
+    onEmailSend,
+    onRegisterArrival,
+    onUndoArrival,
+    onRemove,
+}: {
+    invitation: Invitation;
+    guest: Guest;
+    canSend: boolean;
+    showsRsvps: boolean;
+    showsArrival: boolean;
+    checkInIsOpen: boolean;
+    isCopied: boolean;
+    onCopy: () => void;
+    onWhatsappSend: () => void;
+    onEmailSend: () => Promise<unknown>;
+    onRegisterArrival: () => void;
+    onUndoArrival: () => Promise<unknown>;
+    onRemove: () => Promise<unknown>;
+}) {
+    const [confirming, setConfirming] = useState<'email' | 'remove' | null>(
+        null,
+    );
+    const canEmail = canSend && guest.email !== null;
+
+    const seatsAndTable = [
+        `${guest.seats} ${guest.seats === 1 ? 'lugar' : 'lugares'}`,
+        guest.table_label && `Mesa ${guest.table_label}`,
+    ].filter(Boolean);
+
+    return (
+        <tr>
+            <td className="px-2 py-3 font-medium md:px-4">
+                {guest.name}
+                {(guest.phone || guest.email) && (
+                    <div className="text-muted-foreground text-xs font-normal break-all">
+                        {[guest.phone, guest.email].filter(Boolean).join(' · ')}
+                    </div>
+                )}
+                <div className="space-y-1 font-normal md:hidden">
+                    <div className="text-muted-foreground text-xs">
+                        {seatsAndTable.join(' · ')}
+                    </div>
+                    {showsRsvps && <RsvpBadge guest={guest} />}
+                    <DeliveryStatus guest={guest} />
+                </div>
+            </td>
+            <td className="hidden px-4 py-3 md:table-cell">{guest.seats}</td>
+            <td className="hidden px-4 py-3 md:table-cell">
+                {guest.table_label ?? '—'}
+            </td>
+            {showsRsvps && (
+                <td className="hidden px-4 py-3 md:table-cell">
+                    <RsvpBadge guest={guest} />
+                </td>
+            )}
+            {showsArrival && (
+                <td className="px-2 py-3 md:px-4">
+                    <ArrivalCell
+                        guest={guest}
+                        isOpen={checkInIsOpen}
+                        onRegister={onRegisterArrival}
+                        onUndo={onUndoArrival}
+                    />
+                </td>
+            )}
+            <td className="hidden px-4 py-3 md:table-cell">
+                <div className="flex items-center gap-1">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={onCopy}
+                        aria-label={`Copiar el enlace de ${guest.name}`}
+                    >
+                        {isCopied ? <CheckIcon /> : <CopyIcon />}
+                    </Button>
+                    <Button variant="ghost" size="icon" asChild>
+                        <a
+                            href={guest.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={`Abrir la invitación de ${guest.name}`}
+                        >
+                            <ExternalLinkIcon />
+                        </a>
+                    </Button>
+                    {canSend && (
+                        <Button variant="ghost" size="icon" asChild>
+                            <a
+                                href={guest.whatsapp_url}
+                                target="_blank"
+                                rel="noreferrer"
+                                onClick={onWhatsappSend}
+                                aria-label={`Enviar por WhatsApp a ${guest.name}`}
+                                title="Enviar por WhatsApp"
+                            >
+                                <MessageCircleIcon />
+                            </a>
+                        </Button>
+                    )}
+                    {canEmail && (
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            aria-label={`Enviar por correo a ${guest.name}`}
+                            title="Enviar por correo"
+                            onClick={() => setConfirming('email')}
+                        >
+                            <MailIcon />
+                        </Button>
+                    )}
+                </div>
+                <DeliveryStatus guest={guest} />
+            </td>
+            <td className="px-2 py-3 text-right md:px-4">
+                <div className="hidden items-center justify-end gap-2 md:flex">
+                    <Button variant="outline" size="icon" asChild>
+                        <Link
+                            href={edit([invitation.slug, guest.id])}
+                            preserveScroll
+                            preserveState
+                            aria-label={`Editar ${guest.name}`}
+                        >
+                            <PencilIcon />
+                        </Link>
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        aria-label={`Eliminar ${guest.name}`}
+                        onClick={() => setConfirming('remove')}
+                    >
+                        <TrashIcon />
+                    </Button>
+                </div>
+
+                <RowActionsMenu label={`Acciones de ${guest.name}`}>
+                    <DropdownMenuItem
+                        onSelect={(event) => {
+                            // Stays open so the check shows the link was copied
+                            event.preventDefault();
+                            onCopy();
+                        }}
+                    >
+                        {isCopied ? <CheckIcon /> : <CopyIcon />}
+                        {isCopied ? 'Enlace copiado' : 'Copiar enlace'}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                        <a href={guest.url} target="_blank" rel="noreferrer">
+                            <ExternalLinkIcon />
+                            Abrir invitación
+                        </a>
+                    </DropdownMenuItem>
+                    {canSend && (
+                        <DropdownMenuItem asChild>
+                            <a
+                                href={guest.whatsapp_url}
+                                target="_blank"
+                                rel="noreferrer"
+                                onClick={onWhatsappSend}
+                            >
+                                <MessageCircleIcon />
+                                Enviar por WhatsApp
+                            </a>
+                        </DropdownMenuItem>
+                    )}
+                    {canEmail && (
+                        <DropdownMenuItem
+                            onSelect={() => setConfirming('email')}
+                        >
+                            <MailIcon />
+                            Enviar por correo
+                        </DropdownMenuItem>
+                    )}
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                        <Link
+                            href={edit([invitation.slug, guest.id])}
+                            preserveScroll
+                            preserveState
+                        >
+                            <PencilIcon />
+                            Editar
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        variant="destructive"
+                        onSelect={() => setConfirming('remove')}
+                    >
+                        <TrashIcon />
+                        Eliminar
+                    </DropdownMenuItem>
+                </RowActionsMenu>
+
+                {canEmail && (
+                    <ConfirmDialog
+                        open={confirming === 'email'}
+                        onOpenChange={(open) =>
+                            setConfirming(open ? 'email' : null)
+                        }
+                        title={`¿Enviar la invitación a ${guest.email}?`}
+                        description={
+                            guest.sent_at
+                                ? 'Este invitado ya la recibió; se le enviará de nuevo.'
+                                : undefined
+                        }
+                        confirmLabel="Enviar"
+                        onConfirm={onEmailSend}
+                    />
+                )}
+                <ConfirmDialog
+                    open={confirming === 'remove'}
+                    onOpenChange={(open) =>
+                        setConfirming(open ? 'remove' : null)
+                    }
+                    title={`¿Eliminar a ${guest.name}?`}
+                    description="También se borra su respuesta, y su enlace mostrará la invitación general."
+                    confirmLabel="Eliminar"
+                    variant="destructive"
+                    onConfirm={onRemove}
+                />
+            </td>
+        </tr>
     );
 }
 

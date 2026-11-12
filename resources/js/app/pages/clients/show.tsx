@@ -47,10 +47,10 @@ export default function ClientShow({
 }: Props) {
     const removeAccess = (user: ClientUser) =>
         new Promise((resolve) =>
-            router.delete(
-                destroyAccess({ client: client.id, user: user.id }),
-                { preserveScroll: true, onFinish: resolve },
-            ),
+            router.delete(destroyAccess({ client: client.id, user: user.id }), {
+                preserveScroll: true,
+                onFinish: resolve,
+            }),
         );
 
     return (
@@ -99,13 +99,19 @@ export default function ClientShow({
                     </div>
 
                     <DataTable
-                        columns={['Plan', 'Precio', 'Pagado', 'Saldo', 'Estado']}
+                        columns={[
+                            'Plan',
+                            { label: 'Precio', desktop: true },
+                            { label: 'Pagado', desktop: true },
+                            { label: 'Saldo', desktop: true },
+                            'Estado',
+                        ]}
                         empty="Aún no hay contrataciones."
                         isEmpty={orders.length === 0}
                     >
                         {orders.map((order) => (
                             <tr key={order.id}>
-                                <td className="px-4 py-3 font-medium">
+                                <td className="px-2 py-3 font-medium md:px-4">
                                     <Link
                                         href={showOrder(order.id)}
                                         className="hover:underline"
@@ -115,17 +121,21 @@ export default function ClientShow({
                                     <div className="text-muted-foreground text-xs font-normal">
                                         {formatDate(order.created_at)}
                                     </div>
+                                    <div className="text-muted-foreground text-xs font-normal md:hidden">
+                                        {formatMoney(order.price)} · Saldo{' '}
+                                        {formatMoney(order.balance ?? 0)}
+                                    </div>
                                 </td>
-                                <td className="px-4 py-3">
+                                <td className="hidden px-4 py-3 md:table-cell">
                                     {formatMoney(order.price)}
                                 </td>
-                                <td className="px-4 py-3">
+                                <td className="hidden px-4 py-3 md:table-cell">
                                     {formatMoney(order.amount_paid ?? 0)}
                                 </td>
-                                <td className="px-4 py-3">
+                                <td className="hidden px-4 py-3 md:table-cell">
                                     {formatMoney(order.balance ?? 0)}
                                 </td>
-                                <td className="px-4 py-3">
+                                <td className="px-2 py-3 md:px-4">
                                     <Badge variant="outline">
                                         {orderStatusLabels[order.status]}
                                     </Badge>
@@ -162,19 +172,26 @@ export default function ClientShow({
 
                     {users.length > 0 && (
                         <DataTable
-                            columns={['Nombre', 'Correo electrónico', '']}
+                            columns={[
+                                'Nombre',
+                                { label: 'Correo electrónico', desktop: true },
+                                '',
+                            ]}
                             empty=""
                             isEmpty={false}
                         >
                             {users.map((user) => (
                                 <tr key={user.id}>
-                                    <td className="px-4 py-3 font-medium">
+                                    <td className="px-2 py-3 font-medium md:px-4">
                                         {user.name}
+                                        <div className="text-muted-foreground text-xs font-normal break-all md:hidden">
+                                            {user.email}
+                                        </div>
                                     </td>
-                                    <td className="text-muted-foreground px-4 py-3">
+                                    <td className="text-muted-foreground hidden px-4 py-3 md:table-cell">
                                         {user.email}
                                     </td>
-                                    <td className="px-4 py-3 text-right">
+                                    <td className="px-2 py-3 text-right md:px-4">
                                         <ConfirmDialog
                                             trigger={
                                                 <Button
@@ -206,35 +223,55 @@ export default function ClientShow({
                     />
 
                     <DataTable
-                        columns={['Invitación', 'Evento', 'Estado', '']}
+                        columns={[
+                            'Invitación',
+                            { label: 'Evento', desktop: true },
+                            'Estado',
+                            '',
+                        ]}
                         empty="Aún no hay invitaciones ligadas a este cliente."
                         isEmpty={invitations.length === 0}
                     >
                         {invitations.map((invitation) => (
                             <tr key={invitation.id}>
-                                <td className="px-4 py-3 font-medium">
+                                <td className="px-2 py-3 font-medium md:px-4">
                                     {invitation.title}
                                     <a
                                         href={invitation.url}
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="text-muted-foreground block text-xs font-normal hover:underline"
+                                        className="text-muted-foreground block text-xs font-normal break-all hover:underline"
                                     >
                                         /i/{invitation.slug}
                                     </a>
+                                    {invitation.event_date && (
+                                        <div className="text-muted-foreground text-xs font-normal md:hidden">
+                                            {formatDate(invitation.event_date)}
+                                        </div>
+                                    )}
                                 </td>
-                                <td className="px-4 py-3">
+                                <td className="hidden px-4 py-3 md:table-cell">
                                     {formatDate(invitation.event_date)}
                                 </td>
-                                <td className="px-4 py-3">
+                                <td className="px-2 py-3 md:px-4">
                                     <Badge variant="outline">
-                                        {invitationStatusLabels[invitation.status]}
+                                        {
+                                            invitationStatusLabels[
+                                                invitation.status
+                                            ]
+                                        }
                                     </Badge>
                                 </td>
-                                <td className="px-4 py-3 text-right">
-                                    <Button variant="outline" size="icon" asChild>
+                                <td className="px-2 py-3 text-right md:px-4">
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        asChild
+                                    >
                                         <Link
-                                            href={editInvitation(invitation.slug)}
+                                            href={editInvitation(
+                                                invitation.slug,
+                                            )}
                                             aria-label={`Editar ${invitation.title}`}
                                         >
                                             <PencilIcon />
@@ -251,7 +288,9 @@ export default function ClientShow({
                 content={modal}
                 closeHref={show(client.id)}
                 title={(shown) =>
-                    shown === 'order' ? 'Nueva contratación' : 'Dar acceso al panel'
+                    shown === 'order'
+                        ? 'Nueva contratación'
+                        : 'Dar acceso al panel'
                 }
                 description={(shown) =>
                     shown === 'order'

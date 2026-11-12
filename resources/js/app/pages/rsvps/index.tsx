@@ -114,7 +114,10 @@ export default function RsvpsIndex({
                             </Button>
                         )}
                         <Button variant="outline" asChild>
-                            <a href={exportMethod.url(invitation.slug)} download>
+                            <a
+                                href={exportMethod.url(invitation.slug)}
+                                download
+                            >
                                 <DownloadIcon />
                                 Exportar a Excel (CSV)
                             </a>
@@ -122,7 +125,7 @@ export default function RsvpsIndex({
                     </div>
                 </div>
 
-                <dl className="grid gap-4 sm:grid-cols-3 lg:grid-cols-5">
+                <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
                     {hasGuestList && (
                         <Summary label="Invitados" value={summary.guests} />
                     )}
@@ -176,9 +179,9 @@ export default function RsvpsIndex({
                     columns={[
                         'Nombre',
                         'Respuesta',
-                        'Personas',
-                        'Mensaje',
-                        'Fecha',
+                        { label: 'Personas', desktop: true },
+                        { label: 'Mensaje', desktop: true },
+                        { label: 'Fecha', desktop: true },
                         '',
                     ]}
                     empty={
@@ -190,31 +193,45 @@ export default function RsvpsIndex({
                 >
                     {shown.map((row) => (
                         <tr key={row.key}>
-                            <td className="px-4 py-3 font-medium">
+                            <td className="px-2 py-3 font-medium md:px-4">
                                 {row.name}
                                 <div className="text-muted-foreground text-xs font-normal">
                                     {row.guest
                                         ? `${row.guest.seats} lugares${row.guest.table_label ? ` · Mesa ${row.guest.table_label}` : ''}`
                                         : 'Formulario abierto'}
                                 </div>
+                                {row.rsvp && (
+                                    <div className="text-muted-foreground space-y-1 text-xs font-normal md:hidden">
+                                        <div>
+                                            {row.rsvp.attending &&
+                                                `${row.rsvp.seats_confirmed} ${row.rsvp.seats_confirmed === 1 ? 'persona' : 'personas'} · `}
+                                            {formatDate(row.rsvp.responded_at)}
+                                        </div>
+                                        {row.rsvp.message && (
+                                            <p className="text-foreground whitespace-pre-line">
+                                                {row.rsvp.message}
+                                            </p>
+                                        )}
+                                    </div>
+                                )}
                             </td>
-                            <td className="px-4 py-3">
+                            <td className="px-2 py-3 align-top md:px-4 md:align-middle">
                                 <StatusBadge row={row} />
                             </td>
-                            <td className="px-4 py-3">
+                            <td className="hidden px-4 py-3 md:table-cell">
                                 {row.rsvp?.attending
                                     ? row.rsvp.seats_confirmed
                                     : '—'}
                             </td>
-                            <td className="text-muted-foreground max-w-xs px-4 py-3 whitespace-pre-line">
+                            <td className="text-muted-foreground hidden max-w-xs px-4 py-3 whitespace-pre-line md:table-cell">
                                 {row.rsvp?.message ?? '—'}
                             </td>
-                            <td className="px-4 py-3 whitespace-nowrap">
+                            <td className="hidden px-4 py-3 whitespace-nowrap md:table-cell">
                                 {row.rsvp
                                     ? formatDate(row.rsvp.responded_at)
                                     : '—'}
                             </td>
-                            <td className="px-4 py-3 text-right">
+                            <td className="px-2 py-3 text-right align-top md:px-4 md:align-middle">
                                 {row.rsvp && (
                                     <ConfirmDialog
                                         trigger={
@@ -234,7 +251,9 @@ export default function RsvpsIndex({
                                         }
                                         confirmLabel="Eliminar"
                                         variant="destructive"
-                                        onConfirm={() => removeAnswer(row.rsvp!)}
+                                        onConfirm={() =>
+                                            removeAnswer(row.rsvp!)
+                                        }
                                     />
                                 )}
                             </td>

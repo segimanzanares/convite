@@ -45,7 +45,14 @@ export default function PlansIndex({
                 </div>
 
                 <DataTable
-                    columns={['Plan', 'Precio', 'Invitados', 'Funciones', 'Estado', '']}
+                    columns={[
+                        'Plan',
+                        { label: 'Precio', desktop: true },
+                        { label: 'Invitados', desktop: true },
+                        { label: 'Funciones', desktop: true },
+                        'Estado',
+                        '',
+                    ]}
                     empty="Aún no hay planes."
                     isEmpty={plans.length === 0}
                 >

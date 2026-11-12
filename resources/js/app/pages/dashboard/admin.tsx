@@ -120,13 +120,18 @@ export default function AdminDashboard({
                         description={`Invitaciones de clientes con evento en los próximos ${upcomingEventDays} días`}
                     />
                     <DataTable
-                        columns={['Fecha', 'Invitación', 'Cliente', 'Estado']}
+                        columns={[
+                            'Fecha',
+                            'Invitación',
+                            { label: 'Cliente', desktop: true },
+                            'Estado',
+                        ]}
                         empty="No hay eventos en los próximos días."
                         isEmpty={upcomingEvents.length === 0}
                     >
                         {upcomingEvents.map((invitation) => (
                             <tr key={invitation.id}>
-                                <td className="px-4 py-3 whitespace-nowrap">
+                                <td className="px-2 py-3 whitespace-nowrap md:px-4">
                                     {formatDate(invitation.event_date)}
                                     <div className="text-muted-foreground text-xs">
                                         {formatDaysAway(
@@ -134,15 +139,20 @@ export default function AdminDashboard({
                                         )}
                                     </div>
                                 </td>
-                                <td className="px-4 py-3 font-medium">
+                                <td className="px-2 py-3 font-medium md:px-4">
                                     <Link
                                         href={editContent(invitation.slug)}
                                         className="hover:underline"
                                     >
                                         {invitation.title}
                                     </Link>
+                                    {invitation.client && (
+                                        <div className="text-muted-foreground text-xs font-normal md:hidden">
+                                            {invitation.client.name}
+                                        </div>
+                                    )}
                                 </td>
-                                <td className="px-4 py-3">
+                                <td className="hidden px-4 py-3 md:table-cell">
                                     {invitation.client ? (
                                         <Link
                                             href={showClient(
@@ -156,7 +166,7 @@ export default function AdminDashboard({
                                         '—'
                                     )}
                                 </td>
-                                <td className="px-4 py-3">
+                                <td className="px-2 py-3 md:px-4">
                                     <Badge
                                         variant={
                                             invitation.status === 'published'
@@ -185,10 +195,10 @@ export default function AdminDashboard({
                     <DataTable
                         columns={[
                             'Cliente',
-                            'Plan',
-                            'Estado',
-                            'Precio',
-                            'Pagado',
+                            { label: 'Plan', desktop: true },
+                            { label: 'Estado', desktop: true },
+                            { label: 'Precio', desktop: true },
+                            { label: 'Pagado', desktop: true },
                             'Saldo',
                         ]}
                         empty="Todas las contrataciones están pagadas."
@@ -196,7 +206,7 @@ export default function AdminDashboard({
                     >
                         {ordersWithBalance.map((order) => (
                             <tr key={order.id}>
-                                <td className="px-4 py-3 font-medium">
+                                <td className="px-2 py-3 font-medium md:px-4">
                                     <Link
                                         href={showOrder(order.id)}
                                         className="hover:underline"
@@ -206,20 +216,29 @@ export default function AdminDashboard({
                                     <div className="text-muted-foreground text-xs font-normal">
                                         Desde el {formatDate(order.created_at)}
                                     </div>
+                                    <div className="text-muted-foreground text-xs font-normal md:hidden">
+                                        {order.plan.name} ·{' '}
+                                        {orderStatusLabels[order.status]} ·
+                                        Pagado{' '}
+                                        {formatMoney(order.amount_paid ?? 0)} de{' '}
+                                        {formatMoney(order.price)}
+                                    </div>
                                 </td>
-                                <td className="px-4 py-3">{order.plan.name}</td>
-                                <td className="px-4 py-3">
+                                <td className="hidden px-4 py-3 md:table-cell">
+                                    {order.plan.name}
+                                </td>
+                                <td className="hidden px-4 py-3 md:table-cell">
                                     <Badge variant="outline">
                                         {orderStatusLabels[order.status]}
                                     </Badge>
                                 </td>
-                                <td className="px-4 py-3 tabular-nums">
+                                <td className="hidden px-4 py-3 tabular-nums md:table-cell">
                                     {formatMoney(order.price)}
                                 </td>
-                                <td className="px-4 py-3 tabular-nums">
+                                <td className="hidden px-4 py-3 tabular-nums md:table-cell">
                                     {formatMoney(order.amount_paid ?? 0)}
                                 </td>
-                                <td className="px-4 py-3 font-medium tabular-nums">
+                                <td className="px-2 py-3 font-medium whitespace-nowrap tabular-nums md:px-4">
                                     {formatMoney(order.balance ?? 0)}
                                 </td>
                             </tr>
