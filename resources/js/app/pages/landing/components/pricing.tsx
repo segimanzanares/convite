@@ -75,7 +75,7 @@ export function Pricing({ plans }: { plans: OfferedPlan[] }) {
                             <div
                                 className={`h-full flex flex-col border ${accent.border} py-10 px-7 bg-[linear-gradient(160deg,var(--color-ivory),var(--color-cream))]`}
                             >
-                                <h3 className={`text-sm tracking-[0.2em] uppercase mb-4 ${accent.text}`}>{plan.name}</h3>
+                                <h3 className={`font-serif text-3xl font-semibold leading-tight mb-4 ${accent.text}`}>{plan.name}</h3>
                                 <p className="text-4xl text-primary mb-1">{formatPrice(plan.price)}</p>
                                 <p className="text-[10px] tracking-[0.2em] uppercase text-primary/60 mb-6">pesos, pago único</p>
                                 {plan.description && (

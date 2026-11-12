@@ -15,11 +15,14 @@ export default defineConfig({
       input: ['resources/js/invitations/app.tsx', 'resources/js/app/app.tsx'],
       refresh: true,
       // Main app fonts, loaded by @fonts in resources/views/app.blade.php:
-      // the panel's, also the text of the landing page and the door, and the
-      // landing's script titles
+      // the panel's, also the text of the landing page and the door, plus the
+      // landing's subtitles (serif) and script titles
       fonts: [
-        bunny('Instrument Sans', {
-          weights: [400, 500, 600],
+        bunny('Geist', {
+          weights: [300, 400, 500, 600],
+        }),
+        bunny('Cormorant Garamond', {
+          weights: [500, 600],
         }),
         bunny('Great Vibes', {
           weights: [400],

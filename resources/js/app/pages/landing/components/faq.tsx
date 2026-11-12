@@ -51,7 +51,7 @@ export function Faq({ plans }: { plans: OfferedPlan[] }) {
                 {faqs.map((faq) => (
                     <Reveal key={faq.question}>
                         <details className="group border border-primary/15 bg-[linear-gradient(160deg,var(--color-ivory),var(--color-cream))] px-6 py-5 open:shadow-[0_12px_40px_rgba(42,26,43,0.08)]">
-                            <summary className="flex items-center justify-between gap-4 cursor-pointer list-none text-[13px] sm:text-sm tracking-[0.03em] text-primary">
+                            <summary className="flex items-center justify-between gap-4 cursor-pointer list-none font-serif text-xl font-semibold leading-snug text-primary">
                                 {faq.question}
                                 <span className="shrink-0 text-lg text-gold transition-transform duration-200 group-open:rotate-45">
                                     +

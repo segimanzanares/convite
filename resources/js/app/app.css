@@ -11,7 +11,7 @@
 
 @theme {
     --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+        'Geist', 'Geist Fallback', ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
 
@@ -83,7 +83,8 @@
     --color-teal: #4b93a4;
     --color-teal-light: #8fc2cd;
 
-    /* Script titles (e.g. the landing's section headings); the rest uses --font-sans */
+    /* The landing's subtitles (serif) and script titles; the rest uses --font-sans */
+    --font-serif: 'Cormorant Garamond', ui-serif, Georgia, serif;
     --font-script: 'Great Vibes', cursive;
 }
 

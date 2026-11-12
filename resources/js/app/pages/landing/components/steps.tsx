@@ -45,7 +45,7 @@ export function Steps() {
                             >
                                 {index + 1}
                             </div>
-                            <h3 className={`text-sm tracking-[0.06em] uppercase mb-3 ${accent.text}`}>{step.title}</h3>
+                            <h3 className={`font-serif text-2xl font-semibold leading-tight mb-3 ${accent.text}`}>{step.title}</h3>
                             <p className="text-[15px] font-light leading-[1.8] text-[#4a3820]">{step.body}</p>
                         </Reveal>
                     );
