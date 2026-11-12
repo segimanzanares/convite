@@ -32,6 +32,8 @@ class GuestResource extends JsonResource
             'whatsapp_url' => app(GuestDeliveryService::class)->whatsappUrl($this->resource),
             'sent_at' => $this->sent_at,
             'first_opened_at' => $this->first_opened_at,
+            'checked_in_at' => $this->checked_in_at,
+            'checked_in_seats' => $this->checked_in_seats,
             'rsvp' => RsvpResource::make($this->whenLoaded('rsvp')),
         ];
     }

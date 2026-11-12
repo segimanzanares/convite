@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CheckInController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ClientUserController;
 use App\Http\Controllers\Admin\GuestController;
@@ -54,6 +55,14 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
             Route::get('/', 'index')->name('index');
             Route::get('export', 'export')->name('export');
             Route::delete('{rsvp}', 'destroy')->name('destroy');
+        });
+    });
+
+    Route::middleware('invitation.feature:check_in')->scopeBindings()->group(function () {
+        Route::controller(CheckInController::class)->prefix('invitations/{invitation}')->name('invitations.')->group(function () {
+            Route::post('door-link', 'regenerateDoorLink')->name('door-link');
+            Route::post('guests/{guest}/check-in', 'store')->name('guests.check-in.store');
+            Route::delete('guests/{guest}/check-in', 'destroy')->name('guests.check-in.destroy');
         });
     });
 });

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Enums\PlanFeature;
+use App\Http\Resources\CheckInGuestResource;
 use App\Http\Resources\InvitationContentResource;
 use App\Http\Resources\PassGuestResource;
 use App\Http\Resources\PublicGuestResource;
 use App\Models\Invitation;
+use App\Services\CheckInService;
 use App\Services\GuestService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,7 +18,10 @@ use Inertia\Response;
 
 class InvitationController extends Controller
 {
-    public function __construct(private readonly GuestService $guests) {}
+    public function __construct(
+        private readonly GuestService $guests,
+        private readonly CheckInService $checkIn,
+    ) {}
 
     /**
      * The open invitation, which anyone with its link can answer when the plan includes online RSVPs.
@@ -31,11 +36,19 @@ class InvitationController extends Controller
 
     /**
      * A guest's personalized link. An unknown token (e.g. of a deleted guest) shows the open invitation instead of an
-     * error, since the link may have been shared already.
+     * error, since the link may have been shared already. The link is also the QR code of the guest's pass, so on the
+     * phone of the staff at the door (see CheckInController) it opens the check-in screen instead.
      */
     public function guest(Request $request, Invitation $invitation, string $token): Response
     {
         $guest = $this->guests->findByToken($invitation, $token);
+
+        if ($this->checkIn->hasDoorAccess($request, $invitation)) {
+            return Inertia::render(CheckInService::PAGES.'CheckInPage', [
+                'guest' => $guest ? CheckInGuestResource::make($guest->load('rsvp')) : null,
+                ...$this->checkIn->doorPageProps($invitation),
+            ]);
+        }
 
         // Admins and clients previewing a link from the panel do not count as the guest opening it
         if ($guest !== null && $request->user() === null) {

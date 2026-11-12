@@ -6,6 +6,7 @@ use App\Http\Resources\GuestResource;
 use App\Http\Resources\InvitationResource;
 use App\Models\Guest;
 use App\Models\Invitation;
+use App\Services\CheckInService;
 use App\Services\GuestService;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -27,6 +28,7 @@ trait RendersGuestPage
             'invitation' => InvitationResource::make($invitation->loadMissing('order')),
             'guests' => GuestResource::collection($guests->list($invitation)),
             'remaining' => $guests->remainingSlots($invitation),
+            'check_in' => app(CheckInService::class)->panelSettings($invitation),
             'modal' => $modal,
             'guest' => $guest ? GuestResource::make($guest) : null,
         ]);

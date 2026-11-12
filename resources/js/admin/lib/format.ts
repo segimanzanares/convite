@@ -32,6 +32,18 @@ export function formatDay(value: string): string {
     return day.format(new Date(value));
 }
 
+const dateTime = new Intl.DateTimeFormat('es-MX', {
+    day: 'numeric',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+});
+
+/** Formats a timestamp sent by the server in the browser's time zone, e.g. "2026-12-05T20:15:00Z" → "5 dic, 14:15". */
+export function formatDateTime(value: string): string {
+    return dateTime.format(new Date(value));
+}
+
 const month = new Intl.DateTimeFormat('es-MX', {
     month: 'short',
     timeZone: 'UTC',

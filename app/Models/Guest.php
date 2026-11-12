@@ -25,6 +25,8 @@ use Illuminate\Support\Str;
  * @property string $token
  * @property Carbon|null $sent_at
  * @property Carbon|null $first_opened_at
+ * @property Carbon|null $checked_in_at
+ * @property int $checked_in_seats
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -48,6 +50,8 @@ class Guest extends Model
             'seats' => 'integer',
             'sent_at' => 'datetime',
             'first_opened_at' => 'datetime',
+            'checked_in_at' => 'datetime',
+            'checked_in_seats' => 'integer',
         ];
     }
 

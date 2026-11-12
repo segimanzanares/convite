@@ -35,6 +35,7 @@ use Illuminate\Support\Facades\Storage;
  * @property string|null $og_image
  * @property array<string, mixed>|null $content
  * @property Carbon|null $guests_purged_at
+ * @property string|null $door_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -161,6 +162,36 @@ class Invitation extends Model
         $closesAt = $this->rsvpClosesAt();
 
         return $closesAt === null || now()->lessThanOrEqualTo($closesAt);
+    }
+
+    /**
+     * When guests may start being checked in at the door: the day before the event, so the staff can try the door
+     * link while setting up. Null without an event date.
+     */
+    public function checkInOpensAt(): ?CarbonImmutable
+    {
+        return $this->event_date?->toImmutable()->subDay()->startOfDay();
+    }
+
+    /**
+     * When check-in closes: noon of the day after the event, since parties run past midnight.
+     */
+    public function checkInClosesAt(): ?CarbonImmutable
+    {
+        return $this->event_date?->toImmutable()->addDay()->setTime(12, 0);
+    }
+
+    /**
+     * Whether guests may be checked in now: the plan includes it, the guest data was not purged and the time falls
+     * within the check-in window, in the application's time zone.
+     */
+    public function checkInIsOpen(): bool
+    {
+        if (! $this->hasFeature(PlanFeature::CheckIn) || $this->guests_purged_at !== null || $this->event_date === null) {
+            return false;
+        }
+
+        return now()->between($this->checkInOpensAt(), $this->checkInClosesAt());
     }
 
     /**

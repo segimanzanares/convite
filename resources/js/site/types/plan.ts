@@ -1,4 +1,4 @@
-export type PlanFeature = 'guest_management' | 'online_rsvp' | 'print_card' | 'guest_passes' | 'custom_design';
+export type PlanFeature = 'guest_management' | 'online_rsvp' | 'print_card' | 'guest_passes' | 'custom_design' | 'check_in';
 
 /** A plan offered on the landing page, as sent by LandingController. */
 export interface Plan {

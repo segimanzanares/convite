@@ -1,12 +1,25 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\CheckInController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\RsvpController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', LandingController::class)->name('landing');
+
+// The door of the event, for the staff checking guests in (scanning a pass opens the guest's link, see
+// InvitationController::guest). Declared before the personalized links so "puerta" is not read as a token
+Route::controller(CheckInController::class)->prefix('i/{invitation}')->name('invitations.')->middleware(['invitation.visible', 'invitation.feature:check_in'])->group(function () {
+    Route::get('puerta/{doorToken}', 'enter')->where('doorToken', '[A-Za-z0-9]+')->name('door.enter');
+
+    Route::middleware('invitation.door')->scopeBindings()->group(function () {
+        Route::get('puerta', 'show')->name('door.show');
+        Route::post('{guest:token}/llegada', 'store')->name('check-in.store');
+        Route::delete('{guest:token}/llegada', 'destroy')->name('check-in.destroy');
+    });
+});
 
 Route::controller(InvitationController::class)->prefix('i/{invitation}')->name('invitations.')->middleware('invitation.visible')->group(function () {
     Route::get('/', 'show')->name('show');

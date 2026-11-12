@@ -3,7 +3,8 @@ export type PlanFeature =
     | 'online_rsvp'
     | 'print_card'
     | 'guest_passes'
-    | 'custom_design';
+    | 'custom_design'
+    | 'check_in';
 
 export type Plan = {
     id: number;

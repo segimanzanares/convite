@@ -1,4 +1,4 @@
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, usePoll } from '@inertiajs/react';
 import {
     CheckIcon,
     ClipboardCheckIcon,
@@ -13,8 +13,13 @@ import {
     SearchIcon,
     SendIcon,
     TrashIcon,
+    UndoIcon,
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import {
+    destroy as undoCheckIn,
+    store as checkIn,
+} from '@/actions/App/Http/Controllers/Admin/CheckInController';
 import {
     create,
     destroy,
@@ -43,7 +48,8 @@ import { Input } from '@/components/ui/input';
 import UrlModal from '@/components/url-modal';
 import { useClipboard } from '@/hooks/use-clipboard';
 import { formatDay } from '@/lib/format';
-import type { Auth, Guest, Invitation } from '@/types';
+import type { Auth, Guest, GuestCheckIn, Invitation } from '@/types';
+import CheckInPanel from './components/check-in-panel';
 import GuestForm from './components/guest-form';
 import GuestImportForm from './components/guest-import-form';
 
@@ -54,7 +60,12 @@ type Props = {
     remaining: number | null;
     modal: 'create' | 'edit' | 'import' | null;
     guest: Guest | null;
+    /** Null when the plan does not include check-in at the door. */
+    check_in: GuestCheckIn | null;
 };
+
+/** How often the list refreshes while guests are arriving, since the door checks them in from other phones. */
+const CHECK_IN_REFRESH_MS = 30_000;
 
 export default function GuestsIndex({
     invitation,
@@ -62,6 +73,7 @@ export default function GuestsIndex({
     remaining,
     modal,
     guest,
+    check_in: checkInSettings,
 }: Props) {
     const [search, setSearch] = useState('');
     const [copiedUrl, copy] = useClipboard();
@@ -69,6 +81,13 @@ export default function GuestsIndex({
     const isFull = remaining === 0;
     // Guests can only open a published invitation, so drafts and archived ones are not sent
     const canSend = invitation.status === 'published';
+    const checkInIsOpen = checkInSettings?.is_open ?? false;
+
+    usePoll(
+        CHECK_IN_REFRESH_MS,
+        { only: ['guests', 'check_in'] },
+        { autoStart: checkInIsOpen, mode: 'rest', background: 'pause' },
+    );
 
     const shown = useMemo(() => {
         const term = search.trim().toLocaleLowerCase('es');
@@ -109,6 +128,22 @@ export default function GuestsIndex({
                 {},
                 { preserveScroll: true, onFinish: resolve },
             ),
+        );
+
+    // From the panel a guest is checked in with their whole pass; the door can register part of a group
+    const registerArrival = (guest: Guest) =>
+        router.post(
+            checkIn([invitation.slug, guest.id]),
+            { seats: guest.seats },
+            { preserveScroll: true },
+        );
+
+    const undoArrival = (guest: Guest) =>
+        new Promise((resolve) =>
+            router.delete(undoCheckIn([invitation.slug, guest.id]), {
+                preserveScroll: true,
+                onFinish: resolve,
+            }),
         );
 
     const removeGuest = (guest: Guest) =>
@@ -207,6 +242,13 @@ export default function GuestsIndex({
                     </p>
                 )}
 
+                {checkInSettings && (
+                    <CheckInPanel
+                        invitation={invitation}
+                        checkIn={checkInSettings}
+                    />
+                )}
+
                 <div className="relative max-w-sm">
                     <SearchIcon className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                     <Input
@@ -224,6 +266,7 @@ export default function GuestsIndex({
                         'Lugares',
                         'Mesa',
                         ...(showsRsvps ? ['Respuesta'] : []),
+                        ...(checkInSettings ? ['Llegada'] : []),
                         'Enlace y envío',
                         '',
                     ]}
@@ -253,6 +296,18 @@ export default function GuestsIndex({
                             {showsRsvps && (
                                 <td className="px-4 py-3">
                                     <RsvpBadge guest={guest} />
+                                </td>
+                            )}
+                            {checkInSettings && (
+                                <td className="px-4 py-3">
+                                    <ArrivalCell
+                                        guest={guest}
+                                        isOpen={checkInIsOpen}
+                                        onRegister={() =>
+                                            registerArrival(guest)
+                                        }
+                                        onUndo={() => undoArrival(guest)}
+                                    />
                                 </td>
                             )}
                             <td className="px-4 py-3">
@@ -414,6 +469,57 @@ function DeliveryStatus({ guest }: { guest: Guest }) {
             {status.join(' · ')}
         </div>
     ) : null;
+}
+
+function ArrivalCell({
+    guest,
+    isOpen,
+    onRegister,
+    onUndo,
+}: {
+    guest: Guest;
+    isOpen: boolean;
+    onRegister: () => void;
+    onUndo: () => Promise<unknown>;
+}) {
+    if (!guest.checked_in_at) {
+        return isOpen ? (
+            <Button variant="outline" size="sm" onClick={onRegister}>
+                Registrar
+            </Button>
+        ) : (
+            <span className="text-muted-foreground">—</span>
+        );
+    }
+
+    return (
+        <div className="flex items-center gap-1">
+            <Badge
+                variant={
+                    guest.checked_in_seats < guest.seats ? 'outline' : 'default'
+                }
+                title={`Llegó a las ${new Date(guest.checked_in_at).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })}`}
+            >
+                Llegó · {guest.checked_in_seats}/{guest.seats}
+            </Badge>
+            {isOpen && (
+                <ConfirmDialog
+                    trigger={
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            aria-label={`Deshacer la llegada de ${guest.name}`}
+                        >
+                            <UndoIcon />
+                        </Button>
+                    }
+                    title={`¿Deshacer la llegada de ${guest.name}?`}
+                    confirmLabel="Deshacer"
+                    onConfirm={onUndo}
+                />
+            )}
+        </div>
+    );
 }
 
 function RsvpBadge({ guest }: { guest: Guest }) {

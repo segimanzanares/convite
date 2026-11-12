@@ -26,7 +26,25 @@ export type Guest = {
     whatsapp_url: string;
     sent_at: string | null;
     first_opened_at: string | null;
+    checked_in_at: string | null;
+    /** People of the group who have arrived, 0 before check-in. */
+    checked_in_seats: number;
     rsvp?: Rsvp | null;
+};
+
+/** Check-in at the door, as the guest list shows it when the plan includes it. */
+export type GuestCheckIn = {
+    /** Gives the staff's phone door access; null until one is made. */
+    door_url: string | null;
+    opens_at: string | null;
+    closes_at: string | null;
+    is_open: boolean;
+    summary: {
+        guests: number;
+        seats: number;
+        arrived_guests: number;
+        arrived_seats: number;
+    };
 };
 
 /** A row of a CSV file as the import preview returns it. */

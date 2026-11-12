@@ -14,6 +14,7 @@ const FEATURE_LABELS: Record<PlanFeature | 'catalog_design', string> = {
   print_card: 'Tarjeta imprimible',
   guest_passes: 'Pases imprimibles para tus invitados',
   custom_design: 'Diseño exclusivo creado para su evento',
+  check_in: 'Registro de llegadas escaneando el QR de cada pase',
 };
 
 export function Pricing({ plans }: { plans: Plan[] }) {

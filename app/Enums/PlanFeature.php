@@ -19,6 +19,9 @@ enum PlanFeature: string
     /** The invitation gets a design made for the client (an exclusive template) instead of one from the catalog. */
     case CustomDesign = 'custom_design';
 
+    /** Guests are checked in at the door by scanning the QR code of their pass. Requires the guest list. */
+    case CheckIn = 'check_in';
+
     /**
      * Whether a plan with this feature gives the client an account for the panel.
      */

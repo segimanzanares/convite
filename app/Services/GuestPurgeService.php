@@ -28,14 +28,15 @@ class GuestPurgeService
     }
 
     /**
-     * Delete the guests and RSVPs of an invitation and record when it happened, so it is not purged again.
+     * Delete the guests and RSVPs of an invitation, with their arrivals, revoke its door link and record when it
+     * happened, so it is not purged again.
      */
     public function purge(Invitation $invitation): void
     {
         DB::transaction(function () use ($invitation): void {
             $invitation->rsvps()->delete();
             $invitation->guests()->delete();
-            $invitation->forceFill(['guests_purged_at' => now()])->save();
+            $invitation->forceFill(['guests_purged_at' => now(), 'door_token' => null])->save();
         });
     }
 }

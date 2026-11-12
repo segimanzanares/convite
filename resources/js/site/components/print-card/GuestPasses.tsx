@@ -194,7 +194,7 @@ export function GuestPasses({
             <p className="guest-editor__note">
               {guests.length === 0
                 ? 'Aún no hay invitados en la lista. Agrégalos desde el panel y vuelve a esta página.'
-                : 'Los pases salen de la lista de invitados del panel. El código QR de cada pase abre su invitación personalizada.'}
+                : 'Los pases salen de la lista de invitados del panel. El código QR de cada pase abre su invitación personalizada y, con el registro de llegadas, sirve para registrar su entrada al evento.'}
             </p>
           </div>
         ) : (

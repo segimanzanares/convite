@@ -86,5 +86,10 @@
     "Capture the content of the invitation before publishing it.": "Captura el contenido de la invitación antes de publicarla.",
     "The plan of the order does not include a custom design.": "El plan de la contratación no incluye diseño personalizado.",
     "The file does not belong to this invitation.": "El archivo no pertenece a esta invitación.",
-    "Content saved.": "Contenido guardado."
+    "Content saved.": "Contenido guardado.",
+    "Check-in at the door requires the guest list.": "El registro de llegadas requiere la lista de invitados.",
+    "The guest has :count seats.": "El invitado tiene :count lugares.",
+    "Check-in is closed.": "El registro de llegadas está cerrado.",
+    "New door link ready. The previous one no longer works.": "Nuevo enlace de puerta listo. El anterior ya no funciona.",
+    "Door link ready.": "Enlace de puerta listo."
 }

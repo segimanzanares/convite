@@ -16,7 +16,7 @@ class PlanSeeder extends Seeder
     {
         $catalogFeatures = array_values(array_filter(
             PlanFeature::cases(),
-            fn (PlanFeature $feature): bool => $feature !== PlanFeature::CustomDesign,
+            fn (PlanFeature $feature): bool => ! in_array($feature, [PlanFeature::CustomDesign, PlanFeature::CheckIn], true),
         ));
 
         $plans = [
@@ -51,7 +51,7 @@ class PlanSeeder extends Seeder
                 'slug' => 'exclusivo',
                 'name' => 'Exclusivo',
                 'price' => 2099,
-                'description' => 'Todo lo del plan Premium sin límite de invitados, con un diseño creado solo para su evento.',
+                'description' => 'Todo lo del plan Premium sin límite de invitados, con un diseño creado solo para su evento y registro de llegadas en la entrada.',
                 'max_guests' => null,
                 'features' => PlanFeature::cases(),
                 'sort_order' => 4,
@@ -59,7 +59,7 @@ class PlanSeeder extends Seeder
         ];
 
         foreach ($plans as $plan) {
-            Plan::firstOrCreate(['slug' => $plan['slug']], $plan);
+            Plan::updateOrCreate(['slug' => $plan['slug']], $plan);
         }
     }
 }

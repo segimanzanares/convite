@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureDoorAccess;
 use App\Http\Middleware\EnsureInvitationHasFeature;
 use App\Http\Middleware\EnsureInvitationIsVisible;
 use App\Http\Middleware\HandleAppearance;
@@ -22,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
 
         $middleware->alias([
+            'invitation.door' => EnsureDoorAccess::class,
             'invitation.feature' => EnsureInvitationHasFeature::class,
             'invitation.visible' => EnsureInvitationIsVisible::class,
         ]);

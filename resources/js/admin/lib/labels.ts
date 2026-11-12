@@ -12,6 +12,7 @@ export const planFeatureLabels: Record<PlanFeature, string> = {
     print_card: 'Tarjeta imprimible',
     guest_passes: 'Pases imprimibles',
     custom_design: 'Diseño personalizado',
+    check_in: 'Registro de llegadas',
 };
 
 export const orderStatusLabels: Record<OrderStatus, string> = {
