@@ -15,7 +15,7 @@ it('creates the client invitations with their client and order', function () {
 
     $invitation = Invitation::where('slug', 'mati-nayith')->firstOrFail();
 
-    expect($invitation->template)->toBe('boda-floral')
+    expect($invitation->template)->toBe('boda-clasica')
         ->and($invitation->order->plan->slug)->toBe('basico')
         ->and($invitation->client_id)->toBe($invitation->order->client_id);
 

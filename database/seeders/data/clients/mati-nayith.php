@@ -3,7 +3,9 @@
 /*
 | The wedding of Matilde & Nayith, a client's invitation that was served by the static site before the backend.
 | ClientInvitationSeeder creates the client, the order and the invitation once; after that they are edited in the
-| panel. The order is the Básico plan (no printables, guest list or online RSVP), as the static site served it.
+| panel. It uses boda-clasica; its photos and music stay under public/invitations/boda-floral/, the template it used
+| before boda-floral got its floral design. The order is the Básico plan (no printables, guest list or online RSVP),
+| as the static site served it.
 */
 
 $image = fn (string $file): string => "/invitations/boda-floral/images/{$file}";
@@ -18,7 +20,7 @@ return [
     ],
     'invitation' => [
         'slug' => 'mati-nayith',
-        'template' => 'boda-floral',
+        'template' => 'boda-clasica',
         'title' => 'Matilde & Nayith — Nuestra Boda',
         'description' => 'Acompáñanos a celebrar la boda de Matilde & Nayith.',
         'og_image' => '/invitations/boda-floral/og-image.jpg',

@@ -3,7 +3,8 @@
 /*
 | Content of the floral wedding demo. It has no order, so its date always shows 60 days ahead (see
 | InvitationContentResource). The photos are shared with the classic wedding demo; the files under
-| public/invitations/boda-floral/ belong to a client's invitation.
+| public/invitations/boda-floral/ belong to a client's invitation
+| (mati-nayith, which uses boda-clasica).
 */
 
 $image = fn (string $file): string => "/invitations/boda-clasica/images/{$file}";
@@ -26,6 +27,7 @@ return [
                 'time' => '16:00 hrs',
                 'latitude' => 15.861208,
                 'longitude' => -97.065710,
+                'image' => $image('catedral.jpg'),
             ],
             [
                 'icon' => '🥂',
@@ -35,7 +37,15 @@ return [
                 'time' => '18:00 hrs',
                 'latitude' => 15.862436,
                 'longitude' => -97.071639,
+                'image' => $image('salon.jpeg'),
             ],
+        ],
+        'program' => [
+            ['time' => '16:00 hrs', 'icon' => '⛪', 'title' => 'Ceremonia religiosa', 'description' => 'Uniremos nuestras vidas en la Parroquia de San Rafael Arcángel.'],
+            ['time' => '18:00 hrs', 'icon' => '🌸', 'title' => 'Coctel entre flores', 'description' => 'Bienvenida y brindis en los jardines de Los Olivos.'],
+            ['time' => '19:00 hrs', 'icon' => '🍽️', 'title' => 'Cena', 'description' => 'Una cena bajo las pérgolas para celebrar juntos.'],
+            ['time' => '20:30 hrs', 'icon' => '💃', 'title' => 'Primer baile', 'description' => 'Abriremos la pista con nuestro primer baile como esposos.'],
+            ['time' => '21:00 hrs', 'icon' => '🪩', 'title' => 'Fiesta', 'description' => 'Música y baile hasta que termine la noche.'],
         ],
         'gallery' => [
             ['image' => $image('02.jpeg'), 'alt' => 'Foto 1', 'caption' => 'La sesión'],
@@ -57,14 +67,27 @@ return [
             ],
         ],
         'swatches' => [
-            ['hex' => '#D4B896', 'label' => 'Champagne'],
-            ['hex' => '#C8A882', 'label' => 'Camel'],
-            ['hex' => '#8B9E7A', 'label' => 'Sage'],
-            ['hex' => '#A0927E', 'label' => 'Taupe'],
-            ['hex' => '#B8B4A0', 'label' => 'Gris Plata'],
-            ['hex' => '#C9A84C', 'label' => 'Dorado'],
-            ['hex' => '#7A8FA0', 'label' => 'Azul Pálido'],
-            ['hex' => '#C4A0A0', 'label' => 'Rosa Antiguo'],
+            ['hex' => '#E8C4C4', 'label' => 'Rosa Palo'],
+            ['hex' => '#C98E95', 'label' => 'Rosa Viejo'],
+            ['hex' => '#B9A3C4', 'label' => 'Lavanda'],
+            ['hex' => '#9DB095', 'label' => 'Salvia'],
+            ['hex' => '#E9D8C4', 'label' => 'Marfil'],
+            ['hex' => '#A9BCC9', 'label' => 'Azul Niebla'],
+        ],
+        'gifts' => [
+            [
+                'kind' => 'envelope',
+                'title' => 'Lluvia de sobres',
+                'description' => 'El día de la boda habrá un buzón a la entrada para tu sobre.',
+            ],
+            [
+                'kind' => 'registry',
+                'title' => 'Mesa de Regalos',
+                'description' => 'También pueden elegir un detalle de nuestra mesa de regalos.',
+                'details' => [['label' => 'Número de evento', 'value' => '51234568']],
+                'link_url' => 'https://mesaderegalos.liverpool.com.mx/',
+                'link_label' => 'Ver mesa de regalos',
+            ],
         ],
     ],
 ];
