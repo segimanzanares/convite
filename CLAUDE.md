@@ -13,7 +13,7 @@ Convite: a site for custom digital invitations (weddings, XV años, birthdays). 
 - `npm run lint`: ESLint over the frontend
 - `php artisan test`: Pest test suite (runs against the `convite_testing` PostgreSQL database, see `phpunit.xml`)
 - `./vendor/bin/pint`: format PHP code
-- `php artisan migrate --seed`: create tables and seed the demo invitations (`InvitationSeeder` is idempotent; their content lives in `database/seeders/data/invitations/<template>.php`)
+- `php artisan migrate --seed`: create tables and seed the demo invitations (`InvitationSeeder` is idempotent and seeds one demo per template, at the template's own slug, e.g. `/i/boda-clasica`; their content lives in `database/seeders/data/invitations/<template>.php`. Client invitations are not: `php artisan db:seed --class=ClientInvitationSeeder`, run by hand once, brings the ones that predate the backend in from `database/seeders/data/clients/<slug>.php`, with their client and order, and skips a slug that already exists)
 - `php artisan storage:link`: needed once, so uploaded photos and music (public disk) are served
 - `php artisan admin:create`: create an admin panel account. Public registration is disabled.
 
