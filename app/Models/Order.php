@@ -19,7 +19,7 @@ use Illuminate\Support\Carbon;
  * @property int $client_id
  * @property int $plan_id
  * @property string $price
- * @property array{name: string, max_guests: int|null, features: list<string>} $plan_snapshot
+ * @property array{name: string, max_guests: int|null, max_seats_per_guest?: int|null, features: list<string>} $plan_snapshot
  * @property OrderStatus $status
  * @property string|null $notes
  * @property string|null $payments_sum_amount
@@ -87,6 +87,15 @@ class Order extends Model
     public function maxGuests(): ?int
     {
         return $this->plan_snapshot['max_guests'] ?? null;
+    }
+
+    /**
+     * The most seats each guest (a family or group) may have, or null when the plan sets no limit. Orders sold
+     * before plans had this limit have no such key in their snapshot.
+     */
+    public function maxSeatsPerGuest(): ?int
+    {
+        return $this->plan_snapshot['max_seats_per_guest'] ?? null;
     }
 
     /**

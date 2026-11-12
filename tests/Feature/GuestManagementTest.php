@@ -50,9 +50,26 @@ it('does not add guests beyond the limit of the plan', function () {
 
     $this->actingAs(User::factory()->create())
         ->post(route('admin.invitations.guests.store', $invitation), ['name' => 'Ana', 'seats' => '1'])
-        ->assertSessionHasErrors(['guests' => 'El plan permite 1 invitados y la lista está completa.']);
+        ->assertSessionHasErrors(['guests' => 'El plan permite 1 invitaciones y la lista está completa.']);
 
     expect($invitation->guests()->count())->toBe(1);
+});
+
+it('does not give a guest more seats than the plan allows per invitation', function () {
+    $plan = Plan::factory()->withPanel()->create(['max_seats_per_guest' => 4]);
+    $invitation = Invitation::factory()->forOrder(Order::factory()->for($plan)->create())->create();
+    $guest = Guest::factory()->for($invitation)->create(['seats' => 2]);
+    $user = User::factory()->client($invitation->client)->create();
+
+    $this->actingAs($user)
+        ->post(route('admin.invitations.guests.store', $invitation), ['name' => 'Familia Pérez', 'seats' => '5'])
+        ->assertSessionHasErrors(['seats' => 'El campo lugares no debe ser mayor que 4.']);
+
+    $this->actingAs($user)
+        ->put(route('admin.invitations.guests.update', [$invitation, $guest]), ['name' => $guest->name, 'seats' => '5'])
+        ->assertSessionHasErrors(['seats' => 'El campo lugares no debe ser mayor que 4.']);
+
+    expect($invitation->guests()->count())->toBe(1)->and($guest->fresh()->seats)->toBe(2);
 });
 
 it('validates the guest', function () {

@@ -25,6 +25,6 @@ class StoreGuestRequest extends FormRequest
      */
     public function rules(): array
     {
-        return $this->guestRules();
+        return $this->guestRules($this->route('invitation')->seatLimit());
     }
 }

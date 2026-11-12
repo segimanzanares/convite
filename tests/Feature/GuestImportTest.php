@@ -3,6 +3,7 @@
 use App\Models\Guest;
 use App\Models\Invitation;
 use App\Models\Order;
+use App\Models\Plan;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 
@@ -55,7 +56,7 @@ it('imports nothing when the rows do not fit in the plan', function () {
         ->post(route('admin.invitations.guests.import.store', $invitation), [
             'rows' => [['name' => 'A', 'seats' => 1], ['name' => 'B', 'seats' => 1], ['name' => 'C', 'seats' => 1]],
         ])
-        ->assertSessionHasErrors(['guests' => 'El plan permite 3 invitados, así que solo puedes agregar 2 más.']);
+        ->assertSessionHasErrors(['guests' => 'El plan permite 3 invitaciones, así que solo puedes agregar 2 más.']);
 
     expect($invitation->guests()->count())->toBe(1);
 });
@@ -68,6 +69,30 @@ it('rejects rows with errors', function () {
             'rows' => [['name' => 'Ana', 'seats' => 1], ['name' => '', 'seats' => 1]],
         ])
         ->assertSessionHasErrors(['rows.1.name' => 'El campo nombre es obligatorio.']);
+
+    expect(Guest::count())->toBe(0);
+});
+
+it('flags the rows with more seats than the plan allows per invitation', function () {
+    $plan = Plan::factory()->withPanel()->create(['max_seats_per_guest' => 4]);
+    $invitation = Invitation::factory()->forOrder(Order::factory()->for($plan)->create())->create();
+    $user = User::factory()->client($invitation->client)->create();
+
+    $this->actingAs($user)
+        ->post(route('admin.invitations.guests.import.preview', $invitation), [
+            'file' => UploadedFile::fake()->createWithContent('invitados.csv', "Familia Hernández,4\nFamilia Ruiz,6\n"),
+        ])
+        ->assertOk()
+        ->assertJson(['rows' => [
+            ['name' => 'Familia Hernández', 'errors' => []],
+            ['name' => 'Familia Ruiz', 'errors' => ['El campo lugares no debe ser mayor que 4.']],
+        ]]);
+
+    $this->actingAs($user)
+        ->post(route('admin.invitations.guests.import.store', $invitation), [
+            'rows' => [['name' => 'Familia Ruiz', 'seats' => 6]],
+        ])
+        ->assertSessionHasErrors(['rows.0.seats']);
 
     expect(Guest::count())->toBe(0);
 });

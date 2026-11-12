@@ -120,9 +120,15 @@ export default function OrderShow({ order, paymentMethods, modal }: Props) {
                     <div className="flex flex-wrap gap-2 text-sm">
                         <Badge variant="secondary">
                             {order.plan.max_guests
-                                ? `Hasta ${order.plan.max_guests} invitados`
+                                ? `Hasta ${order.plan.max_guests} invitaciones`
                                 : 'Sin lista de invitados'}
                         </Badge>
+                        {order.plan.max_seats_per_guest && (
+                            <Badge variant="secondary">
+                                Hasta {order.plan.max_seats_per_guest} lugares
+                                por invitación
+                            </Badge>
+                        )}
                         {order.plan.features.map((feature) => (
                             <Badge key={feature} variant="outline">
                                 {planFeatureLabels[feature]}

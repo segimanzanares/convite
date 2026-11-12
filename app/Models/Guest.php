@@ -39,6 +39,9 @@ class Guest extends Model
     /** Length of the token in the guest's personalized link. */
     public const int TOKEN_LENGTH = 16;
 
+    /** The most seats a single guest (a family or group) may have, whatever the plan. */
+    public const int MAX_SEATS = 50;
+
     /**
      * Get the attributes that should be cast.
      *

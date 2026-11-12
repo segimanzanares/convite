@@ -30,6 +30,7 @@ it('sells a plan with an adjusted price and keeps a copy of its conditions', fun
         ->and($order->plan_snapshot)->toBe([
             'name' => 'Estándar',
             'max_guests' => 120,
+            'max_seats_per_guest' => null,
             'features' => ['guest_management', 'online_rsvp'],
         ]);
 });

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Concerns\GuestValidationRules;
+use App\Models\Guest;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -23,11 +24,12 @@ class GuestImportService
     private const array COLUMNS = ['name', 'seats', 'table_label', 'phone', 'email'];
 
     /**
-     * Parse a file into rows ready to review, each with its line number and validation errors.
+     * Parse a file into rows ready to review, each with its line number and validation errors. Rows with more seats
+     * than the given limit are flagged.
      *
      * @return list<array{line: int, name: string, seats: int|string, table_label: string|null, phone: string|null, email: string|null, errors: list<string>}>
      */
-    public function preview(UploadedFile $file): array
+    public function preview(UploadedFile $file, int $seatLimit = Guest::MAX_SEATS): array
     {
         $lines = $this->lines((string) file_get_contents($file->getRealPath()));
         $delimiter = $this->delimiter($lines);
@@ -47,7 +49,7 @@ class GuestImportService
             $rows[] = [
                 'line' => $index + 1,
                 ...$row,
-                'errors' => Validator::make($row, $this->guestRules())->errors()->all(),
+                'errors' => Validator::make($row, $this->guestRules($seatLimit))->errors()->all(),
             ];
 
             if (count($rows) === self::MAX_ROWS) {

@@ -132,6 +132,14 @@ class Invitation extends Model
     }
 
     /**
+     * The most seats a single guest may have: the plan's limit, never above Guest::MAX_SEATS.
+     */
+    public function seatLimit(): int
+    {
+        return min($this->order?->maxSeatsPerGuest() ?? Guest::MAX_SEATS, Guest::MAX_SEATS);
+    }
+
+    /**
      * When the RSVP form closes: the end of the deadline day, or of the event day without a deadline, in the
      * application's time zone. Null when the invitation has neither date.
      */

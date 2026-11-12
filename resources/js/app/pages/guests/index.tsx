@@ -167,7 +167,7 @@ export default function GuestsIndex({
                 <div className="flex flex-wrap items-start justify-between gap-4">
                     <Heading
                         title="Invitados"
-                        description={`${invitation.title} · ${guests.length}${invitation.max_guests ? ` de ${invitation.max_guests}` : ''} invitados, ${seats} lugares`}
+                        description={`${invitation.title} · ${guests.length}${invitation.max_guests ? ` de ${invitation.max_guests}` : ''} invitaciones, ${seats} lugares`}
                     />
 
                     <div className="flex flex-wrap gap-2">
@@ -243,7 +243,7 @@ export default function GuestsIndex({
                 {isFull && (
                     <p className="text-muted-foreground text-sm">
                         La lista está completa: tu plan permite{' '}
-                        {invitation.max_guests} invitados.
+                        {invitation.max_guests} invitaciones.
                     </p>
                 )}
 
@@ -322,6 +322,7 @@ export default function GuestsIndex({
                         <GuestForm
                             formRequest={store.form(invitation.slug)}
                             submitLabel="Agregar invitado"
+                            maxSeats={invitation.max_seats_per_guest}
                         />
                     ) : content === 'import' ? (
                         <GuestImportForm invitation={invitation} />
@@ -334,6 +335,7 @@ export default function GuestsIndex({
                             ])}
                             submitLabel="Guardar"
                             defaultValues={content}
+                            maxSeats={invitation.max_seats_per_guest}
                         />
                     )
                 }

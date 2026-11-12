@@ -14,7 +14,7 @@ import { formatMoney } from '@/lib/format';
 import { planFeatureLabels } from '@/lib/labels';
 import type { Plan } from '@/types';
 
-/** On small screens the price, guests and features collapse under the name and the actions into a menu. */
+/** On small screens the price, invitations and features collapse under the name and the actions into a menu. */
 export default function PlanRow({ plan }: { plan: Plan }) {
     const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
     const isSold = (plan.orders_count ?? 0) > 0;
@@ -29,7 +29,9 @@ export default function PlanRow({ plan }: { plan: Plan }) {
 
     const details = [
         formatMoney(plan.price),
-        plan.max_guests && `${plan.max_guests} invitados`,
+        plan.max_guests && `${plan.max_guests} invitaciones`,
+        plan.max_seats_per_guest &&
+            `hasta ${plan.max_seats_per_guest} lugares c/u`,
     ].filter(Boolean);
 
     return (
@@ -55,6 +57,11 @@ export default function PlanRow({ plan }: { plan: Plan }) {
             </td>
             <td className="text-muted-foreground hidden px-4 py-3 md:table-cell">
                 {plan.max_guests ?? '—'}
+                {plan.max_seats_per_guest && (
+                    <div className="text-xs">
+                        hasta {plan.max_seats_per_guest} lugares c/u
+                    </div>
+                )}
             </td>
             <td className="hidden px-4 py-3 md:table-cell">
                 <div className="flex flex-wrap gap-1">

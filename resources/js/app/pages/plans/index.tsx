@@ -48,7 +48,7 @@ export default function PlansIndex({
                     columns={[
                         'Plan',
                         { label: 'Precio', desktop: true },
-                        { label: 'Invitados', desktop: true },
+                        { label: 'Invitaciones', desktop: true },
                         { label: 'Funciones', desktop: true },
                         'Estado',
                         '',

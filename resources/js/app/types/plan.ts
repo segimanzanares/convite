@@ -13,6 +13,8 @@ export type Plan = {
     price: string;
     description: string | null;
     max_guests: number | null;
+    /** The most seats per guest (family or group), null without a limit of its own. */
+    max_seats_per_guest: number | null;
     features: PlanFeature[];
     is_active: boolean;
     sort_order: number;
@@ -23,6 +25,8 @@ export type Plan = {
 export type PlanSnapshot = {
     name: string;
     max_guests: number | null;
+    /** Missing in orders sold before plans had this limit. */
+    max_seats_per_guest?: number | null;
     features: PlanFeature[];
 };
 

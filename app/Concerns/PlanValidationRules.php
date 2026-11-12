@@ -3,6 +3,7 @@
 namespace App\Concerns;
 
 use App\Enums\PlanFeature;
+use App\Models\Guest;
 use App\Models\Plan;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -23,6 +24,7 @@ trait PlanValidationRules
             'price' => ['required', 'numeric', 'min:0', 'max:99999999.99'],
             'description' => ['nullable', 'string', 'max:2000'],
             'max_guests' => ['nullable', 'integer', 'min:1', 'max:100000'],
+            'max_seats_per_guest' => ['nullable', 'integer', 'min:1', 'max:'.Guest::MAX_SEATS],
             'features' => ['array', function (string $attribute, mixed $value, Closure $fail): void {
                 // Guests are checked in from the guest list
                 if (is_array($value) && in_array(PlanFeature::CheckIn->value, $value, true) && ! in_array(PlanFeature::GuestManagement->value, $value, true)) {

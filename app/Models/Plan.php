@@ -24,13 +24,14 @@ use Illuminate\Support\Collection;
  * @property string $price
  * @property string|null $description
  * @property int|null $max_guests
+ * @property int|null $max_seats_per_guest
  * @property Collection<int, PlanFeature> $features
  * @property bool $is_active
  * @property int $sort_order
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['name', 'slug', 'price', 'description', 'max_guests', 'features', 'is_active', 'sort_order'])]
+#[Fillable(['name', 'slug', 'price', 'description', 'max_guests', 'max_seats_per_guest', 'features', 'is_active', 'sort_order'])]
 class Plan extends Model
 {
     /** @use HasFactory<PlanFactory> */
@@ -46,6 +47,7 @@ class Plan extends Model
         return [
             'price' => 'decimal:2',
             'max_guests' => 'integer',
+            'max_seats_per_guest' => 'integer',
             'features' => AsEnumCollection::of(PlanFeature::class),
             'is_active' => 'boolean',
             'sort_order' => 'integer',
@@ -72,13 +74,14 @@ class Plan extends Model
     /**
      * The limits and features an order of this plan keeps.
      *
-     * @return array{name: string, max_guests: int|null, features: list<string>}
+     * @return array{name: string, max_guests: int|null, max_seats_per_guest: int|null, features: list<string>}
      */
     public function snapshot(): array
     {
         return [
             'name' => $this->name,
             'max_guests' => $this->max_guests,
+            'max_seats_per_guest' => $this->max_seats_per_guest,
             'features' => $this->features->map(fn (PlanFeature $feature) => $feature->value)->values()->all(),
         ];
     }

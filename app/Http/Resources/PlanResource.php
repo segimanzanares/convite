@@ -27,6 +27,7 @@ class PlanResource extends JsonResource
             'price' => $this->price,
             'description' => $this->description,
             'max_guests' => $this->max_guests,
+            'max_seats_per_guest' => $this->max_seats_per_guest,
             'features' => $this->features,
             'is_active' => $this->when($isAdmin, $this->is_active),
             'sort_order' => $this->when($isAdmin, $this->sort_order),

@@ -57,7 +57,7 @@
     "Guest updated.": "Invitado actualizado.",
     "Guest deleted.": "Invitado eliminado.",
     "{1} :count guest imported.|[2,*] :count guests imported.": "{1} Se importó :count invitado.|[2,*] Se importaron :count invitados.",
-    "{0} The plan allows :limit guests and the list is full.|[1,*] The plan allows :limit guests, so only :count more can be added.": "{0} El plan permite :limit invitados y la lista está completa.|[1,*] El plan permite :limit invitados, así que solo puedes agregar :count más.",
+    "{0} The plan allows :limit guests and the list is full.|[1,*] The plan allows :limit guests, so only :count more can be added.": "{0} El plan permite :limit invitaciones y la lista está completa.|[1,*] El plan permite :limit invitaciones, así que solo puedes agregar :count más.",
     "Answer deleted.": "Respuesta eliminada.",
     "The RSVP form is closed.": "El plazo para confirmar asistencia terminó.",
     "Your invitation: :title": "Tu invitación: :title",

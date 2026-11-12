@@ -9,28 +9,41 @@ import { email, max, maxLength, min, required } from '@/lib/validators';
 import type { Guest, ValidationSchema } from '@/types';
 import type { RouteFormDefinition } from '@/wayfinder';
 
-const schema: ValidationSchema = {
-    name: [required('El nombre es obligatorio.'), maxLength(255)],
-    seats: [
-        required('Indica cuántos lugares tiene.'),
-        min(1, 'Debe tener al menos un lugar.'),
-        max(50),
-    ],
-    phone: [maxLength(30)],
-    email: [email(), maxLength(255)],
-    table_label: [maxLength(50)],
-};
+/** The most seats a guest may have when the plan sets no lower limit. */
+const MAX_SEATS = 50;
+
+function guestSchema(maxSeats: number): ValidationSchema {
+    return {
+        name: [required('El nombre es obligatorio.'), maxLength(255)],
+        seats: [
+            required('Indica cuántos lugares tiene.'),
+            min(1, 'Debe tener al menos un lugar.'),
+            max(
+                maxSeats,
+                `Tu plan permite hasta ${maxSeats} lugares por invitación.`,
+            ),
+        ],
+        phone: [maxLength(30)],
+        email: [email(), maxLength(255)],
+        table_label: [maxLength(50)],
+    };
+}
 
 export default function GuestForm({
     formRequest,
     submitLabel,
     defaultValues,
+    maxSeats = MAX_SEATS,
 }: {
     formRequest: RouteFormDefinition<'post'>;
     submitLabel: string;
     defaultValues?: Guest;
+    /** The plan's limit of seats per guest. */
+    maxSeats?: number;
 }) {
-    const { formRef, onBefore, onChange } = useInertiaFormValidation(schema);
+    const { formRef, onBefore, onChange } = useInertiaFormValidation(
+        guestSchema(maxSeats),
+    );
 
     return (
         <Form
@@ -70,7 +83,7 @@ export default function GuestForm({
                                     name="seats"
                                     type="number"
                                     min="1"
-                                    max="50"
+                                    max={maxSeats}
                                     defaultValue={defaultValues?.seats ?? 1}
                                 />
                                 <InputError message={errors.seats} />

@@ -24,6 +24,7 @@ const schema: ValidationSchema = {
     slug: [required('El identificador es obligatorio.'), maxLength(255)],
     price: [required('El precio es obligatorio.'), numeric(), min(0)],
     max_guests: [numeric(), min(1)],
+    max_seats_per_guest: [numeric(), min(1), max(50)],
     sort_order: [required('El orden es obligatorio.'), numeric(), min(0), max(1000)],
 };
 
@@ -85,7 +86,7 @@ export default function PlanForm({
 
                             <div className="grid gap-2">
                                 <Label htmlFor="max_guests">
-                                    Límite de invitados
+                                    Límite de invitaciones
                                 </Label>
                                 <Input
                                     id="max_guests"
@@ -98,6 +99,31 @@ export default function PlanForm({
                                     }
                                 />
                                 <InputError message={errors.max_guests} />
+                            </div>
+
+                            <div className="grid gap-2 sm:col-start-2">
+                                <Label htmlFor="max_seats_per_guest">
+                                    Lugares por invitación
+                                </Label>
+                                <Input
+                                    id="max_seats_per_guest"
+                                    name="max_seats_per_guest"
+                                    type="number"
+                                    min="1"
+                                    max="50"
+                                    placeholder="Hasta 50"
+                                    defaultValue={
+                                        defaultValues?.max_seats_per_guest ??
+                                        undefined
+                                    }
+                                />
+                                <p className="text-muted-foreground text-xs">
+                                    Cuántas personas puede incluir cada
+                                    invitación (familia o grupo).
+                                </p>
+                                <InputError
+                                    message={errors.max_seats_per_guest}
+                                />
                             </div>
                         </div>
 

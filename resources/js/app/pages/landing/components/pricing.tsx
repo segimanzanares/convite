@@ -59,7 +59,7 @@ export function Pricing({ plans }: { plans: OfferedPlan[] }) {
                         FEATURE_LABELS[plan.features.includes('custom_design') ? 'custom_design' : 'catalog_design'],
                         plan.features.includes('online_rsvp') ? null : 'Confirmación de asistencia por WhatsApp',
                         plan.max_guests
-                            ? `Hasta ${plan.max_guests} invitaciones personalizadas`
+                            ? `Hasta ${plan.max_guests} invitaciones personalizadas${plan.max_seats_per_guest ? ` de hasta ${plan.max_seats_per_guest} personas` : ''}`
                             : plan.features.includes('guest_management')
                                 ? 'Invitaciones personalizadas sin límite'
                                 : null,

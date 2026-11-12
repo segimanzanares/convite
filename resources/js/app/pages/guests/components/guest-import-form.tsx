@@ -15,7 +15,7 @@ import type { GuestImportRow, Invitation } from '@/types';
 
 type Preview = {
     rows: GuestImportRow[];
-    /** How many more guests the plan allows, or null without a limit. */
+    /** How many more guests (invitations) the plan allows, or null without a limit. */
     remaining: number | null;
 };
 
@@ -116,7 +116,7 @@ export default function GuestImportForm({
                             <AlertError
                                 title="No caben en el plan"
                                 errors={[
-                                    `Solo puedes agregar ${result.remaining} invitados más. Quita renglones del archivo y revísalo de nuevo.`,
+                                    `Solo puedes agregar ${result.remaining} invitaciones más. Quita renglones del archivo y revísalo de nuevo.`,
                                 ]}
                             />
                         )}

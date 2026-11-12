@@ -44,7 +44,7 @@ class GuestImportController extends Controller
     public function preview(PreviewGuestImportRequest $request, Invitation $invitation): JsonResponse
     {
         return response()->json([
-            'rows' => $this->imports->preview($request->file('file')),
+            'rows' => $this->imports->preview($request->file('file'), $invitation->loadMissing('order')->seatLimit()),
             'remaining' => $this->guests->remainingSlots($invitation),
         ]);
     }

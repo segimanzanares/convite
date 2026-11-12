@@ -27,6 +27,7 @@ it('creates a plan with its features', function () {
             'slug' => 'estandar',
             'price' => '2500.50',
             'max_guests' => '100',
+            'max_seats_per_guest' => '8',
             'features' => ['guest_management', 'online_rsvp'],
             'is_active' => '1',
             'sort_order' => '2',
@@ -39,6 +40,7 @@ it('creates a plan with its features', function () {
     expect($plan->name)->toBe('Estándar')
         ->and($plan->price)->toBe('2500.50')
         ->and($plan->max_guests)->toBe(100)
+        ->and($plan->max_seats_per_guest)->toBe(8)
         ->and($plan->features->all())->toBe([PlanFeature::GuestManagement, PlanFeature::OnlineRsvp])
         ->and($plan->is_active)->toBeTrue();
 });

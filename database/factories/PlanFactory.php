@@ -27,6 +27,7 @@ class PlanFactory extends Factory
             'price' => fake()->randomFloat(2, 500, 5000),
             'description' => fake()->sentence(),
             'max_guests' => null,
+            'max_seats_per_guest' => null,
             'features' => [],
             'is_active' => true,
             'sort_order' => 0,

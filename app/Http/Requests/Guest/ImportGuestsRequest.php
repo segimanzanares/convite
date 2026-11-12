@@ -31,7 +31,7 @@ class ImportGuestsRequest extends FormRequest
     {
         return [
             'rows' => ['required', 'array', 'min:1', 'max:'.GuestImportService::MAX_ROWS],
-            ...$this->guestRules('rows.*.'),
+            ...$this->guestRules($this->route('invitation')->seatLimit(), 'rows.*.'),
         ];
     }
 }
