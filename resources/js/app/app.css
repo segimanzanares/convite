@@ -2,10 +2,10 @@
 
 @import 'tw-animate-css';
 
-/* The admin app (the panel, the landing page and the door of the event): the
-   public site has its own theme (resources/js/site/index.css). */
+/* The main app (the panel, the landing page and the door of the event): the
+   invitations app has its own theme (resources/js/invitations/index.css). */
 @source '.';
-@source '../../views/admin.blade.php';
+@source '../../views/app.blade.php';
 
 @custom-variant dark (&:is(.dark *));
 

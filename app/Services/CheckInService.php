@@ -22,7 +22,7 @@ class CheckInService
     /** Length of the token in the door link. */
     public const int DOOR_TOKEN_LENGTH = 32;
 
-    /** Folder of the door's Inertia pages, under resources/js/admin/pages (see HandleInertiaRequests::PUBLIC_PAGES). */
+    /** Folder of the door's Inertia pages, under resources/js/app/pages (see HandleInertiaRequests::PUBLIC_PAGES). */
     public const string PAGES = 'check-in/';
 
     /**

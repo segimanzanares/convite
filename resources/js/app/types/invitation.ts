@@ -13,7 +13,7 @@ export type InvitationSection =
     | 'swatches'
     | 'gifts';
 
-/** A design under resources/js/site/templates, as its template.json declares it. */
+/** A design under resources/js/invitations/templates, as its template.json declares it. */
 export type InvitationTemplate = {
     name: string;
     label: string;
@@ -29,7 +29,7 @@ export type Invitation = {
     slug: string;
     /** Public URL of the invitation. */
     url: string;
-    /** Folder of the template under resources/js/site/templates. */
+    /** Folder of the template under resources/js/invitations/templates. */
     template: string;
     /** Name of the template as its template.json declares it, e.g. "Boda floral". */
     template_label: string;

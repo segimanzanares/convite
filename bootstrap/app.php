@@ -39,11 +39,11 @@ return Application::configure(basePath: dirname(__DIR__))
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
 
-        // Unknown pages and invitations render the public site's React 404
+        // Unknown pages and invitations render the invitations app's React 404
         // page, and archived invitations its 410 page, keeping the status,
-        // instead of Laravel's default error view, also on the admin app's
+        // instead of Laravel's default error view, also on the main app's
         // pages outside the panel (e.g. a wrong door link). The admin panel
-        // keeps the default one, since its URLs are always the admin app's.
+        // keeps the default one, since its URLs are always the main app's.
         $exceptions->respond(function (Response $response, Throwable $e, Request $request) {
             $status = $response->getStatusCode();
 
@@ -55,7 +55,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 ? ['pages/unavailable/UnavailablePage', 'Invitación no disponible']
                 : ['pages/not-found/NotFoundPage', 'Página no encontrada'];
 
-            HandleInertiaRequests::servePages($request, HandleInertiaRequests::SITE_PAGES);
+            HandleInertiaRequests::servePages($request, HandleInertiaRequests::INVITATION_PAGES);
 
             return Inertia::render($component, [
                 'meta' => [

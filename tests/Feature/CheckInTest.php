@@ -38,7 +38,7 @@ it('gives a phone door access through the door link while check-in is open', fun
     $this->withCookies(doorCookie($invitation))
         ->get(route('invitations.door.show', $invitation))
         ->assertOk()
-        ->assertViewIs('admin')
+        ->assertViewIs('app')
         ->assertInertia(fn (Assert $page) => $page
             ->component('check-in/door')
             ->where('door.summary', ['guests' => 1, 'seats' => 4, 'arrived_guests' => 0, 'arrived_seats' => 0])
@@ -53,7 +53,7 @@ it('does not open the door with a wrong token or a plan without check-in', funct
 
     $this->get(route('invitations.door.enter', [$invitation, str_repeat('x', 32)]))
         ->assertNotFound()
-        ->assertViewIs('app')
+        ->assertViewIs('invitations')
         ->assertInertia(fn (Assert $page) => $page->component('pages/not-found/NotFoundPage'));
     $this->get(route('invitations.door.enter', [$withoutCheckIn, $withoutCheckIn->door_token]))->assertNotFound();
     $this->get(route('invitations.door.show', $invitation))->assertNotFound();
@@ -91,14 +91,14 @@ it('shows the check-in screen when the door scans a pass, and the invitation to 
     Rsvp::factory()->forGuest($guest)->create(['attending' => true, 'seats_confirmed' => 3]);
 
     $this->get($guest->url())
-        ->assertViewIs('app')
+        ->assertViewIs('invitations')
         ->assertInertia(fn (Assert $page) => $page->component('templates/boda-clasica/InvitationPage'));
 
     $guest->forceFill(['first_opened_at' => null])->save();
 
     $this->withCookies(doorCookie($invitation))
         ->get($guest->url())
-        ->assertViewIs('admin')
+        ->assertViewIs('app')
         ->assertInertia(fn (Assert $page) => $page
             ->component('check-in/guest')
             ->where('guest.name', 'Familia Pérez')
@@ -115,7 +115,7 @@ it('keeps the door in the same app when it opens a pass from the door page', fun
     // The door pages share the landing page's root view, and so its asset version
     $doorVersion = $this->get(route('landing'))->viewData('page')['version'];
 
-    // Without door access the link is the guest's invitation, from the public site
+    // Without door access the link is the guest's invitation, from the invitations app
     $this->get($guest->url(), ['X-Inertia' => 'true', 'X-Inertia-Version' => $doorVersion])
         ->assertStatus(409);
 

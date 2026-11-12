@@ -73,15 +73,15 @@ return [
 
         'ensure_pages_exist' => false,
 
-        // Public site components are named by their path under resources/js/site,
+        // Invitations app components are named by their path under resources/js/invitations,
         // e.g. "templates/boda-clasica/InvitationPage" or "pages/not-found/NotFoundPage"
-        // (see resources/js/site/app.tsx). Admin app components are named by
-        // their path under resources/js/admin/pages, e.g. "auth/login" or
-        // "landing/index" (see resources/js/admin/app.tsx).
+        // (see resources/js/invitations/app.tsx). Main app components are named by
+        // their path under resources/js/app/pages, e.g. "auth/login" or
+        // "landing/index" (see resources/js/app/app.tsx).
         'paths' => [
 
-            resource_path('js/site'),
-            resource_path('js/admin/pages'),
+            resource_path('js/invitations'),
+            resource_path('js/app/pages'),
 
         ],
 

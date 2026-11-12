@@ -11,7 +11,7 @@ import { PreviewBanner } from './components/preview/PreviewBanner';
 // plus the 404 and 410 pages under ./pages. The server names them by path,
 // e.g. "templates/boda-clasica/PrintCardPage" or "pages/not-found/NotFoundPage"
 // (see app/Http/Controllers). The landing page and the door of the event
-// belong to the admin app (resources/js/admin).
+// belong to the main app (resources/js/app).
 const pages = import.meta.glob(['./pages/**/*Page.tsx', './templates/*/*Page.tsx']);
 
 initAnalytics();

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Storage;
 
 /**
  * An invitation: its routing and meta data, and the content the admin captured. Its design is a template under
- * resources/js/site/templates/{template}/.
+ * resources/js/invitations/templates/{template}/.
  *
  * @property int $id
  * @property int|null $client_id
@@ -223,7 +223,7 @@ class Invitation extends Model
      */
     public function hasPage(string $page): bool
     {
-        return is_file(resource_path("js/site/{$this->component($page)}.tsx"));
+        return is_file(resource_path("js/invitations/{$this->component($page)}.tsx"));
     }
 
     /**
@@ -320,7 +320,7 @@ class Invitation extends Model
         return once(function (): array {
             $templates = [];
 
-            foreach (glob(resource_path('js/site/templates/*/template.json')) ?: [] as $manifestPath) {
+            foreach (glob(resource_path('js/invitations/templates/*/template.json')) ?: [] as $manifestPath) {
                 $folder = dirname($manifestPath);
                 $manifest = json_decode((string) file_get_contents($manifestPath), true);
                 $kind = InvitationKind::tryFrom($manifest['kind'] ?? '');

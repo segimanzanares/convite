@@ -11,7 +11,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * The content of an invitation as its template pages read it (the `invitation` prop): media paths become URLs,
- * maps are built from each venue's coordinates and the keys follow the frontend types (resources/js/site/types).
+ * maps are built from each venue's coordinates and the keys follow the frontend types (resources/js/invitations/types).
  * The date labels are formatted by each template from `eventAt` and `rsvpDeadline`.
  *
  * @mixin Invitation

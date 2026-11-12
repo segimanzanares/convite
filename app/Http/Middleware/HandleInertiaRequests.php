@@ -9,9 +9,9 @@ use Inertia\Middleware;
 class HandleInertiaRequests extends Middleware
 {
     /**
-     * The public site's pages (resources/js/site): the invitations, and the 404 and 410 pages.
+     * The invitations app's pages (resources/js/invitations): the invitations, and the 404 and 410 pages.
      */
-    public const string SITE_PAGES = 'site';
+    public const string INVITATION_PAGES = 'invitations';
 
     /**
      * The admin panel's pages, under /admin.
@@ -19,13 +19,13 @@ class HandleInertiaRequests extends Middleware
     public const string PANEL_PAGES = 'admin';
 
     /**
-     * The admin app's pages outside the panel: the landing page and the door of the event, with the public meta tags
-     * (see resources/views/admin.blade.php) and always in light mode.
+     * The main app's pages outside the panel: the landing page and the door of the event, with the public meta tags
+     * (see resources/views/app.blade.php) and always in light mode.
      */
     public const string PUBLIC_PAGES = 'public';
 
     /**
-     * Routes of the admin app's pages outside the panel. The guest's personalized link may also serve one, on the phone
+     * Routes of the main app's pages outside the panel. The guest's personalized link may also serve one, on the phone
      * of the staff at the door (see InvitationController::guest and servePages()).
      *
      * @var list<string>
@@ -44,7 +44,7 @@ class HandleInertiaRequests extends Middleware
      *
      * @var string
      */
-    protected $rootView = 'app';
+    protected $rootView = 'invitations';
 
     /**
      * Serve the request's page from the given pages instead of the ones its URL gets, for a response whose page does
@@ -58,7 +58,7 @@ class HandleInertiaRequests extends Middleware
     }
 
     /**
-     * The public site and the admin app are separate Inertia apps, each with its own root view, entry script and
+     * The invitations app and the main app are separate Inertia apps, each with its own root view, entry script and
      * stylesheet.
      */
     public function rootView(Request $request): string
@@ -69,9 +69,9 @@ class HandleInertiaRequests extends Middleware
     /**
      * Determines the current asset version.
      *
-     * The site and the admin app each get their own version, so that an Inertia visit crossing from one to the other
+     * The site and the main app each get their own version, so that an Inertia visit crossing from one to the other
      * (e.g. from the landing page to a demo invitation) is treated as a version mismatch and reloads the full page,
-     * instead of asking the current app to render a page it does not bundle. The panel and the admin app's pages outside
+     * instead of asking the current app to render a page it does not bundle. The panel and the main app's pages outside
      * it share theirs: navigating between them is a visit within the same SPA.
      *
      * @see https://inertiajs.com/asset-versioning
@@ -80,7 +80,7 @@ class HandleInertiaRequests extends Middleware
     {
         $version = parent::version($request);
 
-        return $this->pages($request) === self::SITE_PAGES ? $version : "admin-{$version}";
+        return $this->pages($request) === self::INVITATION_PAGES ? $version : "app-{$version}";
     }
 
     /**
@@ -92,9 +92,9 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        // The whole admin app gets the panel's props, since navigating from its pages outside the panel into it is a
+        // The whole main app gets the panel's props, since navigating from its pages outside the panel into it is a
         // visit within the same SPA
-        if ($this->pages($request) === self::SITE_PAGES) {
+        if ($this->pages($request) === self::INVITATION_PAGES) {
             return parent::share($request);
         }
 
@@ -113,12 +113,12 @@ class HandleInertiaRequests extends Middleware
         return $request->attributes->get(self::PAGES_ATTRIBUTE) ?? match (true) {
             $request->is('admin', 'admin/*') => self::PANEL_PAGES,
             $request->routeIs(self::PUBLIC_ROUTES) => self::PUBLIC_PAGES,
-            default => self::SITE_PAGES,
+            default => self::INVITATION_PAGES,
         };
     }
 
     private static function rootViewOf(string $pages): string
     {
-        return $pages === self::SITE_PAGES ? 'app' : 'admin';
+        return $pages === self::INVITATION_PAGES ? 'invitations' : 'app';
     }
 }

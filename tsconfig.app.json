@@ -18,7 +18,7 @@
 
     /* Admin panel (Laravel React starter kit) imports through "@/" */
     "paths": {
-      "@/*": ["./resources/js/admin/*"]
+      "@/*": ["./resources/js/app/*"]
     },
 
     /* Linting */

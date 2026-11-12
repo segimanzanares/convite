@@ -1,8 +1,8 @@
 @php
     // Pages may pass a `meta` prop to override these defaults, which are the
     // landing page's own (see InvitationController and bootstrap/app.php).
-    // Shared by the public site (app.blade.php) and the admin app's pages
-    // outside the panel (admin.blade.php).
+    // Shared by the invitations app (invitations.blade.php) and the main app's pages
+    // outside the panel (app.blade.php).
     $meta = array_merge([
         'title' => 'Convite — Invitaciones Digitales para Bodas, XV años y Eventos',
         'description' => 'Invitaciones digitales para bodas, XV años y cualquier evento: diseños de catálogo o exclusivos, confirmación de asistencia, cuenta regresiva y galería de fotos. Lista para compartir en días.',

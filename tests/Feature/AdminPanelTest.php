@@ -10,10 +10,10 @@ it('serves the admin panel under /admin with its own root view', function () {
 
     $this->get(route('login'))
         ->assertOk()
-        ->assertViewIs('admin')
+        ->assertViewIs('app')
         ->assertInertia(fn (Assert $page) => $page->component('auth/login'));
 
-    $this->get(route('landing'))->assertViewIs('admin');
+    $this->get(route('landing'))->assertViewIs('app');
 });
 
 it('does not allow public registration', function () {
@@ -40,7 +40,7 @@ it('navigates between the panel and the landing page within the same app', funct
         ->assertJsonPath('component', 'landing/index');
 });
 
-it('reloads the full page when an Inertia visit crosses from the admin app to the public site', function () {
+it('reloads the full page when an Inertia visit crosses from the main app to the invitations app', function () {
     $adminVersion = $this->get(route('landing'))->viewData('page')['version'];
     $invitation = Invitation::factory()->create();
 
@@ -52,7 +52,7 @@ it('reloads the full page when an Inertia visit crosses from the admin app to th
         ->assertHeader('X-Inertia-Location', route('invitations.show', $invitation));
 });
 
-it('shares the signed in user with the admin app, the landing page included', function () {
+it('shares the signed in user with the main app, the landing page included', function () {
     $this->actingAs(User::factory()->create())
         ->get(route('dashboard'))
         ->assertInertia(fn (Assert $page) => $page->has('auth.user'));
@@ -61,7 +61,7 @@ it('shares the signed in user with the admin app, the landing page included', fu
         ->assertInertia(fn (Assert $page) => $page->has('auth.user'));
 });
 
-it('does not share the signed in user with the public site', function () {
+it('does not share the signed in user with the invitations app', function () {
     $this->actingAs(User::factory()->create())
         ->get(route('invitations.show', Invitation::factory()->create()))
         ->assertInertia(fn (Assert $page) => $page->missing('auth'));

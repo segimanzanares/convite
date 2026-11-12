@@ -1,8 +1,8 @@
 @import 'tailwindcss' source(none);
 
-/* Only the public site: the admin panel has its own theme (resources/js/admin/app.css). */
+/* Only the invitations app: the admin panel has its own theme (resources/js/app/app.css). */
 @source '.';
-@source '../../views/app.blade.php';
+@source '../../views/invitations.blade.php';
 
 @theme {
   --color-gold: var(--gold);

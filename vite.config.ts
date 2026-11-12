@@ -10,11 +10,11 @@ import { wayfinder } from '@laravel/vite-plugin-wayfinder';
 export default defineConfig({
   plugins: [
     laravel({
-      // Public site and admin panel are separate Inertia apps (see
+      // Invitations app and admin panel are separate Inertia apps (see
       // app/Http/Middleware/HandleInertiaRequests.php).
-      input: ['resources/js/site/app.tsx', 'resources/js/admin/app.tsx'],
+      input: ['resources/js/invitations/app.tsx', 'resources/js/app/app.tsx'],
       refresh: true,
-      // Admin app fonts, loaded by @fonts in resources/views/admin.blade.php:
+      // Main app fonts, loaded by @fonts in resources/views/app.blade.php:
       // the panel's, also the text of the landing page and the door, and the
       // landing's script titles
       fonts: [
@@ -29,17 +29,17 @@ export default defineConfig({
     react(),
     tailwindcss(),
     // Typed route helpers for the admin panel, generated into
-    // resources/js/admin/{actions,routes,wayfinder}
+    // resources/js/app/{actions,routes,wayfinder}
     wayfinder({
-      path: 'resources/js/admin',
+      path: 'resources/js/app',
       formVariants: true,
     }),
   ],
   resolve: {
     alias: {
       // The admin panel (Laravel React starter kit) imports through "@/".
-      // The public site uses relative imports.
-      '@': fileURLToPath(new URL('./resources/js/admin', import.meta.url)),
+      // The invitations app uses relative imports.
+      '@': fileURLToPath(new URL('./resources/js/app', import.meta.url)),
     },
   },
   server: {

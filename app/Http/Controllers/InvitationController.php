@@ -110,7 +110,7 @@ class InvitationController extends Controller
             'invitation' => InvitationContentResource::make($invitation),
             // Drafts and archived invitations only reach their panel users (see EnsureInvitationIsVisible)
             'preview' => $invitation->isPublished() ? null : $invitation->status->value,
-            // Read by resources/views/app.blade.php for link previews
+            // Read by resources/views/invitations.blade.php for link previews
             'meta' => [
                 'title' => $title,
                 'description' => $invitation->description,

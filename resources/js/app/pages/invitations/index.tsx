@@ -47,7 +47,7 @@ export default function InvitationsIndex({
                 <div className="flex flex-wrap items-start justify-between gap-4">
                     <Heading
                         title="Invitaciones"
-                        description="Cada invitación usa una plantilla de resources/js/site/templates"
+                        description="Cada invitación usa una plantilla de resources/js/invitations/templates"
                     />
 
                     <Button asChild>

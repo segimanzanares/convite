@@ -101,7 +101,7 @@ it('serves the printable pages only when the plan of the order includes them', f
 ]);
 
 it('only offers an exclusive template to the invitation that uses it', function () {
-    $folder = resource_path('js/site/templates/test-exclusiva');
+    $folder = resource_path('js/invitations/templates/test-exclusiva');
     File::ensureDirectoryExists($folder);
     File::put("{$folder}/InvitationPage.tsx", '');
     File::put("{$folder}/template.json", json_encode(['kind' => 'wedding', 'label' => 'Boda de Ana', 'exclusive' => true]));
@@ -130,7 +130,7 @@ it('only offers an exclusive template to the invitation that uses it', function 
 });
 
 it('only lets an exclusive template be used with an order whose plan includes a custom design', function () {
-    $folder = resource_path('js/site/templates/test-exclusiva');
+    $folder = resource_path('js/invitations/templates/test-exclusiva');
     File::ensureDirectoryExists($folder);
     File::put("{$folder}/InvitationPage.tsx", '');
     File::put("{$folder}/template.json", json_encode(['kind' => 'wedding', 'label' => 'Boda de Ana', 'exclusive' => true]));
