@@ -9,7 +9,7 @@ Convite: a site for custom digital invitations (weddings, XV años, birthdays). 
 ## Commands
 
 - `composer dev`: run the Laravel server, queue, logs and Vite dev server together (`php artisan dev`)
-- `npm run build`: type-check via `tsc -b`, then production-build with Vite into `public/build`
+- `npm run build`: generate Wayfinder's route helpers (`php artisan wayfinder:generate`, so it needs `composer install` first), type-check via `tsc -b`, then production-build with Vite into `public/build`
 - `npm run lint`: ESLint over the frontend
 - `php artisan test`: Pest test suite (runs against the `convite_testing` PostgreSQL database, see `phpunit.xml`)
 - `./vendor/bin/pint`: format PHP code
