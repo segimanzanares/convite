@@ -1,49 +1,51 @@
 <?php
 
 /*
-| Content of the Matilde & Nayith wedding. Without an order its date shows 60 days ahead, like the demos.
+| Content of the floral wedding demo. It has no order, so its date always shows 60 days ahead (see
+| InvitationContentResource). The photos are shared with the classic wedding demo; the files under
+| public/invitations/boda-floral/ belong to a client's invitation.
 */
 
-$image = fn (string $file): string => "/invitations/boda-floral/images/{$file}";
+$image = fn (string $file): string => "/invitations/boda-clasica/images/{$file}";
 
 return [
-    'event_date' => '2026-11-21',
-    'event_time' => '15:00',
-    'rsvp_deadline' => '2026-11-01',
+    'event_date' => '2027-06-12',
+    'event_time' => '16:00',
+    'rsvp_deadline' => '2027-05-22',
     'content' => [
-        'names' => ['Matilde', 'Nayith'],
-        'families' => 'La Familia González & La Familia Gallardo',
-        'rsvp_whatsapp' => '523321852205',
-        'music' => '/invitations/boda-floral/music.mp3',
+        'names' => ['Daniela', 'Sebastián'],
+        'families' => 'La Familia Ramírez & La Familia Torres',
+        'rsvp_whatsapp' => '521234567890',
+        'music' => '/invitations/boda-clasica/music.mp3',
         'venues' => [
             [
                 'icon' => '⛪',
                 'tag' => 'Ceremonia religiosa',
-                'name' => 'Parroquia de la Soledad',
-                'address_lines' => ['Calle Fundadores S/N', 'Puerto Escondido, Oax.'],
-                'time' => '15:00 hrs',
+                'name' => 'Parroquia de San Rafael Arcángel',
+                'address_lines' => ['Calle de los Laureles 214', 'Barrio de San Rafael, Villa del Mar'],
+                'time' => '16:00 hrs',
                 'latitude' => 15.861208,
                 'longitude' => -97.065710,
             ],
             [
                 'icon' => '🥂',
                 'tag' => 'Recepción & Banquete',
-                'name' => 'Salón Nochetly',
-                'address_lines' => ['Calle Ignacio Barrera S/N', 'Col. Aeropuerto, Puerto Escondido, Oax.'],
-                'time' => '16:00 hrs',
-                'latitude' => 15.881308,
-                'longitude' => -97.080966,
+                'name' => 'Jardín Los Olivos',
+                'address_lines' => ['Camino Real a La Ensenada km 3', 'Col. Las Palmas, Villa del Mar'],
+                'time' => '18:00 hrs',
+                'latitude' => 15.862436,
+                'longitude' => -97.071639,
             ],
         ],
         'gallery' => [
-            ['image' => $image('01.jpeg'), 'alt' => 'Foto1', 'caption' => 'La sesión'],
-            ['image' => $image('02.jpeg'), 'alt' => 'Foto2', 'caption' => 'La ternura'],
-            ['image' => $image('03.jpeg'), 'alt' => 'Foto3', 'caption' => 'El amor'],
-            ['image' => $image('04.jpeg'), 'alt' => 'Foto4', 'caption' => 'La complicidad'],
-            ['image' => $image('05.jpeg'), 'alt' => 'Foto5', 'caption' => 'La emoción'],
-            ['image' => $image('06.jpeg'), 'alt' => 'Foto6', 'caption' => 'Las miradas'],
-            ['image' => $image('07.jpeg'), 'alt' => 'Foto7', 'caption' => 'La promesa'],
-            ['image' => $image('08.jpeg'), 'alt' => 'Foto8', 'caption' => 'La alegría'],
+            ['image' => $image('02.jpeg'), 'alt' => 'Foto 1', 'caption' => 'La sesión'],
+            ['image' => $image('01.jpeg'), 'alt' => 'Foto 2', 'caption' => 'La ternura'],
+            ['image' => $image('05.jpeg'), 'alt' => 'Foto 3', 'caption' => 'El amor'],
+            ['image' => $image('03.jpeg'), 'alt' => 'Foto 4', 'caption' => 'La complicidad'],
+            ['image' => $image('04.jpeg'), 'alt' => 'Foto 5', 'caption' => 'La emoción'],
+            ['image' => $image('06.jpeg'), 'alt' => 'Foto 6', 'caption' => 'Las miradas'],
+            ['image' => $image('07.jpeg'), 'alt' => 'Foto 7', 'caption' => 'La promesa'],
+            ['image' => $image('08.jpeg'), 'alt' => 'Foto 8', 'caption' => 'La alegría'],
         ],
         'dress_code' => [
             'type' => 'Formal',

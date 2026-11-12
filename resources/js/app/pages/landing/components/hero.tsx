@@ -62,7 +62,7 @@ export function Hero({ plans }: { plans: OfferedPlan[] }) {
                                 Cotiza tu invitación
                             </a>
                             <Link
-                                href="/i/demo"
+                                href="/i/boda-clasica"
                                 className="text-[11px] tracking-[0.35em] uppercase text-primary border border-primary/40 py-4 px-9 transition-colors duration-200 hover:bg-primary/5"
                             >
                                 Ver invitación de ejemplo
@@ -111,7 +111,7 @@ export function Hero({ plans }: { plans: OfferedPlan[] }) {
                             aria-hidden="true"
                         />
                         <Link
-                            href="/i/demo"
+                            href="/i/boda-clasica"
                             className="group relative block rounded-[1.75rem] border border-primary/15 bg-primary p-3 shadow-[0_30px_60px_-15px_rgba(42,26,43,0.45)] transition-transform duration-300 hover:-translate-y-1"
                         >
                             <div className="rounded-[1.35rem] border border-gold/30 bg-[linear-gradient(175deg,var(--color-ivory),var(--color-cream))] px-8 py-12 text-center">

@@ -107,9 +107,11 @@ it('does not mark published invitations as a preview', function () {
         ->assertInertia(fn (Assert $page) => $page->where('preview', null));
 });
 
-it('seeds an invitation for every template page that exists', function () {
+it('seeds a demo of every shared template at the template\'s slug', function () {
     $this->seed(InvitationSeeder::class);
+    $templates = array_keys(array_filter(Invitation::templates(), fn (array $template) => ! $template['exclusive']));
 
-    expect(Invitation::count())->toBe(4)
-        ->and(Invitation::all()->every->hasPage('InvitationPage'))->toBeTrue();
+    expect(Invitation::pluck('slug', 'template')->all())->toEqualCanonicalizing(array_combine($templates, $templates))
+        ->and(Invitation::all()->every->hasPage('InvitationPage'))->toBeTrue()
+        ->and(Invitation::whereNotNull('order_id')->exists())->toBeFalse();
 });
