@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\InvitationStatus;
 use App\Models\Client;
 use App\Models\Invitation;
 use App\Models\Order;
@@ -22,6 +23,22 @@ class InvitationService
             ->orderBy('slug')
             ->paginate($perPage)
             ->withQueryString();
+    }
+
+    /**
+     * The published demo of each template, as the landing page shows them. A demo has no order and is published at
+     * its template's own slug (see InvitationSeeder).
+     *
+     * @return Collection<int, Invitation>
+     */
+    public function demos(): Collection
+    {
+        return Invitation::query()
+            ->where('status', InvitationStatus::Published)
+            ->whereNull('order_id')
+            ->whereColumn('slug', 'template')
+            ->orderBy('template')
+            ->get();
     }
 
     /**

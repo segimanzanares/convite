@@ -11,7 +11,7 @@ enum InvitationKind: string
     /** Two names, e.g. "Mariana & Alejandro", and their families. */
     case Wedding = 'wedding';
 
-    /** One celebrant with an age, e.g. "Lucila Santos — 76 años". */
+    /** One celebrant with an age, e.g. "Carmen Ruiz — 70 años". */
     case Birthday = 'birthday';
 
     /** A birthday with the XV chapters: story, parents and godparents. */

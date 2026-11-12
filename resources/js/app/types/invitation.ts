@@ -53,3 +53,13 @@ export type Invitation = {
     guest_passes_url?: string | null;
     client?: Client;
 };
+
+/** A template's demo invitation, as sent by LandingController to the landing page. */
+export type DemoInvitation = {
+    slug: string;
+    title: string;
+    kind: InvitationKind | null;
+    template_label: string;
+    image: string | null;
+    url: string;
+};

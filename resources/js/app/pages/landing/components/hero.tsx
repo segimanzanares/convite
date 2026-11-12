@@ -61,12 +61,12 @@ export function Hero({ plans }: { plans: OfferedPlan[] }) {
                             >
                                 Cotiza tu invitación
                             </a>
-                            <Link
-                                href="/i/boda-clasica"
+                            <a
+                                href="#disenos"
                                 className="text-[11px] tracking-[0.35em] uppercase text-primary border border-primary/40 py-4 px-9 transition-colors duration-200 hover:bg-primary/5"
                             >
-                                Ver invitación de ejemplo
-                            </Link>
+                                Ver diseños de ejemplo
+                            </a>
                         </div>
 
                         {lowestPrice !== null && (
