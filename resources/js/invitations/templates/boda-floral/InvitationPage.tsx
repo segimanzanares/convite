@@ -4,7 +4,7 @@ import { FloatingPetals } from '../../components/hero/FloatingPetals';
 import { CoupleMessage } from '../../components/message/CoupleMessage';
 import { FullDivider } from '../../components/divider/FullDivider';
 import { Countdown } from '../../components/countdown/Countdown';
-import { Gallery } from '../../components/gallery/Gallery';
+import { StoryGallery } from '../../components/gallery/StoryGallery';
 import { GiftsSection } from '../../components/gifts/GiftsSection';
 import { DressCodePalette } from '../../components/dresscode/DressCodePalette';
 import { DressCodeSection } from '../../components/dresscode/DressCodeSection';
@@ -56,7 +56,14 @@ export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
         <ProgramTimeline items={invitation.program} intro="Así viviremos este día tan especial, momento a momento." />
       )}
       {invitation.eventAt && <Countdown targetDateTime={invitation.eventAt} headingTone="dark" />}
-      {invitation.gallery.length > 0 && <Gallery images={invitation.gallery} />}
+      {invitation.gallery.length > 0 && (
+        <StoryGallery
+          images={invitation.gallery}
+          eyebrow="Momentos juntos"
+          title="Nuestra Historia"
+          intro="Cada imagen guarda un instante, cada instante una promesa de eternidad."
+        />
+      )}
       {invitation.dressCode && (
         <>
           <FloralSpray className="pt-16" />

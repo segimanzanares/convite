@@ -5,6 +5,8 @@
 | InvitationContentResource).
 */
 
+$image = fn (string $file): string => "/invitations/cumpleanos-floral/images/{$file}";
+
 return [
     'event_date' => '2027-06-12',
     'event_time' => '16:00',
@@ -34,6 +36,14 @@ return [
             ['time' => '16:30 hrs', 'icon' => '🍽️', 'title' => 'Comida', 'description' => 'Disfrutaremos juntos de una comida en familia.'],
             ['time' => '17:30 hrs', 'icon' => '🎂', 'title' => 'Pastel y mañanitas', 'description' => 'Cantaremos juntos para celebrarla.'],
             ['time' => '18:00 hrs', 'icon' => '🎶', 'title' => 'Baile y convivencia', 'description' => 'Música, baile y la mejor compañía hasta el anochecer.'],
+        ],
+        'gallery' => [
+            ['image' => $image('01.svg'), 'alt' => 'Foto 1', 'caption' => 'Sus primeros años'],
+            ['image' => $image('02.svg'), 'alt' => 'Foto 2', 'caption' => 'El día de su boda'],
+            ['image' => $image('03.svg'), 'alt' => 'Foto 3', 'caption' => 'Con sus hijos'],
+            ['image' => $image('04.svg'), 'alt' => 'Foto 4', 'caption' => 'Su jardín'],
+            ['image' => $image('05.svg'), 'alt' => 'Foto 5', 'caption' => 'Con sus nietos'],
+            ['image' => $image('06.svg'), 'alt' => 'Foto 6', 'caption' => 'Setenta primaveras'],
         ],
         'dress_code' => [
             'type' => 'Formal de día',

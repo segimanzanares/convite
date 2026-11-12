@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#f2c4d2"/><stop offset="1" stop-color="#c9688d"/></linearGradient>
+    <radialGradient id="l" cx="0.5" cy="0.3" r="0.6"><stop offset="0" stop-color="#ffffff" stop-opacity="0.2"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <rect width="800" height="1000" fill="url(#l)"/>
+  <g fill="none" stroke="#fffafb" stroke-opacity="0.45" stroke-width="2">
+    <path d="M190 760 V400 A210 210 0 0 1 610 400 V760 Z"/>
+  </g>
+  <g fill="#fffafb" fill-opacity="0.5">
+    <circle cx="400" cy="420" r="78"/>
+    <path d="M262 760 C266 600 324 520 400 520 C476 520 534 600 538 760 Z"/>
+  </g>
+  <g fill="#fffafb" fill-opacity="0.32">
+    <path d="M150 760 C122 680 134 616 172 566 C184 632 182 704 150 760Z"/>
+    <path d="M650 760 C678 680 666 616 628 566 C616 632 618 704 650 760Z"/>
+  </g>
+  <g fill="#fffafb" fill-opacity="0.75">
+    <circle cx="170" cy="230" r="3"/><circle cx="640" cy="200" r="3.5"/><circle cx="560" cy="120" r="2.5"/>
+    <circle cx="120" cy="560" r="2.5"/><circle cx="690" cy="520" r="3"/><circle cx="300" cy="150" r="2"/>
+  </g>
+  <text x="400" y="840" text-anchor="middle" font-family="Georgia, serif" font-size="26" letter-spacing="8" fill="#fffafb" fill-opacity="0.8">TU FOTO AQUÍ · 03</text>
+</svg>

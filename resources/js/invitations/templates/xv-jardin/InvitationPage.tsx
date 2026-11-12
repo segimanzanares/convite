@@ -5,7 +5,7 @@ import { XvHero } from '../../components/xv/XvHero';
 import { StoryChapter } from '../../components/xv/StoryChapter';
 import { HonorSection } from '../../components/xv/HonorSection';
 import { ClosingChapter } from '../../components/xv/ClosingChapter';
-import { StoryGallery } from '../../components/xv/StoryGallery';
+import { StoryGallery } from '../../components/gallery/StoryGallery';
 import { StoryRsvp } from '../../components/xv/StoryRsvp';
 import { FloatingPetals } from '../../components/hero/FloatingPetals';
 import { FullDivider } from '../../components/divider/FullDivider';

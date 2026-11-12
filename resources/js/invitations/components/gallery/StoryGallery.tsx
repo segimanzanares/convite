@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { SectionHeading } from '../shared/SectionHeading';
 import { Reveal } from '../shared/Reveal';
-import { Lightbox } from '../gallery/Lightbox';
+import { Lightbox } from './Lightbox';
 import { useLightbox } from '../../hooks/useLightbox';
 import type { GalleryImage } from '../../types/wedding';
 

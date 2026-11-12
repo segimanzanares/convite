@@ -6,6 +6,7 @@ import { InvitationMessage } from '../../components/message/InvitationMessage';
 import { FullDivider } from '../../components/divider/FullDivider';
 import { ProgramTimeline } from '../../components/program/ProgramTimeline';
 import { Countdown } from '../../components/countdown/Countdown';
+import { StoryGallery } from '../../components/gallery/StoryGallery';
 import { DressCodePalette } from '../../components/dresscode/DressCodePalette';
 import { DressCodeSection } from '../../components/dresscode/DressCodeSection';
 import { VenuesSection } from '../../components/venues/VenuesSection';
@@ -64,6 +65,14 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         <ProgramTimeline items={invitation.program} intro="Así viviremos este día tan especial, momento a momento." />
       )}
       {invitation.eventAt && <Countdown targetDateTime={invitation.eventAt} headingTone="dark" />}
+      {invitation.gallery.length > 0 && (
+        <StoryGallery
+          images={invitation.gallery}
+          eyebrow="Momentos de su vida"
+          title="Recuerdos que florecen"
+          intro={`Algunos de los momentos que ${celebrant.firstName} ha compartido con quienes más la quieren.`}
+        />
+      )}
       {invitation.dressCode && <DressCodeSection dressCode={invitation.dressCode} />}
       {invitation.swatches.length > 0 && (
         <DressCodePalette

@@ -5,7 +5,7 @@ import { Hero } from '../../components/hero/Hero';
 import { CoupleMessage } from '../../components/message/CoupleMessage';
 import { FullDivider } from '../../components/divider/FullDivider';
 import { Countdown } from '../../components/countdown/Countdown';
-import { Gallery } from '../../components/gallery/Gallery';
+import { StoryGallery } from '../../components/gallery/StoryGallery';
 import { DressCodePalette } from '../../components/dresscode/DressCodePalette';
 import { DressCodeSection } from '../../components/dresscode/DressCodeSection';
 import { VenuesSection } from '../../components/venues/VenuesSection';
@@ -53,7 +53,14 @@ export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
         <ProgramTimeline items={invitation.program} intro="Así viviremos este día tan especial, momento a momento." />
       )}
       {invitation.eventAt && <Countdown targetDateTime={invitation.eventAt} />}
-      {invitation.gallery.length > 0 && <Gallery images={invitation.gallery} />}
+      {invitation.gallery.length > 0 && (
+        <StoryGallery
+          images={invitation.gallery}
+          eyebrow="Momentos juntos"
+          title="Nuestra Historia"
+          intro="Cada imagen guarda un instante, cada instante una promesa de eternidad."
+        />
+      )}
       {invitation.dressCode && <DressCodeSection dressCode={invitation.dressCode} />}
       {invitation.swatches.length > 0 && <DressCodePalette swatches={invitation.swatches} />}
       {invitation.gifts.length > 0 && <GiftsSection gifts={invitation.gifts} />}
