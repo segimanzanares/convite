@@ -19,18 +19,9 @@
   --dark-to: #2c1f0a;
   --envelope-bg: radial-gradient(circle at 50% 40%, #2a1d0d 0%, #120c04 65%, #000 100%);
 
-  /* Primary brand color for the marketing site — deep plum, used for
+  /* Primary brand color — deep plum, used for
      headers, primary CTAs and dark section backgrounds. */
   --primary: #2a1a2b;
   --primary-light: #5c4a5e;
   --primary-dark: #170e18;
-
-  /* Brand accents from the icon's petals — used to give the marketing
-     site (landing, 404) a livelier palette than the gold-only tokens. */
-  --terracotta: #d97a4e;
-  --terracotta-light: #eaab86;
-  --rose: #b84c74;
-  --rose-light: #dd93ac;
-  --teal: #4b93a4;
-  --teal-light: #8fc2cd;
 }

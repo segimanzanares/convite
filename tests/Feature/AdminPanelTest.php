@@ -12,7 +12,7 @@ it('serves the admin panel under /admin with its own root view', function () {
         ->assertViewIs('admin')
         ->assertInertia(fn (Assert $page) => $page->component('auth/login'));
 
-    $this->get(route('landing'))->assertViewIs('app');
+    $this->get(route('landing'))->assertViewIs('admin');
 });
 
 it('does not allow public registration', function () {
@@ -28,7 +28,7 @@ it('does not allow public registration', function () {
     expect(User::count())->toBe(0);
 });
 
-it('reloads the full page when an Inertia visit crosses between the admin panel and the public site', function () {
+it('reloads the full page when an Inertia visit crosses between the admin panel and its pages outside it', function () {
     $adminVersion = $this->get(route('login'))->viewData('page')['version'];
 
     $this->get(route('landing'), [

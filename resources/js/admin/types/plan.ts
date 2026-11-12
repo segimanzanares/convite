@@ -25,3 +25,6 @@ export type PlanSnapshot = {
     max_guests: number | null;
     features: PlanFeature[];
 };
+
+/** A plan offered on the landing page, as sent by LandingController to visitors. */
+export type OfferedPlan = Omit<Plan, 'is_active' | 'sort_order' | 'orders_count'>;

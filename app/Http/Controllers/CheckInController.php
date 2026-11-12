@@ -31,7 +31,7 @@ class CheckInController extends Controller
         abort_unless($this->checkIn->isDoorToken($invitation, $doorToken), 404);
 
         if (! $invitation->checkInIsOpen()) {
-            return $this->render($invitation, 'DoorPage', ['guests' => null]);
+            return $this->render($invitation, 'door', ['guests' => null]);
         }
 
         return to_route('invitations.door.show', $invitation)->withCookie($this->checkIn->doorCookie($invitation));
@@ -42,7 +42,7 @@ class CheckInController extends Controller
      */
     public function show(Invitation $invitation): Response
     {
-        return $this->render($invitation, 'DoorPage', [
+        return $this->render($invitation, 'door', [
             'guests' => CheckInGuestResource::collection($this->guests->list($invitation)),
         ]);
     }

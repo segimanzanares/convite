@@ -77,3 +77,14 @@ export function formatDaysAway(days: number): string {
 
     return days > 0 ? `En ${days} días` : `Hace ${-days} días`;
 }
+
+const price = new Intl.NumberFormat('es-MX', {
+    style: 'currency',
+    currency: 'MXN',
+    maximumFractionDigits: 0,
+});
+
+/** Formats a plan price for the landing page, e.g. "1500.00" → "$1,500". */
+export function formatPrice(amount: string | number): string {
+    return price.format(Number(amount));
+}

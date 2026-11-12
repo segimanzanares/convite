@@ -105,7 +105,7 @@ it('sends only the active plans to the landing page, in their order', function (
     $this->get(route('landing'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
-            ->component('pages/landing/LandingPage')
+            ->component('landing/index')
             ->has('plans', 2)
             ->where('plans.0.name', 'Básico')
             ->where('plans.1.name', 'Premium')

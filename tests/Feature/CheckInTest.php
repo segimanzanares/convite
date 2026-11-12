@@ -38,8 +38,9 @@ it('gives a phone door access through the door link while check-in is open', fun
     $this->withCookies(doorCookie($invitation))
         ->get(route('invitations.door.show', $invitation))
         ->assertOk()
+        ->assertViewIs('admin')
         ->assertInertia(fn (Assert $page) => $page
-            ->component('pages/check-in/DoorPage')
+            ->component('check-in/door')
             ->where('door.summary', ['guests' => 1, 'seats' => 4, 'arrived_guests' => 0, 'arrived_seats' => 0])
             ->where('guests.0.name', 'Familia Pérez'));
 });
@@ -50,7 +51,10 @@ it('does not open the door with a wrong token or a plan without check-in', funct
         ->forOrder(Order::factory()->for(Plan::factory()->withFeatures(PlanFeature::GuestManagement))->create())
         ->create(['event_date' => today(), 'door_token' => str_repeat('a', 32)]);
 
-    $this->get(route('invitations.door.enter', [$invitation, str_repeat('x', 32)]))->assertNotFound();
+    $this->get(route('invitations.door.enter', [$invitation, str_repeat('x', 32)]))
+        ->assertNotFound()
+        ->assertViewIs('app')
+        ->assertInertia(fn (Assert $page) => $page->component('pages/not-found/NotFoundPage'));
     $this->get(route('invitations.door.enter', [$withoutCheckIn, $withoutCheckIn->door_token]))->assertNotFound();
     $this->get(route('invitations.door.show', $invitation))->assertNotFound();
 });
@@ -63,7 +67,7 @@ it('says when the door opens outside the check-in window', function () {
         ->assertOk()
         ->assertCookieMissing("convite_door_{$invitation->id}")
         ->assertInertia(fn (Assert $page) => $page
-            ->component('pages/check-in/DoorPage')
+            ->component('check-in/door')
             ->where('door.is_open', false)
             ->where('guests', null));
 });
@@ -87,14 +91,16 @@ it('shows the check-in screen when the door scans a pass, and the invitation to 
     Rsvp::factory()->forGuest($guest)->create(['attending' => true, 'seats_confirmed' => 3]);
 
     $this->get($guest->url())
+        ->assertViewIs('app')
         ->assertInertia(fn (Assert $page) => $page->component('templates/boda-clasica/InvitationPage'));
 
     $guest->forceFill(['first_opened_at' => null])->save();
 
     $this->withCookies(doorCookie($invitation))
         ->get($guest->url())
+        ->assertViewIs('admin')
         ->assertInertia(fn (Assert $page) => $page
-            ->component('pages/check-in/CheckInPage')
+            ->component('check-in/guest')
             ->where('guest.name', 'Familia Pérez')
             ->where('guest.table_label', '7')
             ->where('guest.rsvp', ['attending' => true, 'seats_confirmed' => 3])
@@ -103,13 +109,29 @@ it('shows the check-in screen when the door scans a pass, and the invitation to 
     expect($guest->fresh()->first_opened_at)->toBeNull();
 });
 
+it('keeps the door in the same app when it opens a pass from the door page', function () {
+    $invitation = invitationAtTheDoor();
+    $guest = Guest::factory()->for($invitation)->create();
+    // The door pages share the landing page's root view, and so its asset version
+    $doorVersion = $this->get(route('landing'))->viewData('page')['version'];
+
+    // Without door access the link is the guest's invitation, from the public site
+    $this->get($guest->url(), ['X-Inertia' => 'true', 'X-Inertia-Version' => $doorVersion])
+        ->assertStatus(409);
+
+    $this->withCookies(doorCookie($invitation))
+        ->get($guest->url(), ['X-Inertia' => 'true', 'X-Inertia-Version' => $doorVersion])
+        ->assertOk()
+        ->assertJsonPath('component', 'check-in/guest');
+});
+
 it('tells the door when a scanned code is not a pass of the invitation', function () {
     $invitation = invitationAtTheDoor();
 
     $this->withCookies(doorCookie($invitation))
         ->get(route('invitations.guest', [$invitation, 'desconocido123']))
         ->assertInertia(fn (Assert $page) => $page
-            ->component('pages/check-in/CheckInPage')
+            ->component('check-in/guest')
             ->where('guest', null));
 });
 

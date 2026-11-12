@@ -14,7 +14,7 @@ class LandingController extends Controller
      */
     public function __invoke(PlanService $plans): Response
     {
-        return Inertia::render('pages/landing/LandingPage', [
+        return Inertia::render('landing/index', [
             'plans' => PlanResource::collection($plans->offered()),
         ]);
     }

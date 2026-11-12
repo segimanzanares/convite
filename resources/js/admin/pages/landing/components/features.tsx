@@ -1,0 +1,74 @@
+import { SectionHeading } from './section-heading';
+import { Reveal } from './reveal';
+import { ACCENT_CLASSES, type Accent } from './accents';
+
+const FEATURES: { accent: Accent; icon: string; title: string; body: string }[] = [
+    {
+        accent: 'gold',
+        icon: '✎',
+        title: 'Diseños con personalidad',
+        body: 'Elijan uno de nuestros diseños con su propio contenido y fotos, o pidan uno exclusivo creado solo para su evento.',
+    },
+    {
+        accent: 'terracotta',
+        icon: '✆',
+        title: 'Confirmación de asistencia',
+        body: 'Sus invitados confirman con un solo toque, directo a su WhatsApp o, en los planes Premium y Exclusivo, en línea con sus respuestas en su panel. Sin apps ni registros.',
+    },
+    {
+        accent: 'rose',
+        icon: '♡',
+        title: 'Cuenta regresiva en vivo',
+        body: 'Un contador que mantiene la emoción viva desde el día que se comparte hasta el evento.',
+    },
+    {
+        accent: 'teal',
+        icon: '♫',
+        title: 'Galería y música ambiental',
+        body: 'Fotos, un sobre animado al abrir y una canción de fondo que le dan una bienvenida memorable.',
+    },
+    {
+        accent: 'gold',
+        icon: '⇪',
+        title: 'Lista para compartir',
+        body: 'Vista previa con imagen y descripción propias al pegar el enlace en WhatsApp o redes.',
+    },
+    {
+        accent: 'terracotta',
+        icon: '⏱',
+        title: 'Lista en días',
+        body: 'De la primera plática al enlace terminado, sin meses de espera ni procesos complicados.',
+    },
+];
+
+export function Features() {
+    return (
+        <section className="max-w-[1100px] mx-auto px-8 pb-[120px]">
+            <Reveal className="text-center mb-16">
+                <SectionHeading eyebrow="Por qué Convite" title="Todo lo que necesita su invitación" />
+            </Reveal>
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-8">
+                {FEATURES.map((feature) => {
+                    const accent = ACCENT_CLASSES[feature.accent];
+                    return (
+                        <Reveal key={feature.title}>
+                            <div
+                                className={`h-full border ${accent.border} py-9 px-7 bg-[linear-gradient(160deg,var(--color-ivory),var(--color-cream))] transition-[transform,box-shadow] duration-[400ms] ease hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_12px_40px_rgba(42,26,43,0.12)]`}
+                            >
+                                <span
+                                    className={`w-11 h-11 flex items-center justify-center text-xl mb-5 border ${accent.border} ${accent.text}`}
+                                >
+                                    {feature.icon}
+                                </span>
+                                <h3 className="font-jost text-sm tracking-[0.06em] text-primary uppercase mb-3">
+                                    {feature.title}
+                                </h3>
+                                <p className="text-[15px] font-light leading-[1.8] text-[#4a3820]">{feature.body}</p>
+                            </div>
+                        </Reveal>
+                    );
+                })}
+            </div>
+        </section>
+    );
+}

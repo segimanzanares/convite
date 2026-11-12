@@ -2,7 +2,8 @@
 
 @import 'tw-animate-css';
 
-/* Only the admin panel: the public site has its own theme (resources/js/site/index.css). */
+/* The admin app (the panel, the landing page and the door of the event): the
+   public site has its own theme (resources/js/site/index.css). */
 @source '.';
 @source '../../views/admin.blade.php';
 
@@ -60,6 +61,32 @@
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+
+    /* Convite's brand, drawn from the convite-icon mark, for the landing page and
+       the door of the event. Primary is the brand's plum, shared with the panel. */
+    --color-gold: #dfa33f;
+    --color-gold-light: #ecc077;
+    --color-gold-pale: #f7e9cc;
+    --color-gold-deep: #b97a1f;
+    --color-cream: #f7f4ef;
+    --color-off-white: #efe6d6;
+    --color-ivory: #fffdf9;
+    --color-ink: #2a1a2b;
+    --color-primary-light: #5c4a5e;
+    --color-primary-dark: #170e18;
+
+    /* Accents from the icon's petals, for a livelier palette than the gold-only tokens. */
+    --color-terracotta: #d97a4e;
+    --color-terracotta-light: #eaab86;
+    --color-rose: #b84c74;
+    --color-rose-light: #dd93ac;
+    --color-teal: #4b93a4;
+    --color-teal-light: #8fc2cd;
+
+    --font-body: 'Cormorant Garamond', serif;
+    --font-display: 'Cinzel', serif;
+    --font-script: 'Great Vibes', cursive;
+    --font-jost: 'Jost', 'Futura', sans-serif;
 }
 
 :root {
@@ -69,7 +96,8 @@
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
+    /* Convite's plum (#2a1a2b) */
+    --primary: oklch(0.246 0.039 324.7);
     --primary-foreground: oklch(0.985 0 0);
     --secondary: oklch(0.97 0 0);
     --secondary-foreground: oklch(0.205 0 0);
@@ -90,7 +118,7 @@
     --radius: 0.625rem;
     --sidebar: oklch(0.985 0 0);
     --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary: oklch(0.246 0.039 324.7);
     --sidebar-primary-foreground: oklch(0.985 0 0);
     --sidebar-accent: oklch(0.97 0 0);
     --sidebar-accent-foreground: oklch(0.205 0 0);
@@ -105,8 +133,9 @@
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.145 0 0);
     --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.985 0 0);
-    --primary-foreground: oklch(0.205 0 0);
+    /* A light tint of Convite's plum, readable on the dark background */
+    --primary: oklch(0.872 0.024 323.6);
+    --primary-foreground: oklch(0.246 0.039 324.7);
     --secondary: oklch(0.269 0 0);
     --secondary-foreground: oklch(0.985 0 0);
     --muted: oklch(0.269 0 0);

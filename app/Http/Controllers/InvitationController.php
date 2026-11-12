@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\PlanFeature;
+use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Resources\CheckInGuestResource;
 use App\Http\Resources\InvitationContentResource;
 use App\Http\Resources\PassGuestResource;
@@ -44,7 +45,9 @@ class InvitationController extends Controller
         $guest = $this->guests->findByToken($invitation, $token);
 
         if ($this->checkIn->hasDoorAccess($request, $invitation)) {
-            return Inertia::render(CheckInService::PAGES.'CheckInPage', [
+            HandleInertiaRequests::servePages($request, HandleInertiaRequests::PUBLIC_PAGES);
+
+            return Inertia::render(CheckInService::PAGES.'guest', [
                 'guest' => $guest ? CheckInGuestResource::make($guest->load('rsvp')) : null,
                 ...$this->checkIn->doorPageProps($invitation),
             ]);

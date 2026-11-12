@@ -74,10 +74,10 @@ return [
         'ensure_pages_exist' => false,
 
         // Public site components are named by their path under resources/js/site,
-        // e.g. "pages/landing/LandingPage" or "templates/boda-clasica/InvitationPage"
-        // (see resources/js/site/app.tsx). Admin panel components are named by
-        // their path under resources/js/admin/pages, e.g. "auth/login"
-        // (see resources/js/admin/app.tsx).
+        // e.g. "templates/boda-clasica/InvitationPage" or "pages/not-found/NotFoundPage"
+        // (see resources/js/site/app.tsx). Admin app components are named by
+        // their path under resources/js/admin/pages, e.g. "auth/login" or
+        // "landing/index" (see resources/js/admin/app.tsx).
         'paths' => [
 
             resource_path('js/site'),
