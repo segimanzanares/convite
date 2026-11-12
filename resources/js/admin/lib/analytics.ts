@@ -9,6 +9,9 @@ declare global {
     }
 }
 
+let isLoaded = false;
+let lastTrackedUrl: string | null = null;
+
 // gtag.js distinguishes an `arguments` object from a plain array when it
 // parses consent commands during bootstrap; pushing a real array (e.g. via
 // rest params) makes it silently ignore `consent` calls and drop every hit.
@@ -19,18 +22,30 @@ function gtag(..._args: unknown[]) {
 }
 
 export function getStoredConsent(): ConsentChoice | null {
-    const value = localStorage.getItem(CONSENT_STORAGE_KEY);
-    return value === 'granted' || value === 'denied' ? value : null;
+    try {
+        const value = localStorage.getItem(CONSENT_STORAGE_KEY);
+
+        return value === 'granted' || value === 'denied' ? value : null;
+    } catch {
+        return null;
+    }
 }
 
-let isInitialized = false;
+/**
+ * Load gtag.js the first time a tracked page is shown, so the panel never
+ * loads it unless the visit started on (or passed through) the landing page.
+ * Off outside production builds or without VITE_GA_ID.
+ */
+function load(): boolean {
+    if (!import.meta.env.PROD || !GA_ID) {
+        return false;
+    }
 
-/** Load Google Analytics once per page load (see PublicLayout). */
-export function initAnalytics() {
-    if (!import.meta.env.PROD || !GA_ID || isInitialized) return;
+    if (isLoaded) {
+        return true;
+    }
 
-    isInitialized = true;
-
+    isLoaded = true;
     window.dataLayer = window.dataLayer || [];
 
     // Google tag has Consent Mode enabled for this property: analytics_storage
@@ -42,26 +57,48 @@ export function initAnalytics() {
         ad_user_data: 'denied',
         ad_personalization: 'denied',
     });
+    gtag('js', new Date());
+    // Page views are sent by trackPageView() on every Inertia navigation
+    gtag('config', GA_ID, { send_page_view: false });
 
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
     document.head.appendChild(script);
 
-    gtag('js', new Date());
-    gtag('config', GA_ID);
+    return true;
+}
+
+/** Send a page view of the given Inertia URL (path and query). */
+export function trackPageView(url: string) {
+    if (!load()) {
+        return;
+    }
+
+    lastTrackedUrl = url;
+    gtag('event', 'page_view', {
+        page_location: window.location.origin + url,
+        page_path: url,
+        page_title: document.title,
+    });
 }
 
 export function updateAnalyticsConsent(choice: ConsentChoice) {
-    localStorage.setItem(CONSENT_STORAGE_KEY, choice);
-    window.dataLayer = window.dataLayer || [];
+    try {
+        localStorage.setItem(CONSENT_STORAGE_KEY, choice);
+    } catch {
+        // Without storage the banner shows again on the next visit
+    }
+
+    if (!isLoaded) {
+        return;
+    }
+
     gtag('consent', 'update', { analytics_storage: choice });
 
-    // The `config` call already ran (and was dropped) while consent was
-    // denied, and a bare `event` command doesn't reactivate the tag. Re-run
-    // `config` itself so gtag.js reinitializes with the new consent state
-    // and sends the automatic page_view.
-    if (choice === 'granted' && GA_ID) {
-        gtag('config', GA_ID);
+    // The page view of the current page went out while consent was denied,
+    // so it was dropped: send it again now that it counts.
+    if (choice === 'granted' && lastTrackedUrl !== null) {
+        trackPageView(lastTrackedUrl);
     }
 }

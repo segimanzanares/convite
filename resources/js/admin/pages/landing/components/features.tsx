@@ -60,7 +60,7 @@ export function Features() {
                                 >
                                     {feature.icon}
                                 </span>
-                                <h3 className="font-jost text-sm tracking-[0.06em] text-primary uppercase mb-3">
+                                <h3 className="text-sm tracking-[0.06em] text-primary uppercase mb-3">
                                     {feature.title}
                                 </h3>
                                 <p className="text-[15px] font-light leading-[1.8] text-[#4a3820]">{feature.body}</p>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Invitation;
 use App\Models\User;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -28,26 +29,41 @@ it('does not allow public registration', function () {
     expect(User::count())->toBe(0);
 });
 
-it('reloads the full page when an Inertia visit crosses between the admin panel and its pages outside it', function () {
+it('navigates between the panel and the landing page within the same app', function () {
     $adminVersion = $this->get(route('login'))->viewData('page')['version'];
 
     $this->get(route('landing'), [
         'X-Inertia' => 'true',
         'X-Inertia-Version' => $adminVersion,
     ])
-        ->assertStatus(409)
-        ->assertHeader('X-Inertia-Location', route('landing'));
+        ->assertOk()
+        ->assertJsonPath('component', 'landing/index');
 });
 
-it('shares the signed in user with the admin panel', function () {
+it('reloads the full page when an Inertia visit crosses from the admin app to the public site', function () {
+    $adminVersion = $this->get(route('landing'))->viewData('page')['version'];
+    $invitation = Invitation::factory()->create();
+
+    $this->get(route('invitations.show', $invitation), [
+        'X-Inertia' => 'true',
+        'X-Inertia-Version' => $adminVersion,
+    ])
+        ->assertStatus(409)
+        ->assertHeader('X-Inertia-Location', route('invitations.show', $invitation));
+});
+
+it('shares the signed in user with the admin app, the landing page included', function () {
     $this->actingAs(User::factory()->create())
         ->get(route('dashboard'))
+        ->assertInertia(fn (Assert $page) => $page->has('auth.user'));
+
+    $this->get(route('landing'))
         ->assertInertia(fn (Assert $page) => $page->has('auth.user'));
 });
 
 it('does not share the signed in user with the public site', function () {
     $this->actingAs(User::factory()->create())
-        ->get(route('landing'))
+        ->get(route('invitations.show', Invitation::factory()->create()))
         ->assertInertia(fn (Assert $page) => $page->missing('auth'));
 });
 

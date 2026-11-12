@@ -1,19 +1,17 @@
 @php
     // The admin app also serves pages outside the panel: the landing page and
-    // the door of the event (the same prefixes as the PublicLayout pages in
-    // resources/js/admin/app.tsx). They get the public meta tags and the brand
-    // fonts, and are always shown in light mode.
+    // the door of the event (the PublicLayout pages in resources/js/admin/app.tsx).
+    // On the first visit they get the public meta tags, and start in light mode.
     $isOutsidePanel = str_starts_with($page['component'], 'landing/') || str_starts_with($page['component'], 'check-in/');
 @endphp
 <!DOCTYPE html>
-@if ($isOutsidePanel)
-<html lang="es-MX" class="scroll-smooth" data-appearance="light">
-@else
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @class(['dark' => ($appearance ?? 'system') == 'dark'])>
-@endif
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @class(['dark' => ! $isOutsidePanel && ($appearance ?? 'system') == 'dark'])>
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
         @if ($isOutsidePanel)
-            @include('partials.head')
+            @include('partials.meta')
 
             @if ($page['component'] === 'landing/index')
                 <script type="application/ld+json">
@@ -30,8 +28,6 @@
                 </script>
             @endif
         @else
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
             <meta name="robots" content="noindex, nofollow">
 
             {{-- Inline script to detect system dark mode preference and apply it immediately --}}
@@ -48,23 +44,23 @@
                     }
                 })();
             </script>
-
-            {{-- Inline style to set the HTML background color based on the theme in resources/js/admin/app.css --}}
-            <style>
-                html {
-                    background-color: oklch(1 0 0);
-                }
-
-                html.dark {
-                    background-color: oklch(0.145 0 0);
-                }
-            </style>
-
-            <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
-            <link rel="apple-touch-icon" href="{{ asset('app-icon.png') }}">
-
-            @fonts
         @endif
+
+        {{-- Inline style to set the HTML background color based on the theme in resources/js/admin/app.css --}}
+        <style>
+            html {
+                background-color: oklch(1 0 0);
+            }
+
+            html.dark {
+                background-color: oklch(0.145 0 0);
+            }
+        </style>
+
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+        <link rel="apple-touch-icon" href="{{ asset('app-icon.png') }}">
+
+        @fonts
 
         @viteReactRefresh
         @vite(['resources/js/admin/app.tsx', "resources/js/admin/pages/{$page['component']}.tsx"])
@@ -75,11 +71,7 @@
             </x-inertia::head>
         @endunless
     </head>
-    @if ($isOutsidePanel)
-        <body class="bg-ivory text-ink font-body overflow-x-hidden">
-    @else
-        <body class="font-sans antialiased">
-    @endif
+    <body class="font-sans antialiased">
         <x-inertia::app />
     </body>
 </html>

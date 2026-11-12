@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { Head } from '@inertiajs/react';
+import { CookieConsentBanner } from '@/components/cookie-consent-banner';
 import { Header } from './components/header';
 import { Hero } from './components/hero';
 import { Features } from './components/features';
@@ -11,12 +12,9 @@ import { FullDivider } from './components/full-divider';
 import type { OfferedPlan } from '@/types/plan';
 
 export function LandingPage({ plans }: { plans: OfferedPlan[] }) {
-    useEffect(() => {
-        document.title = 'Convite — Invitaciones digitales para bodas, XV años y eventos';
-    }, []);
-
     return (
         <div>
+            <Head title="Invitaciones digitales para bodas, XV años y eventos" />
             <Header />
             <Hero plans={plans} />
             <Features />
@@ -26,6 +24,8 @@ export function LandingPage({ plans }: { plans: OfferedPlan[] }) {
             <Faq plans={plans} />
             <Cta />
             <Footer />
+            {/* Google Analytics only measures the landing page (see use-google-analytics) */}
+            <CookieConsentBanner />
         </div>
     );
 }

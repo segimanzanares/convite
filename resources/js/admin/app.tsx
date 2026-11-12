@@ -1,4 +1,5 @@
 import { createInertiaApp } from '@inertiajs/react';
+import { GoogleAnalytics } from '@/components/google-analytics';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { initializeTheme } from '@/hooks/use-appearance';
@@ -14,7 +15,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'Convite';
 // "auth/login" or "settings/profile" (see app/Providers/FortifyServiceProvider).
 // Besides the panel, this app serves the pages outside it: the landing page
 // and the door of the event, with the same theme but always in light mode
-// (see resources/views/admin.blade.php).
+// (see PublicLayout). It is one SPA: navigating between them is a visit.
 const pages = import.meta.glob('./pages/**/*.tsx');
 
 void createInertiaApp({
@@ -46,6 +47,7 @@ void createInertiaApp({
             <TooltipProvider delayDuration={0}>
                 {app}
                 <Toaster />
+                <GoogleAnalytics />
             </TooltipProvider>
         );
     },
@@ -54,8 +56,5 @@ void createInertiaApp({
     },
 });
 
-// This will set light / dark mode on load, except on the pages outside the
-// panel, which are designed in light mode only.
-if (document.documentElement.dataset.appearance !== 'light') {
-    initializeTheme();
-}
+// This will set light / dark mode on load...
+initializeTheme();

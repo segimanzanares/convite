@@ -83,10 +83,8 @@
     --color-teal: #4b93a4;
     --color-teal-light: #8fc2cd;
 
-    --font-body: 'Cormorant Garamond', serif;
-    --font-display: 'Cinzel', serif;
+    /* Script titles (e.g. the landing's section headings); the rest uses --font-sans */
     --font-script: 'Great Vibes', cursive;
-    --font-jost: 'Jost', 'Futura', sans-serif;
 }
 
 :root {

@@ -1,21 +1,23 @@
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import type { ReactNode } from 'react';
-import { CookieConsentBanner } from '@/components/cookie-consent-banner';
-import { initAnalytics } from '@/lib/analytics';
+import { forceLightAppearance } from '@/hooks/use-appearance';
 
 /**
- * Frame of the pages outside the panel (the landing page and the door of the event), served with the brand theme by
- * resources/views/public.blade.php: Google Analytics and its cookie banner, without the panel's chrome.
+ * Frame of the pages outside the panel (the landing page and the door of the event): Convite's ivory background and
+ * smooth anchor scrolling, always in light mode, without the panel's chrome. Leaving them for the panel (the same SPA)
+ * restores the user's appearance.
  */
 export default function PublicLayout({ children }: { children: ReactNode }) {
-    useEffect(() => {
-        initAnalytics();
+    // Before the first paint, so a user in dark mode does not see it flash
+    useLayoutEffect(() => {
+        forceLightAppearance(true);
+        document.documentElement.classList.add('scroll-smooth');
+
+        return () => {
+            forceLightAppearance(false);
+            document.documentElement.classList.remove('scroll-smooth');
+        };
     }, []);
 
-    return (
-        <>
-            {children}
-            <CookieConsentBanner />
-        </>
-    );
+    return <div className="min-h-screen overflow-x-clip bg-ivory text-ink">{children}</div>;
 }

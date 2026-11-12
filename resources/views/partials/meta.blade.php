@@ -2,7 +2,7 @@
     // Pages may pass a `meta` prop to override these defaults, which are the
     // landing page's own (see InvitationController and bootstrap/app.php).
     // Shared by the public site (app.blade.php) and the admin app's pages
-    // outside the panel (public.blade.php).
+    // outside the panel (admin.blade.php).
     $meta = array_merge([
         'title' => 'Convite — Invitaciones Digitales para Bodas, XV años y Eventos',
         'description' => 'Invitaciones digitales para bodas, XV años y cualquier evento: diseños de catálogo o exclusivos, confirmación de asistencia, cuenta regresiva y galería de fotos. Lista para compartir en días.',
@@ -10,11 +10,6 @@
         'robots' => 'index, follow',
     ], array_filter(data_get($page, 'props.meta') ?? []));
 @endphp
-<meta charset="UTF-8" />
-<link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
-<link rel="apple-touch-icon" href="{{ asset('app-icon.png') }}" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="theme-color" content="#b97a1f" />
 <title>{{ $meta['title'] }}</title>
 <meta name="description" content="{{ $meta['description'] }}" />
 <meta name="robots" content="{{ $meta['robots'] }}" />
@@ -37,10 +32,3 @@
 <meta name="twitter:title" content="{{ $meta['title'] }}" />
 <meta name="twitter:description" content="{{ $meta['description'] }}" />
 <meta name="twitter:image" content="{{ $meta['image'] }}" />
-
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Great+Vibes&family=Cinzel:wght@300;400;500&family=Jost:wght@300;400;500&display=swap"
-    rel="stylesheet"
-/>

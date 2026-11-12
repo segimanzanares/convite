@@ -20,7 +20,7 @@ class HandleInertiaRequests extends Middleware
 
     /**
      * The admin app's pages outside the panel: the landing page and the door of the event, with the public meta tags
-     * and always in light mode (see resources/views/admin.blade.php).
+     * (see resources/views/admin.blade.php) and always in light mode.
      */
     public const string PUBLIC_PAGES = 'public';
 
@@ -69,19 +69,18 @@ class HandleInertiaRequests extends Middleware
     /**
      * Determines the current asset version.
      *
-     * The site, the panel and the admin app's pages outside it each get their own version, so that an Inertia visit
-     * crossing from one to another (e.g. a link from the panel to the landing page) is treated as a version mismatch
-     * and reloads the full page: the other app does not bundle the page, and the admin app applies the panel's light or
-     * dark mode, and loads Google Analytics on the pages outside it, once per page load.
+     * The site and the admin app each get their own version, so that an Inertia visit crossing from one to the other
+     * (e.g. from the landing page to a demo invitation) is treated as a version mismatch and reloads the full page,
+     * instead of asking the current app to render a page it does not bundle. The panel and the admin app's pages outside
+     * it share theirs: navigating between them is a visit within the same SPA.
      *
      * @see https://inertiajs.com/asset-versioning
      */
     public function version(Request $request): ?string
     {
         $version = parent::version($request);
-        $pages = $this->pages($request);
 
-        return $pages === self::SITE_PAGES ? $version : "{$pages}-{$version}";
+        return $this->pages($request) === self::SITE_PAGES ? $version : "admin-{$version}";
     }
 
     /**
@@ -93,7 +92,9 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        if ($this->pages($request) !== self::PANEL_PAGES) {
+        // The whole admin app gets the panel's props, since navigating from its pages outside the panel into it is a
+        // visit within the same SPA
+        if ($this->pages($request) === self::SITE_PAGES) {
             return parent::share($request);
         }
 

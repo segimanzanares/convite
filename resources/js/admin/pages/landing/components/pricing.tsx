@@ -75,14 +75,14 @@ export function Pricing({ plans }: { plans: OfferedPlan[] }) {
                             <div
                                 className={`h-full flex flex-col border ${accent.border} py-10 px-7 bg-[linear-gradient(160deg,var(--color-ivory),var(--color-cream))]`}
                             >
-                                <h3 className={`font-jost text-sm tracking-[0.2em] uppercase mb-4 ${accent.text}`}>{plan.name}</h3>
-                                <p className="font-display text-4xl text-primary mb-1">{formatPrice(plan.price)}</p>
-                                <p className="font-jost text-[10px] tracking-[0.2em] uppercase text-primary/60 mb-6">pesos, pago único</p>
+                                <h3 className={`text-sm tracking-[0.2em] uppercase mb-4 ${accent.text}`}>{plan.name}</h3>
+                                <p className="text-4xl text-primary mb-1">{formatPrice(plan.price)}</p>
+                                <p className="text-[10px] tracking-[0.2em] uppercase text-primary/60 mb-6">pesos, pago único</p>
                                 {plan.description && (
                                     <p className="text-[15px] font-light leading-[1.8] text-[#4a3820] mb-6">{plan.description}</p>
                                 )}
                                 <Checklist items={includes} markClassName={accent.text} className="mb-6" />
-                                <p className="font-jost text-[10px] tracking-[0.2em] uppercase text-primary/60 mb-3">
+                                <p className="text-[10px] tracking-[0.2em] uppercase text-primary/60 mb-3">
                                     Secciones de la invitación
                                 </p>
                                 <Checklist items={sections} markClassName={accent.text} className="mb-8" />
@@ -90,7 +90,7 @@ export function Pricing({ plans }: { plans: OfferedPlan[] }) {
                                     href={whatsappUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="mt-auto text-center font-jost text-[11px] tracking-[0.3em] uppercase text-primary border border-primary/40 py-4 px-6 transition-colors duration-200 hover:bg-primary/5"
+                                    className="mt-auto text-center text-[11px] tracking-[0.3em] uppercase text-primary border border-primary/40 py-4 px-6 transition-colors duration-200 hover:bg-primary/5"
                                 >
                                     Lo quiero
                                 </a>

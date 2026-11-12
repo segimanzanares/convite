@@ -12,7 +12,7 @@ export function Cta() {
                 <div className="absolute -bottom-24 right-[8%] w-[320px] h-[320px] rounded-full bg-rose/15 blur-[110px]" />
             </div>
             <div className="relative z-10">
-                <p className="font-jost text-[10px] tracking-[0.6em] text-gold uppercase mb-5">Empecemos hoy</p>
+                <p className="text-[10px] tracking-[0.6em] text-gold uppercase mb-5">Empecemos hoy</p>
                 <h2 className="font-script text-[clamp(38px,6vw,60px)] text-white mb-6 leading-[1.2]">
                     Cuéntenos su fecha y hagamos su invitación
                 </h2>
@@ -24,11 +24,11 @@ export function Cta() {
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block font-jost text-[11px] tracking-[0.35em] uppercase text-primary bg-gold py-4 px-10 transition-[background-color,transform] duration-200 hover:bg-gold-light hover:-translate-y-0.5"
+                    className="inline-block text-[11px] tracking-[0.35em] uppercase text-primary bg-gold py-4 px-10 transition-[background-color,transform] duration-200 hover:bg-gold-light hover:-translate-y-0.5"
                 >
                     Escríbenos por WhatsApp
                 </a>
-                <p className="mt-6 font-jost text-[10px] tracking-[0.2em] uppercase text-white/60">
+                <p className="mt-6 text-[10px] tracking-[0.2em] uppercase text-white/60">
                     Respuesta el mismo día · Sin compromiso
                 </p>
             </div>

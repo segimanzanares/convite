@@ -14,10 +14,15 @@ export default defineConfig({
       // app/Http/Middleware/HandleInertiaRequests.php).
       input: ['resources/js/site/app.tsx', 'resources/js/admin/app.tsx'],
       refresh: true,
-      // Admin panel font, loaded by @fonts in resources/views/admin.blade.php
+      // Admin app fonts, loaded by @fonts in resources/views/admin.blade.php:
+      // the panel's, also the text of the landing page and the door, and the
+      // landing's script titles
       fonts: [
         bunny('Instrument Sans', {
           weights: [400, 500, 600],
+        }),
+        bunny('Great Vibes', {
+          weights: [400],
         }),
       ],
     }),

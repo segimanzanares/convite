@@ -28,7 +28,7 @@ export function CheckInCard({ guest }: { guest: CheckInGuest }) {
 
     return (
         <article className="bg-ivory border border-primary/15 p-5">
-            <h2 className="font-display text-lg text-primary">{guest.name}</h2>
+            <h2 className="text-lg text-primary">{guest.name}</h2>
             <dl className="mt-2 grid grid-cols-2 gap-y-1 text-sm">
                 <dt className="text-ink/60">Pase para</dt>
                 <dd>{peopleLabel(guest.seats)}</dd>

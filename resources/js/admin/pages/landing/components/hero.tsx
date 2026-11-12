@@ -40,7 +40,7 @@ export function Hero({ plans }: { plans: OfferedPlan[] }) {
                             aria-hidden="true"
                             className="w-[64px] h-[64px] mx-auto lg:mx-0 mb-7 drop-shadow-[0_8px_30px_rgba(42,26,43,0.15)]"
                         />
-                        <p className="font-jost text-[10px] tracking-[0.6em] text-gold uppercase mb-4">
+                        <p className="text-[10px] tracking-[0.6em] text-gold uppercase mb-4">
                             Invitaciones digitales para cualquier evento
                         </p>
                         <h1 className="font-script text-[clamp(46px,7vw,74px)] text-primary mb-6 leading-[1.15]">
@@ -57,20 +57,20 @@ export function Hero({ plans }: { plans: OfferedPlan[] }) {
                                 href={whatsappUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="font-jost text-[11px] tracking-[0.35em] uppercase text-white bg-primary py-4 px-9 transition-[background-color,transform] duration-200 hover:bg-primary-light hover:-translate-y-0.5"
+                                className="text-[11px] tracking-[0.35em] uppercase text-white bg-primary py-4 px-9 transition-[background-color,transform] duration-200 hover:bg-primary-light hover:-translate-y-0.5"
                             >
                                 Cotiza tu invitación
                             </a>
                             <Link
                                 href="/i/demo"
-                                className="font-jost text-[11px] tracking-[0.35em] uppercase text-primary border border-primary/40 py-4 px-9 transition-colors duration-200 hover:bg-primary/5"
+                                className="text-[11px] tracking-[0.35em] uppercase text-primary border border-primary/40 py-4 px-9 transition-colors duration-200 hover:bg-primary/5"
                             >
                                 Ver invitación de ejemplo
                             </Link>
                         </div>
 
                         {lowestPrice !== null && (
-                            <p className="font-jost text-[11px] tracking-[0.2em] uppercase text-primary/80 mb-8">
+                            <p className="text-[11px] tracking-[0.2em] uppercase text-primary/80 mb-8">
                                 Invitaciones desde{' '}
                                 <a href="#planes" className="text-gold hover:underline">
                                     {formatPrice(lowestPrice)} pesos
@@ -82,7 +82,7 @@ export function Hero({ plans }: { plans: OfferedPlan[] }) {
                             {TAGS.map(({ label, accent }) => (
                                 <span
                                     key={label}
-                                    className={`font-jost text-[10px] tracking-[0.2em] uppercase ${ACCENT_CLASSES[accent].text} flex items-center gap-2`}
+                                    className={`text-[10px] tracking-[0.2em] uppercase ${ACCENT_CLASSES[accent].text} flex items-center gap-2`}
                                 >
                                     <span className={`w-1.5 h-1.5 rotate-45 ${ACCENT_CLASSES[accent].bg}`} />
                                     {label}
@@ -96,8 +96,8 @@ export function Hero({ plans }: { plans: OfferedPlan[] }) {
                                 ...(plans.length > 1 ? [{ value: `${plans.length}`, label: 'Planes para elegir' }] : []),
                             ].map((stat) => (
                                 <div key={stat.label} className="text-center lg:text-left">
-                                    <p className="font-display text-lg sm:text-xl text-primary mb-1">{stat.value}</p>
-                                    <p className="font-jost text-[9px] tracking-[0.15em] uppercase text-[#4a3820]/70 max-w-[110px]">
+                                    <p className="text-lg sm:text-xl text-primary mb-1">{stat.value}</p>
+                                    <p className="text-[9px] tracking-[0.15em] uppercase text-[#4a3820]/70 max-w-[110px]">
                                         {stat.label}
                                     </p>
                                 </div>
@@ -116,22 +116,22 @@ export function Hero({ plans }: { plans: OfferedPlan[] }) {
                         >
                             <div className="rounded-[1.35rem] border border-gold/30 bg-[linear-gradient(175deg,var(--color-ivory),var(--color-cream))] px-8 py-12 text-center">
                                 <img src={convitePetal} alt="" aria-hidden="true" className="w-9 h-9 mx-auto mb-6 opacity-80" />
-                                <p className="font-jost text-[9px] tracking-[0.5em] text-gold uppercase mb-3">
+                                <p className="text-[9px] tracking-[0.5em] text-gold uppercase mb-3">
                                     Nos casamos
                                 </p>
                                 <p className="font-script text-[clamp(32px,4vw,42px)] text-primary leading-tight mb-3">
                                     Mariana &amp; Alejandro
                                 </p>
                                 <div className="w-10 h-px mx-auto bg-gold/50 mb-3" />
-                                <p className="font-jost text-[10px] tracking-[0.25em] text-[#4a3820] uppercase">
+                                <p className="text-[10px] tracking-[0.25em] text-[#4a3820] uppercase">
                                     14 · Noviembre · 2026
                                 </p>
-                                <div className="mt-9 inline-flex items-center gap-2 font-jost text-[9px] tracking-[0.2em] text-primary/70 uppercase">
+                                <div className="mt-9 inline-flex items-center gap-2 text-[9px] tracking-[0.2em] text-primary/70 uppercase">
                                     <span className="w-1 h-1 rotate-45 bg-terracotta" />
                                     Confirmar asistencia
                                 </div>
                             </div>
-                            <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap font-jost text-[9px] tracking-[0.3em] uppercase text-white bg-terracotta px-4 py-2 shadow-md transition-transform duration-200 group-hover:-translate-y-0.5">
+                            <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] tracking-[0.3em] uppercase text-white bg-terracotta px-4 py-2 shadow-md transition-transform duration-200 group-hover:-translate-y-0.5">
                                 Así de linda puede quedar la suya
                             </span>
                         </Link>
