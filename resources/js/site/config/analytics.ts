@@ -18,6 +18,39 @@ function gtag(..._args: unknown[]) {
   window.dataLayer.push(arguments);
 }
 
+/** Invitation pages whose path segment after the slug is kept; any other is a guest's token, or a mistyped one. */
+const INVITATION_PAGES: Record<string, string> = {
+  '': 'Invitación',
+  tarjeta: 'Tarjeta impresa',
+  pases: 'Pases de invitados',
+};
+
+/**
+ * The page as Google Analytics gets it. Under /i/{slug} the guests' tokens (their personalized links, which open the
+ * invitation as them) are left out of the path, and the title (the couple's or celebrant's names) becomes the kind of
+ * page. Only the campaign parameters (utm_*) of the query string are kept.
+ */
+export function analyticsPage(location: Location = window.location, title = document.title) {
+  const query = new URLSearchParams(
+    [...new URLSearchParams(location.search)].filter(([key]) => key.startsWith('utm_')),
+  ).toString();
+  const invitation = location.pathname.match(/^\/i\/([^/]+)(?:\/([^/]*))?/);
+  let path = location.pathname;
+  let pageTitle = title;
+
+  if (invitation) {
+    const page = invitation[2] ?? '';
+    const isKnownPage = Object.hasOwn(INVITATION_PAGES, page) && location.pathname.split('/').length <= 4;
+
+    path = `/i/${invitation[1]}${isKnownPage && page ? `/${page}` : ''}`;
+    pageTitle = isKnownPage ? INVITATION_PAGES[page] : 'Invitación personalizada';
+  }
+
+  const pagePath = query ? `${path}?${query}` : path;
+
+  return { page_location: location.origin + pagePath, page_path: pagePath, page_title: pageTitle };
+}
+
 export function getStoredConsent(): ConsentChoice | null {
   const value = localStorage.getItem(CONSENT_STORAGE_KEY);
   return value === 'granted' || value === 'denied' ? value : null;
@@ -44,7 +77,9 @@ export function initAnalytics() {
   document.head.appendChild(script);
 
   gtag('js', new Date());
-  gtag('config', GA_ID);
+  // Set on the config, not only on the page view, so the automatic events
+  // (scrolls, outbound clicks, engagement) carry the same cleaned page
+  gtag('config', GA_ID, analyticsPage());
 }
 
 export function updateAnalyticsConsent(choice: ConsentChoice) {
@@ -57,6 +92,6 @@ export function updateAnalyticsConsent(choice: ConsentChoice) {
   // `config` itself so gtag.js reinitializes with the new consent state
   // and sends the automatic page_view.
   if (choice === 'granted' && GA_ID) {
-    gtag('config', GA_ID);
+    gtag('config', GA_ID, analyticsPage());
   }
 }
