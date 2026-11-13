@@ -2,7 +2,7 @@
 
 /*
 | Content of the "grafito" birthday demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource). It borrows cumpleanos-floral's music.
+| InvitationContentResource).
 */
 
 $image = fn (string $file): string => "/invitations/cumpleanos-grafito/images/{$file}";
@@ -17,7 +17,7 @@ return [
         'age' => 40,
         'hosts' => 'Organizan Ana y los amigos de siempre',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/cumpleanos-floral/music.mp3',
+        'music' => '/invitations/cumpleanos-grafito/music.mp3',
         'message' => 'Diego llega a los 40 y lo vamos a celebrar como se debe: buenos cortes, cerveza fría, música en vivo y los amigos de siempre. Una noche para brindar por todo lo vivido y por lo que viene. Nos encantaría que estuvieras ahí.',
         'tagline' => '40 años · Gracias por estar',
         'venues' => [

@@ -2,7 +2,7 @@
 
 /*
 | Content of the jurassic kids' party demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource). It borrows cumpleanos-floral's music.
+| InvitationContentResource). It borrows cumpleanos-confeti's music.
 */
 
 $image = fn (string $file): string => "/invitations/infantil-dino/images/{$file}";
@@ -17,7 +17,7 @@ return [
         'age' => 5,
         'hosts' => 'Sus papás, Daniela y Roberto',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/cumpleanos-floral/music.mp3',
+        'music' => '/invitations/cumpleanos-confeti/music.mp3',
         'message' => '¡Rawr! Santiago cumple 5 años y lo vamos a celebrar con una aventura jurásica: excavación de fósiles, piñata de dinosaurio y un pastel volcán. Prepara tus botas de explorador y ven con tu mejor rugido.',
         'tagline' => '5 años · ¡Gracias por venir a la fiesta jurásica!',
         'venues' => [

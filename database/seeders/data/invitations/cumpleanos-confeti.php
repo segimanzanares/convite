@@ -2,7 +2,7 @@
 
 /*
 | Content of the "confeti" birthday demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource). It borrows cumpleanos-floral's music.
+| InvitationContentResource).
 */
 
 $image = fn (string $file): string => "/invitations/cumpleanos-confeti/images/{$file}";
@@ -17,7 +17,7 @@ return [
         'age' => 30,
         'hosts' => 'Sus amigas de siempre',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/cumpleanos-floral/music.mp3',
+        'music' => '/invitations/cumpleanos-confeti/music.mp3',
         'message' => 'Treinta años se celebran en grande. Valentina cumple 30 y no se nos ocurre mejor manera de festejarlo que rodeada de la gente que más quiere: habrá brindis, pastel, fotos y mucho, mucho baile. ¡No puedes faltar!',
         'tagline' => '30 años · Gracias por celebrar con ella',
         'venues' => [

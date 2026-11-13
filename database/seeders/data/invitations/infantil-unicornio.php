@@ -2,7 +2,7 @@
 
 /*
 | Content of the unicorn kids' party demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource). It borrows cumpleanos-floral's music.
+| InvitationContentResource). It borrows cumpleanos-confeti's music.
 */
 
 $image = fn (string $file): string => "/invitations/infantil-unicornio/images/{$file}";
@@ -17,7 +17,7 @@ return [
         'age' => 6,
         'hosts' => 'Con cariño, sus papás Mariana y Jorge',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/cumpleanos-floral/music.mp3',
+        'music' => '/invitations/cumpleanos-confeti/music.mp3',
         'message' => 'Isabella cumple 6 años y queremos celebrarlo con una tarde llena de magia: arcoíris, brillantina, juegos y un pastel de unicornio. Trae tu sonrisa más brillante, ¡la fiesta no está completa sin ti!',
         'tagline' => '6 años de magia · ¡Gracias por venir!',
         'venues' => [

@@ -2,8 +2,8 @@
 
 /*
 | Content of the xv-aurora demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource). The portraits come from the xv-jardin demo and the song and the venue photos from the
-| wedding demo.
+| InvitationContentResource). The portraits come from the xv-jardin demo and the venue photos from the wedding
+| demo.
 */
 
 $image = fn (string $file): string => "/invitations/xv-aurora/images/{$file}";
@@ -19,7 +19,7 @@ return [
         'hosts' => 'Con cariño, Renata',
         'monogram' => 'RI',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/boda-clasica/music.mp3',
+        'music' => '/invitations/xv-aurora/music.mp3',
         'hero_photo' => '/invitations/xv-jardin/images/portada.jpg',
         'closing_message' => 'Hoy cierro un capítulo y abro otro lleno de sueños. Gracias por estar aquí para verlo comenzar.',
         'tagline' => 'Gracias por ser parte de mis quince',

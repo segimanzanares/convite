@@ -2,7 +2,7 @@
 
 /*
 | Content of the serene wedding demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource). The photos and music are shared with the classic wedding demo.
+| InvitationContentResource). The photos are shared with the classic wedding demo.
 */
 
 $image = fn (string $file): string => "/invitations/boda-clasica/images/{$file}";
@@ -15,7 +15,7 @@ return [
         'names' => ['Lucía', 'Mateo'],
         'families' => 'Familia Herrera Soto & Familia Ibarra León',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/boda-clasica/music.mp3',
+        'music' => '/invitations/boda-serena/music.mp3',
         'cover' => $image('09.jpeg'),
         'message' => 'Siete años, dos mudanzas y un perro después, decidimos que es momento de hacerlo oficial. Queremos que estés con nosotros el día en que empezamos esta nueva etapa: sin ti, la fiesta no estaría completa.',
         'tagline' => 'Gracias por acompañarnos en el comienzo de nuestra historia.',

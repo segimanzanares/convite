@@ -2,7 +2,7 @@
 
 /*
 | Content of the outer space kids' party demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource). It borrows cumpleanos-floral's music.
+| InvitationContentResource). It borrows cumpleanos-confeti's music.
 */
 
 $image = fn (string $file): string => "/invitations/infantil-espacial/images/{$file}";
@@ -17,7 +17,7 @@ return [
         'age' => 7,
         'hosts' => 'Sus papás, Ana y Luis',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/cumpleanos-floral/music.mp3',
+        'music' => '/invitations/cumpleanos-confeti/music.mp3',
         'message' => '¡Atención, tripulación! Mateo cumple 7 años y prepara una misión fuera de este mundo: juegos de astronautas, piñata de planetas y un pastel que aterrizó directo de la Luna. Ponte tu casco y acompáñanos en esta aventura espacial.',
         'tagline' => '7 años · ¡Gracias por sumarte a la misión!',
         'venues' => [

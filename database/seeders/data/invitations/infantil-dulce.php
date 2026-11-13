@@ -2,7 +2,7 @@
 
 /*
 | Content of the candy shop kids' party demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource). It borrows cumpleanos-floral's music.
+| InvitationContentResource). It borrows cumpleanos-confeti's music.
 */
 
 $image = fn (string $file): string => "/invitations/infantil-dulce/images/{$file}";
@@ -17,7 +17,7 @@ return [
         'age' => 4,
         'hosts' => 'Con cariño, sus papás Paola y Andrés',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/cumpleanos-floral/music.mp3',
+        'music' => '/invitations/cumpleanos-confeti/music.mp3',
         'message' => 'Regina cumple 4 años y lo celebraremos con una tarde llena de dulces: mesa de postres, decoración de cupcakes, juegos y mucha diversión. ¡Te esperamos para compartir el pastel!',
         'tagline' => '4 años · ¡Gracias por endulzar su cumpleaños!',
         'venues' => [

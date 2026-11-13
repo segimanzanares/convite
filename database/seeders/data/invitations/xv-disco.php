@@ -2,8 +2,8 @@
 
 /*
 | Content of the xv-disco demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource). The portraits come from the xv-jardin demo and the song and the venue photos from the
-| wedding demo.
+| InvitationContentResource). The portraits come from the xv-jardin demo and the venue photos from the wedding
+| demo.
 */
 
 $image = fn (string $file): string => "/invitations/xv-disco/images/{$file}";
@@ -19,7 +19,7 @@ return [
         'hosts' => 'Con cariño, Ximena',
         'monogram' => 'XA',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/boda-clasica/music.mp3',
+        'music' => '/invitations/xv-disco/music.mp3',
         'hero_photo' => '/invitations/xv-jardin/images/portada.jpg',
         'closing_message' => 'Quince años se celebran una sola vez, y quiero que suenen fuerte. Gracias por venir a bailarlos conmigo.',
         'tagline' => 'Gracias por bailar conmigo mis quince',

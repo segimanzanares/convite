@@ -2,8 +2,8 @@
 
 /*
 | Content of the xv-celestial demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource). The portraits come from the xv-jardin demo and the song and the venue photos from the
-| wedding demo.
+| InvitationContentResource). The portraits come from the xv-jardin demo and the venue photos from the wedding
+| demo.
 */
 
 $image = fn (string $file): string => "/invitations/xv-celestial/images/{$file}";
@@ -19,7 +19,7 @@ return [
         'hosts' => 'Con cariño, Camila',
         'monogram' => 'CF',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/boda-clasica/music.mp3',
+        'music' => '/invitations/xv-celestial/music.mp3',
         'hero_photo' => '/invitations/xv-jardin/images/portada.jpg',
         'closing_message' => '…pediré un deseo al cielo: que esta noche brille para siempre en la memoria de todos los que la compartimos.',
         'tagline' => 'Una noche escrita en las estrellas',

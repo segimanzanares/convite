@@ -2,7 +2,7 @@
 
 /*
 | Content of the modern wedding demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource). The photos and music are shared with the classic wedding demo.
+| InvitationContentResource). The photos are shared with the classic wedding demo.
 */
 
 $image = fn (string $file): string => "/invitations/boda-clasica/images/{$file}";
@@ -15,7 +15,7 @@ return [
         'names' => ['Valeria', 'Andrés'],
         'families' => 'Familia Castillo & Familia Navarro',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/boda-clasica/music.mp3',
+        'music' => '/invitations/boda-moderna/music.mp3',
         'cover' => $image('05.jpeg'),
         'message' => 'Después de tantos momentos compartidos, decidimos dar el siguiente paso. Nos encantaría que nos acompañes a celebrar el día en que diremos «sí, acepto».',
         'tagline' => 'Gracias por ser parte de nuestra historia.',

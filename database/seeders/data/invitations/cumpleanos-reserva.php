@@ -2,7 +2,7 @@
 
 /*
 | Content of the "gran reserva" birthday demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource). It borrows cumpleanos-floral's music.
+| InvitationContentResource).
 */
 
 $image = fn (string $file): string => "/invitations/cumpleanos-reserva/images/{$file}";
@@ -17,7 +17,7 @@ return [
         'age' => 50,
         'hosts' => 'Con cariño, su esposa y sus hijos',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/cumpleanos-floral/music.mp3',
+        'music' => '/invitations/cumpleanos-reserva/music.mp3',
         'message' => 'Cincuenta años no se cumplen todos los días. Hay cosas que mejoran con el tiempo, y Roberto es la mejor prueba: queremos invitarte a levantar la copa con nosotros para celebrar su vida, sus historias y todo lo que todavía viene.',
         'tagline' => '50 años · Gran reserva',
         'venues' => [

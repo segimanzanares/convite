@@ -2,7 +2,7 @@
 
 /*
 | Content of the XV demo. It has no order, so its date always shows 60 days ahead (see InvitationContentResource).
-| The song and the venue photos are shared with the wedding demo.
+| The venue photos are shared with the wedding demo.
 */
 
 $image = fn (string $file): string => "/invitations/xv-jardin/images/{$file}";
@@ -18,7 +18,7 @@ return [
         'hosts' => 'Con cariño, Sofía',
         'monogram' => 'SV',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/boda-clasica/music.mp3',
+        'music' => '/invitations/xv-jardin/music.mp3',
         'hero_photo' => $image('portada.jpg'),
         'closing_message' => '…este cuento apenas comienza, y no hay mejor forma de escribir su siguiente página que a tu lado.',
         'tagline' => 'Una noche para recordar',

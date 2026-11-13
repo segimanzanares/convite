@@ -17,7 +17,7 @@ return [
         'names' => ['Daniela', 'Sebastián'],
         'families' => 'La Familia Ramírez & La Familia Torres',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/boda-clasica/music.mp3',
+        'music' => '/invitations/boda-floral/music.mp3',
         'venues' => [
             [
                 'icon' => '⛪',
