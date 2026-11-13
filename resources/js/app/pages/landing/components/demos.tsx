@@ -1,15 +1,29 @@
+import { useState } from 'react';
 import { invitationKindLabels } from '@/lib/labels';
-import type { DemoInvitation } from '@/types/invitation';
+import type { DemoInvitation, InvitationKind } from '@/types/invitation';
 import { SectionHeading } from './section-heading';
 import { Reveal } from './reveal';
 import { ACCENT_CLASSES, type Accent } from './accents';
 
 const ACCENTS: Accent[] = ['gold', 'terracotta', 'rose', 'teal'];
 
+/** The filter's categories, in the order they are offered. */
+const KIND_FILTERS: { kind: InvitationKind; label: string }[] = [
+    { kind: 'wedding', label: 'Bodas' },
+    { kind: 'xv', label: 'XV años' },
+    { kind: 'birthday', label: 'Cumpleaños' },
+];
+
 export function Demos({ demos }: { demos: DemoInvitation[] }) {
+    const [selectedKind, setSelectedKind] = useState<InvitationKind | null>(null);
+
     if (demos.length === 0) {
         return null;
     }
+
+    // Only the categories some demo has; the filter is pointless with a single one
+    const filters = KIND_FILTERS.filter(({ kind }) => demos.some((demo) => demo.kind === kind));
+    const visibleDemos = selectedKind ? demos.filter((demo) => demo.kind === selectedKind) : demos;
 
     return (
         <section id="disenos" className="max-w-[1180px] mx-auto px-8 pb-[120px] scroll-mt-24">
@@ -20,8 +34,30 @@ export function Demos({ demos }: { demos: DemoInvitation[] }) {
                     con el contenido y las fotos de su evento.
                 </p>
             </Reveal>
+            {filters.length > 1 && (
+                <div role="group" aria-label="Filtrar diseños por evento" className="flex flex-wrap justify-center gap-3 mb-12">
+                    {[{ kind: null, label: 'Todos' }, ...filters].map(({ kind, label }) => {
+                        const isSelected = selectedKind === kind;
+                        return (
+                            <button
+                                key={kind ?? 'all'}
+                                type="button"
+                                aria-pressed={isSelected}
+                                onClick={() => setSelectedKind(kind)}
+                                className={`text-[10px] tracking-[0.3em] uppercase border py-2.5 px-5 transition-colors duration-200 ${
+                                    isSelected
+                                        ? 'bg-primary border-primary text-ivory'
+                                        : 'border-primary/30 text-primary hover:bg-primary/5'
+                                }`}
+                            >
+                                {label}
+                            </button>
+                        );
+                    })}
+                </div>
+            )}
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {demos.map((demo, index) => {
+                {visibleDemos.map((demo, index) => {
                     const accent = ACCENT_CLASSES[ACCENTS[index % ACCENTS.length]];
                     return (
                         <Reveal key={demo.slug}>
