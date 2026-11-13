@@ -2,6 +2,7 @@ import type { ComponentType } from 'react';
 import { SectionHeading } from '../shared/SectionHeading';
 import { Reveal } from '../shared/Reveal';
 import { DressIcon, SuitIcon } from './AttireIcons';
+import { CARD_CLASS, ICON_TILE_CLASS } from '../shared/styles';
 import type { DressCodeData } from '../../types/wedding';
 
 interface DressCodeSectionProps {
@@ -16,7 +17,7 @@ interface DressCodeSectionProps {
 function AttireItem({ Icon, label, attire }: { Icon: ComponentType<{ className?: string }>; label: string; attire: string }) {
   return (
     <div className="flex flex-col items-center">
-      <div className="w-[88px] h-[88px] rounded-2xl border-2 border-gold flex items-center justify-center text-gold-deep bg-[linear-gradient(160deg,var(--color-ivory),var(--color-cream))]">
+      <div className={ICON_TILE_CLASS}>
         <Icon className="w-12 h-12" />
       </div>
       <p className="font-script text-[36px] text-gold-deep mt-4 leading-none">{label}</p>
@@ -54,7 +55,7 @@ export function DressCodeSection({
         )}
 
         {reservedColor && (
-          <div className="max-w-[420px] mx-auto mt-14 border border-gold/30 rounded-2xl bg-ivory p-5 shadow-[0_12px_40px_color-mix(in_srgb,var(--color-gold)_12%,transparent)]">
+          <div className={`max-w-[420px] mx-auto mt-14 p-5 ${CARD_CLASS}`}>
             <p className="font-script text-[32px] text-ivory bg-gold rounded-xl py-2 leading-tight">{reservedColorLabel}</p>
             <p className="text-[16px] font-light leading-[1.7] text-[var(--text-body)] mt-4 mb-1">
               {reservedColor.hex && (

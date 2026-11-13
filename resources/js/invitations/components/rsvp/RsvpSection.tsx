@@ -1,5 +1,6 @@
 import { SectionHeading } from '../shared/SectionHeading';
 import { Reveal } from '../shared/Reveal';
+import { buttonClass } from '../shared/styles';
 import { useRsvpForm, type AttendanceStatus } from '../../hooks/useRsvpForm';
 import { seatsLabel, useOnlineRsvp } from '../../hooks/useOnlineRsvp';
 import { downloadEventCalendar, type CalendarOccasion } from '../../utils/calendar';
@@ -19,17 +20,14 @@ const ATTENDANCE_OPTIONS: { value: AttendanceStatus; label: string }[] = [
 ];
 
 const RSVP_INPUT_CLASS =
-  'bg-[rgba(255,255,255,0.04)] border border-gold/30 text-gold-pale font-body text-base font-light py-3.5 px-5 outline-none transition-colors duration-300 w-full tracking-[0.05em] placeholder:text-gold-light/35 placeholder:italic focus:border-gold';
-
-const RSVP_BUTTON_CLASS =
-  'bg-transparent border border-gold text-gold font-display text-[10px] tracking-[0.6em] uppercase py-[18px] px-10 cursor-pointer transition-all duration-[400ms] hover:bg-gold hover:text-ink disabled:opacity-50 disabled:pointer-events-none';
+  'rounded-xl bg-[rgba(255,255,255,0.04)] border border-gold/30 text-gold-pale font-body text-base font-light py-3.5 px-5 outline-none transition-colors duration-300 w-full tracking-[0.05em] placeholder:text-gold-light/35 placeholder:italic focus:border-gold';
 
 function attendanceOptionClass(isSelected: boolean) {
   return [
-    'flex-1 border p-3 cursor-pointer font-display text-[9px] tracking-[0.4em] uppercase text-center transition-all duration-300',
+    'flex-1 rounded-full border py-3 px-4 cursor-pointer font-display text-[10px] tracking-[0.3em] uppercase text-center transition-colors duration-300',
     isSelected
-      ? 'bg-gold text-ink border-gold'
-      : 'bg-transparent text-gold-pale border-gold/30 hover:bg-gold hover:text-ink hover:border-gold',
+      ? 'bg-gold text-ivory border-gold'
+      : 'bg-transparent text-gold-pale border-gold/30 hover:border-gold',
   ].join(' ');
 }
 
@@ -79,12 +77,12 @@ function OnlineRsvp({
             ) : null}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
               {form.attending && calendar && venues?.length ? (
-                <button className={RSVP_BUTTON_CLASS} type="button" onClick={() => downloadEventCalendar(calendar, venues)}>
+                <button className={buttonClass('outline')} type="button" onClick={() => downloadEventCalendar(calendar, venues)}>
                   📅 Añadir al calendario
                 </button>
               ) : null}
               {guest && isOpen ? (
-                <button className={RSVP_BUTTON_CLASS} type="button" onClick={online.editAnswer}>
+                <button className={buttonClass('outline')} type="button" onClick={online.editAnswer}>
                   Cambiar respuesta
                 </button>
               ) : null}
@@ -150,7 +148,7 @@ function OnlineRsvp({
               onChange={(event) => setField('message', event.target.value)}
             />
             <FieldError message={errors.message ?? errors.rsvp} />
-            <button className={`${RSVP_BUTTON_CLASS} mt-2.5`} type="submit" disabled={online.processing}>
+            <button className={buttonClass('solid', 'mt-2.5')} type="submit" disabled={online.processing}>
               {online.processing ? 'Enviando…' : 'Confirmar Asistencia'}
             </button>
           </form>
@@ -203,10 +201,7 @@ function WhatsappRsvp({ whatsappNumber, deadlineLabel, calendar, venues }: RsvpS
               value={form.guests}
               onChange={(event) => setField('guests', event.target.value)}
             />
-            <button
-              className="bg-transparent border border-gold text-gold font-display text-[10px] tracking-[0.6em] uppercase py-[18px] px-10 cursor-pointer transition-all duration-[400ms] mt-2.5 hover:bg-gold hover:text-ink"
-              type="submit"
-            >
+            <button className={buttonClass('solid', 'mt-2.5')} type="submit">
               Confirmar Asistencia
             </button>
           </form>
@@ -215,7 +210,7 @@ function WhatsappRsvp({ whatsappNumber, deadlineLabel, calendar, venues }: RsvpS
             <p className="font-script text-[38px] text-gold-light mt-5">¡Gracias! Nos alegra contar contigo 🤍</p>
             {form.attending === 'yes' && calendar && venues?.length ? (
               <button
-                className="bg-transparent border border-gold text-gold font-display text-[10px] tracking-[0.6em] uppercase py-[18px] px-10 cursor-pointer transition-all duration-[400ms] mt-8 hover:bg-gold hover:text-ink"
+                className={buttonClass('outline', 'mt-8')}
                 type="button"
                 onClick={() => downloadEventCalendar(calendar, venues)}
               >

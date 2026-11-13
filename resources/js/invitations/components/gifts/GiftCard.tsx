@@ -1,6 +1,7 @@
 import { useEffect, useState, type ComponentType } from 'react';
 import { BankIcon, EnvelopeIcon, GiftBoxIcon } from './GiftIcons';
 import { copyToClipboard } from '../../utils/clipboard';
+import { buttonClass, CARD_CLASS, ICON_TILE_CLASS } from '../shared/styles';
 import type { GiftKind, GiftOption } from '../../types/wedding';
 
 const GIFT_ICONS: Record<GiftKind, ComponentType<{ className?: string }>> = {
@@ -8,9 +9,6 @@ const GIFT_ICONS: Record<GiftKind, ComponentType<{ className?: string }>> = {
   registry: GiftBoxIcon,
   envelope: EnvelopeIcon,
 };
-
-const BUTTON_CLASS =
-  'inline-block bg-gold text-ivory font-display text-[11px] tracking-[0.3em] uppercase no-underline py-3.5 px-7 rounded-md cursor-pointer border-none transition-colors duration-300 hover:bg-gold-deep';
 
 interface GiftCardProps {
   gift: GiftOption;
@@ -37,9 +35,9 @@ export function GiftCard({ gift }: GiftCardProps) {
   };
 
   return (
-    <div className="flex flex-col items-center border-2 border-gold/60 rounded-2xl bg-[linear-gradient(160deg,var(--color-ivory),var(--color-cream))] py-10 px-8 max-[640px]:px-6 shadow-[0_12px_40px_color-mix(in_srgb,var(--color-gold)_12%,transparent)]">
+    <div className={`flex flex-col items-center py-10 px-8 max-[640px]:px-6 ${CARD_CLASS}`}>
       <h3 className="font-script text-[clamp(34px,5vw,42px)] text-gold-deep leading-[1.15]">{gift.title}</h3>
-      <div className="w-[88px] h-[88px] rounded-2xl border-2 border-gold flex items-center justify-center text-gold-deep mt-7">
+      <div className={`mt-7 ${ICON_TILE_CLASS}`}>
         <Icon className="w-12 h-12" />
       </div>
       {gift.description && (
@@ -58,12 +56,12 @@ export function GiftCard({ gift }: GiftCardProps) {
       {(gift.copy || gift.link) && (
         <div className="flex flex-wrap justify-center gap-3 mt-8">
           {gift.copy && (
-            <button className={BUTTON_CLASS} type="button" onClick={handleCopy} aria-live="polite">
+            <button className={buttonClass()} type="button" onClick={handleCopy} aria-live="polite">
               {copied ? '¡Copiado!' : (gift.copy.label ?? 'Copiar número')}
             </button>
           )}
           {gift.link && (
-            <a className={BUTTON_CLASS} href={gift.link.url} target="_blank" rel="noopener noreferrer">
+            <a className={buttonClass()} href={gift.link.url} target="_blank" rel="noopener noreferrer">
               {gift.link.label ?? 'Ver mesa de regalos'}
             </a>
           )}

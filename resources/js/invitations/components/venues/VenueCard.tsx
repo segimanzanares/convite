@@ -1,4 +1,5 @@
 import { DirectionsIcon } from '../shared/DirectionsIcon';
+import { buttonClass, CARD_CLASS, CHIP_CLASS } from '../shared/styles';
 import type { Venue } from '../../types/wedding';
 
 interface VenueCardProps {
@@ -9,9 +10,10 @@ export function VenueCard({ venue }: VenueCardProps) {
   return (
     <div
       className={[
-        'group relative border border-gold/25 bg-[linear-gradient(160deg,var(--color-ivory),var(--color-cream))]',
+        'group relative',
+        CARD_CLASS,
         'overflow-hidden transition-[box-shadow,transform] duration-[400ms] ease',
-        'hover:shadow-[0_16px_50px_color-mix(in_srgb,var(--color-gold)_13%,transparent)] hover:-translate-y-[3px]',
+        'hover:shadow-[0_16px_50px_color-mix(in_srgb,var(--color-gold)_18%,transparent)] hover:-translate-y-[3px]',
         "before:content-[''] before:block before:h-0.5 before:bg-[linear-gradient(to_right,transparent,var(--color-gold),transparent)] before:opacity-60",
       ].join(' ')}
     >
@@ -50,22 +52,14 @@ export function VenueCard({ venue }: VenueCardProps) {
             </span>
           ))}
         </p>
-        <div className="inline-block font-display text-[10px] tracking-[0.35em] text-gold border border-gold/40 py-1.5 px-4 mb-[18px]">
-          {venue.time}
-        </div>
+        <div className={CHIP_CLASS}>{venue.time}</div>
         {venue.directionsUrl && (
-          <>
-            <br />
-            <a
-              className="inline-flex items-center gap-2 font-display text-[9px] tracking-[0.4em] uppercase text-gold-deep no-underline border-b border-gold-deep/30 pb-0.5 transition-colors duration-200 hover:text-gold hover:border-gold [&_svg]:w-3 [&_svg]:h-3 [&_svg]:fill-current"
-              href={venue.directionsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+          <div className="mt-6">
+            <a className={buttonClass('outline')} href={venue.directionsUrl} target="_blank" rel="noopener noreferrer">
               <DirectionsIcon />
               Cómo llegar
             </a>
-          </>
+          </div>
         )}
       </div>
     </div>

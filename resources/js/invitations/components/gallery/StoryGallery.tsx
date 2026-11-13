@@ -64,7 +64,7 @@ export function StoryGallery({
                 aria-hidden={!isActive}
                 className={[
                   'absolute left-1/2 top-5 sm:top-8 m-0 w-[min(265px,69vw)] h-[445px] sm:w-[365px] sm:h-[540px]',
-                  'border-[6px] sm:border-[9px] border-ivory outline outline-1 outline-gold/50',
+                  'rounded-2xl overflow-hidden border-[6px] sm:border-[9px] border-ivory outline outline-1 outline-gold/50',
                   'bg-off-white shadow-[0_23px_50px_color-mix(in_srgb,var(--dark-from)_18%,transparent)]',
                   'transition-[transform,opacity,filter] duration-[850ms] [transition-timing-function:cubic-bezier(0.19,1,0.22,1)]',
                   isNear ? 'cursor-pointer' : 'pointer-events-none',
