@@ -1,0 +1,77 @@
+/* Infantil espacial: a kids' party in outer space. Indigo night for the dark sections (hero, countdown, RSVP) and a
+   pale sky blue for the light ones, with rocket orange as the accent. --gold-deep is the indigo (titles) and --gold
+   the orange. Luckiest Guy takes the place of the script font, Fredoka that of Cinzel and Nunito that of Cormorant:
+   round, chunky letters for a children's party. The font utilities read these at use, so they apply here. */
+.theme-infantil-espacial {
+  --gold: #ec6a2c;
+  --gold-light: #ffc36b;
+  --gold-pale: #e3e9ff;
+  --gold-deep: #2c2f91;
+  --white: #fbfcff;
+  --cream: #f1f4ff;
+  --off-white: #e2e8fb;
+  --text-dark: #1b1d4f;
+
+  --text-body: #383c78;
+  --text-muted: #5e639e;
+  --dark-from: #0c0e30;
+  --dark-to: #2a2170;
+  --envelope-bg: radial-gradient(circle at 50% 35%, #3a2f8f 0%, #1b1a5a 55%, #0a0b26 100%);
+
+  --font-script: 'Luckiest Guy', 'Fredoka', cursive;
+  --font-display: 'Fredoka', ui-rounded, system-ui, sans-serif;
+  --font-body: 'Nunito', ui-rounded, system-ui, sans-serif;
+  font-family: var(--font-body);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+}
+
+/* Luckiest Guy is drawn tall and heavy: a little letter spacing keeps the titles readable. */
+.theme-infantil-espacial .font-script {
+  letter-spacing: 0.02em;
+}
+
+/* The night sections need a brighter orange for legible numbers, labels and form text. Their orange buttons take
+   indigo text (ivory is only text on the accent there) and a deeper orange on hover, since --gold-deep is the
+   indigo itself. */
+.theme-infantil-espacial [data-tone='dark'] {
+  --gold: #ffa45c;
+  --color-gold: var(--gold);
+  --color-ivory: var(--dark-from);
+  --color-gold-deep: #ff8a3d;
+}
+
+/* The rocket hovering over the hero, and the stars twinkling. */
+@keyframes espacialHover {
+  0%,
+  100% {
+    transform: translateY(0) rotate(8deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(6deg);
+  }
+}
+@keyframes espacialTwinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-infantil-espacial .espacial-motion {
+    animation: none !important;
+  }
+}

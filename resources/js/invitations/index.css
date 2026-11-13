@@ -30,6 +30,10 @@
   --font-dm-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
   --font-dm-serif: 'DM Serif Display', Georgia, serif;
   --font-space-grotesk: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-fredoka: 'Fredoka', ui-rounded, system-ui, sans-serif;
+  --font-nunito: 'Nunito', ui-rounded, system-ui, sans-serif;
+  --font-luckiest: 'Luckiest Guy', 'Fredoka', cursive;
+  --font-pacifico: 'Pacifico', cursive;
 }
 
 @keyframes fadeUp {

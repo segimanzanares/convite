@@ -63,6 +63,18 @@ class InvitationSeeder extends Seeder
                 'og_image' => '/invitations/cumpleanos-grafito/og-image.jpg',
             ],
             [
+                'template' => 'infantil-espacial',
+                'title' => 'Mateo cumple 7 — Misión espacial',
+                'description' => '¡Despegamos! Acompaña a Mateo a celebrar sus 7 años.',
+                'og_image' => '/invitations/infantil-espacial/og-image.jpg',
+            ],
+            [
+                'template' => 'infantil-unicornio',
+                'title' => 'Isabella cumple 6 — Una fiesta mágica',
+                'description' => 'Isabella cumple 6 y quiere celebrarlo contigo.',
+                'og_image' => '/invitations/infantil-unicornio/og-image.jpg',
+            ],
+            [
                 'template' => 'xv-jardin',
                 'title' => 'Sofía Valentina — Mis XV Años',
                 'description' => 'Una noche en el jardín encantado: acompáñame a celebrar mis XV años.',

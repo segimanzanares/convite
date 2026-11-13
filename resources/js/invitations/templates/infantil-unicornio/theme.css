@@ -1,0 +1,76 @@
+/* Infantil unicornio: a magical kids' party in pastels. Lilac and bubblegum pink on a blush-white page, with a
+   purple for the titles (--gold-deep) and an orchid accent (--gold); the dark sections (countdown, RSVP) are a deep
+   grape so the pastels keep their contrast. Pacifico takes the place of the script font, Fredoka that of Cinzel and
+   Nunito that of Cormorant. The font utilities read these at use, so they apply here. */
+.theme-infantil-unicornio {
+  --gold: #c2549f;
+  --gold-light: #f7b9de;
+  --gold-pale: #fbe7f4;
+  --gold-deep: #6f3a9c;
+  --white: #fffbfe;
+  --cream: #fdf2fa;
+  --off-white: #f5e2f1;
+  --text-dark: #43255a;
+
+  --text-body: #5b3d76;
+  --text-muted: #85679c;
+  --dark-from: #4a2470;
+  --dark-to: #8a4aa8;
+  --envelope-bg: radial-gradient(circle at 50% 35%, #f6c7e4 0%, #b98ad8 55%, #6f3a9c 100%);
+
+  --font-script: 'Pacifico', cursive;
+  --font-display: 'Fredoka', ui-rounded, system-ui, sans-serif;
+  --font-body: 'Nunito', ui-rounded, system-ui, sans-serif;
+  font-family: var(--font-body);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+}
+
+/* Pacifico's tall ascenders need more room between lines. */
+.theme-infantil-unicornio .font-script {
+  line-height: 1.4;
+}
+
+/* The grape sections need a lighter pink for legible numbers, labels and form text. Their pink buttons take grape
+   text (ivory is only text on the accent there) and a deeper pink on hover. */
+.theme-infantil-unicornio [data-tone='dark'] {
+  --gold: #ffc2e5;
+  --color-gold: var(--gold);
+  --color-ivory: var(--dark-from);
+  --color-gold-deep: #f59fd0;
+}
+
+/* The unicorn bobbing on its rainbow, and the bunting swaying. */
+@keyframes unicornioBob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@keyframes unicornioSway {
+  0%,
+  100% {
+    transform: rotate(-1.5deg);
+  }
+  50% {
+    transform: rotate(1.5deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-infantil-unicornio .unicornio-motion {
+    animation: none !important;
+  }
+}

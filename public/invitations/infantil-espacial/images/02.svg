@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0" stop-color="#2c2f91"/><stop offset="1" stop-color="#0c0e30"/></linearGradient></defs>
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g fill="#ffffff" fill-opacity="0.5">
+    <circle cx="400" cy="440" r="90"/>
+    <path d="M240 790 C244 620 314 545 400 545 C486 545 556 620 560 790 Z"/>
+  </g>
+  <g fill="#ffc36b">
+    <path d="M150 170 l10 24 26 2 -20 17 6 25 -22 -14 -22 14 6 -25 -20 -17 26 -2 z"/>
+    <path d="M640 230 l8 19 21 2 -16 13 5 20 -18 -11 -18 11 5 -20 -16 -13 21 -2 z"/>
+    <circle cx="660" cy="720" r="12"/><circle cx="150" cy="700" r="9"/>
+  </g>
+  <text x="400" y="200" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="5" fill="#ffffff" fill-opacity="0.95">TU FOTO AQUÍ · 02</text>
+</svg>
