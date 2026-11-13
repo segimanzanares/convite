@@ -1,8 +1,11 @@
 import type { CSSProperties } from 'react';
+import './motion.css';
 
 /*
  * The unicorn party's own illustrations, drawn flat in pastels: a front-facing unicorn, a rainbow, clouds, a
- * bunting garland and a star.
+ * bunting garland and a star. Their parts move on their own (motion.css): the unicorn twitches its ears, its curls
+ * bounce and its horn shines, the rainbow paints itself band by band (once its hero turns `is-playing`) and the
+ * pennants swing.
  */
 
 const MANE = ['#f7a8d4', '#c9a7f0', '#9fe0cf', '#ffe08a', '#a8d8f7'];
@@ -12,14 +15,18 @@ export function Unicorn({ className }: { className?: string }) {
     <svg viewBox="0 0 200 220" className={className} aria-hidden="true">
       <path d="M100 10 L86 78 L114 78 Z" fill="#ffd36e" />
       <path d="M92 50 L108 44 M90 62 L111 55 M88 73 L113 66" stroke="#f0b33f" strokeWidth="4" strokeLinecap="round" />
-      <path d="M52 52 L66 102 L88 84 Z" fill="#ffffff" stroke="#ead7f2" strokeWidth="3" strokeLinejoin="round" />
-      <path d="M58 64 L68 94 L80 84 Z" fill="#f7b9de" />
-      <path d="M148 52 L134 102 L112 84 Z" fill="#ffffff" stroke="#ead7f2" strokeWidth="3" strokeLinejoin="round" />
-      <path d="M142 64 L132 94 L120 84 Z" fill="#f7b9de" />
+      <g className="unicornio-ear-left">
+        <path d="M52 52 L66 102 L88 84 Z" fill="#ffffff" stroke="#ead7f2" strokeWidth="3" strokeLinejoin="round" />
+        <path d="M58 64 L68 94 L80 84 Z" fill="#f7b9de" />
+      </g>
+      <g className="unicornio-ear-right">
+        <path d="M148 52 L134 102 L112 84 Z" fill="#ffffff" stroke="#ead7f2" strokeWidth="3" strokeLinejoin="round" />
+        <path d="M142 64 L132 94 L120 84 Z" fill="#f7b9de" />
+      </g>
       {[
         [62, 96, 18], [48, 118, 17], [44, 142, 16], [50, 166, 15], [80, 84, 15], [120, 84, 14],
       ].map(([cx, cy, r], index) => (
-        <circle key={index} cx={cx} cy={cy} r={r} fill={MANE[index % MANE.length]} />
+        <circle key={index} className="unicornio-curl" cx={cx} cy={cy} r={r} fill={MANE[index % MANE.length]} style={{ animationDelay: `${index * -0.35}s` }} />
       ))}
       <ellipse cx="104" cy="138" rx="54" ry="58" fill="#ffffff" stroke="#ead7f2" strokeWidth="3" />
       <ellipse cx="104" cy="176" rx="38" ry="25" fill="#ffd9ec" />
@@ -28,13 +35,18 @@ export function Unicorn({ className }: { className?: string }) {
       <path d="M74 132 Q84 142 94 132" fill="none" stroke="#43255a" strokeWidth="4" strokeLinecap="round" />
       <path d="M114 132 Q124 142 134 132" fill="none" stroke="#43255a" strokeWidth="4" strokeLinecap="round" />
       <path d="M74 132 L69 127 M94 132 L99 127 M114 132 L109 127 M134 132 L139 127" stroke="#43255a" strokeWidth="3" strokeLinecap="round" />
-      <circle cx="72" cy="152" r="8" fill="#f7a8d4" opacity="0.6" />
-      <circle cx="136" cy="152" r="8" fill="#f7a8d4" opacity="0.6" />
+      <circle className="unicornio-blush" cx="72" cy="152" r="8" fill="#f7a8d4" opacity="0.6" />
+      <circle className="unicornio-blush" cx="136" cy="152" r="8" fill="#f7a8d4" opacity="0.6" />
       {[
         [70, 70, 14], [100, 80, 12], [58, 82, 11],
       ].map(([cx, cy, r], index) => (
-        <circle key={index} cx={cx} cy={cy} r={r} fill={MANE[(index + 2) % MANE.length]} />
+        <circle key={index} className="unicornio-curl" cx={cx} cy={cy} r={r} fill={MANE[(index + 2) % MANE.length]} style={{ animationDelay: `${-2.1 - index * 0.35}s` }} />
       ))}
+      <path
+        className="unicornio-shine"
+        d="M100 0 C 101 6, 102 7, 108 8 C 102 9, 101 10, 100 16 C 99 10, 98 9, 92 8 C 98 7, 99 6, 100 0 Z"
+        fill="#ffffff"
+      />
     </svg>
   );
 }
@@ -49,10 +61,13 @@ export function Rainbow({ className }: { className?: string }) {
         return (
           <path
             key={color}
+            className="unicornio-band"
+            pathLength={1}
             d={`M${200 - radius} 205 A${radius} ${radius} 0 0 1 ${200 + radius} 205`}
             fill="none"
             stroke={color}
             strokeWidth="18"
+            style={{ animationDelay: `${0.3 + index * 0.18}s` }}
           />
         );
       })}
@@ -79,13 +94,21 @@ const FLAGS = ['#f7a8d4', '#c9a7f0', '#9fe0cf', '#ffe08a', '#a8d8f7'];
 export function Bunting({ className }: { className?: string }) {
   const count = 14;
   return (
-    <svg viewBox="0 0 1400 90" preserveAspectRatio="none" className={className} aria-hidden="true">
+    <svg viewBox="0 0 1400 90" preserveAspectRatio="none" overflow="visible" className={className} aria-hidden="true">
       <path d="M0 8 Q700 70 1400 8" fill="none" stroke="#c2549f" strokeWidth="2.5" opacity="0.6" />
       {Array.from({ length: count }, (_, index) => {
         const x = 40 + index * (1320 / (count - 1));
         const t = x / 1400;
         const y = 8 + 4 * 62 * t * (1 - t) * 1.0;
-        return <path key={index} d={`M${x - 26} ${y} L${x + 26} ${y} L${x} ${y + 52} Z`} fill={FLAGS[index % FLAGS.length]} />;
+        return (
+          <path
+            key={index}
+            className="unicornio-flag"
+            d={`M${x - 26} ${y} L${x + 26} ${y} L${x} ${y + 52} Z`}
+            fill={FLAGS[index % FLAGS.length]}
+            style={{ animationDelay: `${index * -0.3}s` }}
+          />
+        );
       })}
     </svg>
   );

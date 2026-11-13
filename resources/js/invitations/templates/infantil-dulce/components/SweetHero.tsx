@@ -1,7 +1,7 @@
 import { ArrowDown, CalendarDays, Clock, MapPin } from 'lucide-react';
 import { buttonClass, capitalize, cn } from '../../../components/ui/styles';
 import { formatDate } from '../../../lib/eventContent';
-import { IceCream, Lollipop } from './Illustrations';
+import { Candy, IceCream, Lollipop } from './Illustrations';
 import { Drip, Sprinkles } from './ui';
 
 interface SweetHeroProps {
@@ -16,8 +16,8 @@ interface SweetHeroProps {
 const PILL_COLORS = ['bg-(--secondary) text-(--secondary-foreground)', 'bg-(--accent) text-(--accent-foreground)', 'bg-(--lilac) text-(--foreground)'];
 
 /**
- * The opening screen: strawberry frosting with sprinkles dripping into the page, a three-scoop ice cream, the name in
- * Pacifico, the age on a swirl lollipop and the date, time and place as candy-colored pills.
+ * The opening screen: strawberry frosting with sprinkles dripping into the page, floating candies, a three-scoop ice
+ * cream, the name in Pacifico, the age on a swirl lollipop and the date, time and place as candy-colored pills.
  */
 export function SweetHero({ firstName, age, eventDate, photoUrl, place }: SweetHeroProps) {
   const pills = [
@@ -30,6 +30,9 @@ export function SweetHero({ firstName, age, eventDate, photoUrl, place }: SweetH
     <header className="relative">
       <div className="relative overflow-hidden bg-(--frosting) px-5 pt-14 pb-10 sm:px-8 sm:pt-20">
         <Sprinkles />
+        <Candy className="dulce-candy absolute top-[6%] left-[4%] w-14 sm:w-20" />
+        <Candy color="#ffd85e" className="dulce-candy absolute top-[12%] right-[5%] w-12 [animation-delay:-1.8s] sm:w-16" />
+        <Candy color="#b9a2f0" className="dulce-candy absolute bottom-[8%] left-[44%] hidden w-14 [animation-delay:-3.2s] md:block" />
         <div className="relative mx-auto grid max-w-5xl items-center gap-8 md:grid-cols-[1.3fr_1fr]">
           <div className="text-center md:text-left">
             <span className="inline-block rounded-full bg-(--card) px-4 py-1.5 font-fredoka text-base font-semibold text-(--primary) shadow-sm animate-[fadeUp_0.7s_ease_both]">

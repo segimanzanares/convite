@@ -118,7 +118,7 @@ export function ProgramSection({ items }: { items: ProgramItem[] }) {
           {items.map((item, index) => (
             <li key={`${item.time}-${item.title}`} className="flex w-full flex-col items-center">
               {index > 0 && (
-                <div className={cn('flex flex-col gap-1 py-2 text-(--primary)', index % 2 ? 'translate-x-3' : '-translate-x-3')} aria-hidden="true">
+                <div className={cn('dino-steps flex flex-col gap-1 py-2 text-(--primary)', index % 2 ? 'translate-x-3' : '-translate-x-3')} aria-hidden="true">
                   <Footprint className="size-6 -rotate-12" />
                   <Footprint className="size-6 translate-x-5 rotate-12" />
                 </div>

@@ -1,0 +1,181 @@
+/* The unicorn illustrations' own motion (Illustrations.tsx), plus the hero's twinkling stars and drifting clouds. */
+.theme-infantil-unicornio :is(.unicornio-ear-left, .unicornio-ear-right, .unicornio-curl, .unicornio-blush, .unicornio-shine, .unicornio-flag) {
+  transform-box: fill-box;
+}
+
+.theme-infantil-unicornio .unicornio-ear-left {
+  transform-origin: 80% 90%;
+  animation: unicornioEarLeft 5s ease-in-out infinite;
+}
+
+.theme-infantil-unicornio .unicornio-ear-right {
+  transform-origin: 20% 90%;
+  animation: unicornioEarRight 5s ease-in-out 0.15s infinite;
+}
+
+.theme-infantil-unicornio .unicornio-curl {
+  transform-origin: center;
+  animation: unicornioCurl 2.1s ease-in-out infinite;
+}
+
+.theme-infantil-unicornio .unicornio-blush {
+  transform-origin: center;
+  animation: unicornioBlush 3s ease-in-out infinite;
+}
+
+.theme-infantil-unicornio .unicornio-shine {
+  transform-origin: center;
+  animation: unicornioShine 2.6s ease-in-out infinite;
+}
+
+.theme-infantil-unicornio .unicornio-flag {
+  transform-origin: 50% 0%;
+  animation: unicornioFlag 2.8s ease-in-out infinite;
+}
+
+/* The rainbow's bands wait unpainted until the hero turns .is-playing, then paint themselves from the left. */
+.theme-infantil-unicornio .unicornio-band {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: unicornioPaint 1.3s ease-out both paused;
+}
+
+.theme-infantil-unicornio .is-playing .unicornio-band {
+  animation-play-state: running;
+}
+
+.theme-infantil-unicornio .unicornio-twinkle {
+  animation: unicornioTwinkle 2.6s ease-in-out infinite;
+}
+
+.theme-infantil-unicornio .unicornio-drift {
+  animation: unicornioDrift 6s ease-in-out infinite alternate;
+}
+
+.theme-infantil-unicornio .unicornio-wobble {
+  animation: unicornioWobble 4s ease-in-out infinite;
+}
+
+@keyframes unicornioEarLeft {
+  0%,
+  80%,
+  100% {
+    transform: rotate(0);
+  }
+  85% {
+    transform: rotate(-12deg);
+  }
+  90% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes unicornioEarRight {
+  0%,
+  80%,
+  100% {
+    transform: rotate(0);
+  }
+  85% {
+    transform: rotate(12deg);
+  }
+  90% {
+    transform: rotate(-4deg);
+  }
+}
+
+@keyframes unicornioCurl {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes unicornioBlush {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.85;
+  }
+}
+
+@keyframes unicornioShine {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.3) rotate(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(90deg);
+  }
+}
+
+@keyframes unicornioFlag {
+  0%,
+  100% {
+    transform: rotate(-7deg);
+  }
+  50% {
+    transform: rotate(7deg);
+  }
+}
+
+@keyframes unicornioPaint {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes unicornioTwinkle {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.8) rotate(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15) rotate(18deg);
+  }
+}
+
+@keyframes unicornioDrift {
+  from {
+    transform: translateX(-10px);
+  }
+  to {
+    transform: translateX(12px);
+  }
+}
+
+@keyframes unicornioWobble {
+  0%,
+  100% {
+    transform: rotate(-6deg);
+  }
+  50% {
+    transform: rotate(6deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-infantil-unicornio :is(.unicornio-ear-left, .unicornio-ear-right, .unicornio-curl, .unicornio-blush, .unicornio-flag, .unicornio-twinkle, .unicornio-drift, .unicornio-wobble) {
+    animation: none !important;
+  }
+
+  .theme-infantil-unicornio .unicornio-band {
+    stroke-dashoffset: 0;
+    animation: none !important;
+  }
+
+  .theme-infantil-unicornio .unicornio-shine {
+    display: none;
+  }
+}

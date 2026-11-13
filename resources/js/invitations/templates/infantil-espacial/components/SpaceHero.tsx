@@ -1,5 +1,5 @@
 import type { CelebrantInfo } from '../../../types/birthday';
-import { Moon, RingedPlanet, Rocket, Sparkle } from './Illustrations';
+import { Astronaut, Moon, RingedPlanet, Rocket, Sparkle } from './Illustrations';
 
 /** Fixed star positions (left %, top %, size px), so the sky renders the same every time. */
 const STARS = [
@@ -18,8 +18,9 @@ interface SpaceHeroProps {
 }
 
 /**
- * The opening screen: a starry night with a ringed planet, the moon and a rocket taking off, the name in big chunky
- * letters, the age on an orange planet and a moon surface leading into the next section.
+ * The opening screen: a starry night with shooting stars, a ringed planet, the moon, a floating astronaut and a rocket
+ * taking off, the name in big chunky letters, the age on an orange planet and a moon surface leading into the next
+ * section.
  */
 export function SpaceHero({ celebrant, photoUrl }: SpaceHeroProps) {
   return (
@@ -42,10 +43,14 @@ export function SpaceHero({ celebrant, photoUrl }: SpaceHeroProps) {
             style={{ left: `${left}%`, top: `${top}%`, width: size, height: size, animationDelay: `${index * -0.8}s` }}
           />
         ))}
+        <span className="espacial-shooting top-[12%] left-[18%]" />
+        <span className="espacial-shooting top-[34%] left-[56%] [animation-delay:3.5s]" />
+        <span className="espacial-shooting top-[6%] left-[64%] [animation-delay:6s]" />
       </div>
 
       <RingedPlanet className="absolute top-[8%] -left-6 w-32 opacity-90 sm:left-[6%] sm:w-48" />
-      <Moon className="absolute top-[6%] -right-4 w-20 sm:right-[8%] sm:w-28" />
+      <Moon className="espacial-glow absolute top-[6%] -right-4 w-20 sm:right-[8%] sm:w-28" />
+      <Astronaut className="espacial-drift absolute bottom-[22%] left-[3%] w-14 sm:bottom-[26%] sm:left-[9%] sm:w-24" />
       <Rocket className="espacial-motion absolute right-[4%] bottom-28 w-16 animate-[espacialHover_4s_ease-in-out_infinite] sm:right-[12%] sm:bottom-36 sm:w-24" />
 
       <div className="relative">

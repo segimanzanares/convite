@@ -1,7 +1,7 @@
 import { ArrowDown, CalendarDays, Clock, MapPin } from 'lucide-react';
 import { buttonClass, capitalize, cn } from '../../../components/ui/styles';
 import { formatDate } from '../../../lib/eventContent';
-import { Dino, Fern, Hills, Volcano } from './Illustrations';
+import { Dino, Fern, Hills, Pterodactyl, Volcano } from './Illustrations';
 import { CHUNKY, CHUNKY_SM } from './ui';
 
 interface DinoHeroProps {
@@ -14,8 +14,8 @@ interface DinoHeroProps {
 }
 
 /**
- * The opening screen: a jungle with a smoking volcano, ferns and a friendly dinosaur on green hills, the name in big
- * extra bold letters, the age on an orange sticker and the date, time and place as chunky chips.
+ * The opening screen: a jungle with a smoking volcano, ferns, a pterodactyl and a friendly dinosaur on green hills,
+ * the name in big extra bold letters, the age on an orange sticker and the date, time and place as chunky chips.
  */
 export function DinoHero({ firstName, age, eventDate, photoUrl, place }: DinoHeroProps) {
   const chips = [
@@ -26,6 +26,7 @@ export function DinoHero({ firstName, age, eventDate, photoUrl, place }: DinoHer
 
   return (
     <header className="relative overflow-hidden bg-[linear-gradient(180deg,var(--sky)_0%,var(--background)_75%)] px-5 pt-14 pb-48 sm:px-8 sm:pt-20 sm:pb-56">
+      <Pterodactyl className="dino-flight absolute top-[7%] left-0 w-16 sm:top-[9%] sm:w-24" />
       <Volcano className="absolute bottom-20 -left-10 w-48 sm:bottom-24 sm:left-[3%] sm:w-56" />
       <Fern className="absolute right-[38%] bottom-24 hidden w-14 sm:block" />
 

@@ -27,6 +27,7 @@ const SPARKS = ['♥', '★', '✿', '✦'];
 export function InvitationPage({ invitation }: { invitation: BirthdayContent }) {
   const musicPlayerRef = useRef<MusicPlayerHandle>(null);
   const [autoScrollActive, setAutoScrollActive] = useState(false);
+  const [envelopeOpen, setEnvelopeOpen] = useState(false);
   const celebrant = toCelebrant(invitation);
   const { firstName, age } = celebrant;
 
@@ -42,12 +43,15 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         monogram={initials(...celebrant.name.split(/\s+/).slice(0, 2))}
         title={`${firstName} · ${age} años`}
         ariaName={celebrant.name}
-        onOpen={() => musicPlayerRef.current?.play()}
+        onOpen={() => {
+          setEnvelopeOpen(true);
+          musicPlayerRef.current?.play();
+        }}
         onOpened={() => setAutoScrollActive(true)}
       />
       <MusicPlayer ref={musicPlayerRef} src={celebrant.musicFile} position="bottom-center" />
       <FloatingPetals symbols={SPARKS} />
-      <MagicHero celebrant={celebrant} photoUrl={invitation.cover} />
+      <MagicHero celebrant={celebrant} photoUrl={invitation.cover} play={envelopeOpen} />
       <InvitationMessage
         eyebrow="Una invitación mágica"
         title="¡Celebremos con magia!"

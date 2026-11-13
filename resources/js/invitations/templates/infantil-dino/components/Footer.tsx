@@ -13,7 +13,7 @@ export function Footer({ name, dateLabel, tagline }: FooterProps) {
     <footer className="relative bg-[#5cb85c] pb-28 text-center">
       <Hills className="relative -mb-px h-24 w-full bg-(--accent) sm:h-32" />
       <div className="px-5 pt-6">
-        <div className="flex justify-center gap-3 text-(--foreground)/35" aria-hidden="true">
+        <div className="dino-steps flex justify-center gap-3 text-(--foreground)/35" aria-hidden="true">
           <Footprint className="size-7 -rotate-12" />
           <Footprint className="size-7 translate-y-3 rotate-12" />
           <Footprint className="size-7 -rotate-12" />

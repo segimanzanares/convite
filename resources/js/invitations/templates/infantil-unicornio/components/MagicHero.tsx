@@ -10,21 +10,23 @@ interface MagicHeroProps {
   celebrant: CelebrantInfo;
   /** The admin's cover photo, shown in a round frame instead of the unicorn when there is one. */
   photoUrl: string | null;
+  /** Turns true when the envelope opens, so the rainbow paints itself while the guest watches. */
+  play?: boolean;
 }
 
 /**
  * The opening screen: a pastel sky with a bunting garland, a unicorn on a rainbow, stars and clouds, the name in
  * Pacifico and the age on a big star.
  */
-export function MagicHero({ celebrant, photoUrl }: MagicHeroProps) {
+export function MagicHero({ celebrant, photoUrl, play = false }: MagicHeroProps) {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[linear-gradient(180deg,#efe4ff_0%,#fde7f3_55%,#fff1e6_100%)] px-6 pt-28 pb-40 text-center flex flex-col items-center justify-center">
+    <section className={`${play ? 'is-playing ' : ''}relative min-h-screen overflow-hidden bg-[linear-gradient(180deg,#efe4ff_0%,#fde7f3_55%,#fff1e6_100%)] px-6 pt-28 pb-40 text-center flex flex-col items-center justify-center`}>
       <Bunting className="unicornio-motion absolute inset-x-0 top-0 h-14 w-full origin-top animate-[unicornioSway_5s_ease-in-out_infinite] sm:h-20" />
       {STARS.map(([left, top, size], index) => (
         <Star
           key={index}
-          className={index % 2 ? 'absolute text-[#ffd36e]' : 'absolute text-[#f7b9de]'}
-          style={{ left: `${left}%`, top: `${top}%`, width: size, height: size }}
+          className={index % 2 ? 'unicornio-twinkle absolute text-[#ffd36e]' : 'unicornio-twinkle absolute text-[#f7b9de]'}
+          style={{ left: `${left}%`, top: `${top}%`, width: size, height: size, animationDelay: `${index * -0.4}s` }}
         />
       ))}
 
@@ -40,8 +42,8 @@ export function MagicHero({ celebrant, photoUrl }: MagicHeroProps) {
               <Unicorn className="unicornio-motion w-[46%] animate-[unicornioBob_3.5s_ease-in-out_infinite] drop-shadow-[0_8px_12px_rgba(111,58,156,0.18)]" />
             )}
           </div>
-          <Cloud className="absolute -bottom-3 -left-6 w-24 sm:w-28" />
-          <Cloud className="absolute -right-6 -bottom-4 w-28 sm:w-32" />
+          <Cloud className="unicornio-drift absolute -bottom-3 -left-6 w-24 sm:w-28" />
+          <Cloud className="unicornio-drift absolute -right-6 -bottom-4 w-28 [animation-delay:-3s] sm:w-32" />
         </div>
 
         <p className="mt-8 font-display text-[clamp(11px,1.6vw,14px)] font-semibold tracking-[0.35em] text-gold uppercase opacity-0 animate-[fadeUp_1s_0.4s_forwards]">
@@ -52,7 +54,7 @@ export function MagicHero({ celebrant, photoUrl }: MagicHeroProps) {
         </h1>
         {celebrant.age > 0 && (
           <div className="relative mx-auto mt-4 size-[clamp(120px,16vw,150px)] opacity-0 animate-[fadeUp_1.2s_0.8s_forwards]">
-            <Star className="absolute inset-0 size-full text-[#ffd36e] drop-shadow-[0_6px_10px_rgba(240,179,63,0.35)]" />
+            <Star className="unicornio-wobble absolute inset-0 size-full text-[#ffd36e] drop-shadow-[0_6px_10px_rgba(240,179,63,0.35)]" />
             <span className="absolute inset-0 flex flex-col items-center justify-center pt-3">
               <span className="font-display text-[11px] font-semibold tracking-[0.2em] text-gold-deep uppercase">Cumple</span>
               <span className="font-display text-[clamp(38px,5vw,48px)] leading-none font-bold text-gold-deep">{celebrant.age}</span>

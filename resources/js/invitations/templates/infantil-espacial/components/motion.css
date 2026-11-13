@@ -1,0 +1,196 @@
+/* The space illustrations' own motion (Illustrations.tsx), plus the shooting stars of the hero's sky. */
+.theme-infantil-espacial :is(.espacial-flame, .espacial-puff, .espacial-glint, .espacial-tilt, .espacial-wave) {
+  transform-box: fill-box;
+}
+
+.theme-infantil-espacial .espacial-flame {
+  transform-origin: 50% 0%;
+  animation: espacialFlicker 0.35s ease-in-out infinite alternate;
+}
+
+.theme-infantil-espacial .espacial-flame-core {
+  animation-duration: 0.25s;
+}
+
+.theme-infantil-espacial .espacial-puff {
+  transform-origin: center;
+  opacity: 0;
+  animation: espacialPuff 1.5s ease-out infinite;
+}
+
+.theme-infantil-espacial .espacial-glint {
+  transform-origin: center;
+  animation: espacialGlint 3s ease-in-out infinite;
+}
+
+.theme-infantil-espacial .espacial-tilt {
+  transform-origin: center;
+  animation: espacialTilt 9s ease-in-out infinite;
+}
+
+/* The moonlet goes around the ring: in front of the planet on the lower half, hidden behind it on the upper one. */
+.theme-infantil-espacial .espacial-orbit {
+  animation: espacialOrbit 7s linear infinite;
+}
+
+.theme-infantil-espacial .espacial-wave {
+  transform-origin: 0% 100%;
+  animation: espacialWave 2.4s ease-in-out infinite;
+}
+
+.theme-infantil-espacial .espacial-drift {
+  animation: espacialDrift 14s ease-in-out infinite;
+}
+
+.theme-infantil-espacial .espacial-glow {
+  animation: espacialGlow 4s ease-in-out infinite;
+}
+
+.theme-infantil-espacial .espacial-shooting {
+  position: absolute;
+  width: 110px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(to right, transparent, #ffffff);
+  opacity: 0;
+  rotate: 25deg;
+  animation: espacialShoot 8s ease-in infinite;
+}
+
+@keyframes espacialFlicker {
+  from {
+    transform: scaleY(1) scaleX(1);
+  }
+  to {
+    transform: scaleY(1.18) scaleX(0.9);
+  }
+}
+
+@keyframes espacialPuff {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.4);
+  }
+  30% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(26px) scale(1.4);
+  }
+}
+
+@keyframes espacialGlint {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.3);
+  }
+}
+
+@keyframes espacialTilt {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes espacialOrbit {
+  0% {
+    opacity: 1;
+    transform: translate(76px, 0);
+  }
+  25% {
+    transform: translate(0, 16px);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-76px, 0);
+  }
+  51%,
+  99% {
+    opacity: 0;
+  }
+  75% {
+    transform: translate(0, -16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(76px, 0);
+  }
+}
+
+@keyframes espacialWave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(-18deg);
+  }
+  50% {
+    transform: rotate(8deg);
+  }
+  75% {
+    transform: rotate(-14deg);
+  }
+}
+
+@keyframes espacialDrift {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(-8deg);
+  }
+  33% {
+    transform: translate(14px, -18px) rotate(6deg);
+  }
+  66% {
+    transform: translate(-10px, -6px) rotate(-2deg);
+  }
+}
+
+@keyframes espacialGlow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 6px rgba(201, 209, 255, 0.35));
+  }
+  50% {
+    filter: drop-shadow(0 0 22px rgba(201, 209, 255, 0.7));
+  }
+}
+
+/* A quick streak, then a long pause until the next one. */
+@keyframes espacialShoot {
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  3% {
+    opacity: 1;
+  }
+  12% {
+    opacity: 0;
+    transform: translateX(260px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(260px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-infantil-espacial :is(.espacial-flame, .espacial-glint, .espacial-tilt, .espacial-wave, .espacial-drift, .espacial-glow, .espacial-orbit) {
+    animation: none !important;
+  }
+
+  .theme-infantil-espacial :is(.espacial-puff, .espacial-shooting) {
+    display: none;
+  }
+}

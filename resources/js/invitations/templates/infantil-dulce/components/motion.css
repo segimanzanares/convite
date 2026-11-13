@@ -1,0 +1,111 @@
+/* The candy illustrations' own motion (Illustrations.tsx). */
+.theme-infantil-dulce :is(.dulce-cherry, .dulce-sprinkle, .dulce-drip, .dulce-flame) {
+  transform-box: fill-box;
+}
+
+.theme-infantil-dulce .dulce-cherry {
+  transform-origin: 50% 100%;
+  animation: dulceCherry 2.2s ease-in-out infinite;
+}
+
+.theme-infantil-dulce .dulce-sprinkle {
+  transform-origin: center;
+  animation: dulceWiggle 1.8s ease-in-out infinite;
+}
+
+.theme-infantil-dulce .dulce-sprinkle:nth-child(2n) {
+  animation-delay: -0.6s;
+}
+
+.theme-infantil-dulce .dulce-sprinkle:nth-child(3n) {
+  animation-delay: -1.2s;
+}
+
+.theme-infantil-dulce .dulce-drip {
+  transform-origin: 50% 0%;
+  animation: dulceDrip 5s ease-in-out infinite;
+}
+
+.theme-infantil-dulce .dulce-flame {
+  transform-origin: 50% 100%;
+  animation: dulceFlicker 0.9s ease-in-out infinite alternate;
+}
+
+/* The pinwheel turns around the lollipop's center, (70, 70) in its drawing. */
+.theme-infantil-dulce .dulce-spin {
+  transform-box: view-box;
+  transform-origin: 70px 70px;
+  animation: dulceSpin 9s linear infinite;
+}
+
+.theme-infantil-dulce .dulce-candy {
+  animation: dulceCandy 5s ease-in-out infinite;
+}
+
+@keyframes dulceCherry {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  70% {
+    transform: translateY(0) scale(1.15, 0.85);
+  }
+  80% {
+    transform: translateY(-12px) scale(0.92, 1.08);
+  }
+  90% {
+    transform: translateY(0) scale(1.06, 0.94);
+  }
+}
+
+@keyframes dulceWiggle {
+  0%,
+  100% {
+    transform: rotate(0) scale(1);
+  }
+  50% {
+    transform: rotate(25deg) scale(1.2);
+  }
+}
+
+@keyframes dulceDrip {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes dulceFlicker {
+  from {
+    transform: scale(1, 1) rotate(-3deg);
+  }
+  to {
+    transform: scale(0.85, 1.12) rotate(3deg);
+  }
+}
+
+@keyframes dulceSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dulceCandy {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-12deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(12deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-infantil-dulce :is(.dulce-cherry, .dulce-sprinkle, .dulce-drip, .dulce-flame, .dulce-spin, .dulce-candy) {
+    animation: none !important;
+  }
+}

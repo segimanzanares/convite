@@ -1,0 +1,231 @@
+/* The jurassic illustrations' own motion (Illustrations.tsx). Each part turns around the point it hangs from:
+   the tail from the hips, the head from the bottom of the neck, the ferns from the ground. */
+.theme-infantil-dino :is(.dino-tail, .dino-head, .dino-blink, .dino-peek, .dino-fern, .dino-smoke, .dino-ember, .dino-lava, .dino-wing-left, .dino-wing-right) {
+  transform-box: fill-box;
+}
+
+.theme-infantil-dino .dino-tail {
+  transform-origin: 95% 55%;
+  animation: dinoTailWag 1.8s ease-in-out infinite;
+}
+
+.theme-infantil-dino .dino-head {
+  transform-origin: 25% 95%;
+  animation: dinoNod 4s ease-in-out infinite;
+}
+
+.theme-infantil-dino .dino-blink {
+  transform-origin: center;
+  animation: dinoBlink 4.5s ease-in-out infinite;
+}
+
+.theme-infantil-dino .dino-peek {
+  animation: dinoPeek 2.4s ease-in-out 0.6s infinite;
+}
+
+.theme-infantil-dino .dino-fern {
+  transform-origin: 50% 100%;
+  animation: dinoFernSway 3.6s ease-in-out infinite;
+}
+
+.theme-infantil-dino .dino-smoke {
+  transform-origin: center;
+  animation: dinoSmoke 4.2s ease-out infinite;
+}
+
+.theme-infantil-dino .dino-ember {
+  transform-origin: center;
+  opacity: 0;
+  animation: dinoEmber 3.3s ease-out infinite;
+}
+
+.theme-infantil-dino .dino-lava {
+  animation: dinoLavaGlow 1.6s ease-in-out infinite alternate;
+}
+
+.theme-infantil-dino .dino-wing-left {
+  transform-origin: 100% 60%;
+  animation: dinoFlapLeft 0.7s ease-in-out infinite;
+}
+
+.theme-infantil-dino .dino-wing-right {
+  transform-origin: 0% 60%;
+  animation: dinoFlapRight 0.7s ease-in-out infinite;
+}
+
+.theme-infantil-dino .dino-flight {
+  animation: dinoFlight 18s linear infinite;
+}
+
+/* Footprints that light up one after another, as if someone were walking past. */
+.theme-infantil-dino .dino-steps > * {
+  animation: dinoStep 2.4s ease-in-out infinite;
+}
+
+.theme-infantil-dino .dino-steps > :nth-child(2) {
+  animation-delay: 0.6s;
+}
+
+.theme-infantil-dino .dino-steps > :nth-child(3) {
+  animation-delay: 1.2s;
+}
+
+@keyframes dinoTailWag {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(-7deg);
+  }
+}
+
+@keyframes dinoNod {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  30% {
+    transform: rotate(-5deg);
+  }
+  60% {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes dinoBlink {
+  0%,
+  90%,
+  100% {
+    transform: scaleY(1);
+  }
+  94% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes dinoPeek {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes dinoFernSway {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes dinoSmoke {
+  0% {
+    opacity: 0;
+    transform: translate(0, 26px) scale(0.5);
+  }
+  25% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(10px, -22px) scale(1.4);
+  }
+}
+
+@keyframes dinoEmber {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.6);
+  }
+  12% {
+    opacity: 1;
+  }
+  45% {
+    transform: translate(calc(var(--drift) * 0.6), -46px) scale(1);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--drift), 6px) scale(0.7);
+  }
+}
+
+@keyframes dinoLavaGlow {
+  from {
+    fill: #ff7a3d;
+  }
+  to {
+    fill: #ffb347;
+  }
+}
+
+@keyframes dinoFlapLeft {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(-28deg);
+  }
+}
+
+@keyframes dinoFlapRight {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(28deg);
+  }
+}
+
+/* Across the sky with a gentle rise and dip, then off the edge until the next pass. */
+@keyframes dinoFlight {
+  0% {
+    transform: translate(-20vw, 0);
+  }
+  25% {
+    transform: translate(15vw, -24px);
+  }
+  50% {
+    transform: translate(50vw, 10px);
+  }
+  75% {
+    transform: translate(85vw, -16px);
+  }
+  100% {
+    transform: translate(125vw, 0);
+  }
+}
+
+@keyframes dinoStep {
+  0%,
+  100% {
+    opacity: 0.35;
+    scale: 0.9;
+  }
+  25% {
+    opacity: 1;
+    scale: 1.08;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-infantil-dino :is(.dino-tail, .dino-head, .dino-blink, .dino-peek, .dino-fern, .dino-smoke, .dino-lava, .dino-wing-left, .dino-wing-right, .dino-flight),
+  .theme-infantil-dino .dino-steps > * {
+    animation: none !important;
+  }
+
+  .theme-infantil-dino .dino-ember,
+  .theme-infantil-dino .dino-flight {
+    display: none;
+  }
+}
