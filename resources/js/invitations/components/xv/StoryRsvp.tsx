@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useState, type FormEvent, type ReactNode } from 'react';
 import { Reveal } from '../shared/Reveal';
 import { GardenVine } from './GardenVine';
 import { downloadEventCalendar, type CalendarOccasion } from '../../utils/calendar';
@@ -17,6 +17,8 @@ interface StoryRsvpProps {
   /** Enables the "add to calendar" button (together with `venues`) after confirming. */
   calendar?: CalendarOccasion;
   venues?: Venue[];
+  /** Drawn behind the card in place of the two garden vines. */
+  ornament?: ReactNode;
 }
 
 /** "521234567890" → "123 456 7890" (last ten digits, Mexican grouping). */
@@ -232,6 +234,7 @@ export function StoryRsvp({
   maxGuests = 4,
   calendar,
   venues,
+  ornament,
 }: StoryRsvpProps) {
   const online = useOnlineRsvp();
   const [name, setName] = useState('');
@@ -256,8 +259,12 @@ export function StoryRsvp({
         className="absolute inset-0 -z-10 pointer-events-none bg-[radial-gradient(ellipse_at_50%_42%,rgba(255,255,255,0.7)_0%,transparent_65%),repeating-linear-gradient(90deg,transparent_0_67px,color-mix(in_srgb,var(--color-gold-deep)_5%,transparent)_68px_69px)]"
         aria-hidden="true"
       />
-      <GardenVine className="absolute -z-10 -top-4 -left-10 w-[clamp(200px,26vw,360px)] -rotate-6 opacity-60" />
-      <GardenVine className="absolute -z-10 -bottom-10 -right-10 w-[clamp(180px,24vw,330px)] rotate-180 opacity-50" />
+      {ornament ?? (
+        <>
+          <GardenVine className="absolute -z-10 -top-4 -left-10 w-[clamp(200px,26vw,360px)] -rotate-6 opacity-60" />
+          <GardenVine className="absolute -z-10 -bottom-10 -right-10 w-[clamp(180px,24vw,330px)] rotate-180 opacity-50" />
+        </>
+      )}
 
       <Reveal className="max-w-[760px] mx-auto">
         <div className="relative overflow-hidden text-center px-[clamp(26px,8vw,96px)] pt-[74px] pb-[66px] border border-gold/70 outline outline-1 outline-gold/45 outline-offset-[7px] bg-[linear-gradient(151deg,var(--color-ivory)_0%,var(--color-cream)_55%,var(--color-cream)_100%)] shadow-[0_23px_65px_color-mix(in_srgb,var(--dark-from)_15%,transparent),0_6px_18px_color-mix(in_srgb,var(--dark-from)_8%,transparent)]">
