@@ -1,0 +1,16 @@
+{
+  "kind": "xv",
+  "label": "XV años · noche disco",
+  "sections": [
+    "venues",
+    "program",
+    "gallery",
+    "dress_code",
+    "gifts"
+  ],
+  "fonts": [
+    "Unbounded:wght@400;600;800",
+    "Outfit:wght@300;400;500;600",
+    "Cinzel:wght@300;400;500"
+  ]
+}

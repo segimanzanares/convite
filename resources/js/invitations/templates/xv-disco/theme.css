@@ -1,0 +1,244 @@
+/* XV noche disco: shadcn/ui's dark theme on a midnight-violet dance floor, with a hot pink primary, an electric cyan
+   accent and a touch of gold. Unbounded for the name, the numbers and the titles, Outfit for the text. Neon glows,
+   spotlights and a mirror ball do the rest. The shared shadcn/ui look-alikes (components/ui) read these tokens. */
+.theme-xv-disco {
+  --radius: 0.875rem;
+  --background: oklch(0.15 0.03 300);
+  --foreground: oklch(0.97 0.012 320);
+  --card: oklch(0.2 0.04 300);
+  --card-foreground: oklch(0.97 0.012 320);
+  --primary: oklch(0.72 0.25 345);
+  --primary-foreground: oklch(0.16 0.03 300);
+  --secondary: oklch(0.25 0.05 300);
+  --secondary-foreground: oklch(0.97 0.012 320);
+  --muted: oklch(0.22 0.04 300);
+  --muted-foreground: oklch(0.75 0.04 310);
+  --accent: oklch(0.3 0.07 215);
+  --accent-foreground: oklch(0.88 0.13 200);
+  --border: oklch(1 0 0 / 11%);
+  --input: oklch(1 0 0 / 18%);
+  --ring: oklch(0.72 0.25 345);
+  --destructive: oklch(0.704 0.191 22.216);
+  --surface: oklch(0.18 0.035 300);
+
+  --neon-pink: oklch(0.72 0.27 345);
+  --neon-cyan: oklch(0.86 0.15 200);
+  --neon-violet: oklch(0.66 0.23 300);
+  --neon-gold: oklch(0.88 0.14 90);
+
+  /* The shared components this template still uses (the music button, the lightbox, the preview banner) read the
+     legacy tokens: map them to the dance floor and the neon pink. */
+  --gold: oklch(0.72 0.25 345);
+  --gold-light: oklch(0.86 0.15 200);
+  --gold-pale: oklch(0.25 0.05 300);
+  --gold-deep: oklch(0.62 0.24 345);
+  --white: oklch(0.2 0.04 300);
+  --cream: oklch(0.18 0.035 300);
+  --off-white: oklch(0.22 0.04 300);
+  --text-dark: oklch(0.97 0.012 320);
+  --text-body: oklch(0.86 0.02 315);
+  --text-muted: oklch(0.75 0.04 310);
+  --dark-from: oklch(0.15 0.03 300);
+  --dark-to: oklch(0.22 0.06 300);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+
+  background: var(--background);
+  color: var(--foreground);
+  color-scheme: dark;
+  font-family: var(--font-outfit);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Text painted pink to cyan, and the neon glow of the titles and the numbers. */
+.theme-xv-disco .disco-gradient-text {
+  background: linear-gradient(100deg, var(--neon-pink) 15%, var(--neon-violet) 50%, var(--neon-cyan) 85%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.theme-xv-disco .disco-glow {
+  text-shadow:
+    0 0 6px color-mix(in oklch, var(--neon-pink) 70%, transparent),
+    0 0 22px color-mix(in oklch, var(--neon-pink) 45%, transparent);
+}
+
+.theme-xv-disco .disco-glow-cyan {
+  text-shadow:
+    0 0 6px color-mix(in oklch, var(--neon-cyan) 70%, transparent),
+    0 0 22px color-mix(in oklch, var(--neon-cyan) 40%, transparent);
+}
+
+/* A card with a neon border: pink to cyan, glowing softly. */
+.theme-xv-disco .disco-neon-frame {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--card), var(--card)) padding-box,
+    linear-gradient(135deg, var(--neon-pink), var(--neon-violet), var(--neon-cyan)) border-box;
+  box-shadow:
+    0 0 24px -6px color-mix(in oklch, var(--neon-pink) 55%, transparent),
+    0 0 40px -12px color-mix(in oklch, var(--neon-cyan) 45%, transparent);
+}
+
+/* The dance floor under the hero and the countdown: a grid of light fading into the dark. */
+.theme-xv-disco .disco-floor {
+  background-image:
+    linear-gradient(color-mix(in oklch, var(--neon-violet) 22%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--neon-violet) 22%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to top, black, transparent 70%);
+  transform: perspective(500px) rotateX(55deg);
+  transform-origin: bottom;
+}
+
+/* Spotlights: cones of light that sweep from the top corners. */
+.theme-xv-disco .disco-spotlight {
+  position: absolute;
+  top: -10%;
+  width: 46vmax;
+  height: 120%;
+  clip-path: polygon(48% 0, 52% 0, 100% 100%, 0 100%);
+  opacity: 0.22;
+  filter: blur(6px);
+  transform-origin: 50% 0;
+  animation: discoSweep var(--every, 7s) ease-in-out infinite alternate;
+}
+
+@keyframes discoSweep {
+  from {
+    transform: rotate(var(--from, -25deg));
+  }
+  to {
+    transform: rotate(var(--to, 20deg));
+  }
+}
+
+/* The mirror ball: its tiles slide past as it turns, its rays rotate and its glints twinkle. */
+.theme-xv-disco .disco-tiles {
+  animation: discoTurn 3.2s linear infinite;
+}
+
+.theme-xv-disco .disco-rays {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: discoSpin 18s linear infinite;
+}
+
+@keyframes discoTurn {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-36px);
+  }
+}
+
+@keyframes discoSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* The bars of the equalizer, each one bouncing at its own pace. */
+.theme-xv-disco .disco-bar {
+  transform-origin: bottom;
+  animation: discoBounce var(--every, 1s) ease-in-out infinite alternate;
+  animation-delay: var(--wait, 0s);
+}
+
+@keyframes discoBounce {
+  from {
+    transform: scaleY(0.2);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* The record sliding out of its sleeve and spinning. */
+.theme-xv-disco .disco-vinyl {
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+}
+
+.theme-xv-disco .disco-vinyl-disc {
+  animation: discoSpin 4s linear infinite;
+}
+
+/* A neon sign that hums: it flickers on, then glows with a short stutter now and then. */
+.theme-xv-disco .disco-neon-sign {
+  animation: discoFlicker 6s linear infinite;
+}
+
+@keyframes discoFlicker {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    opacity: 1;
+  }
+  20%,
+  24%,
+  55% {
+    opacity: 0.35;
+  }
+}
+
+/* Music notes rising and fading. */
+.theme-xv-disco .disco-note {
+  position: absolute;
+  bottom: 0;
+  opacity: 0;
+  animation: discoNote var(--every, 6s) ease-in infinite;
+  animation-delay: var(--wait, 0s);
+}
+
+@keyframes discoNote {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0);
+  }
+  15% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--drift, 20px), -220px) rotate(var(--turn, 20deg));
+  }
+}
+
+/* The intro ticket: the stub tears off and falls, the pass lifts away. */
+@keyframes discoTear {
+  to {
+    opacity: 0;
+    transform: translateY(120px) rotate(18deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-xv-disco .disco-spotlight,
+  .theme-xv-disco .disco-tiles,
+  .theme-xv-disco .disco-rays,
+  .theme-xv-disco .disco-bar,
+  .theme-xv-disco .disco-vinyl-disc,
+  .theme-xv-disco .disco-neon-sign {
+    animation: none;
+  }
+
+  .theme-xv-disco .disco-note {
+    display: none;
+  }
+}

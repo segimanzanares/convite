@@ -99,6 +99,12 @@ class InvitationSeeder extends Seeder
                 'og_image' => '/invitations/xv-celestial/og-image.jpg',
             ],
             [
+                'template' => 'xv-disco',
+                'title' => 'Ximena Alejandra — Mis XV Años',
+                'description' => 'Ximena cumple quince y la pista es tuya: ven a bailar a su noche disco.',
+                'og_image' => '/invitations/xv-disco/og-image.jpg',
+            ],
+            [
                 'template' => 'xv-jardin',
                 'title' => 'Sofía Valentina — Mis XV Años',
                 'description' => 'Una noche en el jardín encantado: acompáñame a celebrar mis XV años.',

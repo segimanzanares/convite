@@ -37,6 +37,8 @@
   --font-baloo: 'Baloo 2', ui-rounded, system-ui, sans-serif;
   --font-bodoni: 'Bodoni Moda', Georgia, serif;
   --font-manrope: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-unbounded: 'Unbounded', ui-sans-serif, system-ui, sans-serif;
+  --font-outfit: 'Outfit', ui-sans-serif, system-ui, sans-serif;
 }
 
 @keyframes fadeUp {
