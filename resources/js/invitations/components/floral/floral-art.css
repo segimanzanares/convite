@@ -1,13 +1,21 @@
-/* The flower ornaments' animation (Flowers.tsx). Each piece waits hidden until its .floral-art root gets
-   .is-playing, then grows after var(--d0) + var(--d) and keeps a slow, desynchronized motion. Every piece is
-   drawn around its own origin (a rose's center, a leaf's or a bud's base), which is where SVG elements
-   transform from. */
+/* The animation of the floral templates' ornaments (art.ts). Each piece waits hidden until its .floral-art
+   root gets .is-playing, then grows after var(--d0) + var(--d) and keeps a slow, desynchronized motion. Every
+   piece is drawn around its own origin (a flower's center, a leaf's or a plant's base, a butterfly's body),
+   which is where SVG elements transform from.
+   - floral-stem: a path (pathLength 1) that draws itself.
+   - floral-bloom: a flower that opens turning, then breathes; floral-bloom-heart: its center, which twirls.
+   - floral-leaf: unfurls, then rustles. floral-berries: grows.
+   - floral-bud: grows, then nods var(--sway) to each side (also used for whole plants).
+   - floral-sway: a whole bouquet, swaying from its corner.
+   - floral-butterfly: fades in and drifts around; floral-wing: its wings, which flap now and then. */
 .floral-art .floral-bloom,
 .floral-art .floral-bloom-heart,
 .floral-art .floral-leaf,
 .floral-art .floral-bud,
 .floral-art .floral-berries,
-.floral-art .floral-sway {
+.floral-art .floral-sway,
+.floral-art .floral-butterfly,
+.floral-art .floral-wing {
   transform-box: view-box;
   transform-origin: 0 0;
 }
@@ -17,6 +25,10 @@
 .floral-art .floral-bud,
 .floral-art .floral-berries {
   transform: scale(0);
+}
+
+.floral-art .floral-butterfly {
+  opacity: 0;
 }
 
 .floral-art .floral-stem {
@@ -56,6 +68,16 @@
 
 .floral-art.is-playing .floral-sway {
   animation: floralSway 11s calc(var(--d0, 0s) + 1.5s) ease-in-out infinite;
+}
+
+.floral-art.is-playing .floral-butterfly {
+  animation:
+    floralAppear 1.2s calc(var(--d0, 0s) + var(--d, 0s)) ease-out forwards,
+    floralFlutter 9s calc(var(--d0, 0s) + var(--d, 0s)) ease-in-out infinite;
+}
+
+.floral-art.is-playing .floral-wing {
+  animation: floralFlap 2.6s calc(var(--d0, 0s) + var(--d, 0s)) ease-in-out infinite;
 }
 
 @keyframes floralDraw {
@@ -118,10 +140,10 @@
     transform: rotate(0);
   }
   25% {
-    transform: rotate(7deg);
+    transform: rotate(var(--sway, 7deg));
   }
   75% {
-    transform: rotate(-7deg);
+    transform: rotate(calc(-1 * var(--sway, 7deg)));
   }
 }
 
@@ -135,13 +157,60 @@
   }
 }
 
+@keyframes floralAppear {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes floralFlutter {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+  25% {
+    transform: translate(10px, -8px) rotate(6deg);
+  }
+  50% {
+    transform: translate(3px, -16px) rotate(-4deg);
+  }
+  75% {
+    transform: translate(-8px, -6px) rotate(3deg);
+  }
+}
+
+/* A few quick beats, then the wings rest open. */
+@keyframes floralFlap {
+  0%,
+  36%,
+  100% {
+    transform: scaleX(1);
+  }
+  6%,
+  18%,
+  30% {
+    transform: scaleX(0.2);
+  }
+  12%,
+  24% {
+    transform: scaleX(0.9);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .floral-art .floral-bloom,
   .floral-art .floral-bloom-heart,
   .floral-art .floral-leaf,
   .floral-art .floral-bud,
   .floral-art .floral-berries,
-  .floral-art .floral-sway {
+  .floral-art .floral-sway,
+  .floral-art .floral-wing {
+    transform: none;
+    animation: none !important;
+  }
+
+  .floral-art .floral-butterfly {
+    opacity: 1;
     transform: none;
     animation: none !important;
   }

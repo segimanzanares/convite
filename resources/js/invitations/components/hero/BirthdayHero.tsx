@@ -1,17 +1,23 @@
+import type { ReactNode } from 'react';
 import type { CelebrantInfo } from '../../types/birthday';
 
 interface BirthdayHeroProps {
   celebrant: CelebrantInfo;
   backgroundImageUrl?: string;
+  /** An ornament centered behind the age, e.g. a wreath. */
+  ageFrame?: ReactNode;
+  /** Ornaments placed absolutely over the background, behind the text. */
+  decorations?: ReactNode;
 }
 
-export function BirthdayHero({ celebrant, backgroundImageUrl }: BirthdayHeroProps) {
+export function BirthdayHero({ celebrant, backgroundImageUrl, ageFrame, decorations }: BirthdayHeroProps) {
   return (
     <section className="min-h-screen max-w-full flex flex-col items-center justify-center relative py-20 px-10 overflow-hidden text-center bg-[radial-gradient(ellipse_at_50%_30%,var(--color-ivory)_0%,var(--color-gold-pale)_55%,var(--color-off-white)_100%)]">
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50 z-0"
         style={backgroundImageUrl ? { backgroundImage: `url(${backgroundImageUrl})` } : undefined}
       />
+      {decorations}
 
       <p className="relative font-display text-[clamp(9px,1.2vw,14px)] tracking-[0.5em] text-gold-deep uppercase opacity-0 animate-[fadeUp_1.2s_0.3s_forwards] mb-6">
         Te invitamos a celebrar
@@ -23,11 +29,18 @@ export function BirthdayHero({ celebrant, backgroundImageUrl }: BirthdayHeroProp
         <span className="font-bold">{celebrant.name}</span>
       </h1>
 
-      <div className="relative mt-6 flex flex-col items-center opacity-0 animate-[fadeUp_1.4s_1s_forwards]">
-        <span className="font-display text-[clamp(72px,12vw,140px)] font-light text-gold leading-none">
+      <div
+        className={`relative flex flex-col items-center opacity-0 animate-[fadeUp_1.4s_1s_forwards] ${ageFrame ? 'mt-10 mb-12' : 'mt-6'}`}
+      >
+        {ageFrame && (
+          <span className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" aria-hidden="true">
+            {ageFrame}
+          </span>
+        )}
+        <span className="relative font-display text-[clamp(72px,12vw,140px)] font-light text-gold leading-none">
           {celebrant.age}
         </span>
-        <span className="font-display text-[clamp(10px,1.4vw,14px)] tracking-[0.6em] text-gold-deep uppercase mt-2">
+        <span className="relative font-display text-[clamp(10px,1.4vw,14px)] tracking-[0.6em] text-gold-deep uppercase mt-2">
           Años
         </span>
       </div>

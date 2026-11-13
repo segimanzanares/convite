@@ -18,12 +18,14 @@ import { useAutoScroll } from '../../hooks/useAutoScroll';
 import { initials, toCelebrant } from '../../lib/eventContent';
 import type { BirthdayContent } from '../../types/invitation';
 import bgHero from './images/bg-hero.jpeg';
-import './theme.css';
 import { FloralPageOrnamentBorder } from '../../components/layout/FloralPageOrnamentBorder';
+import { AgeWreath, CosmosSprig, FlyingButterfly, Meadow } from './components/Garden';
+import './theme.css';
 
 export function InvitationPage({ invitation }: { invitation: BirthdayContent }) {
   const musicPlayerRef = useRef<MusicPlayerHandle>(null);
   const [autoScrollActive, setAutoScrollActive] = useState(false);
+  const [envelopeOpen, setEnvelopeOpen] = useState(false);
   const celebrant = toCelebrant(invitation);
 
   useEffect(() => {
@@ -38,13 +40,32 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         monogram={initials(...celebrant.name.split(/\s+/).slice(0, 2))}
         title={`${celebrant.firstName} · ${celebrant.age} años`}
         ariaName={celebrant.name}
-        onOpen={() => musicPlayerRef.current?.play()}
+        onOpen={() => {
+          setEnvelopeOpen(true);
+          musicPlayerRef.current?.play();
+        }}
         onOpened={() => setAutoScrollActive(true)}
       />
       <MusicPlayer ref={musicPlayerRef} src={celebrant.musicFile} position="bottom-center" />
       <FloralPageOrnamentBorder />
       <FloatingPetals />
-      <BirthdayHero celebrant={celebrant} backgroundImageUrl={invitation.cover ?? bgHero} />
+      <BirthdayHero
+        celebrant={celebrant}
+        backgroundImageUrl={invitation.cover ?? bgHero}
+        ageFrame={<AgeWreath play={envelopeOpen} delay={1.6} className="block w-[clamp(220px,27vw,310px)] h-auto" />}
+        decorations={
+          <>
+            <Meadow play={envelopeOpen} delay={1} className="absolute bottom-0 left-0 w-[44vw] max-w-[380px] h-auto" />
+            <Meadow
+              play={envelopeOpen}
+              delay={1.3}
+              className="absolute bottom-0 right-0 w-[44vw] max-w-[380px] h-auto -scale-x-100"
+            />
+            <FlyingButterfly play={envelopeOpen} delay={2.4} className="absolute top-[14%] right-[12%] w-14 sm:w-20" />
+            <FlyingButterfly play={envelopeOpen} delay={3} className="absolute top-[30%] left-[8%] w-10 sm:w-14 -scale-x-100" />
+          </>
+        }
+      />
       <InvitationMessage
         eyebrow="La invitación"
         title="Celebremos su vida"
@@ -55,6 +76,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         signature={celebrant.hosts}
       />
       <FullDivider text={`${celebrant.firstName} · ${celebrant.age}`} />
+      {invitation.venues.length > 0 && <CosmosSprig className="pt-16" />}
       {invitation.venues.length > 0 && (
         <VenuesSection
           venues={invitation.venues}
@@ -74,13 +96,19 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
           intro={`Algunos de los momentos que ${celebrant.firstName} ha compartido con quienes más la quieren.`}
         />
       )}
-      {invitation.dressCode && <DressCodeSection dressCode={invitation.dressCode} />}
+      {invitation.dressCode && (
+        <>
+          <CosmosSprig className="pt-16" />
+          <DressCodeSection dressCode={invitation.dressCode} />
+        </>
+      )}
       {invitation.swatches.length > 0 && (
         <DressCodePalette
           swatches={invitation.swatches}
           intro="Inspirados en las flores que siempre la han acompañado, sugerimos los siguientes tonos para su vestimenta."
         />
       )}
+      {invitation.gifts.length > 0 && <CosmosSprig className="pt-16" />}
       {invitation.gifts.length > 0 && (
         <GiftsSection
           gifts={invitation.gifts}
@@ -102,6 +130,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         }}
         venues={invitation.venues}
       />
+      <CosmosSprig className="pt-14 bg-ivory" />
       <Footer
         title={celebrant.name}
         dateLabel={celebrant.footerDateLabel}

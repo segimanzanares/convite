@@ -18,6 +18,10 @@
   --dark-to: #5a1838;
   --envelope-bg: radial-gradient(circle at 50% 40%, #c95985 0%, #8f2a55 60%, #5a1838 100%);
 
+  /* The leaves of the garden ornaments (components/Garden.tsx). */
+  --leaf: #a3bd9c;
+  --leaf-deep: #6e9171;
+
   /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
      :root and inherit their already-resolved value, so they don't pick up
      the overrides above unless redeclared here on the same scope. */
