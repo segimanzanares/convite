@@ -1,0 +1,95 @@
+/* Boda serena: shadcn/ui's slate theme with its blue accent. Slate surfaces,
+   rounder cards, Inter for the text and Fraunces for the names and titles;
+   the intro, the RSVP panel and the footer switch to the dark tokens
+   (.ui-dark), and the countdown sits on a band of the primary blue. The
+   shared shadcn/ui look-alikes (components/ui) read these tokens. */
+.theme-boda-serena {
+  --radius: 1rem;
+  --background: oklch(0.995 0.002 247.84);
+  --foreground: oklch(0.129 0.042 264.695);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.129 0.042 264.695);
+  --primary: oklch(0.488 0.217 264.376);
+  --primary-foreground: oklch(0.97 0.014 254.604);
+  --secondary: oklch(0.968 0.007 247.896);
+  --secondary-foreground: oklch(0.208 0.042 265.755);
+  --muted: oklch(0.968 0.007 247.896);
+  --muted-foreground: oklch(0.554 0.046 257.417);
+  --accent: oklch(0.932 0.032 255.585);
+  --accent-foreground: oklch(0.379 0.146 265.522);
+  --border: oklch(0.929 0.013 255.508);
+  --input: oklch(0.929 0.013 255.508);
+  --ring: oklch(0.623 0.214 259.815);
+  --destructive: oklch(0.577 0.245 27.325);
+
+  /* The shared components this template still uses (the music button, the
+     lightbox, the preview banner, the printables) read the legacy tokens:
+     map them to slate and blue. */
+  --gold: oklch(0.546 0.245 262.881);
+  --gold-light: oklch(0.809 0.105 251.813);
+  --gold-pale: oklch(0.932 0.032 255.585);
+  --gold-deep: oklch(0.379 0.146 265.522);
+  --white: oklch(1 0 0);
+  --cream: oklch(0.984 0.003 247.858);
+  --off-white: oklch(0.968 0.007 247.896);
+  --text-dark: oklch(0.129 0.042 264.695);
+  --text-body: oklch(0.372 0.044 257.287);
+  --text-muted: oklch(0.554 0.046 257.417);
+  --dark-from: oklch(0.129 0.042 264.695);
+  --dark-to: oklch(0.208 0.042 265.755);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* shadcn/ui's dark slate tokens with the blue accent. */
+.theme-boda-serena .ui-dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --card: oklch(0.208 0.042 265.755);
+  --card-foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.707 0.165 254.624);
+  --primary-foreground: oklch(0.129 0.042 264.695);
+  --secondary: oklch(0.279 0.041 260.031);
+  --secondary-foreground: oklch(0.984 0.003 247.858);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788);
+  --accent: oklch(0.279 0.041 260.031);
+  --accent-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.707 0.165 254.624);
+  --destructive: oklch(0.704 0.191 22.216);
+
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Soft blue glow behind the section titles and the RSVP. */
+.theme-boda-serena .serena-glow {
+  background-image: radial-gradient(60% 50% at 50% 0%, var(--accent), transparent 70%);
+}
+
+/* The intro drawer rising from the bottom edge. */
+@keyframes drawerUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

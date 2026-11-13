@@ -1,0 +1,187 @@
+/* The printable card and guest passes of the serene wedding: the shared
+   layouts (components/print-card) restyled like the invitation, with Inter
+   and Fraunces, a rounded hairline frame in pale blue and no ornaments. As in PrintCard.css, every
+   color is opaque so PDF viewers don't composite soft masks. */
+
+.theme-boda-serena.print-card-page {
+  background: oklch(0.929 0.013 255.508);
+  font-family: var(--font-inter);
+  color: var(--text-body);
+}
+
+/* Toolbar, as shadcn/ui buttons */
+.theme-boda-serena .print-card-toolbar__primary {
+  font-family: var(--font-inter);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.theme-boda-serena .print-card-toolbar__primary:hover { background: oklch(0.424 0.199 265.638); }
+.theme-boda-serena .print-card-toolbar__link,
+.theme-boda-serena .guest-editor__footer {
+  font-family: var(--font-inter);
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.theme-boda-serena .print-card-toolbar__hint,
+.theme-boda-serena .guest-editor__note {
+  font-size: 13px;
+  font-style: normal;
+  color: var(--muted-foreground);
+}
+.theme-boda-serena .guest-editor__label { font-size: 14px; font-weight: 500; }
+.theme-boda-serena .guest-editor__label code,
+.theme-boda-serena .guest-editor__input { font-family: var(--font-inter); font-size: 13px; }
+.theme-boda-serena .guest-editor__input {
+  border: 1px solid var(--input);
+  border-radius: 8px;
+  background: var(--background);
+}
+.theme-boda-serena .guest-editor__input:focus { outline: 3px solid oklch(0.809 0.105 251.813); outline-offset: 0; }
+
+/* Ornaments: a single hairline frame with rounded corners */
+.theme-boda-serena .print-card,
+.theme-boda-serena .guest-pass { background: var(--white); }
+.theme-boda-serena .print-card__corner,
+.theme-boda-serena .print-card__mark { display: none; }
+.theme-boda-serena .print-card__frame {
+  border: 0.3mm solid var(--accent);
+  border-radius: 4mm;
+}
+.theme-boda-serena .print-card__frame::before { display: none; }
+
+/* Card typography */
+.theme-boda-serena .print-card__eyebrow,
+.theme-boda-serena .print-card__label,
+.theme-boda-serena .print-card__signature,
+.theme-boda-serena .print-card__date,
+.theme-boda-serena .print-card__time,
+.theme-boda-serena .print-card__url {
+  font-family: var(--font-inter);
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+.theme-boda-serena .print-card__eyebrow { font-size: 7pt; letter-spacing: 0.2em; color: var(--primary); }
+.theme-boda-serena .print-card__label { font-size: 6.5pt; letter-spacing: 0.15em; }
+.theme-boda-serena .print-card__signature { font-size: 7pt; letter-spacing: 0.15em; }
+.theme-boda-serena .print-card__date { font-size: 9pt; letter-spacing: 0.08em; color: var(--foreground); }
+.theme-boda-serena .print-card__time { font-family: var(--font-inter); font-size: 8.5pt; letter-spacing: 0; color: var(--foreground); }
+.theme-boda-serena .print-card__url { font-family: var(--font-inter); font-size: 6.5pt; letter-spacing: 0; }
+
+.theme-boda-serena .print-card__rule {
+  width: 10mm;
+  height: 0.5mm;
+  border-radius: 1mm;
+  background: var(--primary);
+}
+.theme-boda-serena .print-card__names {
+  font-family: var(--font-fraunces);
+  font-size: 36pt;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--foreground);
+}
+.theme-boda-serena .print-card__amp {
+  margin: 1mm 0;
+  font-family: var(--font-fraunces);
+  font-size: 24pt;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--primary);
+}
+.theme-boda-serena .print-card__subtitle {
+  font-family: var(--font-fraunces);
+  font-size: 18pt;
+  font-style: italic;
+  color: var(--primary);
+}
+.theme-boda-serena .print-card__lead {
+  font-family: var(--font-inter);
+  font-size: 9.5pt;
+  font-style: normal;
+  line-height: 1.55;
+  color: var(--text-body);
+}
+.theme-boda-serena .print-card__place { font-size: 9.5pt; letter-spacing: 0; color: var(--muted-foreground); }
+
+/* Card back */
+.theme-boda-serena .print-card__monogram {
+  border: none;
+  background: var(--primary);
+  font-family: var(--font-fraunces);
+  font-size: 14pt;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--primary-foreground);
+}
+.theme-boda-serena .print-card__event,
+.theme-boda-serena .print-card__note,
+.theme-boda-serena .print-card__rsvp { font-size: 9pt; font-style: normal; color: var(--muted-foreground); }
+.theme-boda-serena .print-card__event + .print-card__event { border-left-color: var(--border); }
+.theme-boda-serena .print-card__event h3,
+.theme-boda-serena .print-card__dress h3 {
+  font-size: 11pt;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+}
+.theme-boda-serena .print-card__rsvp strong { color: var(--foreground); }
+.theme-boda-serena .print-card__qr {
+  border: 0.25mm solid var(--border);
+  border-radius: 2mm;
+}
+.theme-boda-serena .print-card__swatches span { border-color: var(--border); }
+
+/* Guest passes */
+.theme-boda-serena .guest-pass .print-card__frame { border-radius: 2mm; }
+.theme-boda-serena .guest-pass__eyebrow,
+.theme-boda-serena .guest-pass__label,
+.theme-boda-serena .guest-pass__unit,
+.theme-boda-serena .guest-pass__table,
+.theme-boda-serena .guest-pass__date {
+  font-family: var(--font-inter);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--muted-foreground);
+}
+.theme-boda-serena .guest-pass__table,
+.theme-boda-serena .guest-pass__date { color: var(--foreground); }
+.theme-boda-serena .guest-pass__names {
+  font-family: var(--font-fraunces);
+  font-size: 14pt;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+}
+.theme-boda-serena .guest-pass__amp {
+  font-family: var(--font-fraunces);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--primary);
+}
+.theme-boda-serena .guest-pass__rule { width: 8mm; height: 0.4mm; background: var(--primary); }
+.theme-boda-serena .guest-pass__guest {
+  font-family: var(--font-inter);
+  font-size: 10pt;
+  font-weight: 600;
+  color: var(--foreground);
+}
+.theme-boda-serena .guest-pass__badge {
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.theme-boda-serena .guest-pass__seats {
+  font-family: var(--font-fraunces);
+  font-weight: 500;
+  color: var(--accent-foreground);
+}

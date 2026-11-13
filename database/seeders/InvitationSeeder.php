@@ -33,6 +33,12 @@ class InvitationSeeder extends Seeder
                 'og_image' => '/invitations/boda-moderna/og-image.jpg',
             ],
             [
+                'template' => 'boda-serena',
+                'title' => 'Lucía & Mateo — Nos casamos',
+                'description' => 'Lucía y Mateo se casan y quieren celebrarlo contigo.',
+                'og_image' => '/invitations/boda-serena/og-image.jpg',
+            ],
+            [
                 'template' => 'cumpleanos-floral',
                 'title' => 'Carmen Ruiz — 70 años',
                 'description' => 'Acompáñanos a celebrar el cumpleaños número 70 de Carmen Ruiz.',

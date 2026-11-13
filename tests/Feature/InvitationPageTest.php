@@ -35,7 +35,7 @@ it('serves the printable pages a template provides', function (string $template,
         ->assertInertia(fn (Assert $inertia) => $inertia
             ->component("templates/{$template}/{$page}")
             ->where('meta.title', $title));
-})->with(['boda-clasica', 'boda-floral', 'boda-moderna'])->with([
+})->with(['boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena'])->with([
     'print card' => ['tarjeta', 'PrintCardPage', 'Tarjeta impresa — Boda Demo'],
     'guest passes' => ['pases', 'GuestPassesPage', 'Pases de invitados — Boda Demo'],
 ]);
