@@ -87,6 +87,12 @@ class InvitationSeeder extends Seeder
                 'og_image' => '/invitations/infantil-unicornio/og-image.jpg',
             ],
             [
+                'template' => 'xv-aurora',
+                'title' => 'Renata Isabel — Mis XV Años',
+                'description' => 'Renata cumple quince y quiere celebrarlo contigo.',
+                'og_image' => '/invitations/xv-aurora/og-image.jpg',
+            ],
+            [
                 'template' => 'xv-celestial',
                 'title' => 'Camila Fernanda — Mis XV Años',
                 'description' => 'Una noche bajo las estrellas: acompáñame a celebrar mis XV años.',

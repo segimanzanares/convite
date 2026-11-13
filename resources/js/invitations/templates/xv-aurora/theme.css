@@ -1,0 +1,137 @@
+/* XV aurora: shadcn/ui's violet theme on a lavender-white page, with a pink accent and soft auroras in violet, pink,
+   peach and mint drifting behind the hero, the countdown and the closing. Rounded cards, Manrope for the text and
+   Bodoni Moda (in italic) for the name and the titles. The footer switches to deep violet tokens (.ui-dark). The
+   shared shadcn/ui look-alikes (components/ui) read these tokens. */
+.theme-xv-aurora {
+  --radius: 1rem;
+  --background: oklch(0.99 0.006 300);
+  --foreground: oklch(0.24 0.06 295);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.06 295);
+  --primary: oklch(0.54 0.24 293);
+  --primary-foreground: oklch(0.985 0.01 300);
+  --secondary: oklch(0.955 0.03 300);
+  --secondary-foreground: oklch(0.43 0.19 293);
+  --muted: oklch(0.975 0.012 300);
+  --muted-foreground: oklch(0.5 0.05 295);
+  --accent: oklch(0.95 0.035 345);
+  --accent-foreground: oklch(0.5 0.18 350);
+  --border: oklch(0.92 0.025 300);
+  --input: oklch(0.89 0.03 300);
+  --ring: oklch(0.7 0.17 293);
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --aurora-violet: oklch(0.78 0.14 295);
+  --aurora-pink: oklch(0.82 0.12 350);
+  --aurora-peach: oklch(0.89 0.08 55);
+  --aurora-mint: oklch(0.89 0.07 175);
+
+  /* The shared components this template still uses (the music button, the lightbox, the preview banner, the
+     butterflies) read the legacy tokens: map them to violet and pink. */
+  --gold: oklch(0.54 0.24 293);
+  --gold-light: oklch(0.82 0.12 350);
+  --gold-pale: oklch(0.955 0.03 300);
+  --gold-deep: oklch(0.38 0.16 293);
+  --white: oklch(1 0 0);
+  --cream: oklch(0.99 0.006 300);
+  --off-white: oklch(0.975 0.012 300);
+  --text-dark: oklch(0.24 0.06 295);
+  --text-body: oklch(0.38 0.06 295);
+  --text-muted: oklch(0.5 0.05 295);
+  --dark-from: oklch(0.21 0.07 293);
+  --dark-to: oklch(0.3 0.11 293);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-manrope);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Deep violet tokens with a pink accent, for the footer. */
+.theme-xv-aurora .ui-dark {
+  --background: oklch(0.21 0.07 293);
+  --foreground: oklch(0.97 0.015 300);
+  --card: oklch(0.26 0.08 293);
+  --card-foreground: oklch(0.97 0.015 300);
+  --primary: oklch(0.82 0.12 350);
+  --primary-foreground: oklch(0.21 0.07 293);
+  --secondary: oklch(0.3 0.09 293);
+  --secondary-foreground: oklch(0.97 0.015 300);
+  --muted: oklch(0.3 0.09 293);
+  --muted-foreground: oklch(0.78 0.05 300);
+  --accent: oklch(0.3 0.09 293);
+  --accent-foreground: oklch(0.97 0.015 300);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.82 0.12 350);
+
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Text painted with the aurora: the age and the countdown's numbers. */
+.theme-xv-aurora .aurora-text {
+  background: linear-gradient(120deg, var(--primary) 10%, var(--aurora-pink) 55%, var(--aurora-peach) 95%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* The auroras: blurred blobs of color that drift and breathe behind a section. */
+.theme-xv-aurora .aurora-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(60px);
+  opacity: 0.55;
+  animation: auroraDrift var(--every, 18s) ease-in-out infinite alternate;
+  animation-delay: var(--wait, 0s);
+}
+
+@keyframes auroraDrift {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(var(--dx, 40px), var(--dy, -30px)) scale(1.15);
+  }
+  100% {
+    transform: translate(calc(var(--dx, 40px) * -0.6), calc(var(--dy, -30px) * -0.8)) scale(0.92);
+  }
+}
+
+/* The gallery's track: snapping cards with the scrollbar hidden. */
+.theme-xv-aurora .aurora-track {
+  scrollbar-width: none;
+}
+
+.theme-xv-aurora .aurora-track::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-xv-aurora .aurora-blob {
+    animation: none;
+  }
+}
+
+/* The intro sheet rising from the bottom. */
+@keyframes auroraSheetUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
