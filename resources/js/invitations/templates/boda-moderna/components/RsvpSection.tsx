@@ -5,8 +5,9 @@ import { useRsvpForm } from '../../../hooks/useRsvpForm';
 import { seatsLabel, useOnlineRsvp } from '../../../hooks/useOnlineRsvp';
 import { downloadEventCalendar, type CalendarOccasion } from '../../../utils/calendar';
 import type { Venue } from '../../../types/wedding';
-import { buttonClass, cn } from './styles';
-import { Card, Section, SectionHeader } from './ui';
+import { buttonClass, cn, inputClass } from '../../../components/ui/styles';
+import { Card, Section } from '../../../components/ui/primitives';
+import { SectionHeader } from './ui';
 
 interface RsvpSectionProps {
   whatsappNumber: string;
@@ -14,12 +15,6 @@ interface RsvpSectionProps {
   calendar: CalendarOccasion;
   venues: Venue[];
 }
-
-const INPUT_CLASS = cn(
-  'w-full rounded-[calc(var(--radius)-4px)] border border-(--input) bg-transparent px-3 py-2 text-base shadow-sm outline-none sm:text-sm',
-  'h-10 transition-[box-shadow,border-color] placeholder:text-(--muted-foreground)',
-  'focus-visible:border-(--ring) focus-visible:ring-[3px] focus-visible:ring-(--ring)/50',
-);
 
 function Field({ label, htmlFor, error, children }: { label: string; htmlFor: string; error?: string; children: ReactNode }) {
   return (
@@ -156,7 +151,7 @@ function OnlineRsvp({ deadlineLabel, calendar, venues, online }: RsvpSectionProp
         <Field label="Nombre completo" htmlFor="rsvp-name" error={errors.name}>
           <input
             id="rsvp-name"
-            className={INPUT_CLASS}
+            className={inputClass}
             type="text"
             required
             autoComplete="name"
@@ -171,7 +166,7 @@ function OnlineRsvp({ deadlineLabel, calendar, venues, online }: RsvpSectionProp
         <Field label={`Personas que asistirán${guest ? '' : ', incluyéndote'}`} htmlFor="rsvp-seats" error={errors.seats}>
           <select
             id="rsvp-seats"
-            className={cn(INPUT_CLASS, '[&>option]:text-black')}
+            className={cn(inputClass, '[&>option]:text-black')}
             value={form.seats}
             onChange={(event) => setField('seats', Number(event.target.value))}
           >
@@ -186,7 +181,7 @@ function OnlineRsvp({ deadlineLabel, calendar, venues, online }: RsvpSectionProp
       <Field label="Mensaje para los novios (opcional)" htmlFor="rsvp-message" error={errors.message ?? errors.rsvp}>
         <textarea
           id="rsvp-message"
-          className={cn(INPUT_CLASS, 'h-auto min-h-20 resize-none')}
+          className={cn(inputClass, 'h-auto min-h-20 resize-none')}
           rows={3}
           maxLength={1000}
           placeholder="Escribe unas palabras…"
@@ -226,7 +221,7 @@ function WhatsappRsvp({ whatsappNumber, deadlineLabel, calendar, venues }: RsvpS
       <Field label="Nombre completo" htmlFor="rsvp-name">
         <input
           id="rsvp-name"
-          className={INPUT_CLASS}
+          className={inputClass}
           type="text"
           required
           autoComplete="name"
@@ -242,7 +237,7 @@ function WhatsappRsvp({ whatsappNumber, deadlineLabel, calendar, venues }: RsvpS
       <Field label="Número de acompañantes (0–4)" htmlFor="rsvp-guests">
         <input
           id="rsvp-guests"
-          className={INPUT_CLASS}
+          className={inputClass}
           type="number"
           min={0}
           max={4}

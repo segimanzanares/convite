@@ -1,6 +1,6 @@
 /* Boda moderna: shadcn/ui's zinc theme. Neutral surfaces, hairline borders,
    rounded cards and Geist type; the countdown and RSVP sections switch to
-   the theme's dark tokens (.boda-moderna-dark). The components of this
+   the theme's dark tokens (.ui-dark). The components of this
    template read the shadcn tokens below through Tailwind's bg-(--card)
    style utilities. */
 .theme-boda-moderna {
@@ -55,7 +55,7 @@
 }
 
 /* shadcn/ui's dark zinc tokens, for the inverted sections. */
-.theme-boda-moderna .boda-moderna-dark {
+.theme-boda-moderna .ui-dark {
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);

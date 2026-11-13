@@ -2,8 +2,9 @@ import { Clock, Heart, MapPin, Navigation, Timer } from 'lucide-react';
 import { Reveal } from '../../../components/shared/Reveal';
 import { useCountdown } from '../../../hooks/useCountdown';
 import type { ProgramItem, Venue } from '../../../types/wedding';
-import { buttonClass } from './styles';
-import { Badge, Card, Section, SectionHeader } from './ui';
+import { buttonClass } from '../../../components/ui/styles';
+import { Badge, Card, Section } from '../../../components/ui/primitives';
+import { SectionHeader } from './ui';
 
 const DEFAULT_MESSAGE =
   'Junto a nuestras familias, tenemos el honor de invitarles a compartir con nosotros el día en que uniremos nuestras vidas. Su presencia hará de este día un recuerdo para siempre.';

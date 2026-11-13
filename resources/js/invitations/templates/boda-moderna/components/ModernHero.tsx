@@ -1,7 +1,8 @@
 import { ArrowDown, CalendarDays, MapPin } from 'lucide-react';
 import type { CoupleInfo } from '../../../types/wedding';
-import { buttonClass, capitalize } from './styles';
-import { Ampersand, Badge } from './ui';
+import { buttonClass, capitalize } from '../../../components/ui/styles';
+import { Badge } from '../../../components/ui/primitives';
+import { Ampersand } from './ui';
 
 interface ModernHeroProps {
   couple: CoupleInfo;

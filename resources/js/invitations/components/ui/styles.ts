@@ -1,4 +1,8 @@
-/** Class helpers of this template's shadcn/ui look-alikes (see ui.tsx). */
+/**
+ * Class helpers of the shadcn/ui look-alikes shared by the templates built on shadcn/ui's tokens (see primitives.tsx).
+ * They read the tokens each template's theme.css declares: --background, --foreground, --card, --primary, --border,
+ * --input, --ring, --radius...
+ */
 export function cn(...classes: (string | false | null | undefined)[]) {
   return classes.filter(Boolean).join(' ');
 }
@@ -32,6 +36,13 @@ export function buttonClass(variant: ButtonVariant = 'default', size: ButtonSize
     className,
   );
 }
+
+/** The classes of a shadcn/ui text input, select or textarea. */
+export const inputClass = cn(
+  'w-full rounded-[calc(var(--radius)-4px)] border border-(--input) bg-transparent px-3 py-2 text-base shadow-sm outline-none sm:text-sm',
+  'h-10 transition-[box-shadow,border-color] placeholder:text-(--muted-foreground)',
+  'focus-visible:border-(--ring) focus-visible:ring-[3px] focus-visible:ring-(--ring)/50',
+);
 
 /** "sábado · 12 de junio" → "Sábado · 12 de junio". */
 export function capitalize(text: string) {

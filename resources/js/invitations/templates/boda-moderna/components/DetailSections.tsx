@@ -7,8 +7,9 @@ import { BankIcon, EnvelopeIcon, GiftBoxIcon } from '../../../components/gifts/G
 import { copyToClipboard } from '../../../utils/clipboard';
 import { useCoverflow } from '../../../hooks/useCoverflow';
 import type { ColorSwatchData, DressCodeData, GalleryImage, GiftKind, GiftOption } from '../../../types/wedding';
-import { buttonClass, cn } from './styles';
-import { Card, Section, SectionHeader } from './ui';
+import { buttonClass, cn } from '../../../components/ui/styles';
+import { Card, Section } from '../../../components/ui/primitives';
+import { SectionHeader } from './ui';
 
 const pad = (n: number) => String(n).padStart(2, '0');
 

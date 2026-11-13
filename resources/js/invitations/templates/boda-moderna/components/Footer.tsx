@@ -10,7 +10,7 @@ interface FooterProps {
 
 export function Footer({ names, dateLabel, tagline }: FooterProps) {
   return (
-    <footer className="boda-moderna-dark border-t border-(--border) px-5 pt-16 pb-24 text-center">
+    <footer className="ui-dark border-t border-(--border) px-5 pt-16 pb-24 text-center">
       <p className="text-3xl font-semibold tracking-tight">
         {names[0]} <Ampersand /> {names[1]}
       </p>

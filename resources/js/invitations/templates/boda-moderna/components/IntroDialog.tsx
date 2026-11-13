@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { MailOpen } from 'lucide-react';
-import { buttonClass, capitalize, cn } from './styles';
+import { buttonClass, capitalize, cn } from '../../../components/ui/styles';
 import { Ampersand } from './ui';
 
 interface IntroDialogProps {
