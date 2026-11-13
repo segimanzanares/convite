@@ -1,0 +1,61 @@
+/* Gran reserva: midnight navy with brushed brass on parchment, like the label of an aged bottle. --gold-deep is the
+   navy (titles, the celebrant's name) so the light sections read as ink on paper and the brass stays an accent. The
+   dark sections (countdown, RSVP) are midnight blue. */
+.theme-cumpleanos-reserva {
+  --gold: #a8792f;
+  --gold-light: #d9b56f;
+  --gold-pale: #ebe1cc;
+  --gold-deep: #1f2d4a;
+  --white: #f8f4ec;
+  --cream: #f2ece0;
+  --off-white: #e6ddcb;
+  --text-dark: #141c2b;
+
+  --text-body: #34405a;
+  --text-muted: #56607a;
+  --dark-from: #0d1422;
+  --dark-to: #1c2a44;
+  --envelope-bg: radial-gradient(circle at 50% 38%, #24365a 0%, #142038 55%, #090f1b 100%);
+
+  /* Playfair Display (set in italic below) takes the place of the floral script, and EB Garamond that of
+     Cormorant: sturdier strokes for a more sober look. The font utilities read these at use, so they apply here. */
+  --font-script: 'Playfair Display', Georgia, serif;
+  --font-body: 'EB Garamond', Georgia, serif;
+  font-family: var(--font-body);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+}
+
+.theme-cumpleanos-reserva .font-script {
+  font-style: italic;
+}
+
+/* The navy sections (countdown, RSVP) need a brighter brass for legible numbers, labels and form text. Their
+   brass buttons take navy text (ivory is only text on brass there) and a darker brass on hover, since
+   --gold-deep is the navy itself. */
+.theme-cumpleanos-reserva [data-tone='dark'] {
+  --gold: #d2a95f;
+  --color-gold: var(--gold);
+  --color-ivory: var(--dark-from);
+  --color-gold-deep: #b58a45;
+}
+
+/* The art-deco sunburst behind the hero: thin brass rays fanning out from below the age. */
+.theme-cumpleanos-reserva .reserva-rays {
+  background: repeating-conic-gradient(
+    from 0deg at 50% 62%,
+    color-mix(in srgb, var(--gold-light) 11%, transparent) 0deg 1.2deg,
+    transparent 1.2deg 9deg
+  );
+  mask-image: radial-gradient(circle at 50% 62%, black 0%, black 35%, transparent 75%);
+}

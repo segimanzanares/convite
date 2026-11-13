@@ -32,7 +32,7 @@ it('shows the published demo of each template', function () {
 
     $this->get('/')
         ->assertInertia(fn (Assert $page) => $page
-            ->where('demos', fn ($demos) => collect($demos)->pluck('slug')->all() === ['boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena', 'cumpleanos-floral'])
+            ->where('demos', fn ($demos) => collect($demos)->pluck('slug')->all() === ['boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena', 'cumpleanos-floral', 'cumpleanos-reserva'])
             ->where('demos.0.url', route('invitations.show', 'boda-clasica'))
             ->where('demos.0.image', '/invitations/boda-clasica/og-image.jpg')
             ->where('demos.4.kind', 'birthday')

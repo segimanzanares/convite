@@ -45,6 +45,12 @@ class InvitationSeeder extends Seeder
                 'og_image' => '/invitations/cumpleanos-floral/og-image.jpg',
             ],
             [
+                'template' => 'cumpleanos-reserva',
+                'title' => 'Roberto Méndez — 50 años',
+                'description' => 'Acompáñanos a brindar por los 50 años de Roberto Méndez.',
+                'og_image' => '/invitations/cumpleanos-reserva/og-image.jpg',
+            ],
+            [
                 'template' => 'xv-jardin',
                 'title' => 'Sofía Valentina — Mis XV Años',
                 'description' => 'Una noche en el jardín encantado: acompáñame a celebrar mis XV años.',

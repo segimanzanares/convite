@@ -12,7 +12,7 @@ beforeEach(function () {
 });
 
 it('reads the templates and their kind from the manifests', function () {
-    expect(Invitation::templates())->toHaveKeys(['boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena', 'cumpleanos-floral', 'xv-jardin'])
+    expect(Invitation::templates())->toHaveKeys(['boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena', 'cumpleanos-floral', 'cumpleanos-reserva', 'xv-jardin'])
         ->and(Invitation::factory()->make(['template' => 'cumpleanos-floral'])->kind()->value)->toBe('birthday')
         ->and(Invitation::factory()->make(['template' => 'xv-jardin'])->kind()->value)->toBe('xv');
 });
