@@ -23,6 +23,7 @@ import './theme.css';
 export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
   const musicPlayerRef = useRef<MusicPlayerHandle>(null);
   const [autoScrollActive, setAutoScrollActive] = useState(false);
+  const [envelopeOpen, setEnvelopeOpen] = useState(false);
   const couple = toCouple(invitation);
   const coupleTitle = `${couple.names[0]} & ${couple.names[1]}`;
 
@@ -38,12 +39,15 @@ export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
         monogram={initials(...couple.names)}
         title={coupleTitle}
         ariaName={`${couple.names[0]} y ${couple.names[1]}`}
-        onOpen={() => musicPlayerRef.current?.play()}
+        onOpen={() => {
+          setEnvelopeOpen(true);
+          musicPlayerRef.current?.play();
+        }}
         onOpened={() => setAutoScrollActive(true)}
       />
       <MusicPlayer ref={musicPlayerRef} src={couple.musicFile} position="bottom-center" />
       <FloatingPetals symbols={['❀', '✿', '❁']} />
-      <FloralHero couple={couple} coverUrl={invitation.cover} />
+      <FloralHero couple={couple} coverUrl={invitation.cover} bloom={envelopeOpen} />
       <CoupleMessage couple={couple} message={invitation.message} />
       <FullDivider text={coupleTitle} />
       {invitation.venues.length > 0 && (

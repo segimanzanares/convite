@@ -5,10 +5,12 @@ interface FloralHeroProps {
   couple: CoupleInfo;
   /** The couple's cover photo, shown softly behind the names. */
   coverUrl?: string | null;
+  /** Turns true when the envelope opens, so the flowers grow while the guest is watching. */
+  bloom: boolean;
 }
 
-/** A light hero framed by bouquets in two corners, with the couple's names in the middle. */
-export function FloralHero({ couple, coverUrl }: FloralHeroProps) {
+/** A light hero framed by bouquets in two corners, with the couple's names in the middle. The flowers grow once `bloom` turns true. */
+export function FloralHero({ couple, coverUrl, bloom }: FloralHeroProps) {
   const [firstName, secondName] = couple.names;
 
   return (
@@ -21,8 +23,16 @@ export function FloralHero({ couple, coverUrl }: FloralHeroProps) {
         />
       )}
 
-      <CornerBouquet className="absolute -top-3 -left-3 w-[230px] sm:w-[360px] lg:w-[460px] h-auto z-0 opacity-0 animate-[fadeIn_1.6s_0.2s_forwards]" />
-      <CornerBouquet className="absolute -bottom-3 -right-3 w-[230px] sm:w-[360px] lg:w-[460px] h-auto z-0 rotate-180 opacity-0 animate-[fadeIn_1.6s_0.4s_forwards]" />
+      <CornerBouquet
+        play={bloom}
+        delay={0.9}
+        className="absolute -top-3 -left-3 w-[230px] sm:w-[360px] lg:w-[460px] h-auto z-0"
+      />
+      <CornerBouquet
+        play={bloom}
+        delay={1.2}
+        className="absolute -bottom-3 -right-3 w-[230px] sm:w-[360px] lg:w-[460px] h-auto z-0 rotate-180"
+      />
 
       <div className="relative z-10">
         <p className="font-display text-[clamp(9px,1.2vw,13px)] tracking-[0.5em] text-[var(--leaf-deep)] uppercase opacity-0 animate-[fadeUp_1.2s_0.3s_forwards] mb-6">
@@ -35,7 +45,7 @@ export function FloralHero({ couple, coverUrl }: FloralHeroProps) {
           {secondName}
         </h1>
 
-        <FloralSpray className="mt-6 opacity-0 animate-[fadeUp_1.2s_1.1s_forwards]" />
+        <FloralSpray play={bloom} delay={1.6} className="mt-6" />
 
         <p className="mt-6 font-display text-[clamp(12px,2vw,17px)] tracking-[0.4em] text-ink font-light opacity-0 animate-[fadeUp_1.2s_1.3s_forwards]">
           {couple.dateLabel}

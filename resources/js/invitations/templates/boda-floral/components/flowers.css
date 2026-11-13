@@ -1,0 +1,153 @@
+/* The flower ornaments' animation (Flowers.tsx). Each piece waits hidden until its .floral-art root gets
+   .is-playing, then grows after var(--d0) + var(--d) and keeps a slow, desynchronized motion. Every piece is
+   drawn around its own origin (a rose's center, a leaf's or a bud's base), which is where SVG elements
+   transform from. */
+.floral-art .floral-bloom,
+.floral-art .floral-bloom-heart,
+.floral-art .floral-leaf,
+.floral-art .floral-bud,
+.floral-art .floral-berries,
+.floral-art .floral-sway {
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
+.floral-art .floral-bloom,
+.floral-art .floral-leaf,
+.floral-art .floral-bud,
+.floral-art .floral-berries {
+  transform: scale(0);
+}
+
+.floral-art .floral-stem {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.floral-art.is-playing .floral-stem {
+  animation: floralDraw 1.4s calc(var(--d0, 0s) + var(--d, 0s)) ease-out forwards;
+}
+
+.floral-art.is-playing .floral-bloom {
+  animation:
+    floralBloom 1.2s calc(var(--d0, 0s) + var(--d, 0s)) cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+    floralBreathe 7s calc(var(--d0, 0s) + var(--d, 0s) + 1.2s) ease-in-out infinite;
+}
+
+.floral-art.is-playing .floral-bloom-heart {
+  animation: floralTwirl 9s calc(var(--d0, 0s) + var(--d, 0s)) ease-in-out infinite;
+}
+
+.floral-art.is-playing .floral-leaf {
+  animation:
+    floralGrow 0.9s calc(var(--d0, 0s) + var(--d, 0s)) ease-out forwards,
+    floralRustle 5s calc(var(--d0, 0s) + var(--d, 0s) + 0.9s) ease-in-out infinite;
+}
+
+.floral-art.is-playing .floral-bud {
+  animation:
+    floralGrow 0.9s calc(var(--d0, 0s) + var(--d, 0s)) ease-out forwards,
+    floralNod 4s calc(var(--d0, 0s) + var(--d, 0s) + 0.9s) ease-in-out infinite;
+}
+
+.floral-art.is-playing .floral-berries {
+  animation: floralGrow 0.8s calc(var(--d0, 0s) + var(--d, 0s)) ease-out forwards;
+}
+
+.floral-art.is-playing .floral-sway {
+  animation: floralSway 11s calc(var(--d0, 0s) + 1.5s) ease-in-out infinite;
+}
+
+@keyframes floralDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes floralBloom {
+  from {
+    transform: scale(0) rotate(-120deg);
+  }
+  to {
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes floralBreathe {
+  0%,
+  100% {
+    transform: scale(1) rotate(0);
+  }
+  50% {
+    transform: scale(1.06) rotate(6deg);
+  }
+}
+
+@keyframes floralTwirl {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(-24deg);
+  }
+}
+
+@keyframes floralGrow {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes floralRustle {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes floralNod {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(7deg);
+  }
+  75% {
+    transform: rotate(-7deg);
+  }
+}
+
+@keyframes floralSway {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(1.6deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floral-art .floral-bloom,
+  .floral-art .floral-bloom-heart,
+  .floral-art .floral-leaf,
+  .floral-art .floral-bud,
+  .floral-art .floral-berries,
+  .floral-art .floral-sway {
+    transform: none;
+    animation: none !important;
+  }
+
+  .floral-art .floral-stem {
+    stroke-dashoffset: 0;
+    animation: none !important;
+  }
+}
