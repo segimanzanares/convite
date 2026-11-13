@@ -1,0 +1,124 @@
+/* Noche celestial: midnight indigo and moonlit lilac-silver on pale starlight paper. --gold-deep is the indigo
+   (titles, buttons) so the light sections read as ink on paper, and the lilac silver stays an accent. The dark
+   sections (the hero, the countdown, the closing) are a night sky. */
+.theme-xv-celestial {
+  --gold: #7c73b1;
+  --gold-light: #cdc6ef;
+  --gold-pale: #e6e2f4;
+  --gold-deep: #272a5c;
+  --white: #fcfbff;
+  --cream: #f5f3fb;
+  --off-white: #e9e6f4;
+  --text-dark: #1d1f45;
+
+  --text-body: #3a3c66;
+  --text-muted: #67698e;
+  --dark-from: #0b0e27;
+  --dark-to: #262b63;
+  --envelope-bg: radial-gradient(circle at 50% 30%, #2c3170 0%, #141738 55%, #070919 100%);
+
+  /* Pinyon Script takes the place of Great Vibes, Marcellus SC that of Cinzel and Spectral that of Cormorant. The
+     font utilities read these at use, so they apply here. */
+  --font-script: 'Pinyon Script', cursive;
+  --font-display: 'Marcellus SC', serif;
+  --font-body: 'Spectral', Georgia, serif;
+  font-family: var(--font-body);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+}
+
+/* The night-sky sections need a brighter lilac for legible numbers, labels and text. */
+.theme-xv-celestial [data-tone='dark'] {
+  --gold: #b3aae6;
+  --color-gold: var(--gold);
+}
+
+/* A shooting star: a bright head with a fading tail that crosses the sky now and then. */
+.theme-xv-celestial .celestial-shooting-star {
+  position: absolute;
+  width: 140px;
+  height: 1.5px;
+  border-radius: 999px;
+  background: linear-gradient(to right, transparent, color-mix(in srgb, var(--gold-light) 90%, white));
+  opacity: 0;
+  transform: rotate(var(--angle, 155deg)) translateX(0);
+  animation: celestialShoot var(--every, 9s) var(--wait, 2s) ease-in infinite;
+}
+
+.theme-xv-celestial .celestial-shooting-star::after {
+  content: '';
+  position: absolute;
+  right: -2px;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 10px 3px color-mix(in srgb, var(--gold-light) 70%, transparent);
+}
+
+@keyframes celestialShoot {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--angle, 155deg)) translateX(0);
+  }
+  4% {
+    opacity: 1;
+  }
+  14%,
+  100% {
+    opacity: 0;
+    transform: rotate(var(--angle, 155deg)) translateX(-420px);
+  }
+}
+
+/* The little star that circles the portrait, and the moon's soft glow. */
+.theme-xv-celestial .celestial-orbit {
+  animation: celestialSpin 24s linear infinite;
+}
+
+.theme-xv-celestial .celestial-glow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: celestialGlow 5s ease-in-out infinite;
+}
+
+@keyframes celestialSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes celestialGlow {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-xv-celestial .celestial-shooting-star {
+    display: none;
+  }
+
+  .theme-xv-celestial .celestial-orbit,
+  .theme-xv-celestial .celestial-glow {
+    animation: none;
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "kind": "xv",
+  "label": "XV años · noche celestial",
+  "sections": [
+    "venues",
+    "program",
+    "gallery",
+    "dress_code",
+    "gifts"
+  ],
+  "fonts": [
+    "Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400",
+    "Marcellus SC",
+    "Pinyon Script"
+  ]
+}
