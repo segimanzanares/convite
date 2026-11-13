@@ -27,15 +27,15 @@ it('renders an invitation with its template page and meta tags', function () {
         ->assertSee('<meta name="robots" content="noindex, nofollow" />', escape: false);
 });
 
-it('serves the printable pages a template provides', function (string $path, string $page, string $title) {
-    $invitation = Invitation::factory()->create(['template' => 'boda-clasica', 'title' => 'Boda Demo']);
+it('serves the printable pages a template provides', function (string $template, string $path, string $page, string $title) {
+    $invitation = Invitation::factory()->create(['template' => $template, 'title' => 'Boda Demo']);
 
     $this->get("/i/{$invitation->slug}/{$path}")
         ->assertOk()
         ->assertInertia(fn (Assert $inertia) => $inertia
-            ->component("templates/boda-clasica/{$page}")
+            ->component("templates/{$template}/{$page}")
             ->where('meta.title', $title));
-})->with([
+})->with(['boda-clasica', 'boda-floral', 'boda-moderna'])->with([
     'print card' => ['tarjeta', 'PrintCardPage', 'Tarjeta impresa — Boda Demo'],
     'guest passes' => ['pases', 'GuestPassesPage', 'Pases de invitados — Boda Demo'],
 ]);

@@ -1,0 +1,185 @@
+/* The printable card and guest passes of the modern wedding: the shared
+   layouts (components/print-card) restyled like the invitation, with Geist,
+   one hairline frame and no floral ornaments. As in PrintCard.css, every
+   color is opaque so PDF viewers don't composite soft masks. */
+
+.theme-boda-moderna.print-card-page {
+  background: oklch(0.92 0.004 286.32);
+  font-family: var(--font-geist);
+  color: var(--text-body);
+}
+
+/* Toolbar, as shadcn/ui buttons */
+.theme-boda-moderna .print-card-toolbar__primary {
+  font-family: var(--font-geist);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.theme-boda-moderna .print-card-toolbar__primary:hover { background: oklch(0.274 0.006 286.033); }
+.theme-boda-moderna .print-card-toolbar__link,
+.theme-boda-moderna .guest-editor__footer {
+  font-family: var(--font-geist);
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.theme-boda-moderna .print-card-toolbar__hint,
+.theme-boda-moderna .guest-editor__note {
+  font-size: 13px;
+  font-style: normal;
+  color: var(--muted-foreground);
+}
+.theme-boda-moderna .guest-editor__label { font-size: 14px; font-weight: 500; }
+.theme-boda-moderna .guest-editor__label code,
+.theme-boda-moderna .guest-editor__input { font-family: var(--font-geist-mono); font-size: 13px; }
+.theme-boda-moderna .guest-editor__input {
+  border: 1px solid var(--input);
+  border-radius: 8px;
+  background: var(--background);
+}
+.theme-boda-moderna .guest-editor__input:focus { outline: 3px solid oklch(0.871 0.006 286.286); outline-offset: 0; }
+
+/* Ornaments: a single hairline frame with rounded corners */
+.theme-boda-moderna .print-card,
+.theme-boda-moderna .guest-pass { background: var(--white); }
+.theme-boda-moderna .print-card__corner,
+.theme-boda-moderna .print-card__mark { display: none; }
+.theme-boda-moderna .print-card__frame {
+  border: 0.25mm solid var(--border);
+  border-radius: 3mm;
+}
+.theme-boda-moderna .print-card__frame::before { display: none; }
+
+/* Card typography */
+.theme-boda-moderna .print-card__eyebrow,
+.theme-boda-moderna .print-card__label,
+.theme-boda-moderna .print-card__signature,
+.theme-boda-moderna .print-card__date,
+.theme-boda-moderna .print-card__time,
+.theme-boda-moderna .print-card__url {
+  font-family: var(--font-geist);
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+.theme-boda-moderna .print-card__eyebrow { font-size: 7pt; letter-spacing: 0.2em; }
+.theme-boda-moderna .print-card__label { font-size: 6.5pt; letter-spacing: 0.15em; }
+.theme-boda-moderna .print-card__signature { font-size: 7pt; letter-spacing: 0.15em; }
+.theme-boda-moderna .print-card__date { font-size: 9pt; letter-spacing: 0.08em; color: var(--foreground); }
+.theme-boda-moderna .print-card__time { font-family: var(--font-geist-mono); font-size: 8.5pt; letter-spacing: 0; color: var(--foreground); }
+.theme-boda-moderna .print-card__url { font-family: var(--font-geist-mono); font-size: 6.5pt; letter-spacing: 0; }
+
+.theme-boda-moderna .print-card__rule {
+  width: 12mm;
+  background: var(--border);
+}
+.theme-boda-moderna .print-card__names {
+  font-family: var(--font-geist);
+  font-size: 34pt;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--foreground);
+}
+.theme-boda-moderna .print-card__amp {
+  margin: 1mm 0;
+  font-family: var(--font-instrument);
+  font-size: 26pt;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--muted-foreground);
+}
+.theme-boda-moderna .print-card__subtitle {
+  font-family: var(--font-instrument);
+  font-size: 20pt;
+  font-style: italic;
+  color: var(--foreground);
+}
+.theme-boda-moderna .print-card__lead {
+  font-family: var(--font-instrument);
+  font-size: 12.5pt;
+  font-style: normal;
+  line-height: 1.35;
+  color: var(--text-body);
+}
+.theme-boda-moderna .print-card__place { font-size: 9.5pt; letter-spacing: 0; color: var(--muted-foreground); }
+
+/* Card back */
+.theme-boda-moderna .print-card__monogram {
+  border: 0.25mm solid var(--border);
+  background: var(--muted);
+  font-family: var(--font-geist);
+  font-size: 13pt;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+}
+.theme-boda-moderna .print-card__event,
+.theme-boda-moderna .print-card__note,
+.theme-boda-moderna .print-card__rsvp { font-size: 9pt; font-style: normal; color: var(--muted-foreground); }
+.theme-boda-moderna .print-card__event + .print-card__event { border-left-color: var(--border); }
+.theme-boda-moderna .print-card__event h3,
+.theme-boda-moderna .print-card__dress h3 {
+  font-size: 11pt;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+}
+.theme-boda-moderna .print-card__rsvp strong { color: var(--foreground); }
+.theme-boda-moderna .print-card__qr {
+  border: 0.25mm solid var(--border);
+  border-radius: 2mm;
+}
+.theme-boda-moderna .print-card__swatches span { border-color: var(--border); }
+
+/* Guest passes */
+.theme-boda-moderna .guest-pass .print-card__frame { border-radius: 2mm; }
+.theme-boda-moderna .guest-pass__eyebrow,
+.theme-boda-moderna .guest-pass__label,
+.theme-boda-moderna .guest-pass__unit,
+.theme-boda-moderna .guest-pass__table,
+.theme-boda-moderna .guest-pass__date {
+  font-family: var(--font-geist);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--muted-foreground);
+}
+.theme-boda-moderna .guest-pass__table,
+.theme-boda-moderna .guest-pass__date { color: var(--foreground); }
+.theme-boda-moderna .guest-pass__names {
+  font-family: var(--font-geist);
+  font-size: 13pt;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--foreground);
+}
+.theme-boda-moderna .guest-pass__amp {
+  font-family: var(--font-instrument);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--muted-foreground);
+}
+.theme-boda-moderna .guest-pass__rule { width: 10mm; background: var(--border); }
+.theme-boda-moderna .guest-pass__guest {
+  font-family: var(--font-geist);
+  font-size: 10pt;
+  font-weight: 600;
+  color: var(--foreground);
+}
+.theme-boda-moderna .guest-pass__badge {
+  border: 0.25mm solid var(--border);
+  outline: none;
+  border-radius: 2.5mm;
+  background: var(--muted);
+}
+.theme-boda-moderna .guest-pass__seats {
+  font-family: var(--font-geist-mono);
+  font-weight: 500;
+  color: var(--foreground);
+}

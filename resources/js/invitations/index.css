@@ -22,6 +22,9 @@
   --font-display: 'Cinzel', serif;
   --font-script: 'Great Vibes', cursive;
   --font-jost: 'Jost', 'Futura', sans-serif;
+  --font-geist: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-geist-mono: 'Geist Mono', ui-monospace, monospace;
+  --font-instrument: 'Instrument Serif', serif;
 }
 
 @keyframes fadeUp {

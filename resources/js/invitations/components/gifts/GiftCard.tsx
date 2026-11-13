@@ -1,5 +1,6 @@
 import { useEffect, useState, type ComponentType } from 'react';
 import { BankIcon, EnvelopeIcon, GiftBoxIcon } from './GiftIcons';
+import { copyToClipboard } from '../../utils/clipboard';
 import type { GiftKind, GiftOption } from '../../types/wedding';
 
 const GIFT_ICONS: Record<GiftKind, ComponentType<{ className?: string }>> = {
@@ -10,22 +11,6 @@ const GIFT_ICONS: Record<GiftKind, ComponentType<{ className?: string }>> = {
 
 const BUTTON_CLASS =
   'inline-block bg-gold text-ivory font-display text-[11px] tracking-[0.3em] uppercase no-underline py-3.5 px-7 rounded-md cursor-pointer border-none transition-colors duration-300 hover:bg-gold-deep';
-
-async function copyToClipboard(text: string) {
-  if (navigator.clipboard && window.isSecureContext) {
-    await navigator.clipboard.writeText(text);
-    return;
-  }
-  // Fallback for non-secure contexts (e.g. testing over plain http on a phone).
-  const textarea = document.createElement('textarea');
-  textarea.value = text;
-  textarea.style.position = 'fixed';
-  textarea.style.opacity = '0';
-  document.body.appendChild(textarea);
-  textarea.select();
-  document.execCommand('copy');
-  textarea.remove();
-}
 
 interface GiftCardProps {
   gift: GiftOption;

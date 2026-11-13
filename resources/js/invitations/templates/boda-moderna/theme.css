@@ -1,0 +1,86 @@
+/* Boda moderna: shadcn/ui's zinc theme. Neutral surfaces, hairline borders,
+   rounded cards and Geist type; the countdown and RSVP sections switch to
+   the theme's dark tokens (.boda-moderna-dark). The components of this
+   template read the shadcn tokens below through Tailwind's bg-(--card)
+   style utilities. */
+.theme-boda-moderna {
+  --radius: 0.75rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.141 0.005 285.823);
+  --primary: oklch(0.21 0.006 285.885);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.967 0.001 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --muted: oklch(0.967 0.001 286.375);
+  --muted-foreground: oklch(0.552 0.016 285.938);
+  --accent: oklch(0.967 0.001 286.375);
+  --border: oklch(0.92 0.004 286.32);
+  --input: oklch(0.92 0.004 286.32);
+  --ring: oklch(0.705 0.015 286.067);
+  --destructive: oklch(0.577 0.245 27.325);
+
+  /* The shared components this template still uses (the music button, the
+     lightbox, the preview banner) read the legacy tokens: map them to zinc. */
+  --gold: oklch(0.442 0.017 285.786);
+  --gold-light: oklch(0.871 0.006 286.286);
+  --gold-pale: oklch(0.967 0.001 286.375);
+  --gold-deep: oklch(0.21 0.006 285.885);
+  --white: oklch(1 0 0);
+  --cream: oklch(0.985 0 0);
+  --off-white: oklch(0.967 0.001 286.375);
+  --text-dark: oklch(0.141 0.005 285.823);
+  --text-body: oklch(0.37 0.013 285.805);
+  --text-muted: oklch(0.552 0.016 285.938);
+  --dark-from: oklch(0.141 0.005 285.823);
+  --dark-to: oklch(0.21 0.006 285.885);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* shadcn/ui's dark zinc tokens, for the inverted sections. */
+.theme-boda-moderna .boda-moderna-dark {
+  --background: oklch(0.141 0.005 285.823);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.21 0.006 285.885);
+  --card-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.92 0.004 286.32);
+  --primary-foreground: oklch(0.21 0.006 285.885);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+  --accent: oklch(0.274 0.006 286.033);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.552 0.016 285.938);
+  --destructive: oklch(0.704 0.191 22.216);
+
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* The faint grid behind the hero, as on shadcn/ui's own pages. */
+.theme-boda-moderna .boda-moderna-grid {
+  background-image:
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 75%);
+}

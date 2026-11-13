@@ -27,6 +27,12 @@ class InvitationSeeder extends Seeder
                 'og_image' => '/invitations/boda-floral/og-image.jpg',
             ],
             [
+                'template' => 'boda-moderna',
+                'title' => 'Valeria & Andrés — Nuestra Boda',
+                'description' => 'Acompáñanos a celebrar la boda de Valeria & Andrés.',
+                'og_image' => '/invitations/boda-moderna/og-image.jpg',
+            ],
+            [
                 'template' => 'cumpleanos-floral',
                 'title' => 'Carmen Ruiz — 70 años',
                 'description' => 'Acompáñanos a celebrar el cumpleaños número 70 de Carmen Ruiz.',
