@@ -8,5 +8,10 @@
     "dress_code",
     "swatches",
     "gifts"
+  ],
+  "fonts": [
+    "Playfair Display:ital,wght@0,400;0,700;1,400;1,500",
+    "EB Garamond:ital,wght@0,400;0,500;1,400",
+    "Cinzel:wght@300;400;500"
   ]
 }

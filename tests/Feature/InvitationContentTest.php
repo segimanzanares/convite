@@ -17,6 +17,10 @@ it('reads the templates and their kind from the manifests', function () {
         ->and(Invitation::factory()->make(['template' => 'xv-jardin'])->kind()->value)->toBe('xv');
 });
 
+it('declares the fonts of every template in its manifest', function () {
+    expect(Invitation::templates())->each(fn ($template) => $template->fonts->not->toBeEmpty());
+});
+
 it('opens the content form for the admin', function () {
     $invitation = Invitation::factory()->withContent()->create(['template' => 'boda-clasica']);
 

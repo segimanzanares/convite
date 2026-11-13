@@ -8,5 +8,10 @@
     "dress_code",
     "swatches",
     "gifts"
+  ],
+  "fonts": [
+    "DM Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700",
+    "DM Serif Display:ital@0;1",
+    "Cinzel:wght@300;400;500"
   ]
 }

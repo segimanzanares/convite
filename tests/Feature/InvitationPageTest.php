@@ -40,6 +40,30 @@ it('serves the printable pages a template provides', function (string $template,
     'guest passes' => ['pases', 'GuestPassesPage', 'Pases de invitados — Boda Demo'],
 ]);
 
+it('loads only the fonts its template declares', function () {
+    $invitation = Invitation::factory()->create(['template' => 'infantil-dino']);
+
+    $this->get("/i/{$invitation->slug}")
+        ->assertOk()
+        ->assertSee('<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&amp;family=Cinzel:wght@300;400;500&amp;family=Jost:wght@300;400;500&amp;display=swap" rel="stylesheet" />', escape: false);
+});
+
+it('adds the fonts of the printable pages to them only', function () {
+    $invitation = Invitation::factory()->create(['template' => 'boda-moderna']);
+
+    $this->get("/i/{$invitation->slug}")->assertOk()->assertDontSee('family=Great+Vibes', escape: false);
+    $this->get("/i/{$invitation->slug}/tarjeta")
+        ->assertOk()
+        ->assertSee('family=Geist:wght@300;400;500;600;700', escape: false)
+        ->assertSee('family=Great+Vibes', escape: false);
+});
+
+it('loads the shared components\' fonts on the pages that are not a template\'s', function () {
+    $this->get('/i/no-existe')
+        ->assertNotFound()
+        ->assertSee('<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&amp;family=Cinzel:wght@300;400;500&amp;family=Great+Vibes&amp;family=Jost:wght@300;400;500&amp;display=swap" rel="stylesheet" />', escape: false);
+});
+
 it('returns 404 for printable pages a template does not provide', function (string $path) {
     $invitation = Invitation::factory()->create(['template' => 'cumpleanos-floral']);
 

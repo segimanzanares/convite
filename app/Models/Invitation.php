@@ -320,8 +320,10 @@ class Invitation extends Model
     /**
      * Every template: each folder that ships an InvitationPage and declares its kind in a template.json manifest,
      * keyed by folder name. A design made for one client sets "exclusive": true, so other invitations cannot pick it.
+     * "fonts" lists the Google Fonts families its pages use (as in the css2 API's family parameter, e.g.
+     * "Cinzel:wght@300;400;500"), and "print_fonts" the ones only its printable pages add.
      *
-     * @return array<string, array{kind: InvitationKind, label: string, sections: list<string>, exclusive: bool}>
+     * @return array<string, array{kind: InvitationKind, label: string, sections: list<string>, exclusive: bool, fonts: list<string>, print_fonts: list<string>}>
      */
     public static function templates(): array
     {
@@ -342,6 +344,8 @@ class Invitation extends Model
                     'label' => (string) ($manifest['label'] ?? basename($folder)),
                     'sections' => array_values(array_intersect($manifest['sections'] ?? [], self::SECTIONS)),
                     'exclusive' => (bool) ($manifest['exclusive'] ?? false),
+                    'fonts' => array_values(array_filter($manifest['fonts'] ?? [], is_string(...))),
+                    'print_fonts' => array_values(array_filter($manifest['print_fonts'] ?? [], is_string(...))),
                 ];
             }
 

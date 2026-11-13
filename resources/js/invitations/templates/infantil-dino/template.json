@@ -6,5 +6,9 @@
     "program",
     "gallery",
     "gifts"
+  ],
+  "fonts": [
+    "Baloo 2:wght@500;600;700;800",
+    "Cinzel:wght@300;400;500"
   ]
 }

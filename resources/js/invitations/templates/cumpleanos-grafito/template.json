@@ -8,5 +8,11 @@
     "dress_code",
     "swatches",
     "gifts"
+  ],
+  "fonts": [
+    "Geist:wght@300;400;500;600;700",
+    "Geist Mono:wght@400;500",
+    "Space Grotesk:wght@400;500;600;700",
+    "Cinzel:wght@300;400;500"
   ]
 }
