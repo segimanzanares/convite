@@ -16,6 +16,7 @@ import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/Musi
 import { useAutoScroll } from '../../hooks/useAutoScroll';
 import { initials, toCelebrant } from '../../lib/eventContent';
 import type { BirthdayContent } from '../../types/invitation';
+import { DecoDivider } from './components/BrassOrnaments';
 import { DecoFrame } from './components/DecoFrame';
 import { ReservaHero } from './components/ReservaHero';
 import './theme.css';
@@ -26,6 +27,7 @@ const SPARKS = ['✦', '✧', '◆', '·'];
 export function InvitationPage({ invitation }: { invitation: BirthdayContent }) {
   const musicPlayerRef = useRef<MusicPlayerHandle>(null);
   const [autoScrollActive, setAutoScrollActive] = useState(false);
+  const [envelopeOpen, setEnvelopeOpen] = useState(false);
   const celebrant = toCelebrant(invitation);
 
   useEffect(() => {
@@ -40,13 +42,16 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         monogram={initials(...celebrant.name.split(/\s+/).slice(0, 2))}
         title={`${celebrant.firstName} · ${celebrant.age} años`}
         ariaName={celebrant.name}
-        onOpen={() => musicPlayerRef.current?.play()}
+        onOpen={() => {
+          setEnvelopeOpen(true);
+          musicPlayerRef.current?.play();
+        }}
         onOpened={() => setAutoScrollActive(true)}
       />
       <MusicPlayer ref={musicPlayerRef} src={celebrant.musicFile} position="bottom-center" />
       <DecoFrame />
       <FloatingPetals symbols={SPARKS} />
-      <ReservaHero celebrant={celebrant} backgroundImageUrl={invitation.cover} />
+      <ReservaHero celebrant={celebrant} backgroundImageUrl={invitation.cover} play={envelopeOpen} />
       <InvitationMessage
         eyebrow="La invitación"
         title="Un brindis por sus años"
@@ -57,6 +62,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         signature={celebrant.hosts}
       />
       <FullDivider text={`${celebrant.age} y contando`} />
+      {invitation.venues.length > 0 && <DecoDivider className="pt-16 bg-ivory" />}
       {invitation.venues.length > 0 && (
         <VenuesSection
           venues={invitation.venues}
@@ -84,7 +90,12 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
           intro={`Algunos de los momentos que han hecho de ${celebrant.firstName} quien es hoy.`}
         />
       )}
-      {invitation.dressCode && <DressCodeSection dressCode={invitation.dressCode} title="Cómo vestir" />}
+      {invitation.dressCode && (
+        <>
+          <DecoDivider className="pt-16 bg-ivory" />
+          <DressCodeSection dressCode={invitation.dressCode} title="Cómo vestir" />
+        </>
+      )}
       {invitation.swatches.length > 0 && (
         <DressCodePalette
           swatches={invitation.swatches}
@@ -92,6 +103,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
           intro="Tonos profundos, como la madera, el cuero y un buen añejo: así nos gustaría vernos esa noche."
         />
       )}
+      {invitation.gifts.length > 0 && <DecoDivider className="pt-16 bg-ivory" />}
       {invitation.gifts.length > 0 && (
         <GiftsSection
           gifts={invitation.gifts}
@@ -113,6 +125,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         }}
         venues={invitation.venues}
       />
+      <DecoDivider className="pt-14 bg-ivory" />
       <Footer
         title={celebrant.name}
         dateLabel={celebrant.footerDateLabel}

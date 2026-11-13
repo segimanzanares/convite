@@ -18,12 +18,14 @@ import { useAutoScroll } from '../../hooks/useAutoScroll';
 import { initials, toCouple } from '../../lib/eventContent';
 import type { WeddingContent } from '../../types/invitation';
 import bgHero from './images/bg-hero.jpeg';
-import './theme.css';
 import { FloralPageOrnamentBorder } from '../../components/layout/FloralPageOrnamentBorder';
+import { LaurelDivider, WeddingRings } from './components/GoldOrnaments';
+import './theme.css';
 
 export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
   const musicPlayerRef = useRef<MusicPlayerHandle>(null);
   const [autoScrollActive, setAutoScrollActive] = useState(false);
+  const [envelopeOpen, setEnvelopeOpen] = useState(false);
   const couple = toCouple(invitation);
   const coupleTitle = `${couple.names[0]} & ${couple.names[1]}`;
 
@@ -39,16 +41,28 @@ export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
         monogram={initials(...couple.names)}
         title={coupleTitle}
         ariaName={`${couple.names[0]} y ${couple.names[1]}`}
-        onOpen={() => musicPlayerRef.current?.play()}
+        onOpen={() => {
+          setEnvelopeOpen(true);
+          musicPlayerRef.current?.play();
+        }}
         onOpened={() => setAutoScrollActive(true)}
       />
       <MusicPlayer ref={musicPlayerRef} src={couple.musicFile} position="bottom-center" />
       <FloralPageOrnamentBorder />
       <FloatingPetals />
-      <Hero couple={couple} backgroundImageUrl={invitation.cover ?? bgHero} />
+      <Hero
+        couple={couple}
+        backgroundImageUrl={invitation.cover ?? bgHero}
+        ornament={<WeddingRings play={envelopeOpen} delay={1.8} className="relative mt-6 w-[min(260px,62vw)] h-auto" />}
+      />
       <CoupleMessage couple={couple} message={invitation.message} />
       <FullDivider text={coupleTitle} />
-      {invitation.venues.length > 0 && <VenuesSection venues={invitation.venues} />}
+      {invitation.venues.length > 0 && (
+        <>
+          <LaurelDivider className="pt-16" />
+          <VenuesSection venues={invitation.venues} />
+        </>
+      )}
       {invitation.program.length > 0 && (
         <ProgramTimeline items={invitation.program} intro="Así viviremos este día tan especial, momento a momento." />
       )}
@@ -61,15 +75,26 @@ export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
           intro="Cada imagen guarda un instante, cada instante una promesa de eternidad."
         />
       )}
-      {invitation.dressCode && <DressCodeSection dressCode={invitation.dressCode} />}
+      {invitation.dressCode && (
+        <>
+          <LaurelDivider className="pt-16" />
+          <DressCodeSection dressCode={invitation.dressCode} />
+        </>
+      )}
       {invitation.swatches.length > 0 && <DressCodePalette swatches={invitation.swatches} />}
-      {invitation.gifts.length > 0 && <GiftsSection gifts={invitation.gifts} />}
+      {invitation.gifts.length > 0 && (
+        <>
+          <LaurelDivider className="pt-16" />
+          <GiftsSection gifts={invitation.gifts} />
+        </>
+      )}
       <RsvpSection
         whatsappNumber={couple.rsvpWhatsappNumber}
         deadlineLabel={couple.rsvpDeadlineLabel}
         calendar={{ dateTime: couple.weddingDateTime, name: `Boda ${coupleTitle}`, fileName: 'boda.ics' }}
         venues={invitation.venues}
       />
+      <LaurelDivider className="pt-14" />
       <Footer title={coupleTitle} dateLabel={couple.footerDateLabel} tagline={invitation.tagline ?? undefined} />
     </div>
   );

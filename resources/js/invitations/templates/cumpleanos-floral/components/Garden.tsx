@@ -5,18 +5,10 @@
  */
 import type { CSSProperties } from 'react';
 import { type ArtProps, delayStyle, useArt } from '../../../components/floral/art';
+import { Butterfly, type PieceProps } from '../../../components/floral/pieces';
 
 function swayStyle(delay: number, sway: number): CSSProperties {
   return { ...delayStyle(delay), '--sway': `${sway}deg` } as CSSProperties;
-}
-
-interface PieceProps {
-  x: number;
-  y: number;
-  rotate?: number;
-  /** 1 draws a cosmos about 44 units wide, or a butterfly about 52. */
-  scale?: number;
-  delay?: number;
 }
 
 /** A cosmos seen from the front: eight notched petals around a dotted center. */
@@ -72,32 +64,6 @@ function Bud({ x, y, rotate = 0, delay = 0 }: { x: number; y: number; rotate?: n
         <path d="M0 0 L 0 -9" stroke="var(--leaf-deep)" strokeWidth="1" />
         <path d="M0 -8 C -5 -10, -4 -18, 0 -20 C 4 -18, 5 -10, 0 -8 Z" fill="var(--gold)" />
         <path d="M0 -8 C -3 -10, -4 -13, -3 -15 M0 -8 C 3 -10, 4 -13, 3 -15" stroke="var(--leaf-deep)" strokeWidth="1" fill="none" />
-      </g>
-    </g>
-  );
-}
-
-/** A butterfly with its body on (x, y). Its wings flap now and then while it drifts around. */
-function Butterfly({ x, y, rotate = 0, scale = 1, delay = 0 }: PieceProps) {
-  const wings = (
-    <>
-      <path d="M0 -2 C -8 -20, -27 -22, -25 -7 C -23 1, -9 2, 0 0 Z" fill="var(--gold)" />
-      <path d="M0 1 C -11 4, -19 15, -13 20 C -7 23, -2 12, 0 3 Z" fill="var(--gold-light)" />
-      <circle cx="-15" cy="-10" r="3" fill="var(--gold-pale)" opacity="0.85" />
-      <circle cx="-9" cy="12" r="1.8" fill="var(--gold-pale)" opacity="0.85" />
-      <path d="M0 -2 C -8 -20, -27 -22, -25 -7" stroke="var(--gold-deep)" strokeWidth="0.8" fill="none" opacity="0.6" />
-    </>
-  );
-
-  return (
-    <g transform={`translate(${x} ${y}) rotate(${rotate}) scale(${scale})`}>
-      <g className="floral-butterfly" style={delayStyle(delay)}>
-        <g className="floral-wing" style={delayStyle(delay)}>
-          {wings}
-          <g transform="scale(-1 1)">{wings}</g>
-        </g>
-        <ellipse rx="1.8" ry="10" cy="2" fill="var(--gold-deep)" />
-        <path d="M-0.5 -7 C -2 -12, -4 -14, -6 -15 M0.5 -7 C 2 -12, 4 -14, 6 -15" stroke="var(--gold-deep)" strokeWidth="0.8" fill="none" />
       </g>
     </g>
   );
@@ -207,17 +173,6 @@ export function Meadow({ className = '', ...art }: ArtProps) {
       <Tulip x={124} y={ground} height={40} lean={16} delay={0.8} />
       <Blade x={138} y={ground} rotate={-40} length={24} delay={0.9} />
       <Butterfly x={150} y={34} scale={0.62} rotate={18} delay={1.6} />
-    </svg>
-  );
-}
-
-/** A butterfly on its own, to hover over a section. */
-export function FlyingButterfly({ className = '', ...art }: ArtProps) {
-  const { ref, artClass, artStyle } = useArt<SVGSVGElement>(art);
-
-  return (
-    <svg ref={ref} viewBox="0 0 80 80" className={`${className} ${artClass}`} style={artStyle} fill="none" aria-hidden="true">
-      <Butterfly x={40} y={44} rotate={-14} />
     </svg>
   );
 }

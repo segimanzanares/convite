@@ -7,7 +7,12 @@
    - floral-leaf: unfurls, then rustles. floral-berries: grows.
    - floral-bud: grows, then nods var(--sway) to each side (also used for whole plants).
    - floral-sway: a whole bouquet, swaying from its corner.
-   - floral-butterfly: fades in and drifts around; floral-wing: its wings, which flap now and then. */
+   - floral-butterfly: fades in and drifts around; floral-wing: its wings, which flap now and then.
+   - floral-pop: grows from its own center (for shapes drawn in place rather than around an origin).
+   - floral-twinkle: a sparkle that appears, then pulses and turns.
+   - floral-rise: a bubble that rises and fades, over and over.
+   - floral-clink: a glass that tips var(--tilt) from its base every few seconds, as in a toast; floral-flash: the
+     spark at the moment the glasses touch. */
 .floral-art .floral-bloom,
 .floral-art .floral-bloom-heart,
 .floral-art .floral-leaf,
@@ -29,6 +34,48 @@
 
 .floral-art .floral-butterfly {
   opacity: 0;
+}
+
+.floral-art .floral-pop,
+.floral-art .floral-twinkle,
+.floral-art .floral-flash {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.floral-art .floral-clink {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+.floral-art .floral-pop {
+  transform: scale(0);
+}
+
+.floral-art .floral-twinkle,
+.floral-art .floral-rise,
+.floral-art .floral-flash {
+  opacity: 0;
+}
+
+.floral-art.is-playing .floral-pop {
+  animation: floralGrow 0.8s calc(var(--d0, 0s) + var(--d, 0s)) ease-out forwards;
+}
+
+.floral-art.is-playing .floral-twinkle {
+  animation: floralTwinkle 3.2s calc(var(--d0, 0s) + var(--d, 0s)) ease-in-out infinite;
+}
+
+.floral-art.is-playing .floral-rise {
+  animation: floralRise 2.6s calc(var(--d0, 0s) + var(--d, 0s)) ease-in infinite;
+}
+
+.floral-art.is-playing .floral-clink {
+  animation: floralClink 6s calc(var(--d0, 0s) + var(--d, 0s)) ease-in-out infinite;
+}
+
+.floral-art.is-playing .floral-flash {
+  animation: floralFlash 6s calc(var(--d0, 0s) + var(--d, 0s)) ease-out infinite;
 }
 
 .floral-art .floral-stem {
@@ -197,6 +244,68 @@
   }
 }
 
+@keyframes floralTwinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.5) rotate(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(45deg);
+  }
+}
+
+@keyframes floralRise {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  20% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-26px);
+  }
+}
+
+/* Still for most of the cycle, then the glass tips in, touches and swings back. */
+@keyframes floralClink {
+  0%,
+  55%,
+  100% {
+    transform: rotate(0);
+  }
+  68% {
+    transform: rotate(var(--tilt, 8deg));
+  }
+  72% {
+    transform: rotate(calc(var(--tilt, 8deg) * 0.7));
+  }
+  76%,
+  84% {
+    transform: rotate(var(--tilt, 8deg));
+  }
+}
+
+@keyframes floralFlash {
+  0%,
+  67% {
+    opacity: 0;
+    transform: scale(0.3) rotate(0);
+  }
+  72% {
+    opacity: 1;
+    transform: scale(1.15) rotate(30deg);
+  }
+  88%,
+  100% {
+    opacity: 0;
+    transform: scale(0.6) rotate(60deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .floral-art .floral-bloom,
   .floral-art .floral-bloom-heart,
@@ -204,8 +313,21 @@
   .floral-art .floral-bud,
   .floral-art .floral-berries,
   .floral-art .floral-sway,
-  .floral-art .floral-wing {
+  .floral-art .floral-wing,
+  .floral-art .floral-pop,
+  .floral-art .floral-clink {
     transform: none;
+    animation: none !important;
+  }
+
+  .floral-art .floral-twinkle {
+    opacity: 1;
+    transform: none;
+    animation: none !important;
+  }
+
+  .floral-art .floral-rise,
+  .floral-art .floral-flash {
     animation: none !important;
   }
 

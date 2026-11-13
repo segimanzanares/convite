@@ -1,3 +1,4 @@
+import { FlyingButterfly } from '../floral/pieces';
 import { Fireflies } from './Fireflies';
 import { GardenVine } from './GardenVine';
 import { ArchPhoto, type XvPhoto } from './ArchPhoto';
@@ -16,15 +17,19 @@ interface XvHeroProps {
   rsvpHref: string;
   /** Optional portrait. On mobile it crowns the arch; on desktop it sits beside it. */
   photo?: XvPhoto;
+  /** Turns true when the story cover opens, so the vines grow and the butterflies arrive while the guest watches. */
+  play?: boolean;
 }
 
-export function XvHero({ name, eyebrow, shortDate, dateLabel, storyHref, rsvpHref, photo }: XvHeroProps) {
+export function XvHero({ name, eyebrow, shortDate, dateLabel, storyHref, rsvpHref, photo, play }: XvHeroProps) {
   return (
     <section className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden text-center px-6 py-24 bg-[radial-gradient(ellipse_at_50%_35%,var(--color-ivory)_0%,var(--color-cream)_45%,var(--color-gold-pale)_100%)]">
       <Fireflies count={16} className="[&>span]:!bg-gold [&>span]:!opacity-60" />
 
-      <GardenVine className="absolute -top-2 -left-4 w-[min(38vw,260px)] opacity-90" />
-      <GardenVine className="absolute -top-2 -right-4 w-[min(38vw,260px)] opacity-90" flip />
+      <GardenVine play={play} delay={0.8} className="absolute -top-2 -left-4 w-[min(38vw,260px)] opacity-90" />
+      <GardenVine play={play} delay={1.1} className="absolute -top-2 -right-4 w-[min(38vw,260px)] opacity-90" flip />
+      <FlyingButterfly play={play} delay={2.6} className="absolute top-[38%] left-[6%] w-11 sm:w-16" />
+      <FlyingButterfly play={play} delay={3.4} className="absolute bottom-[16%] right-[7%] w-9 sm:w-14 -scale-x-100" />
 
       <div className="relative w-full flex flex-col lg:flex-row items-center justify-center lg:gap-16">
         {photo && (

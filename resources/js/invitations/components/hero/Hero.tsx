@@ -1,11 +1,14 @@
+import type { ReactNode } from 'react';
 import type { CoupleInfo } from '../../types/wedding';
 
 interface HeroProps {
   couple: CoupleInfo;
   backgroundImageUrl?: string;
+  /** Shown between the names and the date, in place of the plain gold rule. */
+  ornament?: ReactNode;
 }
 
-export function Hero({ couple, backgroundImageUrl }: HeroProps) {
+export function Hero({ couple, backgroundImageUrl, ornament }: HeroProps) {
   const [firstName, secondName] = couple.names;
 
   return (
@@ -29,7 +32,9 @@ export function Hero({ couple, backgroundImageUrl }: HeroProps) {
         <span className="font-bold">{secondName}</span>
       </h1>
 
-      <div className="w-[120px] h-px mx-auto bg-[linear-gradient(to_right,transparent,var(--color-gold),transparent)] opacity-0 animate-[fadeUp_1.2s_1.1s_forwards] mt-[30px]" />
+      {ornament ?? (
+        <div className="w-[120px] h-px mx-auto bg-[linear-gradient(to_right,transparent,var(--color-gold),transparent)] opacity-0 animate-[fadeUp_1.2s_1.1s_forwards] mt-[30px]" />
+      )}
 
       <div className="mt-10 opacity-0 animate-[fadeUp_1.2s_1.3s_forwards] text-center">
         <p className="font-display text-[clamp(13px,2vw,18px)] tracking-[0.4em] text-ivory font-light">

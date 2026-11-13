@@ -37,6 +37,7 @@ const ANCHOR = 'scroll-mt-12';
 export function InvitationPage({ invitation }: { invitation: XvContent }) {
   const musicPlayerRef = useRef<MusicPlayerHandle>(null);
   const [autoScrollActive, setAutoScrollActive] = useState(false);
+  const [coverOpen, setCoverOpen] = useState(false);
   const celebrant = toCelebrant(invitation);
   const { eventDate } = eventDates(invitation);
   const monogram = invitation.monogram || initials(...celebrant.name.split(/\s+/).slice(0, 2));
@@ -64,7 +65,10 @@ export function InvitationPage({ invitation }: { invitation: XvContent }) {
         name={celebrant.name}
         subtitle={`Mis XV años · ${dottedDate}`}
         ariaName={celebrant.name}
-        onOpen={() => musicPlayerRef.current?.play()}
+        onOpen={() => {
+          setCoverOpen(true);
+          musicPlayerRef.current?.play();
+        }}
         onOpened={() => setAutoScrollActive(true)}
       />
       <ChapterNav monogram={monogram} links={chapters} />
@@ -80,6 +84,7 @@ export function InvitationPage({ invitation }: { invitation: XvContent }) {
           storyHref={invitation.story ? '#historia' : '#celebracion'}
           rsvpHref="#confirmar"
           photo={invitation.heroPhoto ?? undefined}
+          play={coverOpen}
         />
       </div>
 

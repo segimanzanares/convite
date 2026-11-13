@@ -1,9 +1,12 @@
 import type { CelebrantInfo } from '../../../types/birthday';
+import { ToastGlasses } from './BrassOrnaments';
 
 interface ReservaHeroProps {
   celebrant: CelebrantInfo;
   /** The admin's cover photo, shown faintly behind the label. */
   backgroundImageUrl?: string | null;
+  /** Turns true when the envelope opens, so the glasses draw themselves and toast while the guest watches. */
+  play?: boolean;
 }
 
 /** The year the celebrant was born, from the event's year and the age they turn, or null without a date. */
@@ -27,7 +30,7 @@ function Rule({ className = '' }: { className?: string }) {
  * The opening screen, laid out like the label of an aged bottle: a framed panel on midnight navy with brass rays,
  * the celebrant's name, the age as the "vintage" and the year they were born.
  */
-export function ReservaHero({ celebrant, backgroundImageUrl }: ReservaHeroProps) {
+export function ReservaHero({ celebrant, backgroundImageUrl, play }: ReservaHeroProps) {
   const since = birthYear(celebrant);
 
   return (
@@ -45,6 +48,7 @@ export function ReservaHero({ celebrant, backgroundImageUrl }: ReservaHeroProps)
 
       <div className="relative w-full max-w-[540px] border border-gold-light/50 p-2 opacity-0 animate-[fadeUp_1.4s_0.3s_forwards]">
         <div className="border border-gold-light/25 px-6 py-10 sm:px-12 bg-[color-mix(in_srgb,var(--dark-from)_55%,transparent)] backdrop-blur-[2px]">
+          <ToastGlasses play={play} delay={1.4} className="mx-auto -mt-2 mb-3 w-[78px] sm:w-[92px] h-auto" />
           <p className="font-display text-[10px] sm:text-[11px] tracking-[0.5em] text-gold-light uppercase">
             Gran reserva
           </p>

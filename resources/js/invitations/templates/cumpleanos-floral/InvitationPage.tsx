@@ -19,7 +19,8 @@ import { initials, toCelebrant } from '../../lib/eventContent';
 import type { BirthdayContent } from '../../types/invitation';
 import bgHero from './images/bg-hero.jpeg';
 import { FloralPageOrnamentBorder } from '../../components/layout/FloralPageOrnamentBorder';
-import { AgeWreath, CosmosSprig, FlyingButterfly, Meadow } from './components/Garden';
+import { FlyingButterfly } from '../../components/floral/pieces';
+import { AgeWreath, CosmosSprig, Meadow } from './components/Garden';
 import './theme.css';
 
 export function InvitationPage({ invitation }: { invitation: BirthdayContent }) {
