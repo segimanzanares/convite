@@ -1,6 +1,6 @@
 /*
  * The jurassic party's own illustrations, drawn flat with ink outlines: a friendly long-necked dinosaur, an egg
- * (whole or hatched), a volcano, a fern, a three-toed footprint and a pterodactyl. Their parts move on their own
+ * (whole or hatched), a volcano, a fern, a three-toed footprint, a pterodactyl and a peeking triceratops. Their parts move on their own
  * (motion.css): the dinosaur wags its tail, nods and blinks, the volcano smokes and spits sparks, the ferns sway
  * and the pterodactyl flaps across the sky.
  */
@@ -167,6 +167,36 @@ export function Pterodactyl({ className }: { className?: string }) {
         <path d="M67 20 L84 24 L67 28 Z" fill="#f6a23c" />
       </g>
       <circle cx="62" cy="20" r="2.2" fill={INK} />
+    </svg>
+  );
+}
+
+/** A triceratops's head with its frill and horns, drawn to peek up from the bottom edge of a section. */
+export function Triceratops({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 140 112" className={className} aria-hidden="true">
+      <g stroke={INK} strokeWidth="3.5" strokeLinejoin="round" strokeLinecap="round">
+        <path d="M12 112 C10 40 130 40 128 112 Z" fill="#ffc36b" />
+        {[24, 44, 70, 96, 116].map((cx, index) => (
+          <circle key={cx} cx={cx} cy={index === 2 ? 46 : index % 4 === 0 ? 78 : 54} r="6" fill="#f6a23c" />
+        ))}
+        <path d="M50 66 L42 30 L60 60 Z" fill="#fff4d6" />
+        <path d="M90 66 L98 30 L80 60 Z" fill="#fff4d6" />
+        <ellipse cx="70" cy="86" rx="40" ry="30" fill="#6cc4b0" />
+        <path d="M66 78 L70 62 L75 78 Z" fill="#fff4d6" />
+        <ellipse cx="70" cy="100" rx="20" ry="11" fill="#9fdcc9" />
+        <path d="M60 104 Q70 110 80 104" fill="none" />
+      </g>
+      <g className="dino-blink">
+        <circle cx="54" cy="82" r="5" fill={INK} />
+        <circle cx="86" cy="82" r="5" fill={INK} />
+      </g>
+      <circle cx="56" cy="80" r="1.6" fill="#ffffff" />
+      <circle cx="88" cy="80" r="1.6" fill="#ffffff" />
+      <circle cx="64" cy="98" r="2" fill={INK} />
+      <circle cx="76" cy="98" r="2" fill={INK} />
+      <circle cx="42" cy="94" r="5" fill="#f7a8b8" opacity="0.8" />
+      <circle cx="98" cy="94" r="5" fill="#f7a8b8" opacity="0.8" />
     </svg>
   );
 }

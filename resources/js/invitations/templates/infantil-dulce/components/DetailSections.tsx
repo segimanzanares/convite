@@ -7,6 +7,7 @@ import { Card, Section } from '../../../components/ui/primitives';
 import { buttonClass, cn } from '../../../components/ui/styles';
 import { copyToClipboard } from '../../../utils/clipboard';
 import type { GalleryImage, GiftKind, GiftOption } from '../../../types/wedding';
+import { Candy, Donut, IcePop } from './Illustrations';
 import { SectionTitle } from './ui';
 
 const FRAMES = ['ring-(--frosting)', 'ring-(--secondary)', 'ring-(--accent)', 'ring-(--lilac)'];
@@ -16,7 +17,7 @@ export function GallerySection({ images, firstName }: { images: GalleryImage[]; 
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <Section id="galeria" className="bg-(--muted)">
+    <Section id="galeria" className="relative overflow-hidden bg-(--muted)">
       <SectionTitle eyebrow="Momentos dulces" title="Así ha crecido" description={`Algunas de las fotos favoritas de ${firstName}.`} />
       <Reveal className="grid grid-cols-2 gap-x-5 gap-y-8 sm:gap-x-8 md:grid-cols-3">
         {images.map((image, index) => (
@@ -44,6 +45,8 @@ export function GallerySection({ images, firstName }: { images: GalleryImage[]; 
         onClose={() => setOpenIndex(null)}
         onNavigate={(direction) => setOpenIndex((index) => (index === null ? null : (index + direction + images.length) % images.length))}
       />
+      <Candy className="dulce-candy pointer-events-none absolute top-10 left-[4%] w-12 sm:w-16" />
+      <IcePop className="pointer-events-none absolute right-[4%] bottom-4 hidden w-12 sm:block lg:w-16" />
     </Section>
   );
 }
@@ -90,7 +93,7 @@ export function GiftsSection({ gifts, firstName }: { gifts: GiftOption[]; firstN
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <Section id="regalos">
+    <Section id="regalos" className="relative overflow-hidden">
       <SectionTitle
         eyebrow="Regalos"
         title="Un detalle dulce"
@@ -155,6 +158,7 @@ export function GiftsSection({ gifts, firstName }: { gifts: GiftOption[]; firstN
           );
         })}
       </Reveal>
+      <Donut className="dulce-float pointer-events-none absolute bottom-8 left-[3%] hidden w-16 [animation-delay:-2s] sm:block lg:w-20" />
     </Section>
   );
 }

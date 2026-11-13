@@ -38,6 +38,29 @@
   animation: dulceSpin 9s linear infinite;
 }
 
+.theme-infantil-dulce .dulce-roll {
+  transform-box: view-box;
+  transform-origin: 60px 60px;
+  animation: dulceSpin 14s linear infinite;
+}
+
+.theme-infantil-dulce .dulce-sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: dulceSway 3.4s ease-in-out infinite;
+}
+
+.theme-infantil-dulce .dulce-drop {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  opacity: 0;
+  animation: dulceDrop 2.6s ease-in infinite;
+}
+
+.theme-infantil-dulce .dulce-float {
+  animation: dulceCandy 4.5s ease-in-out infinite;
+}
+
 .theme-infantil-dulce .dulce-candy {
   animation: dulceCandy 5s ease-in-out infinite;
 }
@@ -104,8 +127,43 @@
   }
 }
 
+@keyframes dulceSway {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+/* A drop swells under the ice pop, then falls and fades. */
+@keyframes dulceDrop {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.3);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0) scale(1, 1.2);
+  }
+  90% {
+    opacity: 0.9;
+    transform: translateY(44px) scale(0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .theme-infantil-dulce :is(.dulce-cherry, .dulce-sprinkle, .dulce-drip, .dulce-flame, .dulce-spin, .dulce-candy) {
+  .theme-infantil-dulce :is(.dulce-cherry, .dulce-sprinkle, .dulce-drip, .dulce-flame, .dulce-spin, .dulce-candy, .dulce-roll, .dulce-sway, .dulce-float) {
+    animation: none !important;
+  }
+
+  .theme-infantil-dulce .dulce-drop {
+    display: none;
     animation: none !important;
   }
 }

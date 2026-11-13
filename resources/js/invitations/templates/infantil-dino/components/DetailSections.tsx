@@ -7,6 +7,7 @@ import { Section } from '../../../components/ui/primitives';
 import { buttonClass, cn } from '../../../components/ui/styles';
 import { copyToClipboard } from '../../../utils/clipboard';
 import type { GalleryImage, GiftKind, GiftOption } from '../../../types/wedding';
+import { Fern, Pterodactyl } from './Illustrations';
 import { CHUNKY, CHUNKY_SM, SectionTitle } from './ui';
 
 const TILTS = ['-rotate-3', 'rotate-2', '-rotate-1', 'rotate-3', '-rotate-2', 'rotate-1'];
@@ -16,7 +17,7 @@ export function GallerySection({ images, firstName }: { images: GalleryImage[]; 
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <Section id="galeria" className="dino-dots bg-(--muted)">
+    <Section id="galeria" className="dino-dots relative overflow-hidden bg-(--muted)">
       <SectionTitle eyebrow="Fósiles de recuerdos" title="Huellas de su historia" description={`Así ha crecido nuestro pequeño explorador ${firstName}.`} />
       <Reveal className="grid grid-cols-2 gap-5 sm:gap-8 md:grid-cols-3">
         {images.map((image, index) => (
@@ -44,6 +45,8 @@ export function GallerySection({ images, firstName }: { images: GalleryImage[]; 
         onClose={() => setOpenIndex(null)}
         onNavigate={(direction) => setOpenIndex((index) => (index === null ? null : (index + direction + images.length) % images.length))}
       />
+      <Fern className="pointer-events-none absolute bottom-0 left-2 hidden w-16 md:block lg:w-20" />
+      <Fern className="pointer-events-none absolute right-2 bottom-0 hidden w-14 -scale-x-100 md:block lg:w-16" />
     </Section>
   );
 }
@@ -88,7 +91,7 @@ function CopyButton({ value, label }: { value: string; label?: string }) {
 /** One chunky card per gift option, each with its icon on a colored tile. */
 export function GiftsSection({ gifts, firstName }: { gifts: GiftOption[]; firstName: string }) {
   return (
-    <Section id="regalos">
+    <Section id="regalos" className="relative overflow-hidden">
       <SectionTitle
         eyebrow="Regalos"
         title="Tesoros para el explorador"
@@ -129,6 +132,7 @@ export function GiftsSection({ gifts, firstName }: { gifts: GiftOption[]; firstN
           );
         })}
       </Reveal>
+      <Pterodactyl className="dino-flight pointer-events-none absolute top-8 left-0 w-14 [animation-delay:-6s] sm:w-20" />
     </Section>
   );
 }

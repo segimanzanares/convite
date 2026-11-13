@@ -56,6 +56,53 @@
   animation: unicornioWobble 4s ease-in-out infinite;
 }
 
+.theme-infantil-unicornio .unicornio-balloon {
+  transform-origin: 50% 0%;
+  animation: unicornioBalloon 6s ease-in-out infinite;
+}
+
+.theme-infantil-unicornio :is(.unicornio-wave, .unicornio-window) {
+  transform-box: fill-box;
+}
+
+.theme-infantil-unicornio .unicornio-wave {
+  transform-origin: 0% 50%;
+  animation: unicornioWave 1.6s ease-in-out infinite alternate;
+}
+
+.theme-infantil-unicornio .unicornio-window {
+  animation: unicornioWindow 2.4s ease-in-out infinite;
+}
+
+@keyframes unicornioBalloon {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(3deg);
+  }
+}
+
+@keyframes unicornioWave {
+  from {
+    transform: skewY(-10deg) scaleX(1);
+  }
+  to {
+    transform: skewY(10deg) scaleX(0.85);
+  }
+}
+
+@keyframes unicornioWindow {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 @keyframes unicornioEarLeft {
   0%,
   80%,
@@ -166,7 +213,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .theme-infantil-unicornio :is(.unicornio-ear-left, .unicornio-ear-right, .unicornio-curl, .unicornio-blush, .unicornio-flag, .unicornio-twinkle, .unicornio-drift, .unicornio-wobble) {
+  .theme-infantil-unicornio :is(.unicornio-ear-left, .unicornio-ear-right, .unicornio-curl, .unicornio-blush, .unicornio-flag, .unicornio-twinkle, .unicornio-drift, .unicornio-wobble, .unicornio-balloon, .unicornio-wave, .unicornio-window) {
     animation: none !important;
   }
 

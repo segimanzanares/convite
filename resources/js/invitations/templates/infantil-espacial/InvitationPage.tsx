@@ -14,6 +14,7 @@ import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/Musi
 import { useAutoScroll } from '../../hooks/useAutoScroll';
 import { initials, toCelebrant } from '../../lib/eventContent';
 import type { BirthdayContent } from '../../types/invitation';
+import { LaunchDivider, OrbitDivider, UfoDivider } from './components/SpaceDividers';
 import { SpaceHero } from './components/SpaceHero';
 import './theme.css';
 
@@ -66,6 +67,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
           intro="Aquí será la fiesta: toca el mapa para trazar la ruta de tu nave."
         />
       )}
+      {invitation.program.length > 0 && <OrbitDivider className="pt-14" />}
       {invitation.program.length > 0 && (
         <ProgramTimeline
           items={invitation.program}
@@ -85,6 +87,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
           intro={`Así ha crecido nuestro pequeño astronauta ${firstName}.`}
         />
       )}
+      {invitation.gifts.length > 0 && <UfoDivider className="pt-14" />}
       {invitation.gifts.length > 0 && (
         <GiftsSection
           gifts={invitation.gifts}
@@ -93,6 +96,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
           intro={[`Tu compañía es el mejor regalo para ${firstName}.`, 'Si quieres traerle algo, aquí van algunas ideas:']}
         />
       )}
+      <LaunchDivider className="pt-10" />
       <RsvpSection
         whatsappNumber={celebrant.rsvpWhatsappNumber}
         deadlineLabel={celebrant.rsvpDeadlineLabel}

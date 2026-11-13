@@ -57,6 +57,11 @@
   animation: dinoFlight 18s linear infinite;
 }
 
+/* The triceratops peeks up from the section's bottom edge, looks around and ducks back down. */
+.theme-infantil-dino .dino-peekaboo {
+  animation: dinoPeekaboo 7s ease-in-out infinite;
+}
+
 /* Footprints that light up one after another, as if someone were walking past. */
 .theme-infantil-dino .dino-steps > * {
   animation: dinoStep 2.4s ease-in-out infinite;
@@ -206,6 +211,26 @@
   }
 }
 
+@keyframes dinoPeekaboo {
+  0%,
+  12%,
+  92%,
+  100% {
+    transform: translateY(80%) rotate(0);
+  }
+  24%,
+  40% {
+    transform: translateY(0) rotate(-4deg);
+  }
+  52%,
+  68% {
+    transform: translateY(0) rotate(4deg);
+  }
+  78% {
+    transform: translateY(0) rotate(0);
+  }
+}
+
 @keyframes dinoStep {
   0%,
   100% {
@@ -219,7 +244,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .theme-infantil-dino :is(.dino-tail, .dino-head, .dino-blink, .dino-peek, .dino-fern, .dino-smoke, .dino-lava, .dino-wing-left, .dino-wing-right, .dino-flight),
+  .theme-infantil-dino :is(.dino-tail, .dino-head, .dino-blink, .dino-peek, .dino-fern, .dino-smoke, .dino-lava, .dino-wing-left, .dino-wing-right, .dino-flight, .dino-peekaboo),
   .theme-infantil-dino .dino-steps > * {
     animation: none !important;
   }

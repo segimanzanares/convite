@@ -5,7 +5,7 @@ import { buttonClass, cn } from '../../../components/ui/styles';
 import { useCountdown } from '../../../hooks/useCountdown';
 import { downloadEventCalendar, type CalendarOccasion } from '../../../utils/calendar';
 import type { ProgramItem, Venue } from '../../../types/wedding';
-import { Cupcake } from './Illustrations';
+import { Candy, Cupcake, Donut, IcePop } from './Illustrations';
 import { SectionTitle, Sprinkles } from './ui';
 
 interface MessageSectionProps {
@@ -90,13 +90,14 @@ function VenueCard({ venue }: { venue: Venue }) {
 
 export function VenuesSection({ venues }: { venues: Venue[] }) {
   return (
-    <Section id="lugar" className="bg-(--muted)">
+    <Section id="lugar" className="relative overflow-hidden bg-(--muted)">
       <SectionTitle eyebrow="La dulcería" title="¿Dónde será la fiesta?" description="Toca el botón y te llevamos directo." />
       <Reveal className={cn('grid gap-6', venues.length > 1 ? 'md:grid-cols-2' : 'mx-auto max-w-xl')}>
         {venues.map((venue) => (
           <VenueCard key={`${venue.tag}-${venue.name}`} venue={venue} />
         ))}
       </Reveal>
+      <Donut className="dulce-float pointer-events-none absolute top-8 right-[3%] w-16 sm:top-12 sm:right-[6%] sm:w-24" />
     </Section>
   );
 }
@@ -104,7 +105,7 @@ export function VenuesSection({ venues }: { venues: Venue[] }) {
 /** The program as the menu of a sweet shop: a striped header and one line per item, with a dotted leader to its time. */
 export function ProgramSection({ items }: { items: ProgramItem[] }) {
   return (
-    <Section id="programa">
+    <Section id="programa" className="relative overflow-hidden">
       <SectionTitle eyebrow="El menú del día" title="¿Qué vamos a hacer?" description="Una tarde con todos los sabores." />
       <Reveal>
         <Card className="mx-auto max-w-2xl overflow-hidden border-0 shadow-[0_20px_50px_-30px_oklch(0.45_0.15_355/0.5)]">
@@ -132,6 +133,8 @@ export function ProgramSection({ items }: { items: ProgramItem[] }) {
           </ol>
         </Card>
       </Reveal>
+      <IcePop className="pointer-events-none absolute bottom-6 left-[3%] hidden w-14 sm:block lg:left-[6%] lg:w-20" />
+      <Candy color="#ffd85e" className="dulce-candy pointer-events-none absolute top-12 right-[4%] w-12 sm:w-16" />
     </Section>
   );
 }
@@ -189,6 +192,8 @@ export function CountdownSection({ targetDateTime, calendar, venues }: Countdown
         </Reveal>
       </div>
       <Sprinkles className="opacity-60" />
+      <Cupcake className="dulce-float pointer-events-none absolute right-[4%] bottom-6 hidden w-20 sm:block lg:w-24" />
+      <Candy color="#b9a2f0" className="dulce-candy pointer-events-none absolute top-10 left-[4%] w-12 [animation-delay:-2s] sm:w-16" />
     </section>
   );
 }

@@ -5,7 +5,7 @@ import { buttonClass, cn } from '../../../components/ui/styles';
 import { useCountdown } from '../../../hooks/useCountdown';
 import { downloadEventCalendar, type CalendarOccasion } from '../../../utils/calendar';
 import type { ProgramItem, Venue } from '../../../types/wedding';
-import { Dino, Footprint } from './Illustrations';
+import { Dino, Egg, Footprint, Triceratops } from './Illustrations';
 import { CHUNKY, CHUNKY_SM, SectionTitle } from './ui';
 
 interface MessageSectionProps {
@@ -97,13 +97,14 @@ function VenueCard({ venue }: { venue: Venue }) {
 
 export function VenuesSection({ venues }: { venues: Venue[] }) {
   return (
-    <Section id="lugar" className="dino-dots border-y-[3px] border-(--foreground) bg-(--muted)">
+    <Section id="lugar" className="dino-dots relative overflow-hidden border-y-[3px] border-(--foreground) bg-(--muted)">
       <SectionTitle eyebrow="La guarida" title="¿Dónde será la expedición?" description="Toca el botón y te llevamos directo a la fiesta." />
       <Reveal className={cn('grid gap-6', venues.length > 1 ? 'md:grid-cols-2' : 'mx-auto max-w-xl')}>
         {venues.map((venue) => (
           <VenueCard key={`${venue.tag}-${venue.name}`} venue={venue} />
         ))}
       </Reveal>
+      <Triceratops className="dino-peekaboo pointer-events-none absolute right-[3%] bottom-0 w-24 sm:w-36" />
     </Section>
   );
 }
@@ -162,7 +163,7 @@ export function CountdownSection({ targetDateTime, calendar, venues }: Countdown
   const values = [days, hours, minutes, seconds];
 
   return (
-    <Section className="border-y-[3px] border-(--foreground) bg-(--card)">
+    <Section className="relative overflow-hidden border-y-[3px] border-(--foreground) bg-(--card)">
       <SectionTitle eyebrow="¡Ya casi!" title="Faltan muy poquito" />
       <Reveal>
         <div className="mx-auto grid max-w-3xl grid-cols-2 gap-4 sm:grid-cols-4" role="timer" aria-label="Tiempo que falta para la fiesta">
@@ -186,6 +187,8 @@ export function CountdownSection({ targetDateTime, calendar, venues }: Countdown
           </div>
         )}
       </Reveal>
+      <Egg className="dino-motion pointer-events-none absolute bottom-6 left-[4%] hidden w-20 origin-bottom animate-[dinoWobble_1.6s_ease-in-out_infinite] sm:block lg:w-24" />
+      <Egg className="dino-motion pointer-events-none absolute top-10 right-[5%] hidden w-14 origin-bottom animate-[dinoWobble_1.6s_ease-in-out_-0.8s_infinite] sm:block lg:w-20" />
     </Section>
   );
 }

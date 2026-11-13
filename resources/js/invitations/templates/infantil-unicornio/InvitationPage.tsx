@@ -14,6 +14,7 @@ import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/Musi
 import { useAutoScroll } from '../../hooks/useAutoScroll';
 import { initials, toCelebrant } from '../../lib/eventContent';
 import type { BirthdayContent } from '../../types/invitation';
+import { BalloonDivider, CastleDivider, RainbowDivider } from './components/MagicDividers';
 import { MagicHero } from './components/MagicHero';
 import './theme.css';
 
@@ -70,6 +71,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
           intro="Te esperamos en este lugar mágico; toca el mapa para ver cómo llegar."
         />
       )}
+      {invitation.program.length > 0 && <BalloonDivider className="pt-14" />}
       {invitation.program.length > 0 && (
         <ProgramTimeline
           items={invitation.program}
@@ -89,6 +91,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
           intro={`Así de rápido ha crecido nuestra pequeña ${firstName}.`}
         />
       )}
+      {invitation.gifts.length > 0 && <RainbowDivider className="pt-16" />}
       {invitation.gifts.length > 0 && (
         <GiftsSection
           gifts={invitation.gifts}
@@ -97,6 +100,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
           intro={[`Tu compañía es el mejor regalo para ${firstName}.`, 'Si quieres traerle algo, aquí van algunas ideas:']}
         />
       )}
+      <CastleDivider className="pt-10" />
       <RsvpSection
         whatsappNumber={celebrant.rsvpWhatsappNumber}
         deadlineLabel={celebrant.rsvpDeadlineLabel}
