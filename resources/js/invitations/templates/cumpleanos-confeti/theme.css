@@ -1,0 +1,115 @@
+/* Cumpleaños confeti: shadcn/ui's rose theme on a blush-white page, with a lilac accent and confetti in rose, lilac,
+   butter yellow and sky blue. Very round cards, DM Sans for the text and DM Serif Display for the name, the numbers
+   and the titles. The footer switches to dark plum tokens (.ui-dark). The shared shadcn/ui look-alikes
+   (components/ui) read these tokens. */
+.theme-cumpleanos-confeti {
+  --radius: 1.25rem;
+  --background: oklch(0.992 0.006 350);
+  --foreground: oklch(0.24 0.05 350);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.05 350);
+  --primary: oklch(0.63 0.22 12);
+  --primary-foreground: oklch(0.99 0.01 15);
+  --secondary: oklch(0.96 0.025 355);
+  --secondary-foreground: oklch(0.42 0.14 358);
+  --muted: oklch(0.97 0.012 350);
+  --muted-foreground: oklch(0.52 0.05 350);
+  --accent: oklch(0.945 0.04 305);
+  --accent-foreground: oklch(0.43 0.16 300);
+  --border: oklch(0.92 0.022 350);
+  --input: oklch(0.9 0.028 350);
+  --ring: oklch(0.72 0.17 12);
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --confetti-rose: oklch(0.72 0.18 12);
+  --confetti-lilac: oklch(0.74 0.14 300);
+  --confetti-butter: oklch(0.88 0.13 92);
+  --confetti-sky: oklch(0.8 0.1 225);
+
+  /* The shared components this template still uses (the music button, the lightbox, the preview banner) read the
+     legacy tokens: map them to rose and plum. */
+  --gold: oklch(0.63 0.22 12);
+  --gold-light: oklch(0.82 0.1 10);
+  --gold-pale: oklch(0.96 0.025 355);
+  --gold-deep: oklch(0.42 0.14 358);
+  --white: oklch(1 0 0);
+  --cream: oklch(0.992 0.006 350);
+  --off-white: oklch(0.97 0.012 350);
+  --text-dark: oklch(0.24 0.05 350);
+  --text-body: oklch(0.38 0.05 350);
+  --text-muted: oklch(0.52 0.05 350);
+  --dark-from: oklch(0.22 0.05 345);
+  --dark-to: oklch(0.3 0.07 345);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-dm-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Dark plum tokens with the rose accent, for the footer. */
+.theme-cumpleanos-confeti .ui-dark {
+  --background: oklch(0.22 0.05 345);
+  --foreground: oklch(0.97 0.012 350);
+  --card: oklch(0.27 0.06 345);
+  --card-foreground: oklch(0.97 0.012 350);
+  --primary: oklch(0.75 0.15 10);
+  --primary-foreground: oklch(0.22 0.05 345);
+  --secondary: oklch(0.3 0.06 345);
+  --secondary-foreground: oklch(0.97 0.012 350);
+  --muted: oklch(0.3 0.06 345);
+  --muted-foreground: oklch(0.75 0.04 350);
+  --accent: oklch(0.3 0.06 345);
+  --accent-foreground: oklch(0.97 0.012 350);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.75 0.15 10);
+
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* A soft rose-to-lilac wash behind the hero, the countdown and the RSVP. */
+.theme-cumpleanos-confeti .confeti-wash {
+  background-image:
+    radial-gradient(50% 60% at 15% 10%, var(--secondary), transparent 70%),
+    radial-gradient(45% 55% at 90% 30%, var(--accent), transparent 70%);
+}
+
+/* The confetti pieces drifting in place, and the burst when the intro card opens. */
+@keyframes confetiDrift {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--turn, 0deg));
+  }
+  50% {
+    transform: translateY(-10px) rotate(calc(var(--turn, 0deg) + 25deg));
+  }
+}
+@keyframes confetiBurst {
+  from {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg);
+  }
+  to {
+    opacity: 0;
+    transform: translate(var(--burst-x), var(--burst-y)) rotate(var(--burst-turn));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-cumpleanos-confeti .confeti-piece {
+    animation: none !important;
+  }
+}

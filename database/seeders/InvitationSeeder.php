@@ -51,6 +51,18 @@ class InvitationSeeder extends Seeder
                 'og_image' => '/invitations/cumpleanos-reserva/og-image.jpg',
             ],
             [
+                'template' => 'cumpleanos-confeti',
+                'title' => 'Valentina Ortega — 30 años',
+                'description' => 'Valentina cumple 30 y quiere celebrarlo contigo.',
+                'og_image' => '/invitations/cumpleanos-confeti/og-image.jpg',
+            ],
+            [
+                'template' => 'cumpleanos-grafito',
+                'title' => 'Diego Herrera — 40 años',
+                'description' => 'Diego cumple 40 y estás en la lista.',
+                'og_image' => '/invitations/cumpleanos-grafito/og-image.jpg',
+            ],
+            [
                 'template' => 'xv-jardin',
                 'title' => 'Sofía Valentina — Mis XV Años',
                 'description' => 'Una noche en el jardín encantado: acompáñame a celebrar mis XV años.',
