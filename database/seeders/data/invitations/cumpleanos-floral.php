@@ -57,5 +57,23 @@ return [
             ['hex' => '#9FB49A', 'label' => 'Salvia'],
             ['hex' => '#E6D3B3', 'label' => 'Champagne'],
         ],
+        'gifts' => [
+            [
+                'kind' => 'envelope',
+                'title' => 'Lluvia de sobres',
+                'description' => 'El día de la celebración habrá un buzón a la entrada para tu sobre.',
+            ],
+            [
+                'kind' => 'bank',
+                'title' => 'Transferencia',
+                'description' => 'Si lo prefieres, también puedes hacer una transferencia.',
+                'details' => [
+                    ['label' => 'Banco', 'value' => 'Banco Ejemplo'],
+                    ['label' => 'Titular', 'value' => 'Lucía Ruiz Herrera'],
+                    ['label' => 'CLABE', 'value' => '012 345 678901234567'],
+                ],
+                'copy_value' => '012345678901234567',
+            ],
+        ],
     ],
 ];

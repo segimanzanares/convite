@@ -9,6 +9,7 @@ import { Countdown } from '../../components/countdown/Countdown';
 import { StoryGallery } from '../../components/gallery/StoryGallery';
 import { DressCodePalette } from '../../components/dresscode/DressCodePalette';
 import { DressCodeSection } from '../../components/dresscode/DressCodeSection';
+import { GiftsSection } from '../../components/gifts/GiftsSection';
 import { VenuesSection } from '../../components/venues/VenuesSection';
 import { RsvpSection } from '../../components/rsvp/RsvpSection';
 import { Footer } from '../../components/footer/Footer';
@@ -78,6 +79,17 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         <DressCodePalette
           swatches={invitation.swatches}
           intro="Inspirados en las flores que siempre la han acompañado, sugerimos los siguientes tonos para su vestimenta."
+        />
+      )}
+      {invitation.gifts.length > 0 && (
+        <GiftsSection
+          gifts={invitation.gifts}
+          eyebrow="Un detalle para ella"
+          title="Sugerencia de regalos"
+          intro={[
+            `Tu compañía es el regalo que más ilusión le hace a ${celebrant.firstName}.`,
+            'Si además deseas tener un detalle con ella, puedes hacerlo a través de:',
+          ]}
         />
       )}
       <RsvpSection
