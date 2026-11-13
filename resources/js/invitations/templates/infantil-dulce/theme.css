@@ -1,0 +1,81 @@
+/* Infantil dulce: a candy shop kids' party on shadcn/ui's tokens. Bubblegum pink as the primary, mint and lemon as
+   the secondary and accent, on a strawberry-milk page; very round shapes, Fredoka for the titles, Nunito for the
+   text and Pacifico for the name. The shared shadcn/ui look-alikes (components/ui) read these tokens. */
+.theme-infantil-dulce {
+  --radius: 1.5rem;
+  --background: oklch(0.985 0.012 355);
+  --foreground: oklch(0.33 0.09 355);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.33 0.09 355);
+  --primary: oklch(0.63 0.2 355);
+  --primary-foreground: oklch(0.99 0.01 355);
+  --secondary: oklch(0.91 0.07 170);
+  --secondary-foreground: oklch(0.38 0.08 175);
+  --muted: oklch(0.965 0.02 355);
+  --muted-foreground: oklch(0.5 0.07 355);
+  --accent: oklch(0.95 0.09 100);
+  --accent-foreground: oklch(0.42 0.09 80);
+  --border: oklch(0.9 0.045 355);
+  --input: oklch(0.86 0.06 355);
+  --ring: oklch(0.7 0.17 355);
+  --destructive: oklch(0.577 0.245 27.325);
+  --frosting: oklch(0.86 0.09 355);
+  --lilac: oklch(0.88 0.07 305);
+
+  /* The shared components this template still uses (the music button, the lightbox, the preview banner) read the
+     legacy tokens: map them to bubblegum and berry. */
+  --gold: oklch(0.63 0.2 355);
+  --gold-light: oklch(0.86 0.09 355);
+  --gold-pale: oklch(0.965 0.02 355);
+  --gold-deep: oklch(0.45 0.15 355);
+  --white: oklch(1 0 0);
+  --cream: oklch(0.985 0.012 355);
+  --off-white: oklch(0.965 0.02 355);
+  --text-dark: oklch(0.33 0.09 355);
+  --text-body: oklch(0.4 0.08 355);
+  --text-muted: oklch(0.5 0.07 355);
+  --dark-from: oklch(0.33 0.09 355);
+  --dark-to: oklch(0.45 0.15 355);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Nunito', ui-rounded, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Candy stripes, for the countdown band and the menu's header. */
+.theme-infantil-dulce .dulce-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--muted) 0 18px,
+    var(--card) 18px 36px
+  );
+}
+
+/* The sweets bobbing in the hero, and the sprinkles falling into place. */
+@keyframes dulceBob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-infantil-dulce .dulce-motion {
+    animation: none !important;
+  }
+}

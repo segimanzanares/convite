@@ -1,0 +1,107 @@
+/* Infantil dinosaurios: a jurassic kids' party on shadcn/ui's tokens, drawn "chunky": cream paper, thick ink borders
+   and solid offset shadows, with jungle green as the primary, volcano orange and sunny yellow. Baloo 2 for
+   everything, extra bold for the titles. The shared shadcn/ui look-alikes (components/ui) read these tokens. */
+.theme-infantil-dino {
+  --radius: 1rem;
+  --background: oklch(0.975 0.022 95);
+  --foreground: oklch(0.28 0.05 155);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.28 0.05 155);
+  --primary: oklch(0.56 0.15 148);
+  --primary-foreground: oklch(0.99 0.01 100);
+  --secondary: oklch(0.78 0.15 60);
+  --secondary-foreground: oklch(0.28 0.05 155);
+  --muted: oklch(0.95 0.03 100);
+  --muted-foreground: oklch(0.45 0.04 150);
+  --accent: oklch(0.9 0.14 95);
+  --accent-foreground: oklch(0.28 0.05 155);
+  --border: oklch(0.28 0.05 155);
+  --input: oklch(0.28 0.05 155);
+  --ring: oklch(0.56 0.15 148);
+  --destructive: oklch(0.577 0.245 27.325);
+  --sky: oklch(0.86 0.07 225);
+  --leaf: oklch(0.72 0.16 140);
+
+  /* The shared components this template still uses (the music button, the lightbox, the preview banner) read the
+     legacy tokens: map them to jungle green and orange. */
+  --gold: oklch(0.56 0.15 148);
+  --gold-light: oklch(0.9 0.14 95);
+  --gold-pale: oklch(0.95 0.03 100);
+  --gold-deep: oklch(0.42 0.12 150);
+  --white: oklch(1 0 0);
+  --cream: oklch(0.975 0.022 95);
+  --off-white: oklch(0.95 0.03 100);
+  --text-dark: oklch(0.28 0.05 155);
+  --text-body: oklch(0.36 0.05 155);
+  --text-muted: oklch(0.45 0.04 150);
+  --dark-from: oklch(0.3 0.06 155);
+  --dark-to: oklch(0.4 0.09 150);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Baloo 2', ui-rounded, system-ui, sans-serif;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Dots of leaf green on the cream, like a jungle print, behind the intro and some sections. */
+.theme-infantil-dino .dino-dots {
+  background-image: radial-gradient(color-mix(in oklch, var(--leaf) 22%, transparent) 2px, transparent 2.5px);
+  background-size: 26px 26px;
+}
+
+/* The egg wobbling before it hatches, and the dino bobbing on its hill. */
+@keyframes dinoWobble {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(-6deg);
+  }
+  40% {
+    transform: rotate(5deg);
+  }
+  60% {
+    transform: rotate(-3deg);
+  }
+  80% {
+    transform: rotate(2deg);
+  }
+}
+@keyframes dinoBob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes dinoPop {
+  from {
+    transform: translateY(30px) scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-infantil-dino .dino-motion {
+    animation: none !important;
+  }
+}

@@ -63,6 +63,18 @@ class InvitationSeeder extends Seeder
                 'og_image' => '/invitations/cumpleanos-grafito/og-image.jpg',
             ],
             [
+                'template' => 'infantil-dino',
+                'title' => 'Santiago cumple 5 — Fiesta jurásica',
+                'description' => '¡Rawr! Santiago cumple 5 y te invita a su fiesta jurásica.',
+                'og_image' => '/invitations/infantil-dino/og-image.jpg',
+            ],
+            [
+                'template' => 'infantil-dulce',
+                'title' => 'Regina cumple 4 — Una fiesta dulcecita',
+                'description' => 'Regina cumple 4 y quiere compartir el pastel contigo.',
+                'og_image' => '/invitations/infantil-dulce/og-image.jpg',
+            ],
+            [
                 'template' => 'infantil-espacial',
                 'title' => 'Mateo cumple 7 — Misión espacial',
                 'description' => '¡Despegamos! Acompaña a Mateo a celebrar sus 7 años.',

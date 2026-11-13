@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0" stop-color="#9fd6f0"/><stop offset="1" stop-color="#5cb85c"/></linearGradient></defs>
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g fill="#ffffff" fill-opacity="0.55">
+    <circle cx="400" cy="460" r="90"/>
+    <path d="M240 810 C244 640 314 565 400 565 C486 565 556 640 560 810 Z"/>
+  </g>
+  <g fill="#f6a23c">
+    <circle cx="160" cy="320" r="14"/><circle cx="650" cy="300" r="10"/>
+    <circle cx="640" cy="760" r="14"/><circle cx="170" cy="760" r="10"/>
+  </g>
+  <text x="400" y="300" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="5" fill="#ffffff" fill-opacity="0.95">TU FOTO AQUÍ · 03</text>
+</svg>

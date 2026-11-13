@@ -34,6 +34,7 @@
   --font-nunito: 'Nunito', ui-rounded, system-ui, sans-serif;
   --font-luckiest: 'Luckiest Guy', 'Fredoka', cursive;
   --font-pacifico: 'Pacifico', cursive;
+  --font-baloo: 'Baloo 2', ui-rounded, system-ui, sans-serif;
 }
 
 @keyframes fadeUp {
