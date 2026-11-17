@@ -17,6 +17,7 @@ return [
         'hosts' => 'Con cariño, Paola y Ricardo',
         'monogram' => 'AL',
         'rsvp_whatsapp' => '521234567890',
+        'music' => '/invitations/bautizo-olivo/music.mp3',
         'hero_photo' => $image('portada.svg'),
         'closing_message' => 'Hoy comienzo mi camino en la fe junto a las personas que más me quieren. Gracias por ser parte de este día.',
         'tagline' => 'Mi bautizo · Con amor y fe',

@@ -17,6 +17,7 @@ return [
         'hosts' => 'Con cariño, Sofía y Daniel',
         'monogram' => 'LD',
         'rsvp_whatsapp' => '521234567890',
+        'music' => '/invitations/bautizo-nube/music.mp3',
         'hero_photo' => $image('portada.svg'),
         'closing_message' => 'Gracias por acompañarnos en este día tan especial y por llenar de amor el comienzo de mi camino.',
         'tagline' => 'Gracias por celebrar conmigo mi bautizo',

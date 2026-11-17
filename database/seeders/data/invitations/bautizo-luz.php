@@ -17,6 +17,7 @@ return [
         'hosts' => 'Con amor, Carolina y Eduardo',
         'monogram' => 'JM',
         'rsvp_whatsapp' => '521234567890',
+        'music' => '/invitations/bautizo-luz/music.mp3',
         'hero_photo' => $image('portada.svg'),
         'closing_message' => 'Que la luz que hoy se enciende en mí ilumine siempre a quienes me acompañan. Gracias por estar aquí.',
         'tagline' => 'Gracias por ser parte de mi primer paso en la fe',

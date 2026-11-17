@@ -17,6 +17,7 @@ return [
         'hosts' => 'Con amor, Andrea y Joaquín',
         'monogram' => 'EJ',
         'rsvp_whatsapp' => '521234567890',
+        'music' => '/invitations/bautizo-celeste/music.mp3',
         'hero_photo' => $image('portada.svg'),
         'closing_message' => 'Gracias por acompañarme en el día en que comienzo mi camino en la fe. Que la luz de Dios nos acompañe siempre.',
         'tagline' => 'Mi bautizo · Un regalo del cielo',
