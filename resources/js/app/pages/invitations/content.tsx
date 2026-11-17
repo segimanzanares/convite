@@ -74,6 +74,11 @@ const giftKindLabels: Record<GiftKind, string> = {
     envelope: 'Lluvia de sobres',
 };
 
+/** XV and baptism templates share the chapters: monogram, portrait, story, parents and godparents. */
+function hasChapters(kind: InvitationKind): boolean {
+    return kind === 'xv' || kind === 'baptism';
+}
+
 /** Fills the lists and names the form always edits, so new invitations start with empty inputs. */
 function withDefaults(content: Content, kind: InvitationKind): Content {
     return {
@@ -83,7 +88,7 @@ function withDefaults(content: Content, kind: InvitationKind): Content {
         gallery: [],
         swatches: [],
         gifts: [],
-        ...(kind === 'xv' ? { godparents: [] } : {}),
+        ...(hasChapters(kind) ? { godparents: [] } : {}),
         ...content,
     };
 }
@@ -201,7 +206,7 @@ export default function InvitationContent({
                                     label="Firma"
                                     placeholder="Con cariño, sus hijos y nietos"
                                 />
-                                {kind === 'xv' && (
+                                {hasChapters(kind) && (
                                     <TextField
                                         path="content.monogram"
                                         label="Monograma"
@@ -230,7 +235,7 @@ export default function InvitationContent({
                                 label="Música"
                                 type="audio"
                             />
-                            {kind === 'xv' ? (
+                            {hasChapters(kind) ? (
                                 <div className="space-y-3">
                                     <MediaPathField
                                         path="content.hero_photo"
@@ -274,7 +279,7 @@ export default function InvitationContent({
                         title="Textos"
                         description="Si los dejas vacíos, la plantilla usa los suyos."
                     >
-                        {kind === 'xv' ? (
+                        {hasChapters(kind) ? (
                             <TextAreaField
                                 path="content.closing_message"
                                 label="Mensaje de cierre"
@@ -292,7 +297,7 @@ export default function InvitationContent({
                         />
                     </ContentSection>
 
-                    {kind === 'xv' && <XvSections />}
+                    {hasChapters(kind) && <ChapterSections />}
                     {has('venues') && <VenuesSection />}
                     {has('program') && <ProgramSection />}
                     {has('gallery') && <GallerySection />}
@@ -777,7 +782,7 @@ function GiftDetails({ path }: { path: string }) {
     );
 }
 
-function XvSections() {
+function ChapterSections() {
     const godparents = useList<Content>('content.godparents');
 
     return (

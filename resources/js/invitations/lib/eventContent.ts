@@ -1,6 +1,6 @@
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
-import type { BirthdayContent, WeddingContent, XvContent } from '../types/invitation';
+import type { BaptismContent, BirthdayContent, WeddingContent, XvContent } from '../types/invitation';
 import type { CelebrantInfo } from '../types/birthday';
 import type { CoupleInfo } from '../types/wedding';
 
@@ -26,7 +26,7 @@ export function initials(...names: string[]): string {
 }
 
 /** The labels shared by every template; each one may still format the date its own way. */
-function labels(content: WeddingContent | BirthdayContent | XvContent) {
+function labels(content: WeddingContent | BirthdayContent | XvContent | BaptismContent) {
   const { eventDate, deadline } = eventDates(content);
 
   return {
@@ -50,7 +50,7 @@ export function toCouple(content: WeddingContent): CoupleInfo {
   };
 }
 
-export function toCelebrant(content: BirthdayContent | XvContent): CelebrantInfo {
+export function toCelebrant(content: BirthdayContent | XvContent | BaptismContent): CelebrantInfo {
   return {
     name: content.name,
     firstName: content.firstName,

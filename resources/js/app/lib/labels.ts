@@ -32,6 +32,7 @@ export const invitationKindLabels: Record<InvitationKind, string> = {
     wedding: 'Boda',
     birthday: 'Cumpleaños',
     xv: 'XV años',
+    baptism: 'Bautizo',
 };
 
 export const invitationStatusLabels: Record<InvitationStatus, string> = {

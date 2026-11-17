@@ -12,6 +12,7 @@ const KIND_FILTERS: { kind: InvitationKind; label: string }[] = [
     { kind: 'wedding', label: 'Bodas' },
     { kind: 'xv', label: 'XV años' },
     { kind: 'birthday', label: 'Cumpleaños' },
+    { kind: 'baptism', label: 'Bautizos' },
 ];
 
 export function Demos({ demos }: { demos: DemoInvitation[] }) {

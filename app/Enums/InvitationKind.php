@@ -17,11 +17,22 @@ enum InvitationKind: string
     /** A birthday with the XV chapters: story, parents and godparents. */
     case Xv = 'xv';
 
+    /** A baby (or child) being baptized, with the same chapters as a XV: a letter, the parents and the godparents. */
+    case Baptism = 'baptism';
+
     /**
      * Whether the content names one celebrant instead of a couple.
      */
     public function hasCelebrant(): bool
     {
         return $this !== self::Wedding;
+    }
+
+    /**
+     * Whether the content has the chapters of a XV: monogram, portrait, story, parents and godparents.
+     */
+    public function hasChapters(): bool
+    {
+        return $this === self::Xv || $this === self::Baptism;
     }
 }

@@ -61,4 +61,9 @@ export interface XvContent extends Omit<BirthdayContent, 'kind'> {
   godparents: HonorGroup[];
 }
 
-export type InvitationContent = WeddingContent | BirthdayContent | XvContent;
+/** A baptism has the XV chapters: the letter (written for the baby), the parents and the godparents. */
+export interface BaptismContent extends Omit<XvContent, 'kind'> {
+  kind: 'baptism';
+}
+
+export type InvitationContent = WeddingContent | BirthdayContent | XvContent | BaptismContent;

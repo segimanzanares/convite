@@ -110,6 +110,8 @@ trait InvitationContentRules
             return [...$celebrant, 'content.age' => ['required', 'integer', 'between:1,150']];
         }
 
+        // XV and baptism templates
+
         return [
             ...$celebrant,
             'content.monogram' => ['nullable', 'string', 'max:4'],

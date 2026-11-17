@@ -58,7 +58,7 @@ class InvitationContentResource extends JsonResource
             'dressCode' => $this->dressCode($content['dress_code'] ?? []),
             'swatches' => $content['swatches'] ?? [],
             'gifts' => array_map($this->gift(...), $content['gifts'] ?? []),
-            ...($kind === InvitationKind::Xv ? $this->xvChapters($content) : []),
+            ...($kind->hasChapters() ? $this->chapters($content) : []),
         ];
     }
 
@@ -177,12 +177,12 @@ class InvitationContentResource extends JsonResource
     }
 
     /**
-     * The sections only XV templates have.
+     * The sections only XV and baptism templates have.
      *
      * @param  array<string, mixed>  $content
      * @return array<string, mixed>
      */
-    private function xvChapters(array $content): array
+    private function chapters(array $content): array
     {
         $name = $content['name'] ?? '';
         $story = $content['story'] ?? [];
