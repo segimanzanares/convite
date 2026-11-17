@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.5" y2="1"><stop offset="0" stop-color="#efe9d8"/><stop offset="1" stop-color="#c7cfa6"/></linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <circle cx="668" cy="454" r="41" fill="#fbf9f3" fill-opacity="0.3"/><circle cx="289" cy="281" r="125" fill="#fbf9f3" fill-opacity="0.3"/><circle cx="438" cy="333" r="132" fill="#fbf9f3" fill-opacity="0.3"/><circle cx="444" cy="437" r="60" fill="#7f8f5c" fill-opacity="0.3"/>
+  <g fill="#fbf9f3" fill-opacity="0.55">
+    <circle cx="400.0" cy="420.0" r="80.0"/>
+    <path d="M264.0 740.0 C268.0 600.0 320.0 530.0 400.0 530.0 C480.0 530.0 532.0 600.0 536.0 740.0 Z"/>
+  </g>
+  <text x="400.0" y="860.0" text-anchor="middle" font-family="Georgia, serif" font-size="26" letter-spacing="6" fill="#434d2c" fill-opacity="0.85">TU FOTO AQUÍ · 05</text>
+</svg>

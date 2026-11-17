@@ -14,6 +14,8 @@ interface StoryCoverProps {
   coverEyebrow?: string;
   /** Script line on the first page, revealed as the cover swings open. */
   firstPageLine?: string;
+  /** Small caps line under it. */
+  firstPageCaption?: string;
   /** Who the invitation is from, read out by screen readers. */
   ariaName: string;
   onOpen?: () => void;
@@ -35,6 +37,7 @@ export function StoryCover({
   kicker = 'Un cuento está por comenzar',
   coverEyebrow = 'Un sueño hecho realidad',
   firstPageLine = 'Érase una vez…',
+  firstPageCaption = 'Capítulo XV',
   ariaName,
   onOpen,
   onOpened,
@@ -108,7 +111,7 @@ export function StoryCover({
             <span className="absolute inset-3 border border-gold/40 rounded-[2px]" />
             <span className="font-script text-[clamp(34px,10vw,46px)] text-gold-deep leading-tight">{firstPageLine}</span>
             <span className="w-16 h-px bg-[linear-gradient(to_right,transparent,var(--color-gold),transparent)]" />
-            <span className="font-display text-[9px] tracking-[0.4em] text-gold uppercase">Capítulo XV</span>
+            <span className="font-display text-[9px] tracking-[0.4em] text-gold uppercase">{firstPageCaption}</span>
           </span>
 
           {/* Page edges peeking out on the right */}

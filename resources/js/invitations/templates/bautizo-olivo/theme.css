@@ -1,0 +1,122 @@
+/* Bautizo olivo: olive leaves and wheat on natural linen. --gold-deep is a deep olive (titles, the baby's name) and
+   --gold a sage green, with wheat as a warm second accent; the dark sections (countdown, RSVP) are a dark olive grove.
+   Allura takes the place of the floral script, Tenor Sans that of Cinzel and Crimson Pro that of Cormorant. */
+.theme-bautizo-olivo {
+  --gold: #7f8f5c;
+  --gold-light: #c7cfa6;
+  --gold-pale: #ebeedd;
+  --gold-deep: #434d2c;
+  --white: #fbf9f3;
+  --cream: #f4f0e4;
+  --off-white: #e8e1cf;
+  --text-dark: #2e3322;
+
+  --text-body: #4b5140;
+  --text-muted: #6d7260;
+  --dark-from: #262c1a;
+  --dark-to: #4a5534;
+  --envelope-bg: radial-gradient(circle at 50% 38%, #5d6a40 0%, #343d23 55%, #1a1f11 100%);
+
+  --wheat: #c9a66b;
+  --olive-fruit: #55602f;
+  --linen-line: rgba(127, 143, 92, 0.07);
+
+  --font-script: 'Allura', cursive;
+  --font-display: 'Tenor Sans', sans-serif;
+  --font-body: 'Crimson Pro', Georgia, serif;
+  font-family: var(--font-body);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+}
+
+/* The olive grove sections (countdown, RSVP) need a brighter sage for legible numbers, labels and form text; their
+   buttons take dark olive text and wheat on hover. */
+.theme-bautizo-olivo [data-tone='dark'] {
+  --gold: #bcc78f;
+  --color-gold: var(--gold);
+  --color-ivory: var(--dark-from);
+  --color-gold-deep: var(--wheat);
+}
+
+/* A woven linen texture, for the hero and the closing. */
+.theme-bautizo-olivo .olivo-linen {
+  background-color: var(--cream);
+  background-image:
+    repeating-linear-gradient(0deg, var(--linen-line) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, var(--linen-line) 0 1px, transparent 1px 5px);
+}
+
+/* The lamb of OliveArt.tsx: it breathes, nods its head and wags its tail once it plays. */
+.theme-bautizo-olivo .olivo-breathe,
+.theme-bautizo-olivo .olivo-nod,
+.theme-bautizo-olivo .olivo-wag {
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
+.floral-art.is-playing .olivo-breathe {
+  animation: olivoBreathe 4s calc(var(--d0, 0s) + var(--d, 0s)) ease-in-out infinite;
+}
+
+.floral-art.is-playing .olivo-nod {
+  animation: olivoNod 6s calc(var(--d0, 0s) + var(--d, 0s)) ease-in-out infinite;
+}
+
+.floral-art.is-playing .olivo-wag {
+  animation: olivoWag 1.8s calc(var(--d0, 0s) + var(--d, 0s)) ease-in-out infinite;
+}
+
+@keyframes olivoBreathe {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.025, 1.045);
+  }
+}
+
+@keyframes olivoNod {
+  0%,
+  60%,
+  100% {
+    transform: rotate(0);
+  }
+  70% {
+    transform: rotate(10deg);
+  }
+  80% {
+    transform: rotate(-4deg);
+  }
+  90% {
+    transform: rotate(6deg);
+  }
+}
+
+@keyframes olivoWag {
+  0%,
+  100% {
+    transform: rotate(-12deg);
+  }
+  50% {
+    transform: rotate(18deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floral-art .olivo-breathe,
+  .floral-art .olivo-nod,
+  .floral-art .olivo-wag {
+    animation: none !important;
+  }
+}

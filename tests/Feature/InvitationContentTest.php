@@ -12,7 +12,7 @@ beforeEach(function () {
 });
 
 it('reads the templates and their kind from the manifests', function () {
-    expect(Invitation::templates())->toHaveKeys(['bautizo-celeste', 'boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena', 'cumpleanos-confeti', 'cumpleanos-floral', 'cumpleanos-grafito', 'cumpleanos-reserva', 'infantil-dino', 'infantil-dulce', 'infantil-espacial', 'infantil-unicornio', 'xv-aurora', 'xv-celestial', 'xv-disco', 'xv-jardin'])
+    expect(Invitation::templates())->toHaveKeys(['bautizo-celeste', 'bautizo-olivo', 'boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena', 'cumpleanos-confeti', 'cumpleanos-floral', 'cumpleanos-grafito', 'cumpleanos-reserva', 'infantil-dino', 'infantil-dulce', 'infantil-espacial', 'infantil-unicornio', 'xv-aurora', 'xv-celestial', 'xv-disco', 'xv-jardin'])
         ->and(Invitation::factory()->make(['template' => 'cumpleanos-floral'])->kind()->value)->toBe('birthday')
         ->and(Invitation::factory()->make(['template' => 'xv-jardin'])->kind()->value)->toBe('xv');
 });
@@ -170,6 +170,31 @@ it('sends the content to the template pages', function () {
             ->where('invitation.venues.0.mapEmbedUrl', 'https://www.google.com/maps?q=15.86,-97.06&z=16&output=embed')
             ->where('invitation.gallery.0.src', '/invitations/boda-clasica/images/01.jpeg')
             ->where('invitation.dressCode', null));
+});
+
+it('saves and sends the chapters of a baptism', function () {
+    $invitation = Invitation::factory()->create(['template' => 'bautizo-olivo']);
+
+    $this->actingAs(User::factory()->create())
+        ->put(route('admin.invitations.content.update', $invitation), [
+            'content' => [
+                'name' => 'Ana Lucía',
+                'first_name' => 'Ana Lucía',
+                'story' => ['title' => 'Una nueva vida', 'paragraphs' => ['Llegué en primavera.']],
+                'parents' => ['role' => 'Mis papás', 'names' => ['Paola', 'Ricardo']],
+                'godparents' => [['role' => 'Mis padrinos', 'names' => ['Fernanda', 'Luis']]],
+            ],
+        ])
+        ->assertSessionHasNoErrors();
+
+    $this->get("/i/{$invitation->slug}")
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('templates/bautizo-olivo/InvitationPage')
+            ->where('invitation.kind', 'baptism')
+            ->where('invitation.name', 'Ana Lucía')
+            ->where('invitation.story.title', 'Una nueva vida')
+            ->where('invitation.parents.names', ['Paola', 'Ricardo'])
+            ->where('invitation.godparents.0.role', 'Mis padrinos'));
 });
 
 it('moves the date of demo invitations ahead of today, keeping the time and the deadline', function () {

@@ -21,6 +21,12 @@ class InvitationSeeder extends Seeder
                 'og_image' => '/invitations/bautizo-celeste/og-image.jpg',
             ],
             [
+                'template' => 'bautizo-olivo',
+                'title' => 'Ana Lucía — Mi Bautizo',
+                'description' => 'Con amor y fe, te invitamos al bautizo de Ana Lucía.',
+                'og_image' => '/invitations/bautizo-olivo/og-image.jpg',
+            ],
+            [
                 'template' => 'boda-clasica',
                 'title' => 'Mariana & Alejandro — Nuestra Boda',
                 'description' => 'Acompáñanos a celebrar la boda de Mariana & Alejandro.',
