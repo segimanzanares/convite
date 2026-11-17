@@ -1,0 +1,15 @@
+{
+  "kind": "baptism",
+  "label": "Bautizo nube",
+  "sections": [
+    "venues",
+    "program",
+    "gallery",
+    "dress_code",
+    "gifts"
+  ],
+  "fonts": [
+    "Young Serif",
+    "Figtree:wght@400;500;600;700"
+  ]
+}

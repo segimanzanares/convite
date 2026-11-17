@@ -32,10 +32,10 @@ it('shows the published demo of each template', function () {
 
     $this->get('/')
         ->assertInertia(fn (Assert $page) => $page
-            ->where('demos', fn ($demos) => collect($demos)->pluck('slug')->all() === ['bautizo-celeste', 'bautizo-olivo', 'boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena', 'cumpleanos-confeti', 'cumpleanos-floral', 'cumpleanos-grafito', 'cumpleanos-reserva', 'infantil-dino', 'infantil-dulce', 'infantil-espacial', 'infantil-unicornio', 'xv-aurora', 'xv-celestial', 'xv-disco'])
+            ->where('demos', fn ($demos) => collect($demos)->pluck('slug')->all() === ['bautizo-celeste', 'bautizo-nube', 'bautizo-olivo', 'boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena', 'cumpleanos-confeti', 'cumpleanos-floral', 'cumpleanos-grafito', 'cumpleanos-reserva', 'infantil-dino', 'infantil-dulce', 'infantil-espacial', 'infantil-unicornio', 'xv-aurora', 'xv-celestial', 'xv-disco'])
             ->where('demos.0.url', route('invitations.show', 'bautizo-celeste'))
             ->where('demos.0.image', '/invitations/bautizo-celeste/og-image.jpg')
             ->where('demos.0.kind', 'baptism')
-            ->where('demos.7.kind', 'birthday')
-            ->where('demos.7.template_label', 'Cumpleaños floral'));
+            ->where('demos.8.kind', 'birthday')
+            ->where('demos.8.template_label', 'Cumpleaños floral'));
 });

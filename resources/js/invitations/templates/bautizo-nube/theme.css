@@ -1,0 +1,195 @@
+/* Bautizo nube: shadcn/ui's tokens in a nursery palette. A cloud-white page with a sky blue primary, a butter yellow
+   accent and touches of blush and mint, very round cards, Young Serif for the name and the titles and Figtree for the
+   text. The footer switches to night-sky tokens (.ui-dark). The shared shadcn/ui look-alikes (components/ui) read these
+   tokens. */
+.theme-bautizo-nube {
+  --radius: 1.5rem;
+  --background: oklch(0.985 0.008 230);
+  --foreground: oklch(0.3 0.05 248);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.3 0.05 248);
+  --primary: oklch(0.56 0.12 238);
+  --primary-foreground: oklch(0.99 0.005 230);
+  --secondary: oklch(0.95 0.03 230);
+  --secondary-foreground: oklch(0.42 0.1 242);
+  --muted: oklch(0.97 0.014 230);
+  --muted-foreground: oklch(0.5 0.04 245);
+  --accent: oklch(0.96 0.06 95);
+  --accent-foreground: oklch(0.47 0.1 70);
+  --border: oklch(0.92 0.022 230);
+  --input: oklch(0.88 0.03 230);
+  --ring: oklch(0.7 0.1 235);
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --sky: oklch(0.86 0.07 232);
+  --butter: oklch(0.92 0.1 95);
+  --blush: oklch(0.88 0.06 15);
+  --mint: oklch(0.91 0.07 165);
+  --lilac: oklch(0.86 0.06 300);
+
+  /* The shared components this template still uses (the music button, the lightbox, the preview banner) read the
+     legacy tokens: map them to sky blue and butter. */
+  --gold: oklch(0.56 0.12 238);
+  --gold-light: oklch(0.92 0.1 95);
+  --gold-pale: oklch(0.95 0.03 230);
+  --gold-deep: oklch(0.42 0.1 242);
+  --white: oklch(1 0 0);
+  --cream: oklch(0.985 0.008 230);
+  --off-white: oklch(0.97 0.014 230);
+  --text-dark: oklch(0.3 0.05 248);
+  --text-body: oklch(0.4 0.05 245);
+  --text-muted: oklch(0.5 0.04 245);
+  --dark-from: oklch(0.27 0.06 250);
+  --dark-to: oklch(0.36 0.09 245);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-figtree);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Night-sky tokens with a butter accent, for the footer. */
+.theme-bautizo-nube .ui-dark {
+  --background: oklch(0.27 0.06 250);
+  --foreground: oklch(0.97 0.012 230);
+  --card: oklch(0.32 0.07 250);
+  --card-foreground: oklch(0.97 0.012 230);
+  --primary: oklch(0.92 0.1 95);
+  --primary-foreground: oklch(0.27 0.06 250);
+  --secondary: oklch(0.34 0.07 250);
+  --secondary-foreground: oklch(0.97 0.012 230);
+  --muted: oklch(0.34 0.07 250);
+  --muted-foreground: oklch(0.8 0.04 240);
+  --accent: oklch(0.34 0.07 250);
+  --accent-foreground: oklch(0.97 0.012 230);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.92 0.1 95);
+
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* The ornaments of NubeArt.tsx. The mobile's pieces hang from their origin and swing on their strings; the sheep
+   hop over the fence one after another; the balloons and the clouds float on their own. */
+.theme-bautizo-nube .nube-swing,
+.theme-bautizo-nube .nube-hop {
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
+.floral-art.is-playing .nube-swing {
+  animation: nubeSwing var(--every, 5s) calc(var(--d0, 0s) + var(--d, 0s)) ease-in-out infinite;
+}
+
+.theme-bautizo-nube .nube-hop {
+  opacity: 0;
+}
+
+.floral-art.is-playing .nube-hop {
+  animation: nubeHop 4.8s calc(var(--d0, 0s) + var(--d, 0s)) ease-in-out infinite;
+}
+
+.theme-bautizo-nube .nube-float {
+  animation: nubeFloat var(--every, 7s) var(--wait, 0s) ease-in-out infinite;
+}
+
+.theme-bautizo-nube .nube-drift {
+  animation: nubeDrift var(--every, 28s) var(--wait, 0s) ease-in-out infinite alternate;
+}
+
+@keyframes nubeSwing {
+  0%,
+  100% {
+    transform: rotate(calc(-1 * var(--swing, 8deg)));
+  }
+  50% {
+    transform: rotate(var(--swing, 8deg));
+  }
+}
+
+/* A sheep walks in, leaps over the fence and walks off. */
+@keyframes nubeHop {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0);
+  }
+  8% {
+    opacity: 1;
+  }
+  35% {
+    transform: translate(52px, 0) rotate(0);
+  }
+  50% {
+    transform: translate(82px, -36px) rotate(-12deg);
+  }
+  65% {
+    transform: translate(112px, 0) rotate(8deg);
+  }
+  72% {
+    transform: translate(122px, 0) rotate(0);
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(170px, 0) rotate(0);
+  }
+}
+
+@keyframes nubeFloat {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(-2deg);
+  }
+  50% {
+    transform: translate(var(--dx, 8px), var(--dy, -22px)) rotate(3deg);
+  }
+}
+
+@keyframes nubeDrift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--dx, 60px));
+  }
+}
+
+/* The intro dialog: it pops in, and zooms away once opened. */
+@keyframes nubeDialogIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floral-art .nube-swing,
+  .theme-bautizo-nube .nube-float,
+  .theme-bautizo-nube .nube-drift {
+    animation: none !important;
+  }
+
+  .floral-art .nube-hop {
+    opacity: 1;
+    animation: none !important;
+  }
+}

@@ -21,6 +21,12 @@ class InvitationSeeder extends Seeder
                 'og_image' => '/invitations/bautizo-celeste/og-image.jpg',
             ],
             [
+                'template' => 'bautizo-nube',
+                'title' => 'Leonardo Daniel — Mi Bautizo',
+                'description' => 'Un regalito del cielo llegó a la familia: celebra el bautizo de Leo con nosotros.',
+                'og_image' => '/invitations/bautizo-nube/og-image.jpg',
+            ],
+            [
                 'template' => 'bautizo-olivo',
                 'title' => 'Ana Lucía — Mi Bautizo',
                 'description' => 'Con amor y fe, te invitamos al bautizo de Ana Lucía.',

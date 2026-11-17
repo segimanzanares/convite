@@ -39,6 +39,8 @@
   --font-manrope: 'Manrope', ui-sans-serif, system-ui, sans-serif;
   --font-unbounded: 'Unbounded', ui-sans-serif, system-ui, sans-serif;
   --font-outfit: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  --font-figtree: 'Figtree', ui-rounded, system-ui, sans-serif;
+  --font-young-serif: 'Young Serif', Georgia, serif;
 }
 
 @keyframes fadeUp {
