@@ -5,7 +5,7 @@
     $isOutsidePanel = str_starts_with($page['component'], 'landing/') || str_starts_with($page['component'], 'check-in/');
 @endphp
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @class(['dark' => ! $isOutsidePanel && ($appearance ?? 'system') == 'dark'])>
+<html lang="{{ $isOutsidePanel ? 'es-MX' : str_replace('_', '-', app()->getLocale()) }}" @class(['dark' => ! $isOutsidePanel && ($appearance ?? 'system') == 'dark'])>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,20 +13,11 @@
         @if ($isOutsidePanel)
             @include('partials.meta')
 
-            @if ($page['component'] === 'landing/index')
-                <script type="application/ld+json">
-                    {!! json_encode([
-                        '@context' => 'https://schema.org',
-                        '@type' => 'Organization',
-                        'name' => 'Convite',
-                        'url' => url('/'),
-                        'logo' => asset('app-icon.png'),
-                        'description' => 'Diseño y publicación de invitaciones digitales para bodas, XV años y cualquier evento, con confirmación de asistencia, cuenta regresiva, galería y música ambiental.',
-                        'areaServed' => 'MX',
-                        'knowsLanguage' => 'es',
-                    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
-                </script>
-            @endif
+            <meta name="theme-color" content="#2a1a2b">
+
+            @isset ($structuredData)
+                <script type="application/ld+json">{!! json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}</script>
+            @endisset
         @else
             <meta name="robots" content="noindex, nofollow">
 

@@ -24,7 +24,10 @@ it('renders an invitation with its template page and meta tags', function () {
             ->where('meta.robots', 'noindex, nofollow'))
         ->assertSee('<title>Ana &amp; Luis — Nuestra Boda</title>', escape: false)
         ->assertSee('<meta property="og:image" content="'.url('/invitations/boda-clasica/og-image.jpg').'" />', escape: false)
-        ->assertSee('<meta name="robots" content="noindex, nofollow" />', escape: false);
+        ->assertSee('<meta name="robots" content="noindex, nofollow" />', escape: false)
+        // Not indexed, so no canonical; and the uploaded image's size and type are unknown
+        ->assertDontSee('rel="canonical"', escape: false)
+        ->assertDontSee('og:image:width', escape: false);
 });
 
 it('serves the printable pages a template provides', function (string $template, string $path, string $page, string $title) {

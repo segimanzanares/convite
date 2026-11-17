@@ -3,6 +3,7 @@
 use App\Enums\InvitationStatus;
 use App\Models\Invitation;
 use App\Models\Order;
+use App\Models\Plan;
 use Database\Seeders\InvitationSeeder;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -12,7 +13,34 @@ it('renders the landing page from the main app with its default meta tags', func
         ->assertViewIs('app')
         ->assertInertia(fn (Assert $page) => $page->component('landing/index'))
         ->assertSee('<meta name="robots" content="index, follow" />', escape: false)
-        ->assertSee('"@type":"Organization"', escape: false);
+        ->assertSee('"@type":"Organization"', escape: false)
+        ->assertSee('<link rel="canonical" href="'.url('/').'" />', escape: false)
+        ->assertSee('<meta property="og:image" content="'.asset('og-image.jpg').'" />', escape: false)
+        ->assertSee('<meta property="og:image:width" content="1200" />', escape: false);
+});
+
+it('describes the offered plans and their lowest price to search engines', function () {
+    Plan::factory()->create(['name' => 'Básico', 'price' => 499]);
+    Plan::factory()->create(['name' => 'Premium', 'price' => 1599]);
+    Plan::factory()->inactive()->create(['name' => 'Retirado', 'price' => 99]);
+
+    $response = $this->get('/')
+        ->assertSee('Desde $499 MXN.', escape: false);
+
+    $graph = collect($response->viewData('structuredData')['@graph']);
+    $offers = $graph->firstWhere('@type', 'Service')['offers'];
+
+    expect($offers)
+        ->lowPrice->toBe('499.00')
+        ->highPrice->toBe('1599.00')
+        ->offerCount->toBe(2)
+        ->and(collect($offers['offers'])->pluck('name')->all())->toBe(['Plan Básico', 'Plan Premium']);
+});
+
+it('keeps the default description when no plan is offered', function () {
+    $this->get('/')
+        ->assertSee('Listas para compartir en días.', escape: false)
+        ->assertDontSee('"offers"', escape: false);
 });
 
 it('renders the not found page for unknown urls', function () {

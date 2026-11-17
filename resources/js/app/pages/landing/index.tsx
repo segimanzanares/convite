@@ -16,7 +16,7 @@ import { Steps } from './components/steps';
 export function LandingPage({ demos, plans }: { demos: DemoInvitation[]; plans: OfferedPlan[] }) {
     return (
         <div className="bg-background text-foreground">
-            <Head title="Invitaciones digitales para bodas, XV años y eventos" />
+            <Head title="Invitaciones digitales para bodas, XV años y más" />
             <Header />
             <main>
                 <Hero plans={plans} demos={demos} />
