@@ -14,7 +14,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'Convite';
 // Admin page components are named by their path under ./pages, e.g.
 // "auth/login" or "settings/profile" (see app/Providers/FortifyServiceProvider).
 // Besides the panel, this app serves the pages outside it: the landing page
-// and the door of the event, with the same theme but always in light mode
+// the door of the event and its live gallery, with the same theme but always in light mode
 // (see PublicLayout). It is one SPA: navigating between them is a visit.
 const pages = import.meta.glob('./pages/**/*.tsx');
 
@@ -31,7 +31,9 @@ void createInertiaApp({
     },
     layout: (name) => {
         switch (true) {
-            case name.startsWith('landing/') || name.startsWith('check-in/'):
+            case name.startsWith('landing/') ||
+                name.startsWith('check-in/') ||
+                name.startsWith('live-gallery/'):
                 return PublicLayout;
             case name.startsWith('auth/'):
                 return AuthLayout;

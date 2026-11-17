@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\GuestImportController;
 use App\Http\Controllers\Admin\InvitationContentController;
 use App\Http\Controllers\Admin\InvitationController;
 use App\Http\Controllers\Admin\InvitationMediaController;
+use App\Http\Controllers\Admin\LiveGalleryController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\PlanController;
@@ -63,6 +64,17 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
             Route::post('door-link', 'regenerateDoorLink')->name('door-link');
             Route::post('guests/{guest}/check-in', 'store')->name('guests.check-in.store');
             Route::delete('guests/{guest}/check-in', 'destroy')->name('guests.check-in.destroy');
+        });
+    });
+
+    Route::middleware('invitation.feature:live_gallery')->scopeBindings()->group(function () {
+        Route::controller(LiveGalleryController::class)->prefix('invitations/{invitation}/gallery')->name('invitations.gallery.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('download', 'download')->name('download');
+            Route::post('link', 'regenerateLink')->name('link');
+            Route::put('settings', 'updateSettings')->name('settings');
+            Route::patch('{galleryPhoto}', 'updatePhoto')->name('photos.update');
+            Route::delete('{galleryPhoto}', 'destroyPhoto')->name('photos.destroy');
         });
     });
 });

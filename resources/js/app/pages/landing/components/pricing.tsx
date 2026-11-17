@@ -15,6 +15,7 @@ const FEATURE_LABELS: Record<PlanFeature | 'catalog_design', string> = {
     guest_passes: 'Pases imprimibles para sus invitados',
     custom_design: 'Diseño exclusivo creado para su evento',
     check_in: 'Registro de llegadas escaneando el QR de cada pase',
+    live_gallery: 'Galería en vivo: sus invitados suben fotos con un QR y se proyectan al momento',
 };
 
 /** Sections every template shows, whatever the plan. */

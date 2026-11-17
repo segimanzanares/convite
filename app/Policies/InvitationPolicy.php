@@ -7,7 +7,7 @@ use App\Models\User;
 
 /**
  * Admins are allowed through Gate::before (see AppServiceProvider). Clients only see their own invitations and never
- * edit them, but they manage their guests and see their RSVPs. Whether the plan includes those features is checked
+ * edit them, but they manage their guests and their live gallery and see their RSVPs. Whether the plan includes those features is checked
  * apart from the policy (see EnsureInvitationHasFeature), so it applies to admins too.
  */
 class InvitationPolicy
@@ -44,6 +44,14 @@ class InvitationPolicy
      * See, export and remove the RSVPs of the invitation.
      */
     public function manageRsvps(User $user, Invitation $invitation): bool
+    {
+        return $this->view($user, $invitation);
+    }
+
+    /**
+     * Moderate, download and share the live gallery of the invitation.
+     */
+    public function manageGallery(User $user, Invitation $invitation): bool
     {
         return $this->view($user, $invitation);
     }

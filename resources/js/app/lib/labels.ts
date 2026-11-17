@@ -13,6 +13,7 @@ export const planFeatureLabels: Record<PlanFeature, string> = {
     guest_passes: 'Pases imprimibles',
     custom_design: 'Diseño personalizado',
     check_in: 'Registro de llegadas',
+    live_gallery: 'Galería en vivo',
 };
 
 export const orderStatusLabels: Record<OrderStatus, string> = {

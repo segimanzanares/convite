@@ -36,6 +36,8 @@ use Illuminate\Support\Facades\Storage;
  * @property array<string, mixed>|null $content
  * @property Carbon|null $guests_purged_at
  * @property string|null $door_token
+ * @property string|null $gallery_token
+ * @property bool $gallery_moderated
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -82,6 +84,7 @@ class Invitation extends Model
             'status' => InvitationStatus::class,
             'guests_purged_at' => 'datetime',
             'content' => 'array',
+            'gallery_moderated' => 'boolean',
         ];
     }
 
@@ -112,6 +115,12 @@ class Invitation extends Model
     public function rsvps(): HasMany
     {
         return $this->hasMany(Rsvp::class);
+    }
+
+    /** @return HasMany<GalleryPhoto, $this> */
+    public function galleryPhotos(): HasMany
+    {
+        return $this->hasMany(GalleryPhoto::class);
     }
 
     /**
@@ -200,6 +209,35 @@ class Invitation extends Model
         }
 
         return now()->between($this->checkInOpensAt(), $this->checkInClosesAt());
+    }
+
+    /**
+     * When guests may start sharing photos in the live gallery: the start of the event day. Null without an event date.
+     */
+    public function galleryOpensAt(): ?CarbonImmutable
+    {
+        return $this->event_date?->toImmutable()->startOfDay();
+    }
+
+    /**
+     * When the live gallery stops taking photos: noon of the day after the event, like check-in.
+     */
+    public function galleryClosesAt(): ?CarbonImmutable
+    {
+        return $this->checkInClosesAt();
+    }
+
+    /**
+     * Whether guests may share photos now: the plan includes the live gallery, the guest data was not purged and the
+     * time falls within the event, in the application's time zone.
+     */
+    public function galleryIsOpen(): bool
+    {
+        if (! $this->hasFeature(PlanFeature::LiveGallery) || $this->guests_purged_at !== null || $this->event_date === null) {
+            return false;
+        }
+
+        return now()->between($this->galleryOpensAt(), $this->galleryClosesAt());
     }
 
     /**

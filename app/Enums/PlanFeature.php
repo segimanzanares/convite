@@ -22,6 +22,9 @@ enum PlanFeature: string
     /** Guests are checked in at the door by scanning the QR code of their pass. Requires the guest list. */
     case CheckIn = 'check_in';
 
+    /** Guests share their photos at the event by scanning a QR code, and a wall shows them as they arrive. */
+    case LiveGallery = 'live_gallery';
+
     /**
      * Whether a plan with this feature gives the client an account for the panel.
      */

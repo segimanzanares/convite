@@ -3,6 +3,7 @@ import {
     ClipboardCheckIcon,
     ExternalLinkIcon,
     FileTextIcon,
+    ImagesIcon,
     PencilIcon,
     PlusIcon,
     UsersIcon,
@@ -17,6 +18,7 @@ import {
     store,
     update,
 } from '@/actions/App/Http/Controllers/Admin/InvitationController';
+import { index as galleryIndex } from '@/actions/App/Http/Controllers/Admin/LiveGalleryController';
 import { index as rsvpsIndex } from '@/actions/App/Http/Controllers/Admin/RsvpController';
 import DataTable from '@/components/data-table';
 import Heading from '@/components/heading';
@@ -213,6 +215,14 @@ function InvitationRow({ invitation }: { invitation: Invitation }) {
                             <Link href={rsvpsIndex(invitation.slug)}>
                                 <ClipboardCheckIcon />
                                 Confirmaciones
+                            </Link>
+                        </DropdownMenuItem>
+                    )}
+                    {sections.gallery && (
+                        <DropdownMenuItem asChild>
+                            <Link href={galleryIndex(invitation.slug)}>
+                                <ImagesIcon />
+                                Galería en vivo
                             </Link>
                         </DropdownMenuItem>
                     )}

@@ -4,7 +4,8 @@ export type PlanFeature =
     | 'print_card'
     | 'guest_passes'
     | 'custom_design'
-    | 'check_in';
+    | 'check_in'
+    | 'live_gallery';
 
 export type Plan = {
     id: number;

@@ -38,4 +38,16 @@ return [
 
     'default_phone_country_code' => env('CONVITE_DEFAULT_PHONE_COUNTRY_CODE', '52'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Live Gallery
+    |--------------------------------------------------------------------------
+    |
+    | The most photos the guests of one event may share in its live gallery,
+    | so a link that leaks cannot fill the disk.
+    |
+    */
+
+    'live_gallery_max_photos' => (int) env('CONVITE_LIVE_GALLERY_MAX_PHOTOS', 1000),
+
 ];

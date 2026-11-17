@@ -104,6 +104,20 @@
     --animate-fill: fill 4s ease-in-out infinite;
     --animate-fly: fly 5s ease-in-out infinite;
 
+    /* The live gallery's wall, as each photo comes in */
+    --animate-photo-in: photo-in 0.9s ease-out both;
+
+    @keyframes photo-in {
+        0% {
+            opacity: 0;
+            transform: scale(1.04);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
     @keyframes float {
         0%,
         100% {

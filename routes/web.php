@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\CheckInController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\LiveGalleryController;
 use App\Http\Controllers\RsvpController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,14 @@ Route::controller(CheckInController::class)->prefix('i/{invitation}')->name('inv
         Route::post('{guest:token}/llegada', 'store')->name('check-in.store');
         Route::delete('{guest:token}/llegada', 'destroy')->name('check-in.destroy');
     });
+});
+
+// The live gallery: the gallery QR code at the venue opens the page to share photos, and the wall is projected there.
+// Declared before the personalized links so "fotos" is not read as a token
+Route::controller(LiveGalleryController::class)->prefix('i/{invitation}/fotos/{galleryToken}')->name('invitations.gallery.')->where(['galleryToken' => '[A-Za-z0-9]+'])->middleware(['invitation.visible', 'invitation.feature:live_gallery', 'invitation.gallery'])->group(function () {
+    Route::get('/', 'show')->name('show');
+    Route::post('/', 'store')->middleware('throttle:gallery')->name('store');
+    Route::get('muro', 'wall')->name('wall');
 });
 
 Route::controller(InvitationController::class)->prefix('i/{invitation}')->name('invitations.')->middleware('invitation.visible')->group(function () {

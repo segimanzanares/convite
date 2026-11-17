@@ -3,6 +3,7 @@ export type * from './client';
 export type * from './dashboard';
 export type * from './guest';
 export type * from './invitation';
+export type * from './live-gallery';
 export type * from './navigation';
 export type * from './order';
 export type * from './plan';
