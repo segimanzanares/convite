@@ -10,8 +10,9 @@ Las invitaciones incluyen cuenta regresiva en vivo, ubicación con mapa, código
 vestimenta, música de fondo y confirmación de asistencia por WhatsApp; según el diseño,
 también programa, galería de fotos y mesa de regalos. Los planes más completos suman
 lista de invitados con enlaces personalizados, confirmaciones en línea en un panel,
-tarjeta y pases imprimibles con código QR y registro de llegadas en la entrada del
-evento escaneando esos pases.
+tarjeta y pases imprimibles con código QR, registro de llegadas en la entrada del
+evento escaneando esos pases y una galería en vivo: los invitados escanean un código QR
+en el salón, suben sus fotos desde el celular y aparecen al momento en una pantalla.
 
 Los precios son de pago único, en pesos mexicanos, y se muestran en la sección de
 planes de la página de inicio.

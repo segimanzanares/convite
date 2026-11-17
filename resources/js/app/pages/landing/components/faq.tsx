@@ -26,6 +26,11 @@ const FAQS: Question[] = [
             'Reciben un enlace propio, listo para enviar por WhatsApp, redes sociales o correo. Al pegarlo se muestra una vista previa con su propia imagen y descripción.',
     },
     {
+        question: '¿Mis invitados pueden compartir las fotos que tomen en el evento?',
+        answer:
+            'Sí, con la galería en vivo del plan Exclusivo. Ponen un código QR en las mesas; sus invitados lo escanean, suben sus fotos desde el celular sin instalar nada y aparecen al momento en una pantalla del salón. Ustedes deciden si se publican directo o si las revisan antes, y al final las descargan todas.',
+    },
+    {
         question: '¿Es solo para bodas?',
         answer:
             'No. Diseñamos invitaciones digitales para XV años, bautizos, cumpleaños y cualquier evento que merezca una invitación tan especial como la ocasión.',

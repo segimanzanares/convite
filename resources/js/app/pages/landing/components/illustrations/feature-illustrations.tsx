@@ -1,4 +1,4 @@
-import { CheckCheck, Send, UserCheck } from 'lucide-react';
+import { CheckCheck, Heart, Send, UserCheck } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import convitePetal from '@/assets/images/convite-icon.png';
 import { cn } from '@/lib/utils';
@@ -133,6 +133,45 @@ export function ShareIllustration() {
                 </div>
             </div>
             <Send className="absolute top-4 right-8 size-6 text-teal motion-safe:animate-fly" />
+        </div>
+    );
+}
+
+/** A guest's phone sharing a photo, which flies onto the wall projected at the venue. */
+export function LiveGalleryIllustration() {
+    return (
+        <div className="relative flex h-full items-center justify-center gap-8 px-4">
+            <div className="relative h-36 w-20 shrink-0 -rotate-6 rounded-2xl bg-ink p-1.5 shadow-xl">
+                <div className="flex h-full flex-col gap-1.5 rounded-xl bg-ivory p-1.5">
+                    <div className="h-14 rounded-md bg-[linear-gradient(150deg,var(--color-teal-light),var(--color-gold-pale))]" />
+                    <div className="h-1.5 overflow-hidden rounded-full bg-primary/10">
+                        <span className="block h-full rounded-full bg-gold motion-safe:animate-fill" />
+                    </div>
+                    <p className="text-[7px] text-muted-foreground">Subiendo foto…</p>
+                    <div className="mt-auto rounded-md bg-primary py-1 text-center text-[7px] text-white">Elegir fotos</div>
+                </div>
+            </div>
+
+            <div className="relative aspect-video w-[58%] max-w-[300px] overflow-hidden rounded-xl bg-ink p-2 shadow-2xl ring-4 ring-ink/10">
+                <div className="relative h-full overflow-hidden rounded-md bg-[linear-gradient(135deg,var(--color-rose),var(--color-gold-light))]">
+                    <Petal className="absolute -top-2 left-[18%] w-8 rotate-[30deg] text-white/25" />
+                    <Petal className="absolute right-[22%] -bottom-3 w-10 -rotate-12 text-white/20" />
+                    <Heart className="absolute top-1/2 left-1/2 size-8 -translate-1/2 fill-white/80 text-white/80" />
+                    <div className="absolute bottom-1.5 left-1.5 rounded bg-ink/70 px-1.5 py-1 text-white">
+                        <p className="font-serif text-[10px] leading-none italic">“¡Que vivan los novios!”</p>
+                        <p className="mt-0.5 text-[7px] text-white/70">Tía Rosa</p>
+                    </div>
+                    <div className="absolute right-1.5 bottom-1.5 rounded-sm bg-white p-0.5">
+                        <QRCodeSVG value={window.location.origin} size={26} fgColor="#2a1a2b" />
+                    </div>
+                </div>
+            </div>
+
+            <div
+                className="absolute top-[34%] left-[38%] h-9 w-12 rounded-sm border-2 border-white bg-[linear-gradient(150deg,var(--color-teal-light),var(--color-gold-pale))] shadow-lg motion-safe:animate-fly"
+                style={{ animationDuration: '3.5s' }}
+            />
+            <Sparkle className="absolute top-[12%] right-[14%] w-4 text-gold" />
         </div>
     );
 }

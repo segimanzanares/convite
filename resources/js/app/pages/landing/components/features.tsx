@@ -4,6 +4,7 @@ import {
     CheckInIllustration,
     CountdownIllustration,
     DesignIllustration,
+    LiveGalleryIllustration,
     MusicIllustration,
     RsvpIllustration,
     ShareIllustration,
@@ -47,6 +48,7 @@ const FEATURES: Feature[] = [
         body: 'Fotos, un sobre animado al abrir y su canción de fondo para una bienvenida memorable.',
         illustration: MusicIllustration,
         tint: 'bg-linear-to-br from-rose-light/45 to-gold-pale',
+        wide: true,
     },
     {
         title: 'Lista para compartir',
@@ -60,7 +62,15 @@ const FEATURES: Feature[] = [
         illustration: CheckInIllustration,
         tint: 'bg-linear-to-br from-terracotta-light/40 to-gold-pale',
         wide: true,
-        badge: 'Planes con lista de invitados',
+        badge: 'Plan Exclusivo',
+    },
+    {
+        title: 'Galería en vivo',
+        body: 'Sus invitados escanean un QR en las mesas y suben sus fotos, que aparecen al momento en una pantalla del salón. Al final, ustedes las descargan todas.',
+        illustration: LiveGalleryIllustration,
+        tint: 'bg-linear-to-br from-gold-pale to-teal-light/40',
+        wide: true,
+        badge: 'Plan Exclusivo',
     },
     {
         title: 'Lista en días',
@@ -82,10 +92,10 @@ export function Features() {
                                 Todo lo que su invitación <Highlight>necesita</Highlight>
                             </>
                         }
-                        description="Más que una tarjeta bonita: una invitación que se mueve, suena y les ayuda a organizar a sus invitados."
+                        description="Más que una tarjeta bonita: una invitación que se mueve, suena, les ayuda a organizar a sus invitados y reúne las fotos de su fiesta."
                     />
                 </Reveal>
-                <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                <div className="mt-14 grid gap-5 md:grid-flow-row-dense md:grid-cols-2 lg:grid-cols-3">
                     {FEATURES.map((feature, index) => {
                         const Illustration = feature.illustration;
                         return (
