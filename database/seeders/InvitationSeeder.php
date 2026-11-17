@@ -21,6 +21,12 @@ class InvitationSeeder extends Seeder
                 'og_image' => '/invitations/bautizo-celeste/og-image.jpg',
             ],
             [
+                'template' => 'bautizo-luz',
+                'title' => 'Julieta María — Mi Bautizo',
+                'description' => 'Acompáñanos a encender la luz de Julieta en su bautizo.',
+                'og_image' => '/invitations/bautizo-luz/og-image.jpg',
+            ],
+            [
                 'template' => 'bautizo-nube',
                 'title' => 'Leonardo Daniel — Mi Bautizo',
                 'description' => 'Un regalito del cielo llegó a la familia: celebra el bautizo de Leo con nosotros.',

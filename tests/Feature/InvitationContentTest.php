@@ -12,7 +12,7 @@ beforeEach(function () {
 });
 
 it('reads the templates and their kind from the manifests', function () {
-    expect(Invitation::templates())->toHaveKeys(['bautizo-celeste', 'bautizo-nube', 'bautizo-olivo', 'boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena', 'cumpleanos-confeti', 'cumpleanos-floral', 'cumpleanos-grafito', 'cumpleanos-reserva', 'infantil-dino', 'infantil-dulce', 'infantil-espacial', 'infantil-unicornio', 'xv-aurora', 'xv-celestial', 'xv-disco', 'xv-jardin'])
+    expect(Invitation::templates())->toHaveKeys(['bautizo-celeste', 'bautizo-luz', 'bautizo-nube', 'bautizo-olivo', 'boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena', 'cumpleanos-confeti', 'cumpleanos-floral', 'cumpleanos-grafito', 'cumpleanos-reserva', 'infantil-dino', 'infantil-dulce', 'infantil-espacial', 'infantil-unicornio', 'xv-aurora', 'xv-celestial', 'xv-disco', 'xv-jardin'])
         ->and(Invitation::factory()->make(['template' => 'cumpleanos-floral'])->kind()->value)->toBe('birthday')
         ->and(Invitation::factory()->make(['template' => 'xv-jardin'])->kind()->value)->toBe('xv')
         ->and(Invitation::factory()->make(['template' => 'bautizo-nube'])->kind()->value)->toBe('baptism');
@@ -73,6 +73,7 @@ it('requires the names the kind of the template needs', function (string $templa
     'wedding with one name' => ['boda-clasica', ['names' => ['Ana']], 'content.names'],
     'birthday without a name' => ['cumpleanos-floral', ['first_name' => 'Flora'], 'content.name'],
     'xv godparents without names' => ['xv-jardin', ['name' => 'Sofía', 'first_name' => 'Sofía', 'godparents' => [['role' => 'Padrinos']]], 'content.godparents.0.names'],
+    'baptism without a name' => ['bautizo-luz', ['first_name' => 'Julieta'], 'content.name'],
 ]);
 
 it('only accepts files of the invitation itself', function () {

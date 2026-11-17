@@ -41,6 +41,8 @@
   --font-outfit: 'Outfit', ui-sans-serif, system-ui, sans-serif;
   --font-figtree: 'Figtree', ui-rounded, system-ui, sans-serif;
   --font-young-serif: 'Young Serif', Georgia, serif;
+  --font-newsreader: 'Newsreader', Georgia, serif;
+  --font-inter-tight: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
 }
 
 @keyframes fadeUp {

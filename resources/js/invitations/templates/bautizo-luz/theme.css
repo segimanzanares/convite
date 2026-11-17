@@ -1,0 +1,272 @@
+/* Bautizo luz: shadcn/ui's tokens in an editorial key. Ivory pages with a candle-gold primary and thin rules, and
+   night-blue sections (.ui-dark) where the candle, the rose window and the water shine: the hero, the countdown, the
+   closing and the footer. Newsreader (often in italic) for the name and the titles, Inter Tight for the text. The
+   shared shadcn/ui look-alikes (components/ui) read these tokens. */
+.theme-bautizo-luz {
+  --radius: 0.5rem;
+  --background: oklch(0.985 0.007 85);
+  --foreground: oklch(0.24 0.02 60);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.02 60);
+  --primary: oklch(0.5 0.1 70);
+  --primary-foreground: oklch(0.99 0.005 85);
+  --secondary: oklch(0.955 0.018 85);
+  --secondary-foreground: oklch(0.36 0.05 65);
+  --muted: oklch(0.97 0.01 85);
+  --muted-foreground: oklch(0.5 0.02 60);
+  --accent: oklch(0.94 0.035 85);
+  --accent-foreground: oklch(0.42 0.08 70);
+  --border: oklch(0.9 0.015 85);
+  --input: oklch(0.87 0.02 85);
+  --ring: oklch(0.7 0.1 75);
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --flame: oklch(0.84 0.15 75);
+  --flame-core: oklch(0.98 0.05 95);
+  --wax: oklch(0.97 0.012 90);
+  --glass-blue: oklch(0.62 0.12 250);
+  --glass-rose: oklch(0.68 0.12 20);
+  --glass-green: oklch(0.7 0.1 160);
+  --glass-gold: oklch(0.82 0.12 85);
+
+  /* The shared components this template still uses (the music button, the lightbox, the preview banner) read the
+     legacy tokens: map them to the candle gold and the night blue. */
+  --gold: oklch(0.5 0.1 70);
+  --gold-light: oklch(0.84 0.15 75);
+  --gold-pale: oklch(0.955 0.018 85);
+  --gold-deep: oklch(0.38 0.08 65);
+  --white: oklch(1 0 0);
+  --cream: oklch(0.985 0.007 85);
+  --off-white: oklch(0.97 0.01 85);
+  --text-dark: oklch(0.24 0.02 60);
+  --text-body: oklch(0.36 0.02 60);
+  --text-muted: oklch(0.5 0.02 60);
+  --dark-from: oklch(0.17 0.03 265);
+  --dark-to: oklch(0.26 0.05 265);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter-tight);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Night-blue tokens with the candle gold as primary. */
+.theme-bautizo-luz .ui-dark {
+  --background: oklch(0.19 0.035 265);
+  --foreground: oklch(0.96 0.012 85);
+  --card: oklch(0.23 0.04 265);
+  --card-foreground: oklch(0.96 0.012 85);
+  --primary: oklch(0.84 0.12 80);
+  --primary-foreground: oklch(0.19 0.035 265);
+  --secondary: oklch(0.27 0.045 265);
+  --secondary-foreground: oklch(0.96 0.012 85);
+  --muted: oklch(0.25 0.04 265);
+  --muted-foreground: oklch(0.76 0.03 85);
+  --accent: oklch(0.27 0.045 265);
+  --accent-foreground: oklch(0.96 0.012 85);
+  --border: oklch(1 0 0 / 11%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.84 0.12 80);
+  --wax: oklch(0.93 0.02 85);
+
+  background: var(--background);
+  color: var(--foreground);
+  color-scheme: dark;
+}
+
+/* A warm halo behind a section's content, as if lit by a candle. */
+.theme-bautizo-luz .luz-halo {
+  background: radial-gradient(circle at 50% 45%, color-mix(in oklch, var(--flame) 26%, transparent) 0%, transparent 60%);
+}
+
+/* The ornaments of LuzArt.tsx. Flames flicker from their base and glows breathe; the rose window turns; the dove's
+   wings beat while it hovers; drops fall into the water and send out ripples. */
+.theme-bautizo-luz .luz-flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: luzFlicker 2.6s var(--wait, 0s) ease-in-out infinite;
+}
+
+.theme-bautizo-luz .luz-glow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: luzGlow 3.4s var(--wait, 0s) ease-in-out infinite;
+}
+
+.theme-bautizo-luz .luz-turn,
+.theme-bautizo-luz .luz-wing,
+.theme-bautizo-luz .luz-hover {
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
+.theme-bautizo-luz .luz-turn {
+  animation: luzTurn 90s linear infinite;
+}
+
+.floral-art.is-playing .luz-wing {
+  animation: luzFlap 2.4s calc(var(--d0, 0s) + var(--d, 0s)) ease-in-out infinite;
+}
+
+.floral-art.is-playing .luz-hover {
+  animation: luzHover 6s calc(var(--d0, 0s) + var(--d, 0s)) ease-in-out infinite;
+}
+
+.theme-bautizo-luz .luz-ray {
+  animation: luzRay 4s var(--wait, 0s) ease-in-out infinite;
+}
+
+.theme-bautizo-luz .luz-drop,
+.theme-bautizo-luz .luz-ripple {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+
+.floral-art.is-playing .luz-drop {
+  animation: luzDrop 3.6s calc(var(--d0, 0s) + var(--d, 0s)) ease-in infinite;
+}
+
+.floral-art.is-playing .luz-ripple {
+  animation: luzRipple 3.6s calc(var(--d0, 0s) + var(--d, 0s)) ease-out infinite;
+}
+
+@keyframes luzFlicker {
+  0%,
+  100% {
+    transform: scale(1, 1) skewX(0);
+  }
+  20% {
+    transform: scale(0.96, 1.06) skewX(2deg);
+  }
+  40% {
+    transform: scale(1.03, 0.95) skewX(-2deg);
+  }
+  60% {
+    transform: scale(0.98, 1.08) skewX(1deg);
+  }
+  80% {
+    transform: scale(1.02, 0.97) skewX(-1deg);
+  }
+}
+
+@keyframes luzGlow {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes luzTurn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes luzFlap {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.55);
+  }
+}
+
+@keyframes luzHover {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes luzRay {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* The drop falls, and its ripples spread once it touches the water (45% of the cycle). */
+@keyframes luzDrop {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  10% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 1;
+    transform: translateY(58px);
+  }
+  48%,
+  100% {
+    opacity: 0;
+    transform: translateY(58px);
+  }
+}
+
+@keyframes luzRipple {
+  0%,
+  45% {
+    opacity: 0;
+    transform: scale(0.15);
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* The intro: the flame catches. */
+@keyframes luzCatch {
+  from {
+    transform: scale(0);
+  }
+  60% {
+    transform: scale(1.2);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-bautizo-luz .luz-flame,
+  .theme-bautizo-luz .luz-glow,
+  .theme-bautizo-luz .luz-turn,
+  .theme-bautizo-luz .luz-ray,
+  .floral-art .luz-wing,
+  .floral-art .luz-hover,
+  .floral-art .luz-drop,
+  .floral-art .luz-ripple {
+    animation: none !important;
+  }
+}

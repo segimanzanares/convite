@@ -1,0 +1,15 @@
+{
+  "kind": "baptism",
+  "label": "Bautizo luz",
+  "sections": [
+    "venues",
+    "program",
+    "gallery",
+    "dress_code",
+    "gifts"
+  ],
+  "fonts": [
+    "Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400",
+    "Inter Tight:wght@400;500;600"
+  ]
+}
