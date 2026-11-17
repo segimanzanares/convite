@@ -1,0 +1,16 @@
+{
+  "kind": "baptism",
+  "label": "Bautizo celeste",
+  "sections": [
+    "venues",
+    "program",
+    "gallery",
+    "dress_code",
+    "gifts"
+  ],
+  "fonts": [
+    "Cormorant Infant:ital,wght@0,300;0,400;0,500;1,300;1,400",
+    "Marcellus",
+    "Parisienne"
+  ]
+}

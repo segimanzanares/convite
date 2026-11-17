@@ -1,0 +1,195 @@
+/* Bautizo celeste: powder blue and silver on cloud white, like a morning sky. --gold-deep is a deep sky navy
+   (titles, the baby's name) and --gold the powder blue accent; the dark sections (countdown, RSVP) are a twilight
+   blue. Parisienne takes the place of the floral script, Marcellus that of Cinzel and Cormorant Infant that of
+   Cormorant Garamond. */
+.theme-bautizo-celeste {
+  --gold: #6d9cc6;
+  --gold-light: #b8d5ee;
+  --gold-pale: #e4eef8;
+  --gold-deep: #2c4c72;
+  --white: #fcfeff;
+  --cream: #f3f8fd;
+  --off-white: #e3edf7;
+  --text-dark: #1f3350;
+
+  --text-body: #3c5170;
+  --text-muted: #62758f;
+  --dark-from: #1b3150;
+  --dark-to: #3b6290;
+  --envelope-bg: radial-gradient(circle at 50% 35%, #8fb7dc 0%, #4a75a6 50%, #1d3554 100%);
+
+  --silver: #b9c4d0;
+  --sky-top: #c9e0f4;
+
+  --font-script: 'Parisienne', cursive;
+  --font-display: 'Marcellus', serif;
+  --font-body: 'Cormorant Infant', serif;
+  font-family: var(--font-body);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
+     :root and inherit their already-resolved value, so they don't pick up
+     the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+}
+
+/* The twilight sections (countdown, RSVP) need a lighter blue for legible numbers, labels and form text, and their
+   buttons take navy text on that blue. */
+.theme-bautizo-celeste [data-tone='dark'] {
+  --gold: #a9cbeb;
+  --color-gold: var(--gold);
+  --color-ivory: var(--dark-from);
+  --color-gold-deep: #cfe3f6;
+}
+
+/* The ornaments of CelesteArt.tsx. Each piece is drawn around its own origin (a wing's shoulder, a cloud's center),
+   and only moves once its .floral-art root plays. */
+.theme-bautizo-celeste .celeste-wing,
+.theme-bautizo-celeste .celeste-glide,
+.theme-bautizo-celeste .celeste-fly-in {
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
+.theme-bautizo-celeste .celeste-drop,
+.theme-bautizo-celeste .celeste-ripple {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+
+.theme-bautizo-celeste .celeste-fly-in {
+  opacity: 0;
+}
+
+.floral-art.is-playing .celeste-fly-in {
+  animation: celesteFlyIn 2.4s calc(var(--d0, 0s) + var(--d, 0s)) cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.floral-art.is-playing .celeste-wing {
+  animation: celesteFlap 1.5s calc(var(--d0, 0s) + var(--d, 0s)) ease-in-out infinite;
+}
+
+.floral-art.is-playing .celeste-glide {
+  animation: celesteGlide 6s calc(var(--d0, 0s) + var(--d, 0s)) ease-in-out infinite;
+}
+
+.floral-art.is-playing .celeste-drop {
+  animation: celesteDrip 2.4s calc(var(--d0, 0s) + var(--d, 0s)) ease-in infinite;
+}
+
+.floral-art.is-playing .celeste-ripple {
+  animation: celesteRipple 2.4s calc(var(--d0, 0s) + var(--d, 0s)) ease-out infinite;
+}
+
+/* Clouds drift on their own, whether or not their ornament plays. */
+.theme-bautizo-celeste .celeste-cloud {
+  animation: celesteDrift var(--every, 26s) var(--wait, 0s) ease-in-out infinite alternate;
+}
+
+@keyframes celesteFlyIn {
+  from {
+    opacity: 0;
+    transform: translate(-140px, 50px) rotate(-8deg);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0);
+  }
+}
+
+/* The wing beats down past the body and back up, as seen from the side. */
+@keyframes celesteFlap {
+  0%,
+  100% {
+    transform: scaleY(1) rotate(0);
+  }
+  50% {
+    transform: scaleY(-0.55) rotate(-6deg);
+  }
+}
+
+@keyframes celesteGlide {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+  30% {
+    transform: translate(6px, -9px) rotate(-3deg);
+  }
+  65% {
+    transform: translate(-5px, 4px) rotate(2deg);
+  }
+}
+
+@keyframes celesteDrip {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.6);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  70% {
+    opacity: 1;
+  }
+  85%,
+  100% {
+    opacity: 0;
+    transform: translateY(46px) scale(0.8);
+  }
+}
+
+@keyframes celesteRipple {
+  0%,
+  70% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  78% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes celesteDrift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--dx, 60px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-bautizo-celeste .celeste-cloud,
+  .floral-art .celeste-wing,
+  .floral-art .celeste-glide {
+    animation: none !important;
+  }
+
+  .floral-art .celeste-fly-in {
+    opacity: 1;
+    transform: none;
+    animation: none !important;
+  }
+
+  .floral-art .celeste-drop {
+    opacity: 1;
+    animation: none !important;
+  }
+
+  .floral-art .celeste-ripple {
+    animation: none !important;
+  }
+}

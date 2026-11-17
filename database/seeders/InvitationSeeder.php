@@ -15,6 +15,12 @@ class InvitationSeeder extends Seeder
     {
         $invitations = [
             [
+                'template' => 'bautizo-celeste',
+                'title' => 'Emiliano José — Mi Bautizo',
+                'description' => 'Emiliano será bautizado y quiere que estés ahí para celebrarlo.',
+                'og_image' => '/invitations/bautizo-celeste/og-image.jpg',
+            ],
+            [
                 'template' => 'boda-clasica',
                 'title' => 'Mariana & Alejandro — Nuestra Boda',
                 'description' => 'Acompáñanos a celebrar la boda de Mariana & Alejandro.',
