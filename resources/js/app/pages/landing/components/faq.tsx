@@ -1,7 +1,11 @@
-import { SectionHeading } from './section-heading';
-import { Reveal } from './reveal';
-import type { OfferedPlan } from '@/types/plan';
+import { ChevronDown, MessageCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { buildWhatsappUrl } from '@/lib/contact';
 import { formatPrice } from '@/lib/format';
+import type { OfferedPlan } from '@/types/plan';
+import { Reveal } from './reveal';
+import { Highlight } from './section-heading';
 
 type Question = { question: string; answer: string };
 
@@ -29,38 +33,60 @@ const FAQS: Question[] = [
 ];
 
 export function Faq({ plans }: { plans: OfferedPlan[] }) {
+    const whatsappUrl = buildWhatsappUrl('Hola 👋 Tengo una pregunta sobre las invitaciones digitales de Convite.');
     const lowestPrice = plans.length > 0 ? Math.min(...plans.map((plan) => Number(plan.price))) : null;
     const faqs: Question[] = [
         ...(lowestPrice === null
             ? []
             : [
-                    {
-                        question: '¿Cuánto cuesta una invitación digital?',
-                        answer: `Desde ${formatPrice(lowestPrice)} pesos por invitación, con un diseño de nuestro catálogo. Los planes más completos suman lista de invitados, confirmaciones en línea, tarjeta y pases imprimibles, o un diseño exclusivo para su evento.`,
-                    },
-                ]),
+                  {
+                      question: '¿Cuánto cuesta una invitación digital?',
+                      answer: `Desde ${formatPrice(lowestPrice)} pesos por invitación, con un diseño de nuestro catálogo. Los planes más completos suman lista de invitados, confirmaciones en línea, tarjeta y pases imprimibles, o un diseño exclusivo para su evento.`,
+                  },
+              ]),
         ...FAQS,
     ];
 
     return (
-        <section className="max-w-[820px] mx-auto px-8 pb-[120px]">
-            <Reveal className="text-center mb-14">
-                <SectionHeading eyebrow="Preguntas frecuentes" title="Antes de escribirnos" />
-            </Reveal>
-            <div className="flex flex-col gap-4">
-                {faqs.map((faq) => (
-                    <Reveal key={faq.question}>
-                        <details className="group border border-primary/15 bg-[linear-gradient(160deg,var(--color-ivory),var(--color-cream))] px-6 py-5 open:shadow-[0_12px_40px_rgba(42,26,43,0.08)]">
-                            <summary className="flex items-center justify-between gap-4 cursor-pointer list-none font-serif text-xl font-semibold leading-snug text-primary">
-                                {faq.question}
-                                <span className="shrink-0 text-lg text-gold transition-transform duration-200 group-open:rotate-45">
-                                    +
-                                </span>
-                            </summary>
-                            <p className="mt-4 text-[15px] font-light leading-[1.8] text-[#4a3820]">{faq.answer}</p>
-                        </details>
-                    </Reveal>
-                ))}
+        <section id="preguntas" className="scroll-mt-28 bg-cream/70 py-24 md:py-32">
+            <div className="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+                <Reveal className="text-center lg:text-left">
+                    <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold-pale/60 px-3 py-1 text-xs font-medium text-gold-deep">
+                        <span className="size-1.5 rounded-full bg-current" aria-hidden="true" />
+                        Preguntas frecuentes
+                    </span>
+                    <h2 className="text-[clamp(32px,4.6vw,52px)] leading-[1.08] font-semibold tracking-tight text-balance">
+                        Antes de <Highlight>escribirnos</Highlight>
+                    </h2>
+                    <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+                        ¿Tienen otra duda? Respondemos por WhatsApp el mismo día.
+                    </p>
+                    <Button asChild variant="outline" size="lg" className="mt-7 rounded-full bg-card">
+                        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                            <MessageCircle /> Preguntar por WhatsApp
+                        </a>
+                    </Button>
+                </Reveal>
+                <div className="flex flex-col gap-3">
+                    {faqs.map((faq, index) => (
+                        <Reveal key={faq.question} delay={index * 60}>
+                            <Collapsible
+                                defaultOpen={index === 0}
+                                className="group rounded-2xl border bg-card shadow-xs transition-shadow data-[state=open]:shadow-md"
+                            >
+                                <CollapsibleTrigger className="flex w-full items-center justify-between gap-4 rounded-2xl px-6 py-5 text-left text-base font-semibold outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50">
+                                    {faq.question}
+                                    <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted transition-[transform,background-color] duration-300 group-data-[state=open]:rotate-180 group-data-[state=open]:bg-primary group-data-[state=open]:text-primary-foreground">
+                                        <ChevronDown className="size-4" />
+                                    </span>
+                                </CollapsibleTrigger>
+                                <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+                                    <p className="px-6 pb-5 leading-relaxed text-muted-foreground">{faq.answer}</p>
+                                </CollapsibleContent>
+                            </Collapsible>
+                        </Reveal>
+                    ))}
+                </div>
             </div>
         </section>
     );

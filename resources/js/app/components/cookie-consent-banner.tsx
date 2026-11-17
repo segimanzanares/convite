@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import { getStoredConsent, updateAnalyticsConsent } from '@/lib/analytics';
 
 export function CookieConsentBanner() {
@@ -12,26 +13,23 @@ export function CookieConsentBanner() {
     };
 
     return (
-        <div className="fixed inset-x-0 bottom-0 z-50 print:hidden bg-ink text-white px-6 py-5 shadow-[0_-4px_20px_rgba(0,0,0,0.15)]">
-            <div className="max-w-[900px] mx-auto flex flex-col sm:flex-row items-center gap-4">
-                <p className="text-[13px] leading-[1.7] text-white/85 flex-1 text-center sm:text-left">
+        <div className="fixed inset-x-3 bottom-3 z-50 mx-auto max-w-3xl rounded-2xl border border-white/10 bg-primary/95 px-5 py-4 text-white shadow-[0_20px_50px_-15px_rgba(42,26,43,0.6)] backdrop-blur-md sm:bottom-5 print:hidden">
+            <div className="flex flex-col items-center gap-4 sm:flex-row">
+                <p className="flex-1 text-center text-sm leading-relaxed text-white/80 sm:text-left">
                     Usamos cookies de análisis para entender cómo se usa este sitio. Puedes aceptarlas o rechazarlas.
                 </p>
-                <div className="flex gap-3 shrink-0">
-                    <button
-                        type="button"
-                        className="text-[11px] tracking-[0.2em] uppercase text-white/70 py-3 px-5 cursor-pointer hover:text-white transition-colors"
+                <div className="flex shrink-0 gap-2">
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className="rounded-full text-white/75 hover:bg-white/10 hover:text-white"
                         onClick={() => respond('denied')}
                     >
                         Rechazar
-                    </button>
-                    <button
-                        type="button"
-                        className="text-[11px] tracking-[0.2em] uppercase text-ink bg-gold py-3 px-6 cursor-pointer transition-transform duration-200 hover:-translate-y-0.5"
-                        onClick={() => respond('granted')}
-                    >
+                    </Button>
+                    <Button size="sm" className="rounded-full bg-gold px-5 text-ink hover:bg-gold-light" onClick={() => respond('granted')}>
                         Aceptar
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>

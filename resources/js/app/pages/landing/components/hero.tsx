@@ -1,142 +1,92 @@
-import { Link } from '@inertiajs/react';
+import { ArrowRight, Check, Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { buildWhatsappUrl } from '@/lib/contact';
-import convitePetal from '@/assets/images/convite-icon.png';
-import type { OfferedPlan } from '@/types/plan';
 import { formatPrice } from '@/lib/format';
-import { ACCENT_CLASSES, type Accent } from './accents';
+import type { DemoInvitation } from '@/types/invitation';
+import type { OfferedPlan } from '@/types/plan';
+import { FallingPetals } from './illustrations/decorations';
+import { HeroIllustration } from './illustrations/hero-illustration';
+import { Highlight } from './section-heading';
 
-const TAGS: { label: string; accent: Accent }[] = [
-    { label: 'Diseño de catálogo o exclusivo', accent: 'gold' },
-    { label: 'Confirmación de asistencia', accent: 'terracotta' },
-    { label: 'Cuenta regresiva', accent: 'rose' },
-    { label: 'Música ambiental', accent: 'teal' },
-];
+/** The demo the hero's phone opens. */
+const HERO_DEMO = 'boda-clasica';
 
-const STATS: { value: string; label: string }[] = [
-    { value: '3–5 días', label: 'Tiempo de entrega' },
-    { value: '2', label: 'Rondas de ajustes incluidas' },
-];
-
-export function Hero({ plans }: { plans: OfferedPlan[] }) {
+export function Hero({ plans, demos }: { plans: OfferedPlan[]; demos: DemoInvitation[] }) {
     const whatsappUrl = buildWhatsappUrl('Hola 👋 Quiero cotizar una invitación digital para mi evento.');
     const lowestPrice = plans.length > 0 ? Math.min(...plans.map((plan) => Number(plan.price))) : null;
+    const heroDemoUrl = demos.find((demo) => demo.slug === HERO_DEMO)?.url ?? null;
+    const highlights = [
+        'Entrega en 3 a 5 días',
+        '2 rondas de ajustes incluidas',
+        ...(demos.length > 1 ? [`${demos.length} diseños para elegir`] : []),
+    ];
 
     return (
-        <section className="relative overflow-hidden">
-            <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--color-cream),var(--color-ivory)_70%)]" />
-                <div className="absolute -top-32 -left-24 w-[420px] h-[420px] rounded-full bg-gold/30 blur-[100px]" />
-                <div className="absolute -top-16 right-[-120px] w-[380px] h-[380px] rounded-full bg-primary/15 blur-[110px]" />
-                <div className="absolute top-[220px] left-[10%] w-[320px] h-[320px] rounded-full bg-rose/20 blur-[100px]" />
-                <div className="absolute top-[120px] right-[15%] w-[300px] h-[300px] rounded-full bg-teal/20 blur-[100px]" />
+        <section id="inicio" className="relative overflow-hidden">
+            <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--color-gold-pale),var(--color-ivory)_65%)]" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--color-primary)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-primary)_1px,transparent_1px)] mask-[radial-gradient(ellipse_at_center,black,transparent_70%)] bg-size-[56px_56px] opacity-[0.05]" />
+                <div className="absolute -top-32 -left-24 size-[420px] rounded-full bg-gold/30 blur-[100px] motion-safe:animate-blob" />
+                <div className="absolute top-40 -right-32 size-[380px] rounded-full bg-rose/20 blur-[110px] motion-safe:animate-blob [animation-delay:-6s]" />
+                <div className="absolute bottom-0 left-1/3 size-[320px] rounded-full bg-teal/15 blur-[100px] motion-safe:animate-blob [animation-delay:-12s]" />
             </div>
+            <FallingPetals />
 
-            <div className="relative z-10 max-w-[1180px] mx-auto px-8 pb-[100px] pt-[140px] md:pt-[160px]">
-                <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-16 items-center">
-                    <div className="text-center lg:text-left">
-                        <img
-                            src={convitePetal}
-                            alt=""
-                            aria-hidden="true"
-                            className="w-[64px] h-[64px] mx-auto lg:mx-0 mb-7 drop-shadow-[0_8px_30px_rgba(42,26,43,0.15)]"
-                        />
-                        <p className="text-[10px] tracking-[0.6em] text-gold uppercase mb-4">
-                            Invitaciones digitales para cualquier evento
-                        </p>
-                        <h1 className="font-script text-[clamp(46px,7vw,74px)] text-primary mb-6 leading-[1.15]">
-                            La invitación que su evento merece
-                        </h1>
-                        <p className="text-[clamp(16px,2vw,20px)] font-light leading-[1.9] text-[#4a3820] italic max-w-[560px] mx-auto lg:mx-0 mb-9">
-                            Elijan un diseño de nuestro catálogo o pidan uno exclusivo para su evento; nosotros
-                            lo llenamos con su contenido y fotos y lo publicamos, listo para compartir por
-                            WhatsApp en minutos.
-                        </p>
+            <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 pt-32 pb-20 sm:px-6 md:pt-40 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:pb-28">
+                <div className="text-center lg:text-left">
+                    <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/10 bg-white/70 py-1 pr-3 pl-1 text-xs font-medium text-primary shadow-xs backdrop-blur">
+                        <span className="flex items-center gap-1 rounded-full bg-primary px-2 py-0.5 text-white">
+                            <Sparkles className="size-3" /> Nuevo
+                        </span>
+                        Confirmaciones en línea y pases con QR
+                    </span>
+                    <h1 className="text-[clamp(40px,6.4vw,72px)] leading-[1.02] font-semibold tracking-tight text-balance text-foreground">
+                        La invitación que su evento <Highlight><span className="text-[1.3em] leading-none">merece</span></Highlight>
+                    </h1>
+                    <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-pretty text-muted-foreground lg:mx-0">
+                        Bodas, XV años, bautizos y cumpleaños. Elijan un diseño de nuestro catálogo o pidan uno exclusivo;
+                        nosotros lo llenamos con su historia y sus fotos, y queda listo para compartir por WhatsApp.
+                    </p>
 
-                        <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-11">
-                            <a
-                                href={whatsappUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[11px] tracking-[0.35em] uppercase text-white bg-primary py-4 px-9 transition-[background-color,transform] duration-200 hover:bg-primary-light hover:-translate-y-0.5"
-                            >
-                                Cotiza tu invitación
-                            </a>
-                            <a
-                                href="#disenos"
-                                className="text-[11px] tracking-[0.35em] uppercase text-primary border border-primary/40 py-4 px-9 transition-colors duration-200 hover:bg-primary/5"
-                            >
-                                Ver diseños de ejemplo
-                            </a>
-                        </div>
-
-                        {lowestPrice !== null && (
-                            <p className="text-[11px] tracking-[0.2em] uppercase text-primary/80 mb-8">
-                                Invitaciones desde{' '}
-                                <a href="#planes" className="text-gold hover:underline">
-                                    {formatPrice(lowestPrice)} pesos
-                                </a>
-                            </p>
-                        )}
-
-                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 mb-12">
-                            {TAGS.map(({ label, accent }) => (
-                                <span
-                                    key={label}
-                                    className={`text-[10px] tracking-[0.2em] uppercase ${ACCENT_CLASSES[accent].text} flex items-center gap-2`}
-                                >
-                                    <span className={`w-1.5 h-1.5 rotate-45 ${ACCENT_CLASSES[accent].bg}`} />
-                                    {label}
-                                </span>
-                            ))}
-                        </div>
-
-                        <div className="flex items-center justify-center lg:justify-start gap-8 sm:gap-10 border-t border-primary/10 pt-8">
-                            {[
-                                ...STATS,
-                                ...(plans.length > 1 ? [{ value: `${plans.length}`, label: 'Planes para elegir' }] : []),
-                            ].map((stat) => (
-                                <div key={stat.label} className="text-center lg:text-left">
-                                    <p className="text-lg sm:text-xl text-primary mb-1">{stat.value}</p>
-                                    <p className="text-[9px] tracking-[0.15em] uppercase text-[#4a3820]/70 max-w-[110px]">
-                                        {stat.label}
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="relative mx-auto max-w-[340px] lg:max-w-none w-full">
-                        <div
-                            className="pointer-events-none absolute -inset-8 rounded-full bg-gold/25 blur-[70px]"
-                            aria-hidden="true"
-                        />
-                        <Link
-                            href="/i/boda-clasica"
-                            className="group relative block rounded-[1.75rem] border border-primary/15 bg-primary p-3 shadow-[0_30px_60px_-15px_rgba(42,26,43,0.45)] transition-transform duration-300 hover:-translate-y-1"
+                    <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
+                        <Button
+                            asChild
+                            size="lg"
+                            className="group h-12 rounded-full px-7 text-base shadow-[0_14px_30px_-12px_rgba(42,26,43,0.7)] transition-transform hover:-translate-y-0.5"
                         >
-                            <div className="rounded-[1.35rem] border border-gold/30 bg-[linear-gradient(175deg,var(--color-ivory),var(--color-cream))] px-8 py-12 text-center">
-                                <img src={convitePetal} alt="" aria-hidden="true" className="w-9 h-9 mx-auto mb-6 opacity-80" />
-                                <p className="text-[9px] tracking-[0.5em] text-gold uppercase mb-3">
-                                    Nos casamos
-                                </p>
-                                <p className="font-script text-[clamp(32px,4vw,42px)] text-primary leading-tight mb-3">
-                                    Mariana &amp; Alejandro
-                                </p>
-                                <div className="w-10 h-px mx-auto bg-gold/50 mb-3" />
-                                <p className="text-[10px] tracking-[0.25em] text-[#4a3820] uppercase">
-                                    14 · Noviembre · 2026
-                                </p>
-                                <div className="mt-9 inline-flex items-center gap-2 text-[9px] tracking-[0.2em] text-primary/70 uppercase">
-                                    <span className="w-1 h-1 rotate-45 bg-terracotta" />
-                                    Confirmar asistencia
-                                </div>
-                            </div>
-                            <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] tracking-[0.3em] uppercase text-white bg-terracotta px-4 py-2 shadow-md transition-transform duration-200 group-hover:-translate-y-0.5">
-                                Así de linda puede quedar la suya
-                            </span>
-                        </Link>
+                            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                                Cotizar mi invitación
+                                <ArrowRight className="transition-transform group-hover:translate-x-1" />
+                            </a>
+                        </Button>
+                        <Button asChild size="lg" variant="outline" className="h-12 rounded-full bg-white/70 px-7 text-base backdrop-blur">
+                            <a href="#disenos">Ver diseños de ejemplo</a>
+                        </Button>
                     </div>
+
+                    {lowestPrice !== null && (
+                        <p className="mt-5 text-sm text-muted-foreground">
+                            Desde{' '}
+                            <a href="#planes" className="font-semibold text-primary underline-offset-4 hover:underline">
+                                {formatPrice(lowestPrice)} pesos
+                            </a>
+                            , pago único
+                        </p>
+                    )}
+
+                    <ul className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-foreground/80 lg:justify-start">
+                        {highlights.map((highlight) => (
+                            <li key={highlight} className="flex items-center gap-2">
+                                <span className="flex size-5 items-center justify-center rounded-full bg-teal/15 text-teal">
+                                    <Check className="size-3" strokeWidth={3} />
+                                </span>
+                                {highlight}
+                            </li>
+                        ))}
+                    </ul>
                 </div>
+
+                <HeroIllustration href={heroDemoUrl} />
             </div>
         </section>
     );

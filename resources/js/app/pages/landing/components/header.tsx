@@ -1,34 +1,67 @@
 import { Link } from '@inertiajs/react';
-import { buildWhatsappUrl } from '@/lib/contact';
-import { dashboard } from '@/routes';
+import { MessageCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import logoNegativo from '@/assets/images/logo-negativo.png';
+import { Button } from '@/components/ui/button';
+import { buildWhatsappUrl } from '@/lib/contact';
+import { cn } from '@/lib/utils';
+import { dashboard } from '@/routes';
+
+const LINKS = [
+    { href: '#disenos', label: 'Diseños' },
+    { href: '#funciones', label: 'Funciones' },
+    { href: '#como-funciona', label: 'Cómo funciona' },
+    { href: '#planes', label: 'Planes' },
+    { href: '#preguntas', label: 'Preguntas' },
+];
 
 export function Header() {
     const whatsappUrl = buildWhatsappUrl('Hola 👋 Quiero cotizar una invitación digital para mi evento.');
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const onScroll = () => setIsScrolled(window.scrollY > 24);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
 
     return (
-        <header className="fixed inset-x-0 top-0 z-50">
-            <div className="absolute inset-0 bg-primary/95 backdrop-blur-sm border-b border-gold/25" />
-            <div className="relative max-w-[1100px] mx-auto flex items-center justify-between gap-3 px-4 sm:px-8 py-4">
-                <img src={logoNegativo} alt="Convite — Invitaciones digitales" className="h-7 sm:h-8 md:h-10 shrink-0" />
-                <nav className="flex items-center gap-2 sm:gap-3">
-                    {/* The panel's home: visitors without a session land on its login */}
-                    <Link
-                        href={dashboard()}
-                        className="shrink-0 whitespace-nowrap text-[9px] sm:text-[10px] tracking-[0.2em] sm:tracking-[0.3em] uppercase text-ivory border border-gold/40 py-2 px-3 sm:py-2.5 sm:px-5 transition-colors duration-200 hover:border-gold hover:text-gold-light"
-                    >
-                        Ingresar
-                    </Link>
-                    <a
-                        href={whatsappUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="shrink-0 whitespace-nowrap text-[9px] sm:text-[10px] tracking-[0.2em] sm:tracking-[0.3em] uppercase text-primary bg-gold border border-gold py-2 px-3 sm:py-2.5 sm:px-5 transition-colors duration-200 hover:bg-gold-light hover:border-gold-light"
-                    >
-                        <span className="sm:hidden">WhatsApp</span>
-                        <span className="hidden sm:inline">Cotizar por WhatsApp</span>
-                    </a>
+        <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 sm:pt-4">
+            <div
+                className={cn(
+                    'mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full border border-white/10 bg-primary/90 py-2 pr-2 pl-5 text-white backdrop-blur-md transition-[box-shadow,max-width] duration-500',
+                    isScrolled && 'max-w-5xl shadow-[0_18px_40px_-18px_rgba(42,26,43,0.65)]',
+                )}
+            >
+                <a href="#inicio" className="shrink-0">
+                    <img src={logoNegativo} alt="Convite — Invitaciones digitales" className="h-7 sm:h-8" />
+                </a>
+                <nav aria-label="Secciones" className="hidden items-center gap-1 lg:flex">
+                    {LINKS.map((link) => (
+                        <a
+                            key={link.href}
+                            href={link.href}
+                            className="rounded-full px-3 py-1.5 text-sm text-white/75 transition-colors hover:bg-white/10 hover:text-white"
+                        >
+                            {link.label}
+                        </a>
+                    ))}
                 </nav>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                    {/* The panel's home: visitors without a session land on its login */}
+                    <Button asChild variant="ghost" size="sm" className="rounded-full text-white hover:bg-white/10 hover:text-white">
+                        <Link href={dashboard()}>Ingresar</Link>
+                    </Button>
+                    <Button asChild size="sm" className="rounded-full bg-gold text-ink hover:bg-gold-light">
+                        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                            <MessageCircle />
+                            <span className="sm:hidden">Cotizar</span>
+                            <span className="hidden sm:inline">Cotizar por WhatsApp</span>
+                        </a>
+                    </Button>
+                </div>
             </div>
         </header>
     );
