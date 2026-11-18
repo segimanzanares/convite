@@ -9,7 +9,6 @@ import { store as storeMedia } from "@/actions/App/Http/Controllers/Admin/Invita
 import AlertError from "@/components/alert-error";
 import Heading from "@/components/heading";
 import InputError from "@/components/input-error";
-import MediaField from "@/components/media-field";
 import Repeater from "@/components/repeater";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -43,6 +42,8 @@ import {
     useContentForm,
 } from "./components/content-form-context";
 import type { ContentFormBinding } from "./components/content-form-context";
+import { ContentTabs } from "./components/content-tabs";
+import type { ContentTab } from "./components/content-tabs";
 
 /** Free-form content; its shape depends on the kind (see app/Concerns/InvitationContentRules.php). */
 type ContentValue =
@@ -94,6 +95,84 @@ function withDefaults(content: Content, kind: InvitationKind): Content {
     };
 }
 
+type Tab = ContentTab & {
+    /** The content paths edited in the tab; the general tab takes every other one. */
+    paths: string[];
+};
+
+/** The sections of the form, one tab each, keeping only those the template's design shows. */
+function contentTabs(
+    kind: InvitationKind,
+    has: (section: InvitationSection) => boolean,
+): Tab[] {
+    const tabs: (Tab | false)[] = [
+        {
+            value: "general",
+            label: "General",
+            paths: [],
+            content: <GeneralSections kind={kind} />,
+        },
+        hasChapters(kind) && {
+            value: "story",
+            label: "Mi historia",
+            paths: ["content.story"],
+            content: <ChapterSections />,
+        },
+        has("family") && {
+            value: "family",
+            label: kind === "birthday" ? "Papás" : "Papás y padrinos",
+            paths: ["content.parents", "content.godparents"],
+            content: <FamilySection kind={kind} />,
+        },
+        has("venues") && {
+            value: "venues",
+            label: "Lugares",
+            paths: ["content.venues"],
+            content: <VenuesSection />,
+        },
+        has("program") && {
+            value: "program",
+            label: "Programa",
+            paths: ["content.program"],
+            content: <ProgramSection />,
+        },
+        has("gallery") && {
+            value: "gallery",
+            label: "Galería",
+            paths: ["content.gallery"],
+            content: <GallerySection />,
+        },
+        (has("dress_code") || has("swatches")) && {
+            value: "dress",
+            label: "Vestimenta",
+            paths: ["content.dress_code", "content.swatches"],
+            content: (
+                <DressCodeSection
+                    withCode={has("dress_code")}
+                    withSwatches={has("swatches")}
+                />
+            ),
+        },
+        has("gifts") && {
+            value: "gifts",
+            label: "Regalos",
+            paths: ["content.gifts"],
+            content: <GiftsSection />,
+        },
+    ];
+
+    return tabs.filter((tab): tab is Tab => tab !== false);
+}
+
+/** The tab holding the field of an error key (e.g. `content.venues.0.name`). */
+function tabOfError(tabs: Tab[], path: string): string {
+    const owner = tabs.find(({ paths }) =>
+        paths.some((prefix) => path === prefix || path.startsWith(`${prefix}.`)),
+    );
+
+    return (owner ?? tabs[0]).value;
+}
+
 export default function InvitationContent({
     invitation,
     kind,
@@ -109,6 +188,11 @@ export default function InvitationContent({
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [processing, setProcessing] = useState(false);
     const has = (section: InvitationSection) => sections.includes(section);
+    const tabs = contentTabs(kind, has);
+    const [tab, setTab] = useState(tabs[0].value);
+    const invalidTabs = new Set(
+        Object.keys(errors).map((path) => tabOfError(tabs, path)),
+    );
 
     const binding: ContentFormBinding = {
         value: (path) => getIn(data, path),
@@ -125,7 +209,21 @@ export default function InvitationContent({
             onStart: () => setProcessing(true),
             onFinish: () => setProcessing(false),
             onSuccess: () => setErrors({}),
-            onError: (validationErrors) => setErrors(validationErrors),
+            onError: (validationErrors) => {
+                setErrors(validationErrors);
+
+                // Leave the admin on the open tab if it has errors, otherwise show the first one that does
+                const invalid = Object.keys(validationErrors).map((path) =>
+                    tabOfError(tabs, path),
+                );
+
+                if (!invalid.includes(tab)) {
+                    setTab(
+                        tabs.find(({ value }) => invalid.includes(value))
+                            ?.value ?? tab,
+                    );
+                }
+            },
         });
     };
 
@@ -161,161 +259,158 @@ export default function InvitationContent({
                         />
                     )}
 
-                    <ContentSection title="Datos principales">
-                        {kind === "wedding" ? (
-                            <div className="grid gap-4 sm:grid-cols-2">
-                                <TextField
-                                    path="content.names.0"
-                                    label="Primer nombre"
-                                    placeholder="Mariana"
-                                />
-                                <TextField
-                                    path="content.names.1"
-                                    label="Segundo nombre"
-                                    placeholder="Alejandro"
-                                />
-                                <div className="sm:col-span-2">
-                                    <TextField
-                                        path="content.families"
-                                        label="Familias"
-                                        placeholder="La Familia López & La Familia Pérez"
-                                    />
-                                </div>
-                                <InputError
-                                    message={binding.error("content.names")}
-                                />
-                            </div>
-                        ) : (
-                            <div className="grid gap-4 sm:grid-cols-2">
-                                <TextField
-                                    path="content.name"
-                                    label="Nombre completo"
-                                    placeholder="Sofía Valentina"
-                                />
-                                <TextField
-                                    path="content.first_name"
-                                    label="Nombre corto"
-                                    placeholder="Sofía"
-                                />
-                                <TextField
-                                    path="content.age"
-                                    label="Edad"
-                                    type="number"
-                                />
-                                <TextField
-                                    path="content.hosts"
-                                    label="Firma"
-                                    placeholder="Con cariño, sus hijos y nietos"
-                                />
-                                {hasChapters(kind) && (
-                                    <TextField
-                                        path="content.monogram"
-                                        label="Monograma"
-                                        placeholder="SV"
-                                        hint="Si lo dejas vacío se usan las iniciales."
-                                    />
-                                )}
-                            </div>
-                        )}
-                        <TextField
-                            path="content.rsvp_whatsapp"
-                            label="WhatsApp para confirmar"
-                            type="tel"
-                            placeholder="954 123 4567"
-                            hint="A los números de 10 dígitos se les agrega la clave de México (52)."
-                        />
-                    </ContentSection>
-
-                    <ContentSection
-                        title="Música e imágenes"
-                        description="Fotos JPG, PNG o WebP de hasta 10 MB; música MP3 o M4A de hasta 15 MB."
-                    >
-                        <div className="grid gap-6 sm:grid-cols-2">
-                            <MediaPathField
-                                path="content.music"
-                                label="Música"
-                                type="audio"
-                            />
-                            {hasChapters(kind) ? (
-                                <div className="space-y-3">
-                                    <MediaPathField
-                                        path="content.hero_photo"
-                                        label="Foto de portada"
-                                        type="image"
-                                    />
-                                    <TextField
-                                        path="content.hero_photo_position"
-                                        label="Encuadre de la portada"
-                                        placeholder="50% 20%"
-                                        hint="Horizontal y vertical, para no cortar la cara."
-                                    />
-                                </div>
-                            ) : (
-                                <MediaPathField
-                                    path="content.cover"
-                                    label="Fondo de la portada"
-                                    type="image"
-                                    hint="Si no subes una, se usa la imagen de la plantilla."
-                                />
-                            )}
-                            <MediaField
-                                label="Imagen al compartir el enlace"
-                                type="image"
-                                value={data.og_image}
-                                onChange={(path) =>
-                                    setData((current) => ({
-                                        ...current,
-                                        og_image: path,
-                                    }))
-                                }
-                                uploadUrl={binding.uploadUrl}
-                                urlPrefix={mediaUrlPrefix}
-                                error={errors.og_image}
-                                hint="Se ve en WhatsApp y redes. Idealmente de 1200 × 630."
-                            />
-                        </div>
-                    </ContentSection>
-
-                    <ContentSection
-                        title="Textos"
-                        description="Si los dejas vacíos, la plantilla usa los suyos."
-                    >
-                        {hasChapters(kind) ? (
-                            <TextAreaField
-                                path="content.closing_message"
-                                label="Mensaje de cierre"
-                            />
-                        ) : (
-                            <TextAreaField
-                                path="content.message"
-                                label="Mensaje de la invitación"
-                                rows={4}
-                            />
-                        )}
-                        <TextField
-                            path="content.tagline"
-                            label="Frase del pie de página"
-                        />
-                    </ContentSection>
-
-                    {hasChapters(kind) && <ChapterSections />}
-                    {has("family") && <FamilySection kind={kind} />}
-                    {has("venues") && <VenuesSection />}
-                    {has("program") && <ProgramSection />}
-                    {has("gallery") && <GallerySection />}
-                    {(has("dress_code") || has("swatches")) && (
-                        <DressCodeSection
-                            withCode={has("dress_code")}
-                            withSwatches={has("swatches")}
-                        />
-                    )}
-                    {has("gifts") && <GiftsSection />}
+                    <ContentTabs
+                        tabs={tabs.map((tab) => ({
+                            ...tab,
+                            invalid: invalidTabs.has(tab.value),
+                        }))}
+                        value={tab}
+                        onChange={setTab}
+                    />
 
                     <div className="flex justify-end">
                         <SaveButton processing={processing} />
                     </div>
                 </form>
             </ContentFormProvider>
+        </>
+    );
+}
+
+/** The names, media and texts every kind has. */
+function GeneralSections({ kind }: { kind: InvitationKind }) {
+    const form = useContentForm();
+
+    return (
+        <>
+
+        <ContentSection title="Datos principales">
+            {kind === "wedding" ? (
+                <div className="grid gap-4 sm:grid-cols-2">
+                    <TextField
+                        path="content.names.0"
+                        label="Primer nombre"
+                        placeholder="Mariana"
+                    />
+                    <TextField
+                        path="content.names.1"
+                        label="Segundo nombre"
+                        placeholder="Alejandro"
+                    />
+                    <div className="sm:col-span-2">
+                        <TextField
+                            path="content.families"
+                            label="Familias"
+                            placeholder="La Familia López & La Familia Pérez"
+                        />
+                    </div>
+                    <InputError
+                        message={form.error("content.names")}
+                    />
+                </div>
+            ) : (
+                <div className="grid gap-4 sm:grid-cols-2">
+                    <TextField
+                        path="content.name"
+                        label="Nombre completo"
+                        placeholder="Sofía Valentina"
+                    />
+                    <TextField
+                        path="content.first_name"
+                        label="Nombre corto"
+                        placeholder="Sofía"
+                    />
+                    <TextField
+                        path="content.age"
+                        label="Edad"
+                        type="number"
+                    />
+                    <TextField
+                        path="content.hosts"
+                        label="Firma"
+                        placeholder="Con cariño, sus hijos y nietos"
+                    />
+                    {hasChapters(kind) && (
+                        <TextField
+                            path="content.monogram"
+                            label="Monograma"
+                            placeholder="SV"
+                            hint="Si lo dejas vacío se usan las iniciales."
+                        />
+                    )}
+                </div>
+            )}
+            <TextField
+                path="content.rsvp_whatsapp"
+                label="WhatsApp para confirmar"
+                type="tel"
+                placeholder="954 123 4567"
+                hint="A los números de 10 dígitos se les agrega la clave de México (52)."
+            />
+        </ContentSection>
+
+        <ContentSection
+            title="Música e imágenes"
+            description="Fotos JPG, PNG o WebP de hasta 10 MB; música MP3 o M4A de hasta 15 MB."
+        >
+            <div className="grid gap-6 sm:grid-cols-2">
+                <MediaPathField
+                    path="content.music"
+                    label="Música"
+                    type="audio"
+                />
+                {hasChapters(kind) ? (
+                    <div className="space-y-3">
+                        <MediaPathField
+                            path="content.hero_photo"
+                            label="Foto de portada"
+                            type="image"
+                        />
+                        <TextField
+                            path="content.hero_photo_position"
+                            label="Encuadre de la portada"
+                            placeholder="50% 20%"
+                            hint="Horizontal y vertical, para no cortar la cara."
+                        />
+                    </div>
+                ) : (
+                    <MediaPathField
+                        path="content.cover"
+                        label="Fondo de la portada"
+                        type="image"
+                        hint="Si no subes una, se usa la imagen de la plantilla."
+                    />
+                )}
+                <MediaPathField
+                    path="og_image"
+                    label="Imagen al compartir el enlace"
+                    type="image"
+                    hint="Se ve en WhatsApp y redes. Idealmente de 1200 × 630."
+                />
+            </div>
+        </ContentSection>
+
+        <ContentSection
+            title="Textos"
+            description="Si los dejas vacíos, la plantilla usa los suyos."
+        >
+            {hasChapters(kind) ? (
+                <TextAreaField
+                    path="content.closing_message"
+                    label="Mensaje de cierre"
+                />
+            ) : (
+                <TextAreaField
+                    path="content.message"
+                    label="Mensaje de la invitación"
+                    rows={4}
+                />
+            )}
+            <TextField
+                path="content.tagline"
+                label="Frase del pie de página"
+            />
+        </ContentSection>
         </>
     );
 }
