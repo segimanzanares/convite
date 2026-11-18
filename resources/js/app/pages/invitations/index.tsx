@@ -1,5 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import {
+    BookHeartIcon,
     ClipboardCheckIcon,
     ExternalLinkIcon,
     FileTextIcon,
@@ -20,6 +21,7 @@ import {
 } from '@/actions/App/Http/Controllers/Admin/InvitationController';
 import { index as galleryIndex } from '@/actions/App/Http/Controllers/Admin/LiveGalleryController';
 import { index as rsvpsIndex } from '@/actions/App/Http/Controllers/Admin/RsvpController';
+import { index as wishesIndex } from '@/actions/App/Http/Controllers/Admin/WishController';
 import DataTable from '@/components/data-table';
 import Heading from '@/components/heading';
 import InvitationSectionLinks from '@/components/invitation-sections';
@@ -223,6 +225,14 @@ function InvitationRow({ invitation }: { invitation: Invitation }) {
                             <Link href={galleryIndex(invitation.slug)}>
                                 <ImagesIcon />
                                 Galería en vivo
+                            </Link>
+                        </DropdownMenuItem>
+                    )}
+                    {sections.wishes && (
+                        <DropdownMenuItem asChild>
+                            <Link href={wishesIndex(invitation.slug)}>
+                                <BookHeartIcon />
+                                Libro de deseos
                             </Link>
                         </DropdownMenuItem>
                     )}

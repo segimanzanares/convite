@@ -10,7 +10,10 @@ use Illuminate\Support\Facades\DB;
  */
 class GuestPurgeService
 {
-    public function __construct(private readonly LiveGalleryService $gallery) {}
+    public function __construct(
+        private readonly LiveGalleryService $gallery,
+        private readonly WishService $wishes,
+    ) {}
 
     /**
      * Purge every invitation whose event ended more than the retention period ago, and return how many there were.
@@ -30,13 +33,14 @@ class GuestPurgeService
     }
 
     /**
-     * Delete the guests and RSVPs of an invitation, with their arrivals and the photos they shared in the live gallery,
-     * revoke its door and gallery links and record when it happened, so it is not purged again.
+     * Delete the guests and RSVPs of an invitation, with their arrivals, the photos they shared in the live gallery and
+     * the messages they left in the wishes book, revoke its door and gallery links and record when it happened, so it is not purged again.
      */
     public function purge(Invitation $invitation): void
     {
         DB::transaction(function () use ($invitation): void {
             $invitation->rsvps()->delete();
+            $this->wishes->purge($invitation);
             $invitation->guests()->delete();
             $invitation->forceFill(['guests_purged_at' => now(), 'door_token' => null])->save();
             $this->gallery->purge($invitation);

@@ -24,8 +24,31 @@ export interface InvitationGuest {
   rsvp?: RsvpAnswer | null;
 }
 
+/** A message of the wishes book, as the invitation shows it. */
+export interface PublicWish {
+  id: number;
+  author_name: string;
+  message: string;
+  created_at: string | null;
+}
+
+/** The invitation's wishes book, sent when its plan includes it and a panel user turned it on. */
+export interface WishesSettings {
+  /** The book still takes messages. */
+  open: boolean;
+  url: string;
+  /** The approved messages show on the invitation. */
+  public: boolean;
+  /** New messages wait for approval before showing. */
+  moderated: boolean;
+  max_length: number;
+  /** The latest approved messages, newest first; empty unless `public`. */
+  wishes: PublicWish[];
+}
+
 export interface InvitationPageProps {
   rsvp?: RsvpSettings;
+  wishes?: WishesSettings | null;
   guest?: InvitationGuest | null;
   [key: string]: unknown;
 }

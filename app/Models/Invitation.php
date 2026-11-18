@@ -38,6 +38,9 @@ use Illuminate\Support\Facades\Storage;
  * @property string|null $door_token
  * @property string|null $gallery_token
  * @property bool $gallery_moderated
+ * @property bool $wishes_enabled
+ * @property bool $wishes_public
+ * @property bool $wishes_moderated
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -85,6 +88,9 @@ class Invitation extends Model
             'guests_purged_at' => 'datetime',
             'content' => 'array',
             'gallery_moderated' => 'boolean',
+            'wishes_enabled' => 'boolean',
+            'wishes_public' => 'boolean',
+            'wishes_moderated' => 'boolean',
         ];
     }
 
@@ -121,6 +127,12 @@ class Invitation extends Model
     public function galleryPhotos(): HasMany
     {
         return $this->hasMany(GalleryPhoto::class);
+    }
+
+    /** @return HasMany<Wish, $this> */
+    public function wishes(): HasMany
+    {
+        return $this->hasMany(Wish::class);
     }
 
     /**
@@ -238,6 +250,39 @@ class Invitation extends Model
         }
 
         return now()->between($this->galleryOpensAt(), $this->galleryClosesAt());
+    }
+
+    /**
+     * Whether the invitation shows its wishes book: the plan includes it, a panel user turned it on and the guest data
+     * (the messages among them) was not purged.
+     */
+    public function offersWishes(): bool
+    {
+        return $this->hasFeature(PlanFeature::Wishes) && $this->wishes_enabled && $this->guests_purged_at === null;
+    }
+
+    /**
+     * When the wishes book stops taking messages: the end of the given number of days after the event, so guests can
+     * still send their congratulations once it is over. Null without an event date.
+     */
+    public function wishesCloseAt(): ?CarbonImmutable
+    {
+        return $this->event_date?->toImmutable()->addDays(config('convite.wishes_days_after_event'))->endOfDay();
+    }
+
+    /**
+     * Whether the wishes book takes messages now: the invitation offers it, is published (a preview never leaves test
+     * messages behind) and the book has not closed, in the application's time zone.
+     */
+    public function acceptsWishes(): bool
+    {
+        if (! $this->offersWishes() || ! $this->isPublished()) {
+            return false;
+        }
+
+        $closesAt = $this->wishesCloseAt();
+
+        return $closesAt === null || now()->lessThanOrEqualTo($closesAt);
     }
 
     /**

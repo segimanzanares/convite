@@ -9,6 +9,7 @@ import { Footer } from './components/Footer';
 import { IntroDialog } from './components/IntroDialog';
 import { NubeHero } from './components/NubeHero';
 import { RsvpSection } from './components/RsvpSection';
+import { UiWishesSection } from '../../components/wishes/UiWishesSection';
 import { ClosingSection, HonorSection, StorySection } from './components/StorySections';
 import './theme.css';
 
@@ -80,6 +81,11 @@ export function InvitationPage({ invitation }: { invitation: BaptismContent }) {
           venues={invitation.venues}
         />
       </div>
+
+      <UiWishesSection
+        titleClassName="font-young-serif"
+        eyebrowClassName="mx-auto w-fit rounded-full bg-(--accent) px-3.5 py-1 text-xs font-bold tracking-[0.18em] text-(--accent-foreground) uppercase"
+      />
 
       <ClosingSection
         message={

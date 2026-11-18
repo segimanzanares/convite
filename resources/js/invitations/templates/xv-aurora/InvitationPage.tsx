@@ -9,6 +9,7 @@ import { CountdownSection, ProgramSection, VenuesSection } from './components/Ev
 import { Footer } from './components/Footer';
 import { IntroSheet } from './components/IntroSheet';
 import { RsvpSection } from './components/RsvpSection';
+import { UiWishesSection } from '../../components/wishes/UiWishesSection';
 import { ClosingSection, HonorSection, StorySection } from './components/StorySections';
 import { TopNav, type NavLink } from './components/TopNav';
 import './theme.css';
@@ -103,6 +104,8 @@ export function InvitationPage({ invitation }: { invitation: XvContent }) {
           venues={invitation.venues}
         />
       </div>
+
+      <UiWishesSection titleClassName="font-bodoni italic" />
 
       <ClosingSection
         message={

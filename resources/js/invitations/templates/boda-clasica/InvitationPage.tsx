@@ -11,6 +11,7 @@ import { DressCodeSection } from '../../components/dresscode/DressCodeSection';
 import { VenuesSection } from '../../components/venues/VenuesSection';
 import { GiftsSection } from '../../components/gifts/GiftsSection';
 import { RsvpSection } from '../../components/rsvp/RsvpSection';
+import { WishesSection } from '../../components/wishes/WishesSection';
 import { Footer } from '../../components/footer/Footer';
 import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/MusicPlayer';
 import { ProgramTimeline } from '../../components/program/ProgramTimeline';
@@ -94,6 +95,7 @@ export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
         calendar={{ dateTime: couple.weddingDateTime, name: `Boda ${coupleTitle}`, fileName: 'boda.ics' }}
         venues={invitation.venues}
       />
+      <WishesSection />
       <LaurelDivider className="pt-14" />
       <Footer title={coupleTitle} dateLabel={couple.footerDateLabel} tagline={invitation.tagline ?? undefined} />
     </div>

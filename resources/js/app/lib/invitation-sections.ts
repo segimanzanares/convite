@@ -4,7 +4,7 @@ import {
 } from '@/actions/App/Http/Controllers/Admin/InvitationController';
 import type { BreadcrumbItem, Invitation, UserRole } from '@/types';
 
-/** Whether the invitation's plan includes a guest list, online RSVPs and the live gallery. */
+/** Whether the invitation's plan includes a guest list, online RSVPs, the live gallery and the wishes book. */
 export function invitationSections(invitation: Invitation) {
     const features = invitation.features ?? [];
 
@@ -12,6 +12,7 @@ export function invitationSections(invitation: Invitation) {
         guests: features.includes('guest_management'),
         rsvps: features.includes('online_rsvp'),
         gallery: features.includes('live_gallery'),
+        wishes: features.includes('wishes'),
     };
 }
 

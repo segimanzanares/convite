@@ -50,4 +50,19 @@ return [
 
     'live_gallery_max_photos' => (int) env('CONVITE_LIVE_GALLERY_MAX_PHOTOS', 1000),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Wishes Book
+    |--------------------------------------------------------------------------
+    |
+    | The wishes book keeps taking messages until the end of this many days
+    | after the event, and takes at most this many per invitation, so a link
+    | that leaks cannot flood it.
+    |
+    */
+
+    'wishes_days_after_event' => (int) env('CONVITE_WISHES_DAYS_AFTER_EVENT', 7),
+
+    'wishes_max_messages' => (int) env('CONVITE_WISHES_MAX_MESSAGES', 1000),
+
 ];

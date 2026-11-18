@@ -14,6 +14,7 @@ export const planFeatureLabels: Record<PlanFeature, string> = {
     custom_design: 'Diseño personalizado',
     check_in: 'Registro de llegadas',
     live_gallery: 'Galería en vivo',
+    wishes: 'Libro de buenos deseos',
 };
 
 export const orderStatusLabels: Record<OrderStatus, string> = {

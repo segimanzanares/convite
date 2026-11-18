@@ -11,6 +11,7 @@ import { DressCodeSection } from '../../components/dresscode/DressCodeSection';
 import { GiftsSection } from '../../components/gifts/GiftsSection';
 import { VenuesSection } from '../../components/venues/VenuesSection';
 import { RsvpSection } from '../../components/rsvp/RsvpSection';
+import { WishesSection } from '../../components/wishes/WishesSection';
 import { Footer } from '../../components/footer/Footer';
 import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/MusicPlayer';
 import { useAutoScroll } from '../../hooks/useAutoScroll';
@@ -125,6 +126,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         }}
         venues={invitation.venues}
       />
+      <WishesSection />
       <DecoDivider className="pt-14 bg-ivory" />
       <Footer
         title={celebrant.name}

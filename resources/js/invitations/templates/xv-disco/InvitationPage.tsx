@@ -8,6 +8,7 @@ import { DressCodeSection, GallerySection, GiftsSection } from './components/Det
 import { CountdownSection, ProgramSection, VenuesSection } from './components/EventSections';
 import { Footer } from './components/Footer';
 import { RsvpSection } from './components/RsvpSection';
+import { UiWishesSection } from '../../components/wishes/UiWishesSection';
 import { ClosingSection, HonorSection, StorySection } from './components/StorySections';
 import { TicketIntro } from './components/TicketIntro';
 import { TopNav, type NavLink } from './components/TopNav';
@@ -108,6 +109,11 @@ export function InvitationPage({ invitation }: { invitation: XvContent }) {
           venues={invitation.venues}
         />
       </div>
+
+      <UiWishesSection
+        titleClassName="font-unbounded font-semibold"
+        theme={{ frame: 'disco-neon-frame rounded-[calc(var(--radius)+18px)] bg-(--surface) p-3' }}
+      />
 
       <ClosingSection
         message={

@@ -25,6 +25,9 @@ enum PlanFeature: string
     /** Guests share their photos at the event by scanning a QR code, and a wall shows them as they arrive. */
     case LiveGallery = 'live_gallery';
 
+    /** Guests leave congratulations and good wishes from the invitation, and the panel downloads them in a PDF. */
+    case Wishes = 'wishes';
+
     /**
      * Whether a plan with this feature gives the client an account for the panel.
      */

@@ -7,6 +7,7 @@ import { HonorSection } from '../../components/xv/HonorSection';
 import { ClosingChapter } from '../../components/xv/ClosingChapter';
 import { StoryGallery } from '../../components/gallery/StoryGallery';
 import { StoryRsvp } from '../../components/xv/StoryRsvp';
+import { WishesSection } from '../../components/wishes/WishesSection';
 import { FloatingPetals } from '../../components/hero/FloatingPetals';
 import { FullDivider } from '../../components/divider/FullDivider';
 import { VenuesSection } from '../../components/venues/VenuesSection';
@@ -174,6 +175,8 @@ export function InvitationPage({ invitation }: { invitation: XvContent }) {
           venues={invitation.venues}
         />
       </div>
+
+      <WishesSection />
 
       <ClosingChapter
         message={

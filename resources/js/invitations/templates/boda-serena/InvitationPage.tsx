@@ -8,6 +8,7 @@ import { CountdownBand, ProgramSection, StorySection, VenuesSection } from './co
 import { Footer } from './components/Footer';
 import { IntroDrawer } from './components/IntroDrawer';
 import { RsvpSection } from './components/RsvpSection';
+import { UiWishesSection } from '../../components/wishes/UiWishesSection';
 import { SerenaHero } from './components/SerenaHero';
 import { TopNav, type NavLink } from './components/TopNav';
 import './theme.css';
@@ -75,6 +76,7 @@ export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
         calendar={{ dateTime: couple.weddingDateTime, name: `Boda ${coupleTitle}`, fileName: 'boda.ics' }}
         venues={invitation.venues}
       />
+      <UiWishesSection titleClassName="font-fraunces font-medium" sectionClassName="border-t border-(--border)" />
       <Footer names={couple.names} dateLabel={couple.footerDateLabel} tagline={invitation.tagline} />
     </div>
   );

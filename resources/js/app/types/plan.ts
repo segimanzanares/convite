@@ -5,7 +5,8 @@ export type PlanFeature =
     | 'guest_passes'
     | 'custom_design'
     | 'check_in'
-    | 'live_gallery';
+    | 'live_gallery'
+    | 'wishes';
 
 export type Plan = {
     id: number;

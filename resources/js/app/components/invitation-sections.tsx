@@ -1,13 +1,19 @@
 import { Link } from '@inertiajs/react';
-import { ClipboardCheckIcon, ImagesIcon, UsersIcon } from 'lucide-react';
+import {
+    BookHeartIcon,
+    ClipboardCheckIcon,
+    ImagesIcon,
+    UsersIcon,
+} from 'lucide-react';
 import { index as guestsIndex } from '@/actions/App/Http/Controllers/Admin/GuestController';
 import { index as galleryIndex } from '@/actions/App/Http/Controllers/Admin/LiveGalleryController';
 import { index as rsvpsIndex } from '@/actions/App/Http/Controllers/Admin/RsvpController';
+import { index as wishesIndex } from '@/actions/App/Http/Controllers/Admin/WishController';
 import { Button } from '@/components/ui/button';
 import { invitationSections } from '@/lib/invitation-sections';
 import type { Invitation } from '@/types';
 
-/** Links to the guest list, the RSVPs and the live gallery of an invitation, for the sections its plan includes. */
+/** Links to the guest list, the RSVPs, the live gallery and the wishes book of an invitation, for the sections its plan includes. */
 export default function InvitationSectionLinks({
     invitation,
     size = 'sm',
@@ -40,6 +46,14 @@ export default function InvitationSectionLinks({
                     <Link href={galleryIndex(invitation.slug)}>
                         <ImagesIcon />
                         Galería
+                    </Link>
+                </Button>
+            )}
+            {sections.wishes && (
+                <Button variant="outline" size={size} asChild>
+                    <Link href={wishesIndex(invitation.slug)}>
+                        <BookHeartIcon />
+                        Deseos
                     </Link>
                 </Button>
             )}

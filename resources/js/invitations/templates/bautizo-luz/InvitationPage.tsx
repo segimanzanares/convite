@@ -9,6 +9,7 @@ import { CountdownSection, ProgramSection, VenuesSection } from './components/Ev
 import { Footer } from './components/Footer';
 import { LuzHero } from './components/LuzHero';
 import { RsvpSection } from './components/RsvpSection';
+import { UiWishesSection } from '../../components/wishes/UiWishesSection';
 import { ClosingSection, HonorSection, StorySection } from './components/StorySections';
 import './theme.css';
 
@@ -80,6 +81,8 @@ export function InvitationPage({ invitation }: { invitation: BaptismContent }) {
           venues={invitation.venues}
         />
       </div>
+
+      <UiWishesSection titleClassName="font-newsreader font-light italic" />
 
       <ClosingSection
         message={

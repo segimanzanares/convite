@@ -5,6 +5,7 @@ import { StoryChapter } from '../../components/xv/StoryChapter';
 import { HonorSection } from '../../components/xv/HonorSection';
 import { ClosingChapter } from '../../components/xv/ClosingChapter';
 import { StoryRsvp } from '../../components/xv/StoryRsvp';
+import { WishesSection } from '../../components/wishes/WishesSection';
 import { StoryGallery } from '../../components/gallery/StoryGallery';
 import { FloatingPetals } from '../../components/hero/FloatingPetals';
 import { FullDivider } from '../../components/divider/FullDivider';
@@ -197,6 +198,8 @@ export function InvitationPage({ invitation }: { invitation: XvContent }) {
           }
         />
       </div>
+
+      <WishesSection />
 
       <ClosingChapter
         kicker="Y así, bajo las estrellas…"

@@ -11,6 +11,7 @@ import { DressCodeSection } from '../../components/dresscode/DressCodeSection';
 import { VenuesSection } from '../../components/venues/VenuesSection';
 import { ProgramTimeline } from '../../components/program/ProgramTimeline';
 import { RsvpSection } from '../../components/rsvp/RsvpSection';
+import { WishesSection } from '../../components/wishes/WishesSection';
 import { Footer } from '../../components/footer/Footer';
 import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/MusicPlayer';
 import { useAutoScroll } from '../../hooks/useAutoScroll';
@@ -91,6 +92,7 @@ export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
         <CornerBouquet className="absolute -top-3 -left-3 w-[150px] sm:w-[240px] h-auto opacity-60 pointer-events-none" />
         <CornerBouquet className="absolute -bottom-3 -right-3 w-[150px] sm:w-[240px] h-auto opacity-60 rotate-180 pointer-events-none" />
       </div>
+      <WishesSection />
       <FloralSpray className="pt-14 bg-ivory" />
       <Footer title={coupleTitle} dateLabel={couple.footerDateLabel} tagline={invitation.tagline ?? undefined} />
     </div>

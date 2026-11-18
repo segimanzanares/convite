@@ -10,6 +10,7 @@ import { StoryGallery } from '../../components/gallery/StoryGallery';
 import { DressCodeSection } from '../../components/dresscode/DressCodeSection';
 import { GiftsSection } from '../../components/gifts/GiftsSection';
 import { RsvpSection } from '../../components/rsvp/RsvpSection';
+import { WishesSection } from '../../components/wishes/WishesSection';
 import { Footer } from '../../components/footer/Footer';
 import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/MusicPlayer';
 import { useAutoScroll } from '../../hooks/useAutoScroll';
@@ -146,6 +147,8 @@ export function InvitationPage({ invitation }: { invitation: BaptismContent }) {
         }}
         venues={invitation.venues}
       />
+
+      <WishesSection />
 
       <CelesteClosing
         message={

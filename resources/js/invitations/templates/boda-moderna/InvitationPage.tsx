@@ -9,6 +9,8 @@ import { Footer } from './components/Footer';
 import { IntroDialog } from './components/IntroDialog';
 import { ModernHero } from './components/ModernHero';
 import { RsvpSection } from './components/RsvpSection';
+import { UiWishesSection } from '../../components/wishes/UiWishesSection';
+import { SectionHeader } from './components/ui';
 import './theme.css';
 
 /**
@@ -56,6 +58,15 @@ export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
         deadlineLabel={couple.rsvpDeadlineLabel}
         calendar={{ dateTime: couple.weddingDateTime, name: `Boda ${coupleTitle}`, fileName: 'boda.ics' }}
         venues={invitation.venues}
+      />
+      <UiWishesSection
+        header={
+          <SectionHeader
+            badge="Buenos deseos"
+            title="Déjanos un mensaje"
+            description="Unas palabras de cariño para guardar este día por siempre."
+          />
+        }
       />
       <Footer names={couple.names} dateLabel={couple.footerDateLabel} tagline={invitation.tagline} />
     </div>

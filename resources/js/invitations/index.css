@@ -55,6 +55,17 @@
     transform: translateY(0);
   }
 }
+/* A page of the wishes book turning in (see components/wishes/WishesBook) */
+@keyframes wishPageIn {
+  from {
+    opacity: 0;
+    transform: rotateY(-28deg) translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0) translateX(0);
+  }
+}
 @keyframes fadeIn {
   from {
     opacity: 0;

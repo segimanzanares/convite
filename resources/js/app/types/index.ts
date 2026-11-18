@@ -9,3 +9,4 @@ export type * from './order';
 export type * from './plan';
 export type * from './ui';
 export type * from './validation';
+export type * from './wishes';

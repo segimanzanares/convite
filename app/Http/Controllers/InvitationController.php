@@ -11,6 +11,7 @@ use App\Http\Resources\PublicGuestResource;
 use App\Models\Invitation;
 use App\Services\CheckInService;
 use App\Services\GuestService;
+use App\Services\WishService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -22,6 +23,7 @@ class InvitationController extends Controller
     public function __construct(
         private readonly GuestService $guests,
         private readonly CheckInService $checkIn,
+        private readonly WishService $wishes,
     ) {}
 
     /**
@@ -31,6 +33,7 @@ class InvitationController extends Controller
     {
         return $this->render($invitation, 'InvitationPage', $invitation->title, [
             'rsvp' => $this->rsvpSettings($invitation),
+            'wishes' => $this->wishes->invitationProps($invitation),
             'guest' => null,
         ]);
     }
@@ -64,6 +67,7 @@ class InvitationController extends Controller
 
         return $this->render($invitation, 'InvitationPage', $invitation->title, [
             'rsvp' => $this->rsvpSettings($invitation),
+            'wishes' => $this->wishes->invitationProps($invitation),
             'guest' => $guest ? PublicGuestResource::make($guest) : null,
         ]);
     }

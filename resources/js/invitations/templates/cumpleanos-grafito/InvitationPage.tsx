@@ -9,6 +9,8 @@ import { CountdownSection, MessageSection, ProgramSection, VenuesSection } from 
 import { Footer } from './components/Footer';
 import { GrafitoHero } from './components/GrafitoHero';
 import { RsvpSection } from './components/RsvpSection';
+import { UiWishesSection } from '../../components/wishes/UiWishesSection';
+import { SectionTitle } from './components/ui';
 import './theme.css';
 
 /**
@@ -73,6 +75,17 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         deadlineLabel={celebrant.rsvpDeadlineLabel}
         calendar={calendar}
         venues={invitation.venues}
+      />
+      <UiWishesSection
+        sectionClassName="border-t border-(--border)"
+        header={
+          <SectionTitle
+            index={next()}
+            eyebrow="Buenos deseos"
+            title={`Unas palabras para ${celebrant.firstName}`}
+            description="Déjale un mensaje para guardar este día por siempre."
+          />
+        }
       />
       <Footer name={celebrant.name} dateLabel={celebrant.footerDateLabel} tagline={invitation.tagline} />
     </div>

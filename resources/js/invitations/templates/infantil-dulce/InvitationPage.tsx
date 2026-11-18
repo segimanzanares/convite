@@ -7,6 +7,7 @@ import { GallerySection, GiftsSection } from './components/DetailSections';
 import { CountdownSection, MessageSection, ProgramSection, VenuesSection } from './components/EventSections';
 import { Footer } from './components/Footer';
 import { RsvpSection } from './components/RsvpSection';
+import { UiWishesSection } from '../../components/wishes/UiWishesSection';
 import { SweetHero } from './components/SweetHero';
 import { SweetIntro } from './components/SweetIntro';
 import './theme.css';
@@ -60,6 +61,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         calendar={calendar}
         venues={invitation.venues}
       />
+      <UiWishesSection titleClassName="font-fredoka font-semibold" />
       <Footer name={celebrant.name} dateLabel={celebrant.footerDateLabel} tagline={invitation.tagline} />
     </div>
   );

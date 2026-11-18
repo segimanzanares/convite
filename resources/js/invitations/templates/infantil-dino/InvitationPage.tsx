@@ -9,6 +9,9 @@ import { EggIntro } from './components/EggIntro';
 import { CountdownSection, MessageSection, ProgramSection, VenuesSection } from './components/EventSections';
 import { Footer } from './components/Footer';
 import { RsvpSection } from './components/RsvpSection';
+import { UiWishesSection } from '../../components/wishes/UiWishesSection';
+import { cn, inputClass } from '../../components/ui/styles';
+import { CHUNKY, CHUNKY_SM } from './components/ui';
 import './theme.css';
 
 /**
@@ -58,6 +61,16 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         deadlineLabel={celebrant.rsvpDeadlineLabel}
         calendar={calendar}
         venues={invitation.venues}
+      />
+      <UiWishesSection
+        titleClassName="font-extrabold"
+        sectionClassName="border-t-[3px] border-(--foreground)"
+        theme={{
+          frame: cn('rounded-[calc(var(--radius)+16px)] bg-(--accent) p-3', CHUNKY),
+          panel: cn('rounded-[calc(var(--radius)+8px)] bg-(--card) p-6 text-left sm:p-7', CHUNKY_SM),
+          page: cn('rounded-[calc(var(--radius)+4px)] bg-(--card)', CHUNKY_SM),
+          input: cn(inputClass, 'h-11 border-2 border-(--foreground) text-base'),
+        }}
       />
       <Footer name={celebrant.name} dateLabel={celebrant.footerDateLabel} tagline={invitation.tagline} />
     </div>

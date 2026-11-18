@@ -6,6 +6,7 @@ use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LiveGalleryController;
 use App\Http\Controllers\RsvpController;
+use App\Http\Controllers\WishController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', LandingController::class)->name('landing');
@@ -41,6 +42,10 @@ Route::controller(InvitationController::class)->prefix('i/{invitation}')->name('
 Route::post('i/{invitation}/rsvp', [RsvpController::class, 'store'])
     ->middleware(['invitation.visible', 'invitation.feature:online_rsvp', 'throttle:rsvp'])
     ->name('invitations.rsvp.store');
+
+Route::post('i/{invitation}/deseos', [WishController::class, 'store'])
+    ->middleware(['invitation.visible', 'invitation.feature:wishes', 'throttle:wishes'])
+    ->name('invitations.wishes.store');
 
 /*
 | Admin panel. Fortify registers its authentication routes under the same

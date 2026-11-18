@@ -9,6 +9,7 @@ import { StoryGallery } from '../../components/gallery/StoryGallery';
 import { GiftsSection } from '../../components/gifts/GiftsSection';
 import { VenuesSection } from '../../components/venues/VenuesSection';
 import { RsvpSection } from '../../components/rsvp/RsvpSection';
+import { WishesSection } from '../../components/wishes/WishesSection';
 import { Footer } from '../../components/footer/Footer';
 import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/MusicPlayer';
 import { useAutoScroll } from '../../hooks/useAutoScroll';
@@ -103,6 +104,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         calendar={{ dateTime: celebrant.eventDateTime, name: `Cumpleaños de ${firstName}`, fileName: 'cumpleanos.ics' }}
         venues={invitation.venues}
       />
+      <WishesSection />
       <Footer
         title={celebrant.name}
         dateLabel={celebrant.footerDateLabel}

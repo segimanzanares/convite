@@ -16,6 +16,7 @@ const FEATURE_LABELS: Record<PlanFeature | 'catalog_design', string> = {
     custom_design: 'Diseño exclusivo creado para su evento',
     check_in: 'Registro de llegadas escaneando el QR de cada pase',
     live_gallery: 'Galería en vivo: sus invitados suben fotos con un QR y se proyectan al momento',
+    wishes: 'Libro de buenos deseos: sus invitados les escriben y ustedes lo descargan en PDF',
 };
 
 /** Sections every template shows, whatever the plan. */

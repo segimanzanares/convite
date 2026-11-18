@@ -58,6 +58,7 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('rsvp', fn (Request $request): Limit => Limit::perMinute(10)->by($request->ip()));
         // Guests at the venue often share one public IP (its Wi-Fi, or the carrier's NAT), so this only stops a flood
         RateLimiter::for('gallery', fn (Request $request): Limit => Limit::perMinute(30)->by($request->ip()));
+        RateLimiter::for('wishes', fn (Request $request): Limit => Limit::perMinute(10)->by($request->ip()));
     }
 
     /**
