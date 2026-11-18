@@ -200,18 +200,7 @@ function OnlineStoryForm({
         </>
       ) : null}
 
-      <label htmlFor="rsvp-message" className={`${FIELD_LABEL} mt-7`}>
-        Un mensaje para mí (opcional)
-      </label>
-      <textarea
-        id="rsvp-message"
-        rows={2}
-        maxLength={1000}
-        value={form.message}
-        onChange={(event) => setField('message', event.target.value)}
-        className="w-full resize-none bg-transparent border-0 border-b border-gold/50 px-0 pb-2.5 pt-1 font-body text-[18px] text-ink outline-none transition-colors focus:border-gold-deep"
-      />
-      <FieldError message={errors.message ?? errors.rsvp} />
+      <FieldError message={errors.rsvp} />
 
       <button type="submit" className={SUBMIT_BUTTON} disabled={online.processing}>
         {online.processing ? 'Enviando…' : 'Enviar confirmación'}

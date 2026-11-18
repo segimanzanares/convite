@@ -139,15 +139,7 @@ function OnlineRsvp({
               </label>
             ) : null}
             <FieldError message={errors.seats} />
-            <textarea
-              className={`${RSVP_INPUT_CLASS} resize-none`}
-              rows={3}
-              maxLength={1000}
-              placeholder="Un mensaje para los anfitriones (opcional)"
-              value={form.message}
-              onChange={(event) => setField('message', event.target.value)}
-            />
-            <FieldError message={errors.message ?? errors.rsvp} />
+            <FieldError message={errors.rsvp} />
             <button className={buttonClass('solid', 'mt-2.5')} type="submit" disabled={online.processing}>
               {online.processing ? 'Enviando…' : 'Confirmar Asistencia'}
             </button>

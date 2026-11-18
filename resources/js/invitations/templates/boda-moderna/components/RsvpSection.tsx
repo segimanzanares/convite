@@ -178,17 +178,7 @@ function OnlineRsvp({ deadlineLabel, calendar, venues, online }: RsvpSectionProp
           </select>
         </Field>
       )}
-      <Field label="Mensaje para los novios (opcional)" htmlFor="rsvp-message" error={errors.message ?? errors.rsvp}>
-        <textarea
-          id="rsvp-message"
-          className={cn(inputClass, 'h-auto min-h-20 resize-none')}
-          rows={3}
-          maxLength={1000}
-          placeholder="Escribe unas palabras…"
-          value={form.message}
-          onChange={(event) => setField('message', event.target.value)}
-        />
-      </Field>
+      {errors.rsvp && <p className="text-sm text-(--destructive)">{errors.rsvp}</p>}
       <button className={buttonClass('default', 'lg', 'w-full')} type="submit" disabled={online.processing}>
         {online.processing ? 'Enviando…' : 'Confirmar asistencia'}
       </button>

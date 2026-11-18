@@ -207,17 +207,7 @@ function OnlineRsvp({ calendar, venues, online }: RsvpSectionProps & { online: R
           {errors.seats && <p className="mt-2 text-sm text-(--destructive)">{errors.seats}</p>}
         </div>
       )}
-      <Field label="Pide una canción o déjame un mensaje (opcional)" htmlFor="rsvp-message" error={errors.message ?? errors.rsvp}>
-        <textarea
-          id="rsvp-message"
-          className={cn(inputClass, 'h-auto min-h-24 resize-none bg-(--background)/60')}
-          rows={3}
-          maxLength={1000}
-          placeholder="La canción que no puede faltar…"
-          value={form.message}
-          onChange={(event) => setField('message', event.target.value)}
-        />
-      </Field>
+      {errors.rsvp && <p className="text-sm text-(--destructive)">{errors.rsvp}</p>}
       <button className={SUBMIT} type="submit" disabled={online.processing}>
         {online.processing ? 'Enviando…' : 'Confirmar mi lugar'}
       </button>

@@ -216,17 +216,7 @@ function OnlineRsvp({
           </select>
         </Field>
       )}
-      <Field label="Unas palabras para nosotros (opcional)" htmlFor="rsvp-message" error={errors.message ?? errors.rsvp}>
-        <textarea
-          id="rsvp-message"
-          className={cn(inputClass, 'h-auto min-h-24 resize-none')}
-          rows={3}
-          maxLength={1000}
-          placeholder="Un deseo, una canción que no puede faltar…"
-          value={form.message}
-          onChange={(event) => setField('message', event.target.value)}
-        />
-      </Field>
+      {errors.rsvp && <p className="text-sm text-(--destructive)">{errors.rsvp}</p>}
       <button className={buttonClass('default', 'lg', 'w-full rounded-full')} type="submit" disabled={online.processing}>
         {online.processing ? 'Enviando…' : 'Enviar mi respuesta'}
       </button>

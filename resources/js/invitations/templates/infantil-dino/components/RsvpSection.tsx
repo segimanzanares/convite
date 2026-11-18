@@ -179,17 +179,7 @@ function OnlineRsvp({ calendar, venues, online }: RsvpSectionProps & { online: R
           </select>
         </Field>
       )}
-      <Field label="Un mensaje para el festejado (opcional)" htmlFor="rsvp-message" error={errors.message ?? errors.rsvp}>
-        <textarea
-          id="rsvp-message"
-          className={cn(inputClass, 'h-auto min-h-24 resize-none border-2 border-(--foreground) text-base')}
-          rows={3}
-          maxLength={1000}
-          placeholder="¡Feliz cumpleaños, explorador!"
-          value={form.message}
-          onChange={(event) => setField('message', event.target.value)}
-        />
-      </Field>
+      {errors.rsvp && <p className="text-sm text-(--destructive)">{errors.rsvp}</p>}
       <button className={buttonClass('default', 'lg', cn('w-full rounded-full text-base font-bold', CHUNKY_SM))} type="submit" disabled={online.processing}>
         {online.processing ? 'Enviando…' : 'Enviar mi respuesta'}
       </button>

@@ -193,17 +193,7 @@ function OnlineRsvp({ calendar, venues, online }: RsvpSectionProps & { online: R
           {errors.seats && <p className="mt-2 text-sm text-(--destructive)">{errors.seats}</p>}
         </div>
       )}
-      <Field label="Un mensajito para mí (opcional)" htmlFor="rsvp-message" error={errors.message ?? errors.rsvp}>
-        <textarea
-          id="rsvp-message"
-          className={cn(inputClass, 'h-auto min-h-24 resize-none rounded-[calc(var(--radius)-6px)]')}
-          rows={3}
-          maxLength={1000}
-          placeholder="Un deseo, una bendición, un consejo para mis papás…"
-          value={form.message}
-          onChange={(event) => setField('message', event.target.value)}
-        />
-      </Field>
+      {errors.rsvp && <p className="text-sm text-(--destructive)">{errors.rsvp}</p>}
       <button className={buttonClass('default', 'lg', 'w-full rounded-full')} type="submit" disabled={online.processing}>
         {online.processing ? 'Enviando…' : 'Enviar confirmación'}
       </button>
