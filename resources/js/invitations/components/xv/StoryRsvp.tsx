@@ -110,7 +110,7 @@ function OnlineStoryForm({
             : 'Te voy a extrañar esa noche.'}
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-7">
-          {form.attending && calendar && venues?.length ? (
+          {form.attending && calendar?.dateTime && venues?.length ? (
             <button type="button" onClick={() => downloadEventCalendar(calendar, venues)} className={CALENDAR_BUTTON}>
               Añadir al calendario
             </button>
@@ -349,7 +349,7 @@ export function StoryRsvp({
               </p>
               <p className="text-[17px] italic text-[var(--text-body)] mt-2">Ya cuento los días para celebrar contigo.</p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-7">
-                {calendar && venues?.length ? (
+                {calendar?.dateTime && venues?.length ? (
                   <button
                     type="button"
                     onClick={() => downloadEventCalendar(calendar, venues)}

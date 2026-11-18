@@ -76,7 +76,7 @@ function OnlineRsvp({
               <p className="italic text-gold-pale opacity-80 mt-2">Confirmaste {form.seats === 1 ? '1 persona' : `${form.seats} personas`}.</p>
             ) : null}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
-              {form.attending && calendar && venues?.length ? (
+              {form.attending && calendar?.dateTime && venues?.length ? (
                 <button className={buttonClass('outline')} type="button" onClick={() => downloadEventCalendar(calendar, venues)}>
                   📅 Añadir al calendario
                 </button>
@@ -200,7 +200,7 @@ function WhatsappRsvp({ whatsappNumber, deadlineLabel, calendar, venues }: RsvpS
         ) : (
           <>
             <p className="font-script text-[38px] text-gold-light mt-5">¡Gracias! Nos alegra contar contigo 🤍</p>
-            {form.attending === 'yes' && calendar && venues?.length ? (
+            {form.attending === 'yes' && calendar?.dateTime && venues?.length ? (
               <button
                 className={buttonClass('outline', 'mt-8')}
                 type="button"
