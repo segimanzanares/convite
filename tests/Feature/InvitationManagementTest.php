@@ -57,8 +57,21 @@ it('filters the invitations by client, type and status', function () {
             ->component('invitations/index')
             ->has('invitations.data', 1)
             ->where('invitations.data.0.id', $sold->id)
-            ->where('filters', ['client' => $order->client_id, 'type' => 'order', 'status' => 'draft'])
+            ->where('filters', ['client' => $order->client_id, 'type' => 'order', 'kind' => null, 'status' => 'draft'])
             ->has('clients', 2));
+});
+
+it('filters the invitations by the kind of event of their template', function () {
+    $xv = Invitation::factory()->create(['template' => 'xv-jardin']);
+    Invitation::factory()->create(['template' => 'boda-clasica']);
+    Invitation::factory()->create(['template' => 'cumpleanos-floral']);
+
+    $this->actingAs(User::factory()->create())
+        ->get(route('admin.invitations.index', ['kind' => 'xv']))
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('invitations.data', 1)
+            ->where('invitations.data.0.id', $xv->id)
+            ->where('filters.kind', 'xv'));
 });
 
 it('lists only the demos and ignores unknown filter values', function () {
@@ -66,11 +79,11 @@ it('lists only the demos and ignores unknown filter values', function () {
     Invitation::factory()->forOrder(Order::factory()->create())->create();
 
     $this->actingAs(User::factory()->create())
-        ->get(route('admin.invitations.index', ['type' => 'demo', 'status' => 'gone', 'client' => 'x']))
+        ->get(route('admin.invitations.index', ['type' => 'demo', 'status' => 'gone', 'kind' => 'party', 'client' => 'x']))
         ->assertInertia(fn (Assert $page) => $page
             ->has('invitations.data', 1)
             ->where('invitations.data.0.id', $demo->id)
-            ->where('filters', ['client' => null, 'type' => 'demo', 'status' => null]));
+            ->where('filters', ['client' => null, 'type' => 'demo', 'kind' => null, 'status' => null]));
 });
 
 it('returns to the filtered page of the list after saving an invitation', function () {

@@ -42,9 +42,10 @@ import UrlModal from '@/components/url-modal';
 import { useListQuery } from '@/hooks/use-list-query';
 import { formatDate } from '@/lib/format';
 import { invitationSections } from '@/lib/invitation-sections';
-import { invitationStatusLabels } from '@/lib/labels';
+import { invitationKindLabels, invitationStatusLabels } from '@/lib/labels';
 import type {
     Invitation,
+    InvitationKind,
     InvitationStatus,
     InvitationTemplate,
     Order,
@@ -53,7 +54,7 @@ import type {
 import InvitationForm from './components/invitation-form';
 
 /** The query string keys of the list, kept while its modals are open. */
-const LIST_QUERY = ['client', 'type', 'status', 'page'] as const;
+const LIST_QUERY = ['client', 'type', 'kind', 'status', 'page'] as const;
 
 /** Radix Select items cannot have an empty value, so "no filter" uses this one. */
 const ALL = 'all';
@@ -63,6 +64,7 @@ type InvitationType = 'demo' | 'order';
 type Filters = {
     client: number | null;
     type: InvitationType | null;
+    kind: InvitationKind | null;
     status: InvitationStatus | null;
 };
 
@@ -176,7 +178,7 @@ export default function InvitationsIndex({
     );
 }
 
-/** Filters by client, type (demos or sold through an order) and status. Changing one goes back to the first page. */
+/** Filters by client, type (demos or sold through an order), kind of event and status. Changing one goes back to the first page. */
 function InvitationFilters({
     filters,
     clients,
@@ -243,6 +245,28 @@ function InvitationFilters({
             </Select>
 
             <Select
+                value={filters.kind ?? ALL}
+                onValueChange={(kind) => apply({ kind })}
+            >
+                <SelectTrigger
+                    aria-label="Categoría"
+                    className="w-full sm:w-48"
+                >
+                    <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value={ALL}>Todas las categorías</SelectItem>
+                    {Object.entries(invitationKindLabels).map(
+                        ([kind, label]) => (
+                            <SelectItem key={kind} value={kind}>
+                                {label}
+                            </SelectItem>
+                        ),
+                    )}
+                </SelectContent>
+            </Select>
+
+            <Select
                 value={filters.status ?? ALL}
                 onValueChange={(status) => apply({ status })}
             >
@@ -266,7 +290,12 @@ function InvitationFilters({
                     variant="ghost"
                     size="sm"
                     onClick={() =>
-                        apply({ client: null, type: null, status: null })
+                        apply({
+                            client: null,
+                            type: null,
+                            kind: null,
+                            status: null,
+                        })
                     }
                 >
                     <XIcon />

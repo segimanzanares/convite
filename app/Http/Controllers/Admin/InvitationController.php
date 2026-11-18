@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\InvitationKind;
 use App\Enums\InvitationStatus;
 use App\Http\Controllers\Admin\Concerns\KeepsListQuery;
 use App\Http\Controllers\Controller;
@@ -22,12 +23,12 @@ class InvitationController extends Controller
     use KeepsListQuery;
 
     /** The query string keys of the list: its filters and page. */
-    private const LIST_QUERY = ['client', 'type', 'status', 'page'];
+    private const LIST_QUERY = ['client', 'type', 'kind', 'status', 'page'];
 
     public function __construct(private readonly InvitationService $invitations) {}
 
     /**
-     * Display the invitations, optionally filtered by client, type and status.
+     * Display the invitations, optionally filtered by client, type, kind of event and status.
      */
     public function index(Request $request): Response
     {
@@ -96,7 +97,7 @@ class InvitationController extends Controller
 
         return Inertia::render('invitations/index', [
             'invitations' => InvitationResource::collection($this->invitations->paginate($filters)),
-            'filters' => [...$filters, 'status' => $filters['status']?->value],
+            'filters' => [...$filters, 'kind' => $filters['kind']?->value, 'status' => $filters['status']?->value],
             'clients' => $this->invitations->clientsWithInvitations()->map->only(['id', 'name']),
             'modal' => $modal,
             'invitation' => $invitation ? InvitationResource::make($invitation) : null,
@@ -110,16 +111,18 @@ class InvitationController extends Controller
     /**
      * The list filters in the query string, ignoring unknown values.
      *
-     * @return array{client: ?int, type: ?string, status: ?InvitationStatus}
+     * @return array{client: ?int, type: ?string, kind: ?InvitationKind, status: ?InvitationStatus}
      */
     private function filters(Request $request): array
     {
         $type = $request->query('type');
+        $kind = $request->query('kind');
         $status = $request->query('status');
 
         return [
             'client' => filter_var($request->query('client'), FILTER_VALIDATE_INT) ?: null,
             'type' => in_array($type, [InvitationService::TYPE_DEMO, InvitationService::TYPE_ORDER], true) ? $type : null,
+            'kind' => is_string($kind) ? InvitationKind::tryFrom($kind) : null,
             'status' => is_string($status) ? InvitationStatus::tryFrom($status) : null,
         ];
     }
