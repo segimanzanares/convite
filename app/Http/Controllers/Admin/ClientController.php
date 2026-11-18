@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Concerns\KeepsListQuery;
 use App\Http\Controllers\Admin\Concerns\RendersClientPage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\StoreClientRequest;
@@ -17,7 +18,10 @@ use Inertia\Response;
 
 class ClientController extends Controller
 {
-    use RendersClientPage;
+    use KeepsListQuery, RendersClientPage;
+
+    /** The query string keys of the list: its search and page. */
+    private const LIST_QUERY = ['search', 'page'];
 
     public function __construct(private readonly ClientService $clients) {}
 
@@ -76,13 +80,13 @@ class ClientController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Client updated.')]);
 
-        return to_route('admin.clients.index');
+        return to_route('admin.clients.index', $this->listQuery($request, self::LIST_QUERY));
     }
 
     /**
      * Delete a client without orders. Clients with orders are kept for the sales history.
      */
-    public function destroy(Client $client): RedirectResponse
+    public function destroy(Request $request, Client $client): RedirectResponse
     {
         Gate::authorize('delete', $client);
 
@@ -94,7 +98,7 @@ class ClientController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Client deleted.')]);
 
-        return to_route('admin.clients.index');
+        return to_route('admin.clients.index', $this->listQuery($request, self::LIST_QUERY));
     }
 
     /**

@@ -34,6 +34,15 @@ it('creates a client and shows its page', function () {
     expect(Client::sole()->name)->toBe('Ana y Luis');
 });
 
+it('returns to the searched page of the list after updating a client', function () {
+    $client = Client::factory()->create();
+
+    $this->actingAs(User::factory()->create())
+        ->put(route('admin.clients.update', [$client, 'search' => 'ana', 'page' => '2']), ['name' => 'Ana Pérez'])
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('admin.clients.index', ['search' => 'ana', 'page' => '2']));
+});
+
 it('requires the client name', function () {
     $this->actingAs(User::factory()->create())
         ->post(route('admin.clients.store'), [])

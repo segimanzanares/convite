@@ -19,8 +19,12 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import UrlModal from '@/components/url-modal';
+import { useListQuery } from '@/hooks/use-list-query';
 import type { Client, Paginated } from '@/types';
 import ClientForm from './components/client-form';
+
+/** The query string keys of the list, kept while its modals are open. */
+const LIST_QUERY = ['search', 'page'] as const;
 
 export default function ClientsIndex({
     clients,
@@ -33,6 +37,8 @@ export default function ClientsIndex({
     modal: 'create' | 'edit' | null;
     client: Client | null;
 }) {
+    const query = useListQuery(LIST_QUERY);
+
     return (
         <>
             <Head title="Clientes" />
@@ -45,7 +51,11 @@ export default function ClientsIndex({
                     />
 
                     <Button asChild>
-                        <Link href={create()} preserveScroll preserveState>
+                        <Link
+                            href={create({ query })}
+                            preserveScroll
+                            preserveState
+                        >
                             <PlusIcon />
                             Nuevo cliente
                         </Link>
@@ -92,7 +102,7 @@ export default function ClientsIndex({
 
             <UrlModal
                 content={modal === 'edit' ? client : modal}
-                closeHref={index({ query: { search: filters.search } })}
+                closeHref={index({ query })}
                 title={(shown) =>
                     shown === 'create' ? 'Nuevo cliente' : 'Editar cliente'
                 }
@@ -101,7 +111,7 @@ export default function ClientsIndex({
                     shown !== 'create' ? (
                         <ClientForm
                             key={shown.id}
-                            formRequest={update.form(shown.id)}
+                            formRequest={update.form(shown.id, { query })}
                             submitLabel="Guardar"
                             defaultValues={shown}
                         />
@@ -119,12 +129,13 @@ export default function ClientsIndex({
 
 /** On small screens the contact and the orders collapse under the name and the actions into a menu. */
 function ClientRow({ client }: { client: Client }) {
+    const query = useListQuery(LIST_QUERY);
     const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
     const ordersCount = client.orders_count ?? 0;
 
     const onConfirmDelete = () =>
         new Promise((resolve) =>
-            router.delete(destroy(client.id), {
+            router.delete(destroy(client.id, { query }), {
                 preserveScroll: true,
                 onFinish: resolve,
             }),
@@ -157,7 +168,7 @@ function ClientRow({ client }: { client: Client }) {
                 <div className="hidden items-center justify-end gap-2 md:flex">
                     <Button variant="outline" size="icon" asChild>
                         <Link
-                            href={edit(client.id)}
+                            href={edit(client.id, { query })}
                             preserveScroll
                             preserveState
                             aria-label={`Editar ${client.name}`}
@@ -181,7 +192,7 @@ function ClientRow({ client }: { client: Client }) {
                 <RowActionsMenu label={`Acciones de ${client.name}`}>
                     <DropdownMenuItem asChild>
                         <Link
-                            href={edit(client.id)}
+                            href={edit(client.id, { query })}
                             preserveScroll
                             preserveState
                         >
