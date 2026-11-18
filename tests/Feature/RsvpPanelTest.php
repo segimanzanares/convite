@@ -53,10 +53,10 @@ it('exports every guest and answer as CSV', function () {
         ->assertDownload('confirmaciones-ana-y-luis.csv');
 
     expect($response->streamedContent())->toBe(
-        "\u{FEFF}Nombre,Origen,Lugares,Mesa,Respuesta,Personas,Mensaje,\"Fecha de respuesta\"\n"
-        ."Carlos,Invitado,1,,Pendiente,,,\n"
-        ."\"Familia Pérez\",Invitado,4,3,Asistirá,3,,\"2026-11-20 18:30\"\n"
-        ."Lucía,\"Formulario abierto\",,,\"No asistirá\",0,\"Lo siento\",\"2026-11-21 02:00\"\n"
+        "\u{FEFF}Nombre,Origen,Lugares,Mesa,Respuesta,Personas,\"Fecha de respuesta\"\n"
+        ."Carlos,Invitado,1,,Pendiente,,\n"
+        ."\"Familia Pérez\",Invitado,4,3,Asistirá,3,\"2026-11-20 18:30\"\n"
+        ."Lucía,\"Formulario abierto\",,,\"No asistirá\",0,\"2026-11-21 02:00\"\n"
     );
 });
 

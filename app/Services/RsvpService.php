@@ -69,7 +69,7 @@ class RsvpService
      */
     public function exportRows(Invitation $invitation): array
     {
-        $rows = [['Nombre', 'Origen', 'Lugares', 'Mesa', 'Respuesta', 'Personas', 'Mensaje', 'Fecha de respuesta']];
+        $rows = [['Nombre', 'Origen', 'Lugares', 'Mesa', 'Respuesta', 'Personas', 'Fecha de respuesta']];
 
         foreach ($invitation->guests()->with('rsvp')->orderBy('name')->get() as $guest) {
             $rows[] = [
@@ -99,13 +99,12 @@ class RsvpService
     private function answerColumns(?Rsvp $rsvp): array
     {
         if ($rsvp === null) {
-            return ['Pendiente', '', '', ''];
+            return ['Pendiente', '', ''];
         }
 
         return [
             $rsvp->attending ? 'Asistirá' : 'No asistirá',
             $rsvp->seats_confirmed,
-            $rsvp->message ?? '',
             $rsvp->responded_at->format('Y-m-d H:i'),
         ];
     }

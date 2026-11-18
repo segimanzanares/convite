@@ -275,7 +275,6 @@ function RecentAnswer({
                     {showInvitation &&
                         answer.invitation &&
                         ` · ${answer.invitation.title}`}
-                    {answer.message && ` · “${answer.message}”`}
                 </p>
             </div>
             {answer.attending ? (

@@ -180,7 +180,6 @@ export default function RsvpsIndex({
                         'Nombre',
                         'Respuesta',
                         { label: 'Personas', desktop: true },
-                        { label: 'Mensaje', desktop: true },
                         { label: 'Fecha', desktop: true },
                         '',
                     ]}
@@ -207,11 +206,6 @@ export default function RsvpsIndex({
                                                 `${row.rsvp.seats_confirmed} ${row.rsvp.seats_confirmed === 1 ? 'persona' : 'personas'} · `}
                                             {formatDate(row.rsvp.responded_at)}
                                         </div>
-                                        {row.rsvp.message && (
-                                            <p className="text-foreground whitespace-pre-line">
-                                                {row.rsvp.message}
-                                            </p>
-                                        )}
                                     </div>
                                 )}
                             </td>
@@ -222,9 +216,6 @@ export default function RsvpsIndex({
                                 {row.rsvp?.attending
                                     ? row.rsvp.seats_confirmed
                                     : '—'}
-                            </td>
-                            <td className="text-muted-foreground hidden max-w-xs px-4 py-3 whitespace-pre-line md:table-cell">
-                                {row.rsvp?.message ?? '—'}
                             </td>
                             <td className="hidden px-4 py-3 whitespace-nowrap md:table-cell">
                                 {row.rsvp
