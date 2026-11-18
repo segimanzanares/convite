@@ -11,11 +11,20 @@ interface UseAutoScrollOptions {
 
 const CANCEL_EVENTS = ['wheel', 'touchstart', 'pointerdown'] as const;
 const SCROLL_KEYS = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '];
+/** The longest frame the tour advances for, so a stalled frame (or a hidden tab) doesn't jump the page. */
+const MAX_FRAME_SECONDS = 0.1;
+/** How far, in px, the page may drift from the tour's position before the tour takes the page's (scroll anchoring, a jump link). */
+const RESYNC_THRESHOLD = 2;
 
 /**
  * Automatically scrolls the page from top to bottom at a steady pace,
  * stopping as soon as the visitor scrolls, taps, clicks or presses a
  * navigation key — handing control back to them immediately.
+ *
+ * The position is kept as a float of its own: browsers round `scrollY` (to whole or device pixels), so at a
+ * slow speed and a high refresh rate, advancing from it would lose the fraction of every frame and stall.
+ * Each step scrolls with `behavior: 'instant'`, because the root's `scroll-smooth` would otherwise start a
+ * smooth scroll per frame, each one cut short by the next.
  */
 export function useAutoScroll({ active, speed = 60, startDelay = 0 }: UseAutoScrollOptions) {
   useEffect(() => {
@@ -25,6 +34,7 @@ export function useAutoScroll({ active, speed = 60, startDelay = 0 }: UseAutoScr
     let frameId: number | null = null;
     let startTimer: number | null = null;
     let lastTimestamp: number | null = null;
+    let position = 0;
     let stopped = false;
 
     const stop = () => {
@@ -42,15 +52,20 @@ export function useAutoScroll({ active, speed = 60, startDelay = 0 }: UseAutoScr
 
     const step = (timestamp: number) => {
       if (stopped) return;
-      if (lastTimestamp === null) lastTimestamp = timestamp;
-      const deltaSeconds = (timestamp - lastTimestamp) / 1000;
+      if (lastTimestamp === null) {
+        lastTimestamp = timestamp;
+        position = window.scrollY;
+      }
+      const deltaSeconds = Math.min((timestamp - lastTimestamp) / 1000, MAX_FRAME_SECONDS);
       lastTimestamp = timestamp;
 
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const next = Math.min(window.scrollY + speed * deltaSeconds, maxScroll);
-      window.scrollTo(0, next);
+      if (Math.abs(window.scrollY - position) > RESYNC_THRESHOLD) position = window.scrollY;
 
-      if (next >= maxScroll) {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      position = Math.min(position + speed * deltaSeconds, maxScroll);
+      window.scrollTo({ top: position, behavior: 'instant' });
+
+      if (position >= maxScroll) {
         stop();
         return;
       }
