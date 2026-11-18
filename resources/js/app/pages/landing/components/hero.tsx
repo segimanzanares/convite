@@ -38,7 +38,7 @@ export function Hero({ plans, demos }: { plans: OfferedPlan[]; demos: DemoInvita
                         <span className="flex items-center gap-1 rounded-full bg-primary px-2 py-0.5 text-white">
                             <Sparkles className="size-3" /> Nuevo
                         </span>
-                        Pases con QR y galería en vivo
+                        Libro de buenos deseos y galería en vivo
                     </span>
                     <h1 className="text-[clamp(40px,6.4vw,72px)] leading-[1.02] font-semibold tracking-tight text-balance text-foreground">
                         La invitación que su evento <Highlight><span className="text-[1.3em] leading-none">merece</span></Highlight>

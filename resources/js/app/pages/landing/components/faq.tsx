@@ -31,6 +31,11 @@ const FAQS: Question[] = [
             'Sí, con la galería en vivo del plan Exclusivo. Ponen un código QR en las mesas; sus invitados lo escanean, suben sus fotos desde el celular sin instalar nada y aparecen al momento en una pantalla del salón. Ustedes deciden si se publican directo o si las revisan antes, y al final las descargan todas.',
     },
     {
+        question: '¿Nuestros invitados pueden dejarnos un mensaje?',
+        answer:
+            'Sí, con el libro de buenos deseos de los planes Premium y Exclusivo. Desde la invitación les escriben sus felicitaciones y cada mensaje queda en su propia hoja. Ustedes eligen si se muestran a todos o solo ustedes los leen, pueden revisarlos antes de publicarlos y al final descargan el libro completo en PDF.',
+    },
+    {
         question: '¿Es solo para bodas?',
         answer:
             'No. Diseñamos invitaciones digitales para XV años, bautizos, cumpleaños y cualquier evento que merezca una invitación tan especial como la ocasión.',

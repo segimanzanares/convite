@@ -9,6 +9,7 @@ import {
     RsvpIllustration,
     ShareIllustration,
     SpeedIllustration,
+    WishesIllustration,
 } from './illustrations/feature-illustrations';
 import { Reveal } from './reveal';
 import { Highlight, SectionHeading } from './section-heading';
@@ -20,6 +21,8 @@ type Feature = {
     /** The tint behind the illustration. */
     tint: string;
     wide?: boolean;
+    /** Spans the whole row, so the grid stays full with an odd number of cards. */
+    full?: boolean;
     badge?: string;
 };
 
@@ -73,6 +76,14 @@ const FEATURES: Feature[] = [
         badge: 'Plan Exclusivo',
     },
     {
+        title: 'Libro de buenos deseos',
+        body: 'Sus invitados les escriben desde la invitación y cada mensaje queda en su propia hoja de un libro de firmas. Ustedes deciden si se muestran en la invitación y, al final, lo descargan en PDF de recuerdo.',
+        illustration: WishesIllustration,
+        tint: 'bg-linear-to-br from-gold-pale via-cream to-rose-light/40',
+        full: true,
+        badge: 'Planes Premium y Exclusivo',
+    },
+    {
         title: 'Lista en días',
         body: 'De la primera plática al enlace terminado, sin meses de espera.',
         illustration: SpeedIllustration,
@@ -92,7 +103,7 @@ export function Features() {
                                 Todo lo que su invitación <Highlight>necesita</Highlight>
                             </>
                         }
-                        description="Más que una tarjeta bonita: una invitación que se mueve, suena, les ayuda a organizar a sus invitados y reúne las fotos de su fiesta."
+                        description="Más que una tarjeta bonita: una invitación que se mueve, suena, les ayuda a organizar a sus invitados y reúne las fotos y los buenos deseos de su fiesta."
                     />
                 </Reveal>
                 <div className="mt-14 grid gap-5 md:grid-flow-row-dense md:grid-cols-2 lg:grid-cols-3">
@@ -102,7 +113,7 @@ export function Features() {
                             <Reveal
                                 key={feature.title}
                                 delay={(index % 3) * 90}
-                                className={cn(feature.wide && 'md:col-span-2')}
+                                className={cn(feature.wide && 'md:col-span-2', feature.full && 'md:col-span-2 lg:col-span-3')}
                             >
                                 <article className="group flex h-full flex-col overflow-hidden rounded-3xl border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_50px_-24px_rgba(42,26,43,0.35)]">
                                     <div className={cn('relative h-52 overflow-hidden', feature.tint)} aria-hidden="true">

@@ -1,4 +1,4 @@
-import { CheckCheck, Heart, Send, UserCheck } from 'lucide-react';
+import { CheckCheck, Download, Heart, PenLine, Send, UserCheck } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import convitePetal from '@/assets/images/convite-icon.png';
 import { cn } from '@/lib/utils';
@@ -171,6 +171,59 @@ export function LiveGalleryIllustration() {
                 className="absolute top-[34%] left-[38%] h-9 w-12 rounded-sm border-2 border-white bg-[linear-gradient(150deg,var(--color-teal-light),var(--color-gold-pale))] shadow-lg motion-safe:animate-fly"
                 style={{ animationDuration: '3.5s' }}
             />
+            <Sparkle className="absolute top-[12%] right-[14%] w-4 text-gold" />
+        </div>
+    );
+}
+
+/** The wishes book open on a guest's message, another one being written, and its PDF ready to download. */
+export function WishesIllustration() {
+    return (
+        <div className="relative flex h-full items-center justify-center gap-6 px-4 sm:gap-10">
+            <div className="hidden aspect-[3/4] w-24 shrink-0 -rotate-6 flex-col items-center justify-center rounded-l-sm rounded-r-xl bg-primary text-center text-gold-light shadow-xl ring-1 ring-black/10 sm:flex">
+                <span className="flex size-9 items-center justify-center rounded-full border border-gold/50 font-serif text-sm italic">
+                    VR
+                </span>
+                <span className="mt-2 text-[6px] tracking-[0.3em] text-gold-light/80 uppercase">Mis XV años</span>
+                <span className="mt-1 font-script text-sm leading-none">Libro de firmas</span>
+            </div>
+
+            <div className="relative flex w-[78%] max-w-[380px] rounded-xl bg-ivory shadow-2xl ring-1 ring-gold/20 sm:w-[52%]">
+                <div className="flex-1 border-r border-gold/20 p-3 text-center">
+                    <p className="text-[6px] tracking-[0.25em] text-gold-deep uppercase">Una hoja, un recuerdo</p>
+                    <p className="mt-1.5 font-serif text-[13px] leading-tight text-ink">Tía Rosa</p>
+                    <p className="mt-1.5 font-serif text-[10px] leading-snug text-ink/70 italic">
+                        Que cada sueño se haga realidad. ¡Te queremos!
+                    </p>
+                    <p className="mt-2 text-[6px] tracking-[0.25em] text-ink/40 uppercase">12 de dic · 1</p>
+                </div>
+                <div className="flex-1 p-3">
+                    <p className="text-[6px] tracking-[0.25em] text-gold-deep uppercase">Deja tu huella</p>
+                    <div className="mt-2 space-y-1.5">
+                        {[0, 0.6, 1.2].map((delay) => (
+                            <div key={delay} className="h-1 overflow-hidden rounded-full bg-gold/10">
+                                <span
+                                    className="block h-full rounded-full bg-gold/60 motion-safe:animate-fill"
+                                    style={{ animationDelay: `${delay}s` }}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                    <p className="mt-2 text-right font-serif text-[9px] text-gold-deep italic">Con cariño, Luis</p>
+                    <div className="mt-2 flex items-center justify-center gap-1 rounded-md bg-primary py-1 text-[7px] tracking-wider text-gold-pale uppercase">
+                        Firmar el libro <PenLine className="size-2.5" />
+                    </div>
+                </div>
+                <span className="absolute -top-1 right-[20%] h-8 w-2.5 bg-gold [clip-path:polygon(0_0,100%_0,100%_100%,50%_80%,0_100%)]" />
+            </div>
+
+            <div
+                className="absolute right-[8%] bottom-[12%] flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[11px] font-medium shadow-md motion-safe:animate-bubble sm:right-[12%]"
+                style={{ animationDuration: '6s' }}
+            >
+                <Download className="size-3.5 text-teal" /> Libro en PDF
+            </div>
+            <Heart className="absolute top-[14%] left-[16%] size-4 fill-rose/60 text-rose/60 motion-safe:animate-float" />
             <Sparkle className="absolute top-[12%] right-[14%] w-4 text-gold" />
         </div>
     );
