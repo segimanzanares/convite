@@ -44,7 +44,7 @@ class PlanSeeder extends Seeder
                 'slug' => 'premium',
                 'name' => 'Premium',
                 'price' => 1599,
-                'description' => 'Todo lo del plan Estándar, más lista de invitados con enlaces personalizados y confirmaciones en línea.',
+                'description' => 'Todo lo del plan Estándar, más lista de invitados con enlaces personalizados, confirmaciones en línea y libro de buenos deseos descargable en PDF.',
                 'max_guests' => 150,
                 'max_seats_per_guest' => 10,
                 'features' => $catalogFeatures,
