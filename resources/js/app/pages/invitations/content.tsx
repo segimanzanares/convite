@@ -1,35 +1,35 @@
-import { Head, router, useHttp } from '@inertiajs/react';
-import { ExternalLinkIcon, ImagePlusIcon, SaveIcon } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { Head, router, useHttp } from "@inertiajs/react";
+import { ExternalLinkIcon, ImagePlusIcon, SaveIcon } from "lucide-react";
+import { useRef, useState } from "react";
 import {
     edit,
     update,
-} from '@/actions/App/Http/Controllers/Admin/InvitationContentController';
-import { store as storeMedia } from '@/actions/App/Http/Controllers/Admin/InvitationMediaController';
-import AlertError from '@/components/alert-error';
-import Heading from '@/components/heading';
-import InputError from '@/components/input-error';
-import MediaField from '@/components/media-field';
-import Repeater from '@/components/repeater';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
+} from "@/actions/App/Http/Controllers/Admin/InvitationContentController";
+import { store as storeMedia } from "@/actions/App/Http/Controllers/Admin/InvitationMediaController";
+import AlertError from "@/components/alert-error";
+import Heading from "@/components/heading";
+import InputError from "@/components/input-error";
+import MediaField from "@/components/media-field";
+import Repeater from "@/components/repeater";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/select';
-import { Spinner } from '@/components/ui/spinner';
-import { invitationKindLabels } from '@/lib/labels';
-import { invitationBreadcrumbs } from '@/lib/invitation-sections';
-import { getIn, setIn } from '@/lib/object-path';
+} from "@/components/ui/select";
+import { Spinner } from "@/components/ui/spinner";
+import { invitationKindLabels } from "@/lib/labels";
+import { invitationBreadcrumbs } from "@/lib/invitation-sections";
+import { getIn, setIn } from "@/lib/object-path";
 import type {
     Auth,
     Invitation,
     InvitationKind,
     InvitationSection,
-} from '@/types';
+} from "@/types";
 import {
     ColorField,
     ContentSection,
@@ -37,12 +37,12 @@ import {
     MediaPathField,
     TextAreaField,
     TextField,
-} from './components/content-fields';
+} from "./components/content-fields";
 import {
     ContentFormProvider,
     useContentForm,
-} from './components/content-form-context';
-import type { ContentFormBinding } from './components/content-form-context';
+} from "./components/content-form-context";
+import type { ContentFormBinding } from "./components/content-form-context";
 
 /** Free-form content; its shape depends on the kind (see app/Concerns/InvitationContentRules.php). */
 type ContentValue =
@@ -66,29 +66,30 @@ type Props = {
     mediaUrlPrefix: string;
 };
 
-type GiftKind = 'bank' | 'registry' | 'envelope';
+type GiftKind = "bank" | "registry" | "envelope";
 
 const giftKindLabels: Record<GiftKind, string> = {
-    bank: 'Transferencia',
-    registry: 'Mesa de regalos',
-    envelope: 'Lluvia de sobres',
+    bank: "Transferencia",
+    registry: "Mesa de regalos",
+    envelope: "Lluvia de sobres",
 };
 
 /** XV and baptism templates share the chapters: monogram, portrait, story, parents and godparents. */
 function hasChapters(kind: InvitationKind): boolean {
-    return kind === 'xv' || kind === 'baptism';
+    return kind === "xv" || kind === "baptism";
 }
 
 /** Fills the lists and names the form always edits, so new invitations start with empty inputs. */
 function withDefaults(content: Content, kind: InvitationKind): Content {
     return {
-        ...(kind === 'wedding' ? { names: ['', ''] } : {}),
+        ...(kind === "wedding" ? { names: ["", ""] } : {}),
         venues: [],
         program: [],
         gallery: [],
         swatches: [],
         gifts: [],
-        ...(hasChapters(kind) ? { godparents: [] } : {}),
+        ...(kind === "wedding" ? { parents: [] } : {}),
+        ...(kind !== "birthday" ? { godparents: [] } : {}),
         ...content,
     };
 }
@@ -156,12 +157,12 @@ export default function InvitationContent({
 
                     {Object.keys(errors).length > 0 && (
                         <AlertError
-                            errors={['Revisa los campos marcados en rojo.']}
+                            errors={["Revisa los campos marcados en rojo."]}
                         />
                     )}
 
                     <ContentSection title="Datos principales">
-                        {kind === 'wedding' ? (
+                        {kind === "wedding" ? (
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <TextField
                                     path="content.names.0"
@@ -181,7 +182,7 @@ export default function InvitationContent({
                                     />
                                 </div>
                                 <InputError
-                                    message={binding.error('content.names')}
+                                    message={binding.error("content.names")}
                                 />
                             </div>
                         ) : (
@@ -298,16 +299,17 @@ export default function InvitationContent({
                     </ContentSection>
 
                     {hasChapters(kind) && <ChapterSections />}
-                    {has('venues') && <VenuesSection />}
-                    {has('program') && <ProgramSection />}
-                    {has('gallery') && <GallerySection />}
-                    {(has('dress_code') || has('swatches')) && (
+                    {has("family") && <FamilySection kind={kind} />}
+                    {has("venues") && <VenuesSection />}
+                    {has("program") && <ProgramSection />}
+                    {has("gallery") && <GallerySection />}
+                    {(has("dress_code") || has("swatches")) && (
                         <DressCodeSection
-                            withCode={has('dress_code')}
-                            withSwatches={has('swatches')}
+                            withCode={has("dress_code")}
+                            withSwatches={has("swatches")}
                         />
                     )}
-                    {has('gifts') && <GiftsSection />}
+                    {has("gifts") && <GiftsSection />}
 
                     <div className="flex justify-end">
                         <SaveButton processing={processing} />
@@ -339,7 +341,7 @@ function useList<T>(path: string) {
 }
 
 function VenuesSection() {
-    const list = useList<Content>('content.venues');
+    const list = useList<Content>("content.venues");
 
     return (
         <ContentSection
@@ -351,11 +353,11 @@ function VenuesSection() {
                 max={6}
                 addLabel="Agregar lugar"
                 create={() => ({
-                    icon: '',
-                    tag: '',
-                    name: '',
-                    address_lines: ['', ''],
-                    time: '',
+                    icon: "",
+                    tag: "",
+                    name: "",
+                    address_lines: ["", ""],
+                    time: "",
                 })}
                 renderItem={(_, index) => {
                     const path = `content.venues.${index}`;
@@ -429,7 +431,7 @@ function VenuesSection() {
 }
 
 function ProgramSection() {
-    const list = useList<Content>('content.program');
+    const list = useList<Content>("content.program");
 
     return (
         <ContentSection title="Programa">
@@ -438,10 +440,10 @@ function ProgramSection() {
                 max={20}
                 addLabel="Agregar momento"
                 create={() => ({
-                    time: '',
-                    icon: '',
-                    title: '',
-                    description: '',
+                    time: "",
+                    icon: "",
+                    title: "",
+                    description: "",
                 })}
                 renderItem={(_, index) => {
                     const path = `content.program.${index}`;
@@ -485,13 +487,13 @@ function ProgramSection() {
 
 function GallerySection() {
     const form = useContentForm();
-    const list = useList<Content>('content.gallery');
+    const list = useList<Content>("content.gallery");
     const inputRef = useRef<HTMLInputElement>(null);
     const upload = useHttp<
-        { type: 'image'; file: File | null },
+        { type: "image"; file: File | null },
         { path: string }
     >({
-        type: 'image',
+        type: "image",
         file: null,
     });
 
@@ -500,11 +502,11 @@ function GallerySection() {
         let items = list.items;
 
         for (const file of Array.from(files ?? [])) {
-            upload.transform(() => ({ type: 'image', file }));
+            upload.transform(() => ({ type: "image", file }));
 
             try {
                 const { path } = await upload.post(form.uploadUrl.url);
-                items = [...items, { image: path, caption: '', alt: '' }];
+                items = [...items, { image: path, caption: "", alt: "" }];
                 list.onChange(items);
             } catch {
                 break;
@@ -512,7 +514,7 @@ function GallerySection() {
         }
 
         if (inputRef.current) {
-            inputRef.current.value = '';
+            inputRef.current.value = "";
         }
     };
 
@@ -525,7 +527,7 @@ function GallerySection() {
                 {...list}
                 max={30}
                 addLabel="Agregar una foto"
-                create={() => ({ image: '', caption: '', alt: '' })}
+                create={() => ({ image: "", caption: "", alt: "" })}
                 renderItem={(_, index) => {
                     const path = `content.gallery.${index}`;
 
@@ -582,14 +584,14 @@ function DressCodeSection({
     withCode: boolean;
     withSwatches: boolean;
 }) {
-    const swatches = useList<Content>('content.swatches');
+    const swatches = useList<Content>("content.swatches");
 
     return (
         <ContentSection
             title="Vestimenta"
             description={
                 withCode
-                    ? 'Si dejas vacío el tipo, la sección no se muestra.'
+                    ? "Si dejas vacío el tipo, la sección no se muestra."
                     : undefined
             }
         >
@@ -639,7 +641,7 @@ function DressCodeSection({
                         {...swatches}
                         max={12}
                         addLabel="Agregar color"
-                        create={() => ({ hex: '#FFFFFF', label: '' })}
+                        create={() => ({ hex: "#FFFFFF", label: "" })}
                         renderItem={(_, index) => (
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <ColorField
@@ -662,7 +664,7 @@ function DressCodeSection({
 
 function GiftsSection() {
     const form = useContentForm();
-    const list = useList<Content>('content.gifts');
+    const list = useList<Content>("content.gifts");
 
     return (
         <ContentSection title="Regalos">
@@ -671,9 +673,9 @@ function GiftsSection() {
                 max={6}
                 addLabel="Agregar opción de regalo"
                 create={() => ({
-                    kind: 'bank',
-                    title: '',
-                    description: '',
+                    kind: "bank",
+                    title: "",
+                    description: "",
                     details: [],
                 })}
                 renderItem={(_, index) => {
@@ -685,7 +687,7 @@ function GiftsSection() {
                                 <Label>Tipo</Label>
                                 <Select
                                     value={String(
-                                        form.value(`${path}.kind`) ?? 'bank',
+                                        form.value(`${path}.kind`) ?? "bank",
                                     )}
                                     onValueChange={(value) =>
                                         form.set(`${path}.kind`, value)
@@ -762,7 +764,7 @@ function GiftDetails({ path }: { path: string }) {
                 {...list}
                 max={6}
                 addLabel="Agregar dato"
-                create={() => ({ label: '', value: '' })}
+                create={() => ({ label: "", value: "" })}
                 renderItem={(_, index) => (
                     <div className="grid gap-4 sm:grid-cols-2">
                         <TextField
@@ -783,53 +785,100 @@ function GiftDetails({ path }: { path: string }) {
 }
 
 function ChapterSections() {
-    const godparents = useList<Content>('content.godparents');
+    return (
+        <ContentSection
+            title="Mi historia"
+            description="Si no escribes párrafos, el capítulo no se muestra."
+        >
+            <div className="grid gap-4 sm:grid-cols-2">
+                <TextField
+                    path="content.story.eyebrow"
+                    label="Encabezado"
+                    placeholder="Capítulo XV · El comienzo"
+                />
+                <TextField
+                    path="content.story.title"
+                    label="Título"
+                    placeholder="Un sueño que florece"
+                />
+                <TextField
+                    path="content.story.opening"
+                    label="Inicio"
+                    placeholder="Érase una vez…"
+                />
+                <TextField
+                    path="content.story.signature"
+                    label="Firma"
+                    placeholder="Con cariño, Sofía"
+                />
+            </div>
+            <StoryParagraphs />
+            <MediaPathField
+                path="content.story.photo"
+                label="Foto de la historia"
+                type="image"
+            />
+        </ContentSection>
+    );
+}
+
+/** How each kind calls its parents and its godparents, as the placeholders of the family section. */
+const familyRoles: Record<
+    InvitationKind,
+    { parents: string; godparents: string | null }
+> = {
+    wedding: {
+        parents: "Padres de la novia",
+        godparents: "Padrinos de velación",
+    },
+    xv: { parents: "Mis papás", godparents: "Padrinos de velación" },
+    baptism: { parents: "Mis papás", godparents: "Padrinos de bautizo" },
+    birthday: { parents: "Sus papás", godparents: null },
+};
+
+/** The parents (of each one of the couple, in a wedding) and the godparents; kids' birthdays only have parents. */
+function FamilySection({ kind }: { kind: InvitationKind }) {
+    const parents = useList<Content>("content.parents");
+    const godparents = useList<Content>("content.godparents");
+    const roles = familyRoles[kind];
 
     return (
-        <>
-            <ContentSection
-                title="Mi historia"
-                description="Si no escribes párrafos, el capítulo no se muestra."
-            >
-                <div className="grid gap-4 sm:grid-cols-2">
-                    <TextField
-                        path="content.story.eyebrow"
-                        label="Encabezado"
-                        placeholder="Capítulo XV · El comienzo"
-                    />
-                    <TextField
-                        path="content.story.title"
-                        label="Título"
-                        placeholder="Un sueño que florece"
-                    />
-                    <TextField
-                        path="content.story.opening"
-                        label="Inicio"
-                        placeholder="Érase una vez…"
-                    />
-                    <TextField
-                        path="content.story.signature"
-                        label="Firma"
-                        placeholder="Con cariño, Sofía"
+        <ContentSection
+            title={kind === "birthday" ? "Papás" : "Papás y padrinos"}
+            description={
+                kind === "wedding"
+                    ? "Si no capturas a nadie, la sección no se muestra."
+                    : "Si no capturas a los papás, la sección no se muestra."
+            }
+        >
+            {kind === "wedding" ? (
+                <div className="grid gap-2">
+                    <Label>Papás</Label>
+                    <Repeater
+                        {...parents}
+                        max={2}
+                        addLabel="Agregar papás"
+                        create={() => ({
+                            role:
+                                parents.items.length === 0
+                                    ? "Padres de la novia"
+                                    : "Padres del novio",
+                            names: ["", ""],
+                        })}
+                        renderItem={(_, index) => (
+                            <HonorGroupFields
+                                path={`content.parents.${index}`}
+                                placeholder="Padres de la novia"
+                            />
+                        )}
                     />
                 </div>
-                <StoryParagraphs />
-                <MediaPathField
-                    path="content.story.photo"
-                    label="Foto de la historia"
-                    type="image"
-                />
-            </ContentSection>
-
-            <ContentSection
-                title="Papás y padrinos"
-                description="Si no capturas a los papás, la sección no se muestra."
-            >
+            ) : (
                 <div className="grid gap-4 sm:grid-cols-2">
                     <TextField
                         path="content.parents.role"
                         label="Título"
-                        placeholder="Mis papás"
+                        placeholder={roles.parents}
                     />
                     <LinesField
                         path="content.parents.names"
@@ -838,36 +887,55 @@ function ChapterSections() {
                         max={4}
                     />
                 </div>
-                <Label>Padrinos</Label>
-                <Repeater
-                    {...godparents}
-                    max={12}
-                    addLabel="Agregar padrinos"
-                    create={() => ({ role: '', names: ['', ''] })}
-                    renderItem={(_, index) => (
-                        <div className="grid gap-4 sm:grid-cols-2">
-                            <TextField
-                                path={`content.godparents.${index}.role`}
-                                label="De qué"
-                                placeholder="Padrinos de velación"
+            )}
+            {roles.godparents && (
+                <div className="grid gap-2">
+                    <Label>Padrinos</Label>
+                    <Repeater
+                        {...godparents}
+                        max={12}
+                        addLabel="Agregar padrinos"
+                        create={() => ({ role: "", names: ["", ""] })}
+                        renderItem={(_, index) => (
+                            <HonorGroupFields
+                                path={`content.godparents.${index}`}
+                                placeholder={roles.godparents ?? ""}
                             />
-                            <LinesField
-                                path={`content.godparents.${index}.names`}
-                                label="Nombres"
-                                addLabel="Agregar nombre"
-                                max={4}
-                            />
-                        </div>
-                    )}
-                />
-            </ContentSection>
-        </>
+                        )}
+                    />
+                </div>
+            )}
+        </ContentSection>
+    );
+}
+
+function HonorGroupFields({
+    path,
+    placeholder,
+}: {
+    path: string;
+    placeholder: string;
+}) {
+    return (
+        <div className="grid gap-4 sm:grid-cols-2">
+            <TextField
+                path={`${path}.role`}
+                label="De qué"
+                placeholder={placeholder}
+            />
+            <LinesField
+                path={`${path}.names`}
+                label="Nombres"
+                addLabel="Agregar nombre"
+                max={4}
+            />
+        </div>
     );
 }
 
 function StoryParagraphs() {
     const form = useContentForm();
-    const list = useList<string>('content.story.paragraphs');
+    const list = useList<string>("content.story.paragraphs");
 
     return (
         <div className="grid gap-2">
@@ -876,7 +944,7 @@ function StoryParagraphs() {
                 {...list}
                 max={6}
                 addLabel="Agregar párrafo"
-                create={() => ''}
+                create={() => ""}
                 renderItem={(paragraph, index) => (
                     <>
                         <textarea
@@ -905,7 +973,7 @@ function StoryParagraphs() {
 
 InvitationContent.layout = (props: Props & { auth: Auth }) => ({
     breadcrumbs: invitationBreadcrumbs(props.auth.user.role, props.invitation, {
-        title: 'Contenido',
+        title: "Contenido",
         href: edit(props.invitation.slug),
     }),
 });

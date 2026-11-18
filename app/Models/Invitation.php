@@ -62,7 +62,7 @@ class Invitation extends Model
      *
      * @var list<string>
      */
-    public const array SECTIONS = ['venues', 'program', 'gallery', 'dress_code', 'swatches', 'gifts'];
+    public const array SECTIONS = ['family', 'venues', 'program', 'gallery', 'dress_code', 'swatches', 'gifts'];
 
     /**
      * The plan feature each printable page requires when the invitation belongs to an order.

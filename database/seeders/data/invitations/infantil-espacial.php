@@ -16,6 +16,10 @@ return [
         'first_name' => 'Mateo',
         'age' => 7,
         'hosts' => 'Sus papás, Ana y Luis',
+        'parents' => [
+            'role' => 'Sus papás',
+            'names' => ['Ana Morales', 'Luis Morales'],
+        ],
         'rsvp_whatsapp' => '521234567890',
         'music' => '/invitations/infantil-espacial/music.mp3',
         'message' => '¡Atención, tripulación! Mateo cumple 7 años y prepara una misión fuera de este mundo: juegos de astronautas, piñata de planetas y un pastel que aterrizó directo de la Luna. Ponte tu casco y acompáñanos en esta aventura espacial.',

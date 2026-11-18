@@ -72,6 +72,7 @@ it('requires the names the kind of the template needs', function (string $templa
 })->with([
     'wedding with one name' => ['boda-clasica', ['names' => ['Ana']], 'content.names'],
     'birthday without a name' => ['cumpleanos-floral', ['first_name' => 'Flora'], 'content.name'],
+    'wedding parents without names' => ['boda-clasica', ['names' => ['Ana', 'Luis'], 'parents' => [['role' => 'Padres de la novia']]], 'content.parents.0.names'],
     'xv godparents without names' => ['xv-jardin', ['name' => 'Sofía', 'first_name' => 'Sofía', 'godparents' => [['role' => 'Padrinos']]], 'content.godparents.0.names'],
     'baptism without a name' => ['bautizo-luz', ['first_name' => 'Julieta'], 'content.name'],
 ]);
@@ -197,6 +198,52 @@ it('saves and sends the chapters of a baptism', function () {
             ->where('invitation.story.title', 'Una nueva vida')
             ->where('invitation.parents.names', ['Paola', 'Ricardo'])
             ->where('invitation.godparents.0.role', 'Mis padrinos'));
+});
+
+it('saves and sends the parents and godparents of a wedding', function () {
+    $invitation = Invitation::factory()->create(['template' => 'boda-moderna']);
+
+    $this->actingAs(User::factory()->create())
+        ->put(route('admin.invitations.content.update', $invitation), [
+            'content' => [
+                'names' => ['Ana', 'Luis'],
+                'parents' => [
+                    ['role' => 'Padres de la novia', 'names' => ['Paola', 'Ricardo']],
+                    ['role' => 'Padres del novio', 'names' => ['Elena']],
+                ],
+                'godparents' => [['role' => 'Padrinos de velación', 'names' => ['Fernanda', 'Luis']]],
+            ],
+        ])
+        ->assertSessionHasNoErrors();
+
+    $this->get("/i/{$invitation->slug}")
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('invitation.parents.0.role', 'Padres de la novia')
+            ->where('invitation.parents.1.names', ['Elena'])
+            ->where('invitation.godparents.0.role', 'Padrinos de velación'));
+});
+
+it('sends the parents of a birthday, without godparents', function () {
+    $invitation = Invitation::factory()->create(['template' => 'infantil-dino']);
+
+    $this->actingAs(User::factory()->create())
+        ->put(route('admin.invitations.content.update', $invitation), [
+            'content' => [
+                'name' => 'Santiago',
+                'first_name' => 'Santiago',
+                'age' => 5,
+                'parents' => ['names' => ['Daniela', '', 'Roberto']],
+                'godparents' => [['role' => 'Padrinos', 'names' => ['Luis']]],
+            ],
+        ])
+        ->assertSessionHasNoErrors();
+
+    expect($invitation->fresh()->content)->not->toHaveKey('godparents');
+
+    $this->get("/i/{$invitation->slug}")
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('invitation.parents', ['role' => 'Sus papás', 'names' => ['Daniela', 'Roberto']])
+            ->missing('invitation.godparents'));
 });
 
 it('moves the date of demo invitations ahead of today, keeping the time and the deadline', function () {

@@ -16,6 +16,10 @@ return [
         'first_name' => 'Isabella',
         'age' => 6,
         'hosts' => 'Con cariño, sus papás Mariana y Jorge',
+        'parents' => [
+            'role' => 'Sus papás',
+            'names' => ['Mariana Soto', 'Jorge Soto'],
+        ],
         'rsvp_whatsapp' => '521234567890',
         'music' => '/invitations/infantil-unicornio/music.mp3',
         'message' => 'Isabella cumple 6 años y queremos celebrarlo con una tarde llena de magia: arcoíris, brillantina, juegos y un pastel de unicornio. Trae tu sonrisa más brillante, ¡la fiesta no está completa sin ti!',

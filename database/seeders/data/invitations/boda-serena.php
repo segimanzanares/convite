@@ -14,6 +14,14 @@ return [
     'content' => [
         'names' => ['Lucía', 'Mateo'],
         'families' => 'Familia Herrera Soto & Familia Ibarra León',
+        'parents' => [
+            ['role' => 'Padres de la novia', 'names' => ['Carmen Soto de Herrera', 'Manuel Herrera Ruiz']],
+            ['role' => 'Padres del novio', 'names' => ['Silvia León de Ibarra', 'Francisco Ibarra Peña']],
+        ],
+        'godparents' => [
+            ['role' => 'Padrinos de velación', 'names' => ['Beatriz y Alfonso Cruz']],
+            ['role' => 'Padrinos de anillos', 'names' => ['Mariana y Rodrigo Vela']],
+        ],
         'rsvp_whatsapp' => '521234567890',
         'music' => '/invitations/boda-serena/music.mp3',
         'cover' => $image('09.jpeg'),

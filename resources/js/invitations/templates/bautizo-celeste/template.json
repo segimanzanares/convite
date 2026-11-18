@@ -2,6 +2,7 @@
   "kind": "baptism",
   "label": "Bautizo celeste",
   "sections": [
+    "family",
     "venues",
     "program",
     "gallery",

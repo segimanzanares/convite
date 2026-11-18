@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Envelope } from '../../components/envelope/Envelope';
 import { FloatingPetals } from '../../components/hero/FloatingPetals';
 import { InvitationMessage } from '../../components/message/InvitationMessage';
+import { FamilySection } from '../../components/family/FamilySection';
 import { FullDivider } from '../../components/divider/FullDivider';
 import { ProgramTimeline } from '../../components/program/ProgramTimeline';
 import { Countdown } from '../../components/countdown/Countdown';
@@ -63,6 +64,15 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         }
         signature={celebrant.hosts}
       />
+      {invitation.parents && (
+        <FamilySection
+          eyebrow="Con todo su amor"
+          title="Los guardianes de la magia"
+          intro={`Los papás de ${firstName} soñaron este día con mucho cariño y les encantará compartir la magia contigo.`}
+          parents={[invitation.parents]}
+          ornament={<RainbowDivider className="mb-6" />}
+        />
+      )}
       <FullDivider text={`¡${age} años mágicos!`} />
       {invitation.venues.length > 0 && (
         <VenuesSection

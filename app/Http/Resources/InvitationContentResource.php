@@ -58,6 +58,7 @@ class InvitationContentResource extends JsonResource
             'dressCode' => $this->dressCode($content['dress_code'] ?? []),
             'swatches' => $content['swatches'] ?? [],
             'gifts' => array_map($this->gift(...), $content['gifts'] ?? []),
+            ...$this->family($kind, $content),
             ...($kind->hasChapters() ? $this->chapters($content) : []),
         ];
     }
@@ -106,6 +107,33 @@ class InvitationContentResource extends JsonResource
             'firstName' => $content['first_name'] ?? $content['name'] ?? '',
             'age' => $content['age'] ?? null,
             'hosts' => $content['hosts'] ?? '',
+        ];
+    }
+
+    /**
+     * The parents and godparents. A wedding names the parents of each one of the couple (a list of up to two groups);
+     * the other kinds name the celebrant's parents (one group, null without names), and only birthdays have no
+     * godparents.
+     *
+     * @param  array<string, mixed>  $content
+     * @return array<string, mixed>
+     */
+    private function family(InvitationKind $kind, array $content): array
+    {
+        if ($kind === InvitationKind::Wedding) {
+            return [
+                'parents' => array_values($content['parents'] ?? []),
+                'godparents' => array_values($content['godparents'] ?? []),
+            ];
+        }
+
+        $parents = $content['parents'] ?? [];
+
+        return [
+            'parents' => filled($parents['names'] ?? null)
+                ? ['role' => $parents['role'] ?? ($kind === InvitationKind::Birthday ? 'Sus papás' : 'Mis papás'), 'names' => $parents['names']]
+                : null,
+            ...($kind === InvitationKind::Birthday ? [] : ['godparents' => array_values($content['godparents'] ?? [])]),
         ];
     }
 
@@ -177,7 +205,7 @@ class InvitationContentResource extends JsonResource
     }
 
     /**
-     * The sections only XV and baptism templates have.
+     * The sections only XV and baptism templates have (their parents and godparents come from family()).
      *
      * @param  array<string, mixed>  $content
      * @return array<string, mixed>
@@ -186,7 +214,6 @@ class InvitationContentResource extends JsonResource
     {
         $name = $content['name'] ?? '';
         $story = $content['story'] ?? [];
-        $parents = $content['parents'] ?? [];
 
         return [
             'monogram' => $content['monogram'] ?? null,
@@ -205,10 +232,6 @@ class InvitationContentResource extends JsonResource
                     ? ['src' => Invitation::mediaUrl($story['photo']), 'alt' => "Foto de {$name}"]
                     : null,
             ] : null,
-            'parents' => filled($parents['names'] ?? null)
-                ? ['role' => $parents['role'] ?? 'Mis papás', 'names' => $parents['names']]
-                : null,
-            'godparents' => $content['godparents'] ?? [],
         ];
     }
 }

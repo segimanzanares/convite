@@ -14,6 +14,15 @@ return [
     'content' => [
         'names' => ['Mariana', 'Alejandro'],
         'families' => 'La Familia López & La Familia Pérez',
+        'parents' => [
+            ['role' => 'Padres de la novia', 'names' => ['Guadalupe Ríos de López', 'Fernando López Medina']],
+            ['role' => 'Padres del novio', 'names' => ['Rosa María Hernández', 'Jorge Pérez Castillo']],
+        ],
+        'godparents' => [
+            ['role' => 'Padrinos de velación', 'names' => ['Claudia y Arturo Mendoza']],
+            ['role' => 'Padrinos de anillos', 'names' => ['Sofía y Daniel Ortega']],
+            ['role' => 'Padrinos de lazo', 'names' => ['Patricia y Luis Navarro']],
+        ],
         'rsvp_whatsapp' => '521234567890',
         'music' => '/invitations/boda-clasica/music.mp3',
         'venues' => [

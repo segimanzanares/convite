@@ -95,6 +95,9 @@ trait InvitationContentRules
                 'content.names' => ['required', 'array', 'size:2'],
                 'content.names.*' => ['required', 'string', 'max:100'],
                 'content.families' => ['nullable', 'string', 'max:255'],
+                // The parents of each one, e.g. "Padres de la novia"
+                ...$this->honorGroupRules('content.parents', 2),
+                ...$this->honorGroupRules('content.godparents', 12),
             ];
         }
 
@@ -103,6 +106,10 @@ trait InvitationContentRules
             'content.first_name' => ['required', 'string', 'max:100'],
             'content.age' => ['nullable', 'integer', 'between:1,150'],
             'content.hosts' => ['nullable', 'string', 'max:255'],
+            'content.parents' => ['nullable', 'array'],
+            'content.parents.role' => ['nullable', 'string', 'max:100'],
+            'content.parents.names' => ['nullable', 'array', 'max:4'],
+            'content.parents.names.*' => ['nullable', 'string', 'max:255'],
         ];
 
         if ($kind === InvitationKind::Birthday) {
@@ -125,14 +132,22 @@ trait InvitationContentRules
             'content.story.paragraphs.*' => ['nullable', 'string', 'max:2000'],
             'content.story.signature' => ['nullable', 'string', 'max:255'],
             'content.story.photo' => $media,
-            'content.parents' => ['nullable', 'array'],
-            'content.parents.role' => ['nullable', 'string', 'max:100'],
-            'content.parents.names' => ['nullable', 'array', 'max:4'],
-            'content.parents.names.*' => ['nullable', 'string', 'max:255'],
-            'content.godparents' => ['nullable', 'array', 'max:12'],
-            'content.godparents.*.role' => ['required', 'string', 'max:100'],
-            'content.godparents.*.names' => ['required', 'array', 'min:1', 'max:4'],
-            'content.godparents.*.names.*' => ['required', 'string', 'max:255'],
+            ...$this->honorGroupRules('content.godparents', 12),
+        ];
+    }
+
+    /**
+     * A list of honor groups (the godparents, or a couple's parents): each one a role and up to four names.
+     *
+     * @return array<string, list<string>>
+     */
+    private function honorGroupRules(string $path, int $max): array
+    {
+        return [
+            $path => ['nullable', 'array', "max:{$max}"],
+            "{$path}.*.role" => ['required', 'string', 'max:100'],
+            "{$path}.*.names" => ['required', 'array', 'min:1', 'max:4'],
+            "{$path}.*.names.*" => ['required', 'string', 'max:255'],
         ];
     }
 

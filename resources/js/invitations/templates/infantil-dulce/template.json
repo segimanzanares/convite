@@ -2,6 +2,7 @@
   "kind": "birthday",
   "label": "Infantil dulce",
   "sections": [
+    "family",
     "venues",
     "program",
     "gallery",

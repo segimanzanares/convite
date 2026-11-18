@@ -2,6 +2,7 @@
   "kind": "baptism",
   "label": "Bautizo olivo",
   "sections": [
+    "family",
     "venues",
     "program",
     "gallery",

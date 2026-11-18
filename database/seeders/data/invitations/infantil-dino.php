@@ -16,6 +16,10 @@ return [
         'first_name' => 'Santiago',
         'age' => 5,
         'hosts' => 'Sus papás, Daniela y Roberto',
+        'parents' => [
+            'role' => 'Sus papás',
+            'names' => ['Daniela Pérez', 'Roberto Pérez'],
+        ],
         'rsvp_whatsapp' => '521234567890',
         'music' => '/invitations/infantil-dino/music.mp3',
         'message' => '¡Rawr! Santiago cumple 5 años y lo vamos a celebrar con una aventura jurásica: excavación de fósiles, piñata de dinosaurio y un pastel volcán. Prepara tus botas de explorador y ven con tu mejor rugido.',

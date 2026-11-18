@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Envelope } from '../../components/envelope/Envelope';
 import { FloatingPetals } from '../../components/hero/FloatingPetals';
 import { Hero } from '../../components/hero/Hero';
+import { FamilySection } from '../../components/family/FamilySection';
 import { CoupleMessage } from '../../components/message/CoupleMessage';
 import { FullDivider } from '../../components/divider/FullDivider';
 import { Countdown } from '../../components/countdown/Countdown';
@@ -57,6 +58,17 @@ export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
         ornament={<WeddingRings play={envelopeOpen} delay={1.8} className="relative mt-6 w-[min(260px,62vw)] h-auto" />}
       />
       <CoupleMessage couple={couple} message={invitation.message} />
+      {invitation.parents.length > 0 && (
+        <FamilySection
+          eyebrow="Con la bendición de Dios"
+          title="Y de nuestros padres"
+          intro="Con el amor que nos dieron y la guía de quienes nos acompañan en este camino, unimos nuestras vidas."
+          parents={invitation.parents}
+          godparents={invitation.godparents}
+          godparentsTitle="Nuestros padrinos"
+          ornament={<WeddingRings className="mx-auto mb-6 w-[min(150px,40vw)] h-auto" />}
+        />
+      )}
       <FullDivider text={coupleTitle} />
       {invitation.venues.length > 0 && (
         <>

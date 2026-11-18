@@ -6,6 +6,7 @@ export type InvitationStatus = 'draft' | 'published' | 'archived';
 export type InvitationKind = 'wedding' | 'birthday' | 'xv' | 'baptism';
 
 export type InvitationSection =
+    | 'family'
     | 'venues'
     | 'program'
     | 'gallery'

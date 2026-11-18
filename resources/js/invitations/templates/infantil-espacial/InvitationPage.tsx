@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Envelope } from '../../components/envelope/Envelope';
 import { FloatingPetals } from '../../components/hero/FloatingPetals';
 import { InvitationMessage } from '../../components/message/InvitationMessage';
+import { FamilySection } from '../../components/family/FamilySection';
 import { FullDivider } from '../../components/divider/FullDivider';
 import { ProgramTimeline } from '../../components/program/ProgramTimeline';
 import { Countdown } from '../../components/countdown/Countdown';
@@ -15,6 +16,7 @@ import { MusicPlayer, type MusicPlayerHandle } from '../../components/music/Musi
 import { useAutoScroll } from '../../hooks/useAutoScroll';
 import { initials, toCelebrant } from '../../lib/eventContent';
 import type { BirthdayContent } from '../../types/invitation';
+import { Astronaut } from './components/Illustrations';
 import { LaunchDivider, OrbitDivider, UfoDivider } from './components/SpaceDividers';
 import { SpaceHero } from './components/SpaceHero';
 import './theme.css';
@@ -59,6 +61,15 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         }
         signature={celebrant.hosts}
       />
+      {invitation.parents && (
+        <FamilySection
+          eyebrow="Centro de control"
+          title="Los capitanes de la misión"
+          intro={`Desde la base, los papás de ${firstName} preparan el despegue y te esperan a bordo para celebrar juntos.`}
+          parents={[invitation.parents]}
+          ornament={<Astronaut className="espacial-hover mx-auto mb-6 w-20" />}
+        />
+      )}
       <FullDivider text={`¡${age} años!`} />
       {invitation.venues.length > 0 && (
         <VenuesSection

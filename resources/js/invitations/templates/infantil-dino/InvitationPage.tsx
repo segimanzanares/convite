@@ -7,6 +7,7 @@ import { DinoHero } from './components/DinoHero';
 import { GallerySection, GiftsSection } from './components/DetailSections';
 import { EggIntro } from './components/EggIntro';
 import { CountdownSection, MessageSection, ProgramSection, VenuesSection } from './components/EventSections';
+import { FamilySection } from './components/FamilySection';
 import { Footer } from './components/Footer';
 import { RsvpSection } from './components/RsvpSection';
 import { UiWishesSection } from '../../components/wishes/UiWishesSection';
@@ -51,6 +52,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         place={invitation.venues[0]?.addressLines.at(-1)}
       />
       <MessageSection firstName={celebrant.firstName} age={celebrant.age} message={invitation.message} hosts={celebrant.hosts} />
+      {invitation.parents && <FamilySection parents={invitation.parents} firstName={celebrant.firstName} />}
       {invitation.venues.length > 0 && <VenuesSection venues={invitation.venues} />}
       {invitation.program.length > 0 && <ProgramSection items={invitation.program} />}
       {invitation.eventAt && <CountdownSection targetDateTime={invitation.eventAt} calendar={calendar} venues={invitation.venues} />}

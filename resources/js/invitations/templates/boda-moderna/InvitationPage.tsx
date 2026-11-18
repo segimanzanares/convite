@@ -5,6 +5,7 @@ import { toCouple } from '../../lib/eventContent';
 import type { WeddingContent } from '../../types/invitation';
 import { DressCodeSection, GallerySection, GiftsSection } from './components/DetailSections';
 import { CountdownSection, MessageSection, ProgramSection, VenuesSection } from './components/EventSections';
+import { FamilySection } from './components/FamilySection';
 import { Footer } from './components/Footer';
 import { IntroDialog } from './components/IntroDialog';
 import { ModernHero } from './components/ModernHero';
@@ -44,6 +45,7 @@ export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
         place={invitation.venues[0]?.addressLines.at(-1)}
       />
       <MessageSection message={invitation.message} families={couple.families} />
+      {invitation.parents.length > 0 && <FamilySection parents={invitation.parents} godparents={invitation.godparents} />}
       <div id="detalles" className="scroll-mt-6" />
       {invitation.venues.length > 0 && <VenuesSection venues={invitation.venues} />}
       {invitation.program.length > 0 && <ProgramSection items={invitation.program} />}

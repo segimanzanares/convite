@@ -14,6 +14,15 @@ return [
     'content' => [
         'names' => ['Valeria', 'Andrés'],
         'families' => 'Familia Castillo & Familia Navarro',
+        'parents' => [
+            ['role' => 'Padres de la novia', 'names' => ['Isabel Castillo', 'Raúl Castillo']],
+            ['role' => 'Padres del novio', 'names' => ['Teresa Navarro', 'Ernesto Navarro']],
+        ],
+        'godparents' => [
+            ['role' => 'Padrinos de velación', 'names' => ['Gabriela y Óscar Rivas']],
+            ['role' => 'Padrinos de anillos', 'names' => ['Natalia y Pablo Aguilar']],
+            ['role' => 'Padrinos de lazo', 'names' => ['Verónica y Emilio Duarte']],
+        ],
         'rsvp_whatsapp' => '521234567890',
         'music' => '/invitations/boda-moderna/music.mp3',
         'cover' => $image('05.jpeg'),

@@ -5,6 +5,7 @@ import { eventDates, formatDate, toCouple } from '../../lib/eventContent';
 import type { WeddingContent } from '../../types/invitation';
 import { DressCodeSection, GallerySection, GiftsSection } from './components/DetailSections';
 import { CountdownBand, ProgramSection, StorySection, VenuesSection } from './components/EventSections';
+import { FamilySection } from './components/FamilySection';
 import { Footer } from './components/Footer';
 import { IntroDrawer } from './components/IntroDrawer';
 import { RsvpSection } from './components/RsvpSection';
@@ -33,6 +34,7 @@ export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
 
   const navLinks: NavLink[] = [
     { href: '#historia', label: 'Nosotros' },
+    invitation.parents.length > 0 && { href: '#familia', label: 'Familia' },
     invitation.venues.length > 0 && { href: '#lugares', label: 'Lugares' },
     invitation.program.length > 0 && { href: '#programa', label: 'Programa' },
     invitation.gallery.length > 0 && { href: '#galeria', label: 'Galería' },
@@ -58,6 +60,7 @@ export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
         place={invitation.venues[0]?.addressLines.at(-1)}
       />
       <StorySection names={couple.names} message={invitation.message} families={couple.families} />
+      {invitation.parents.length > 0 && <FamilySection parents={invitation.parents} godparents={invitation.godparents} />}
       {invitation.venues.length > 0 && <VenuesSection venues={invitation.venues} />}
       {invitation.program.length > 0 && <ProgramSection items={invitation.program} />}
       {invitation.eventAt && (

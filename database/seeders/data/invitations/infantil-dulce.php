@@ -16,6 +16,10 @@ return [
         'first_name' => 'Regina',
         'age' => 4,
         'hosts' => 'Con cariño, sus papás Paola y Andrés',
+        'parents' => [
+            'role' => 'Sus papás',
+            'names' => ['Paola Gutiérrez', 'Andrés Gutiérrez'],
+        ],
         'rsvp_whatsapp' => '521234567890',
         'music' => '/invitations/infantil-dulce/music.mp3',
         'message' => 'Regina cumple 4 años y lo celebraremos con una tarde llena de dulces: mesa de postres, decoración de cupcakes, juegos y mucha diversión. ¡Te esperamos para compartir el pastel!',

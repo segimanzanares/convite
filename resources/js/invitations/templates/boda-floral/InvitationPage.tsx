@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Envelope } from '../../components/envelope/Envelope';
 import { FloatingPetals } from '../../components/hero/FloatingPetals';
+import { FamilySection } from '../../components/family/FamilySection';
 import { CoupleMessage } from '../../components/message/CoupleMessage';
 import { FullDivider } from '../../components/divider/FullDivider';
 import { Countdown } from '../../components/countdown/Countdown';
@@ -50,6 +51,17 @@ export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
       <FloatingPetals symbols={['❀', '✿', '❁']} />
       <FloralHero couple={couple} coverUrl={invitation.cover} bloom={envelopeOpen} />
       <CoupleMessage couple={couple} message={invitation.message} />
+      {invitation.parents.length > 0 && (
+        <FamilySection
+          eyebrow="Con la bendición de Dios"
+          title="Y de nuestros padres"
+          intro="Con el amor que nos dieron y la guía de quienes nos acompañan en este camino, unimos nuestras vidas."
+          parents={invitation.parents}
+          godparents={invitation.godparents}
+          godparentsTitle="Nuestros padrinos"
+          ornament={<FloralSpray className="mb-4" />}
+        />
+      )}
       <FullDivider text={coupleTitle} />
       {invitation.venues.length > 0 && (
         <>

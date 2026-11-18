@@ -16,6 +16,14 @@ return [
     'content' => [
         'names' => ['Daniela', 'Sebastián'],
         'families' => 'La Familia Ramírez & La Familia Torres',
+        'parents' => [
+            ['role' => 'Padres de la novia', 'names' => ['Elena Ramírez Solís', 'Javier Ramírez Ortiz']],
+            ['role' => 'Padres del novio', 'names' => ['Mónica Torres Vega', 'Ricardo Torres Luna']],
+        ],
+        'godparents' => [
+            ['role' => 'Padrinos de velación', 'names' => ['Adriana y Héctor Salgado']],
+            ['role' => 'Padrinos de arras', 'names' => ['Lorena y Miguel Fuentes']],
+        ],
         'rsvp_whatsapp' => '521234567890',
         'music' => '/invitations/boda-floral/music.mp3',
         'venues' => [

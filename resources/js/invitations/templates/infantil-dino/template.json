@@ -2,6 +2,7 @@
   "kind": "birthday",
   "label": "Infantil dinosaurios",
   "sections": [
+    "family",
     "venues",
     "program",
     "gallery",

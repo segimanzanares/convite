@@ -33,6 +33,9 @@ export interface WeddingContent extends BaseContent {
   kind: 'wedding';
   names: [string, string];
   families: string;
+  /** The parents of each one of the couple, e.g. "Padres de la novia"; up to two groups. */
+  parents: HonorGroup[];
+  godparents: HonorGroup[];
 }
 
 export interface BirthdayContent extends BaseContent {
@@ -41,6 +44,8 @@ export interface BirthdayContent extends BaseContent {
   firstName: string;
   age: number | null;
   hosts: string;
+  /** The celebrant's parents, null when the admin captured no names. */
+  parents: HonorGroup | null;
 }
 
 export interface XvStory {
@@ -57,7 +62,6 @@ export interface XvContent extends Omit<BirthdayContent, 'kind'> {
   monogram: string | null;
   heroPhoto: XvPhoto | null;
   story: XvStory | null;
-  parents: HonorGroup | null;
   godparents: HonorGroup[];
 }
 
