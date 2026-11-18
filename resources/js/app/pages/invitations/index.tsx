@@ -1,4 +1,4 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import {
     BookHeartIcon,
     ClipboardCheckIcon,
@@ -8,6 +8,7 @@ import {
     PencilIcon,
     PlusIcon,
     UsersIcon,
+    XIcon,
 } from 'lucide-react';
 import { show as showClient } from '@/actions/App/Http/Controllers/Admin/ClientController';
 import { index as guestsIndex } from '@/actions/App/Http/Controllers/Admin/GuestController';
@@ -30,26 +31,66 @@ import RowActionsMenu from '@/components/row-actions-menu';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import UrlModal from '@/components/url-modal';
+import { useListQuery } from '@/hooks/use-list-query';
 import { formatDate } from '@/lib/format';
 import { invitationSections } from '@/lib/invitation-sections';
 import { invitationStatusLabels } from '@/lib/labels';
-import type { Invitation, InvitationTemplate, Order, Paginated } from '@/types';
+import type {
+    Invitation,
+    InvitationStatus,
+    InvitationTemplate,
+    Order,
+    Paginated,
+} from '@/types';
 import InvitationForm from './components/invitation-form';
+
+/** The query string keys of the list, kept while its modals are open. */
+const LIST_QUERY = ['client', 'type', 'status', 'page'] as const;
+
+/** Radix Select items cannot have an empty value, so "no filter" uses this one. */
+const ALL = 'all';
+
+type InvitationType = 'demo' | 'order';
+
+type Filters = {
+    client: number | null;
+    type: InvitationType | null;
+    status: InvitationStatus | null;
+};
+
+const invitationTypeLabels: Record<InvitationType, string> = {
+    demo: 'Demos',
+    order: 'Con pedido',
+};
 
 export default function InvitationsIndex({
     invitations,
+    filters,
+    clients,
     modal,
     invitation,
     templates,
     orders,
 }: {
     invitations: Paginated<Invitation>;
+    filters: Filters;
+    clients: { id: number; name: string }[];
     modal: 'create' | 'edit' | null;
     invitation: Invitation | null;
     templates: InvitationTemplate[];
     orders: Order[];
 }) {
+    const query = useListQuery(LIST_QUERY);
+    const isFiltered = Object.values(filters).some((value) => value !== null);
+
     return (
         <>
             <Head title="Invitaciones" />
@@ -62,12 +103,18 @@ export default function InvitationsIndex({
                     />
 
                     <Button asChild>
-                        <Link href={create()} preserveScroll preserveState>
+                        <Link
+                            href={create({ query })}
+                            preserveScroll
+                            preserveState
+                        >
                             <PlusIcon />
                             Nueva invitación
                         </Link>
                     </Button>
                 </div>
+
+                <InvitationFilters filters={filters} clients={clients} />
 
                 <DataTable
                     columns={[
@@ -77,7 +124,11 @@ export default function InvitationsIndex({
                         'Estado',
                         '',
                     ]}
-                    empty="Aún no hay invitaciones."
+                    empty={
+                        isFiltered
+                            ? 'Ninguna invitación coincide con los filtros.'
+                            : 'Aún no hay invitaciones.'
+                    }
                     isEmpty={invitations.data.length === 0}
                 >
                     {invitations.data.map((invitation) => (
@@ -93,7 +144,7 @@ export default function InvitationsIndex({
 
             <UrlModal
                 content={modal === 'edit' ? invitation : modal}
-                closeHref={index()}
+                closeHref={index({ query })}
                 title={(shown) =>
                     shown === 'create'
                         ? 'Nueva invitación'
@@ -105,7 +156,7 @@ export default function InvitationsIndex({
                     shown !== 'create' ? (
                         <InvitationForm
                             key={shown.id}
-                            formRequest={update.form(shown.slug)}
+                            formRequest={update.form(shown.slug, { query })}
                             submitLabel="Guardar"
                             templates={templates}
                             orders={orders}
@@ -113,7 +164,7 @@ export default function InvitationsIndex({
                         />
                     ) : (
                         <InvitationForm
-                            formRequest={store.form()}
+                            formRequest={store.form({ query })}
                             submitLabel="Crear invitación"
                             templates={templates}
                             orders={orders}
@@ -125,8 +176,110 @@ export default function InvitationsIndex({
     );
 }
 
+/** Filters by client, type (demos or sold through an order) and status. Changing one goes back to the first page. */
+function InvitationFilters({
+    filters,
+    clients,
+}: {
+    filters: Filters;
+    clients: { id: number; name: string }[];
+}) {
+    const apply = (changes: Partial<Record<keyof Filters, string | null>>) => {
+        const next = {
+            ...filters,
+            ...Object.fromEntries(
+                Object.entries(changes).map(([key, value]) => [
+                    key,
+                    value === ALL ? null : value,
+                ]),
+            ),
+        };
+
+        router.get(
+            index({ query: next }),
+            {},
+            { preserveState: true, preserveScroll: true, replace: true },
+        );
+    };
+
+    const isFiltered = Object.values(filters).some((value) => value !== null);
+
+    return (
+        <div className="flex flex-wrap items-center gap-2">
+            <Select
+                value={filters.client ? String(filters.client) : ALL}
+                onValueChange={(client) => apply({ client })}
+            >
+                <SelectTrigger aria-label="Cliente" className="w-full sm:w-56">
+                    <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value={ALL}>Todos los clientes</SelectItem>
+                    {clients.map((client) => (
+                        <SelectItem key={client.id} value={String(client.id)}>
+                            {client.name}
+                        </SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
+
+            <Select
+                value={filters.type ?? ALL}
+                onValueChange={(type) => apply({ type })}
+            >
+                <SelectTrigger aria-label="Tipo" className="w-full sm:w-44">
+                    <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value={ALL}>Todos los tipos</SelectItem>
+                    {Object.entries(invitationTypeLabels).map(
+                        ([type, label]) => (
+                            <SelectItem key={type} value={type}>
+                                {label}
+                            </SelectItem>
+                        ),
+                    )}
+                </SelectContent>
+            </Select>
+
+            <Select
+                value={filters.status ?? ALL}
+                onValueChange={(status) => apply({ status })}
+            >
+                <SelectTrigger aria-label="Estado" className="w-full sm:w-44">
+                    <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value={ALL}>Todos los estados</SelectItem>
+                    {Object.entries(invitationStatusLabels).map(
+                        ([status, label]) => (
+                            <SelectItem key={status} value={status}>
+                                {label}
+                            </SelectItem>
+                        ),
+                    )}
+                </SelectContent>
+            </Select>
+
+            {isFiltered && (
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() =>
+                        apply({ client: null, type: null, status: null })
+                    }
+                >
+                    <XIcon />
+                    Quitar filtros
+                </Button>
+            )}
+        </div>
+    );
+}
+
 /** On small screens the client and the date collapse under the title and the actions into a menu. */
 function InvitationRow({ invitation }: { invitation: Invitation }) {
+    const query = useListQuery(LIST_QUERY);
     const sections = invitationSections(invitation);
 
     return (
@@ -185,7 +338,7 @@ function InvitationRow({ invitation }: { invitation: Invitation }) {
                     </Button>
                     <Button variant="outline" size="icon" asChild>
                         <Link
-                            href={edit(invitation.slug)}
+                            href={edit(invitation.slug, { query })}
                             preserveScroll
                             preserveState
                             aria-label={`Editar ${invitation.title}`}
@@ -248,7 +401,7 @@ function InvitationRow({ invitation }: { invitation: Invitation }) {
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                         <Link
-                            href={edit(invitation.slug)}
+                            href={edit(invitation.slug, { query })}
                             preserveScroll
                             preserveState
                         >

@@ -44,6 +44,50 @@ it('creates an invitation that belongs to the client of its order', function () 
         ->and($invitation->status)->toBe(InvitationStatus::Draft);
 });
 
+it('filters the invitations by client, type and status', function () {
+    $order = Order::factory()->create();
+    $sold = Invitation::factory()->forOrder($order)->draft()->create();
+    Invitation::factory()->forOrder($order)->create();
+    Invitation::factory()->forOrder(Order::factory()->create())->draft()->create();
+    Invitation::factory()->draft()->create();
+
+    $this->actingAs(User::factory()->create())
+        ->get(route('admin.invitations.index', ['client' => $order->client_id, 'type' => 'order', 'status' => 'draft']))
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('invitations/index')
+            ->has('invitations.data', 1)
+            ->where('invitations.data.0.id', $sold->id)
+            ->where('filters', ['client' => $order->client_id, 'type' => 'order', 'status' => 'draft'])
+            ->has('clients', 2));
+});
+
+it('lists only the demos and ignores unknown filter values', function () {
+    $demo = Invitation::factory()->create();
+    Invitation::factory()->forOrder(Order::factory()->create())->create();
+
+    $this->actingAs(User::factory()->create())
+        ->get(route('admin.invitations.index', ['type' => 'demo', 'status' => 'gone', 'client' => 'x']))
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('invitations.data', 1)
+            ->where('invitations.data.0.id', $demo->id)
+            ->where('filters', ['client' => null, 'type' => 'demo', 'status' => null]));
+});
+
+it('returns to the filtered page of the list after saving an invitation', function () {
+    $invitation = Invitation::factory()->create();
+    $listQuery = ['type' => 'demo', 'status' => 'published', 'page' => '2'];
+
+    $this->actingAs(User::factory()->create())
+        ->put(route('admin.invitations.update', [$invitation, ...$listQuery]), invitationFields([
+            'slug' => $invitation->slug,
+            'status' => 'draft',
+        ]))
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('admin.invitations.index', $listQuery));
+
+    expect($invitation->fresh()->status)->toBe(InvitationStatus::Draft);
+});
+
 it('leaves an invitation without a client when it is unlinked from its order', function () {
     $invitation = Invitation::factory()->forOrder(Order::factory()->create())->create();
 

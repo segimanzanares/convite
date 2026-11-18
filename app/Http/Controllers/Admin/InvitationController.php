@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\InvitationStatus;
+use App\Http\Controllers\Admin\Concerns\KeepsListQuery;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Invitation\StoreInvitationRequest;
 use App\Http\Requests\Invitation\UpdateInvitationRequest;
@@ -17,26 +19,31 @@ use Inertia\Response;
 
 class InvitationController extends Controller
 {
+    use KeepsListQuery;
+
+    /** The query string keys of the list: its filters and page. */
+    private const LIST_QUERY = ['client', 'type', 'status', 'page'];
+
     public function __construct(private readonly InvitationService $invitations) {}
 
     /**
-     * Display every invitation.
+     * Display the invitations, optionally filtered by client, type and status.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
         Gate::authorize('viewAny', Invitation::class);
 
-        return $this->render();
+        return $this->render($request);
     }
 
     /**
      * Display the invitation list with the create form open in a modal.
      */
-    public function create(): Response
+    public function create(Request $request): Response
     {
         Gate::authorize('create', Invitation::class);
 
-        return $this->render('create');
+        return $this->render($request, 'create');
     }
 
     public function store(StoreInvitationRequest $request): RedirectResponse
@@ -45,17 +52,17 @@ class InvitationController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Invitation created.')]);
 
-        return to_route('admin.invitations.index');
+        return to_route('admin.invitations.index', $this->listQuery($request, self::LIST_QUERY));
     }
 
     /**
      * Display the invitation list with the edit form open in a modal.
      */
-    public function edit(Invitation $invitation): Response
+    public function edit(Request $request, Invitation $invitation): Response
     {
         Gate::authorize('update', $invitation);
 
-        return $this->render('edit', $invitation);
+        return $this->render($request, 'edit', $invitation);
     }
 
     public function update(UpdateInvitationRequest $request, Invitation $invitation): RedirectResponse
@@ -64,7 +71,7 @@ class InvitationController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Invitation updated.')]);
 
-        return to_route('admin.invitations.index');
+        return to_route('admin.invitations.index', $this->listQuery($request, self::LIST_QUERY));
     }
 
     /**
@@ -83,10 +90,14 @@ class InvitationController extends Controller
     /**
      * Render the invitation list, optionally with the form modal open for a new or existing invitation.
      */
-    private function render(?string $modal = null, ?Invitation $invitation = null): Response
+    private function render(Request $request, ?string $modal = null, ?Invitation $invitation = null): Response
     {
+        $filters = $this->filters($request);
+
         return Inertia::render('invitations/index', [
-            'invitations' => InvitationResource::collection($this->invitations->paginate()),
+            'invitations' => InvitationResource::collection($this->invitations->paginate($filters)),
+            'filters' => [...$filters, 'status' => $filters['status']?->value],
+            'clients' => $this->invitations->clientsWithInvitations()->map->only(['id', 'name']),
             'modal' => $modal,
             'invitation' => $invitation ? InvitationResource::make($invitation) : null,
             'templates' => collect(Invitation::assignableTemplates($invitation))
@@ -94,5 +105,22 @@ class InvitationController extends Controller
                 ->values(),
             'orders' => $modal ? OrderResource::collection($this->invitations->linkableOrders()) : [],
         ]);
+    }
+
+    /**
+     * The list filters in the query string, ignoring unknown values.
+     *
+     * @return array{client: ?int, type: ?string, status: ?InvitationStatus}
+     */
+    private function filters(Request $request): array
+    {
+        $type = $request->query('type');
+        $status = $request->query('status');
+
+        return [
+            'client' => filter_var($request->query('client'), FILTER_VALIDATE_INT) ?: null,
+            'type' => in_array($type, [InvitationService::TYPE_DEMO, InvitationService::TYPE_ORDER], true) ? $type : null,
+            'status' => is_string($status) ? InvitationStatus::tryFrom($status) : null,
+        ];
     }
 }

@@ -11,18 +11,41 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class InvitationService
 {
+    /** Invitations without an order: the template demos. */
+    public const TYPE_DEMO = 'demo';
+
+    /** Invitations sold through an order. */
+    public const TYPE_ORDER = 'order';
+
     /**
-     * List every invitation, the upcoming events first and the ones without a date last.
+     * List the invitations, the upcoming events first and the ones without a date last, optionally only those of a
+     * client, only the demos (no order) or only the sold ones (with an order), and only those with a status.
+     *
+     * @param  array{client: ?int, type: ?string, status: ?InvitationStatus}  $filters
      */
-    public function paginate(int $perPage = 15): LengthAwarePaginator
+    public function paginate(array $filters, int $perPage = 15): LengthAwarePaginator
     {
         return Invitation::query()
             ->with(['client', 'order'])
+            ->when($filters['client'], fn ($query, int $client) => $query->where('client_id', $client))
+            ->when($filters['type'] === self::TYPE_DEMO, fn ($query) => $query->whereNull('order_id'))
+            ->when($filters['type'] === self::TYPE_ORDER, fn ($query) => $query->whereNotNull('order_id'))
+            ->when($filters['status'], fn ($query, InvitationStatus $status) => $query->where('status', $status))
             ->orderByRaw('event_date is null')
             ->orderByDesc('event_date')
             ->orderBy('slug')
             ->paginate($perPage)
             ->withQueryString();
+    }
+
+    /**
+     * The clients that have invitations, by name, to filter the list by.
+     *
+     * @return Collection<int, Client>
+     */
+    public function clientsWithInvitations(): Collection
+    {
+        return Client::query()->whereHas('invitations')->orderBy('name')->get(['id', 'name']);
     }
 
     /**
