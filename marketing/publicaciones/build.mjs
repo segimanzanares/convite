@@ -1,6 +1,9 @@
-// Genera las imágenes de las publicaciones 16, 19 y 20 de "Publicaciones para ganar alcance".
+// Genera las imágenes de las publicaciones 16, 19 y 20 de "Publicaciones para ganar alcance",
+// y la del servicio de video semblanza.
 //   node publicaciones/build.mjs            -> todas
 //   node publicaciones/build.mjs 16 20      -> solo esas
+//   node publicaciones/build.mjs semblanza  -> la del video semblanza
+//   node publicaciones/build.mjs comentario -> la de comentarios en grupos de Facebook
 // Usa las capturas de video/shots y las fuentes y logos de video/assets.
 import { chromium } from '../video/node_modules/playwright-core/index.mjs';
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -11,6 +14,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const VIDEO = join(HERE, '..', 'video');
 const shot = (name) => pathToFileURL(join(VIDEO, 'shots', `${name}.png`)).href;
 const asset = (name) => pathToFileURL(join(VIDEO, 'assets', name)).href;
+const demoPhoto = (path) => pathToFileURL(join(HERE, '..', '..', 'public', 'invitations', path)).href;
 
 const CSS = `
 @font-face { font-family: Geist; font-weight: 400; src: url(${asset('fonts/geist-400-normal.woff2')}); }
@@ -268,11 +272,93 @@ const P20 = [
     `<div style="position:absolute;left:90px;right:90px;top:1080px;height:200px;border:3px dashed rgba(223,163,63,.6);border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--gold-pale);font-weight:500;text-align:center">Aquí va el sticker de enlace<br>a WhatsApp <span class="emo">👆</span></div>`),
 ];
 
+// ---------------------------------------------------------------- Video semblanza
+const strip = (items) => `<div style="display:flex;gap:30px;justify-content:center">
+  ${items.map((item, i) => `<div style="width:156px;padding:10px 10px 28px;background:#fff;border-radius:6px;box-shadow:0 16px 30px -10px rgba(0,0,0,.55);transform:rotate(${[-5, 3, -3, 4][i]}deg)">
+    ${item.photo
+      ? `<div style="width:100%;aspect-ratio:1;border-radius:3px;background:url(${demoPhoto(item.photo)}) ${item.pos} / ${item.size} no-repeat"></div>`
+      : crop(item[0], item[1], item[2], 'width:100%;border-radius:3px')}</div>`).join('')}
+</div>`;
+const check = (emo, t) => `<div style="display:flex;align-items:center;gap:18px;font-size:27px;font-weight:500"><span class="emo" style="font-size:32px">${emo}</span>${t}</div>`;
+
+const PSEMBLANZA = [
+  `<div class="slide dark"><div class="frame"></div>
+    <div style="position:absolute;top:92px;left:90px;right:90px;text-align:center">
+      <div class="eyebrow">Nuevo · Video semblanza</div>
+      <h1 class="serif" style="font-size:80px;line-height:.98;margin-top:20px">Su historia, <span style="color:var(--gold)">en la pantalla grande</span></h1>
+    </div>
+    <div style="position:absolute;top:330px;left:120px;right:120px;padding:14px;background:#120b12;border-radius:20px;box-shadow:0 40px 80px -20px rgba(0,0,0,.65),0 0 0 2px #3b2a3a">
+      <div style="position:relative;border-radius:10px;overflow:hidden">
+        ${crop('boda-moderna-01', [0.077, 0.923], [0.6, 0.82], 'width:100%;filter:saturate(1.05) contrast(1.03)')}
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(18,11,18,.75) 100%)"></div>
+        <div class="script" style="position:absolute;left:0;right:0;bottom:70px;text-align:center;font-size:72px;color:#fff;text-shadow:0 4px 18px rgba(0,0,0,.6)">Así empezó todo…</div>
+        <div style="position:absolute;left:28px;right:28px;bottom:26px;display:flex;align-items:center;gap:18px;color:#fff;font-size:20px;font-weight:600">
+          <span style="font-size:22px">▶</span>
+          <div style="flex:1;height:6px;border-radius:9px;background:rgba(255,255,255,.3)"><div style="width:38%;height:100%;border-radius:9px;background:var(--gold)"></div></div>
+          <span>1:42 / 4:30</span>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="position:absolute;right:150px;top:368px;padding:14px 22px;display:flex;align-items:center;gap:12px;font-size:26px;font-weight:600;color:var(--ink);transform:rotate(3deg)"><span class="emo" style="font-size:32px">🎵</span>Su canción</div>
+    <div style="position:absolute;top:830px;left:0;right:0">${strip([
+      ['boda-clasica-09', [0.2, 0.82], [0.46, 0.746]],
+      { photo: 'boda-clasica/images/09.jpeg', size: '150%', pos: '75% 28%' },
+      ['boda-serena-08', [0.18, 0.82], [0.6, 0.896]],
+      ['boda-floral-09', [0.23, 0.82], [0.28, 0.552]],
+    ])}</div>
+    <div style="position:absolute;top:1018px;left:110px;display:flex;flex-direction:column;gap:10px">
+      ${check('📸', 'Sus fotos con su canción')}${check('✍️', 'Textos y dedicatorias')}${check('🖥️', 'Listo para la pantalla del salón')}${check('⏱️', 'De 3 a 5 min · listo en 3 a 5 días')}
+    </div>
+    <div style="position:absolute;top:1026px;right:110px;text-align:right">
+      <div style="font-size:22px;letter-spacing:.2em;color:var(--gold-pale);font-weight:600">DESDE</div>
+      <div class="serif" style="font-size:104px;line-height:1;color:var(--gold)">$600</div>
+      <div style="font-size:22px;letter-spacing:.2em;color:var(--gold-pale);font-weight:600">MXN</div>
+    </div>
+    <div style="position:absolute;bottom:66px;left:100px;right:100px;display:flex;align-items:center;justify-content:space-between;padding-top:20px;border-top:1px solid rgba(223,163,63,.3)">
+      <img src="${LOGO_DARK}" style="height:56px">
+      <span style="font-size:24px;font-weight:500;color:var(--gold-pale)">Bodas · XV años · Cumpleaños · Bautizos</span>
+    </div>
+  </div>`,
+];
+
+// ---------------------------------------------------------------- Comentario en grupos
+// Imagen cuadrada para responder en grupos de Facebook a quien pide recomendaciones.
+const PCOMENTARIO = [
+  `<div class="slide dark"><div class="frame" style="inset:26px"></div>
+    <div style="position:absolute;top:84px;left:84px;width:560px">
+      <div class="eyebrow" style="font-size:22px">¿Buscas invitaciones?</div>
+      <h1 class="serif" style="font-size:84px;line-height:.96;margin-top:18px">Invitaciones <span style="color:var(--gold)">digitales</span> que enamoran</h1>
+      <p style="font-size:26px;line-height:1.4;margin-top:22px;color:var(--gold-pale);font-weight:500">Bodas · XV años · Bautizos<br>Cumpleaños · Fiestas infantiles</p>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:34px">
+        ${check('🎵', 'Con su canción y sus fotos')}${check('📍', 'Mapa al salón con un toque')}${check('✅', 'Confirman asistencia en línea')}${check('📲', 'Se comparte por WhatsApp')}
+      </div>
+    </div>
+    <div style="position:absolute;top:120px;right:30px;width:420px;height:640px">
+      ${phone('xv-aurora-01', 'right:200px;top:110px;transform:rotate(-8deg);z-index:1', 210, 'center 8%')}
+      ${phone('infantil-espacial-01', 'right:40px;top:140px;transform:rotate(8deg);z-index:1', 210)}
+      ${phone('boda-clasica-01', 'right:100px;top:40px;z-index:2', 240, 'center 45%')}
+    </div>
+    <div style="position:absolute;left:84px;right:84px;bottom:150px;display:flex;align-items:flex-end;justify-content:space-between">
+      <div>
+        <div style="font-size:20px;letter-spacing:.2em;color:var(--gold-pale);font-weight:600">DESDE</div>
+        <div class="serif" style="font-size:112px;line-height:.95;color:var(--gold)">$499 <span style="font-size:36px;font-family:Geist;font-weight:600;letter-spacing:.1em;color:var(--gold-pale)">MXN</span></div>
+        <div style="font-size:22px;color:var(--gold-pale);font-weight:500;margin-top:14px">Pago único · lista en 3 a 5 días</div>
+      </div>
+      <div class="pill" style="background:var(--gold);color:var(--ink);font-size:30px;padding:22px 34px">Escríbenos por chat <span class="emo">💬</span></div>
+    </div>
+    <div style="position:absolute;bottom:62px;left:84px;right:84px;display:flex;align-items:center;justify-content:space-between;padding-top:18px;border-top:1px solid rgba(223,163,63,.3)">
+      <img src="${LOGO_DARK}" style="height:50px">
+    </div>
+  </div>`,
+];
+
 // ---------------------------------------------------------------- render
 const SETS = {
   16: { w: 1080, h: 1350, slides: P16, dir: '16-carrusel-digital-vs-papel' },
   19: { w: 1080, h: 1350, slides: P19, dir: '19-carrusel-20-plantillas' },
   20: { w: 1080, h: 1920, slides: P20, dir: '20-historias-preguntas' },
+  semblanza: { w: 1080, h: 1350, slides: PSEMBLANZA, dir: 'video-semblanza' },
+  comentario: { w: 1080, h: 1080, slides: PCOMENTARIO, dir: 'comentario-grupos' },
 };
 const wanted = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(SETS);
 const browser = await chromium.launch({ channel: 'chrome' });
