@@ -1,0 +1,213 @@
+/* Revelación estrellas: shadcn/ui's tokens between dusk and night. A lavender-white page with midnight text, an indigo
+   primary, a peach accent, starlight pink (--girl) and starlight blue (--boy), Gloock for the titles and Karla for the
+   text. The hero, the countdown and the footer are a night sky (.ui-dark). */
+.theme-revelacion-estrellas {
+  --radius: 1rem;
+  --background: oklch(0.975 0.012 290);
+  --foreground: oklch(0.27 0.06 280);
+  --card: oklch(0.995 0.004 290);
+  --card-foreground: oklch(0.27 0.06 280);
+  --primary: oklch(0.45 0.13 280);
+  --primary-foreground: oklch(0.98 0.01 290);
+  --secondary: oklch(0.94 0.03 285);
+  --secondary-foreground: oklch(0.4 0.12 280);
+  --muted: oklch(0.955 0.02 290);
+  --muted-foreground: oklch(0.5 0.05 280);
+  --accent: oklch(0.93 0.05 50);
+  --accent-foreground: oklch(0.47 0.1 45);
+  --border: oklch(0.91 0.022 285);
+  --input: oklch(0.86 0.035 285);
+  --ring: oklch(0.62 0.12 280);
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --girl: oklch(0.76 0.12 350);
+  --girl-soft: oklch(0.94 0.035 350);
+  --girl-foreground: oklch(0.5 0.15 350);
+  --boy: oklch(0.74 0.11 232);
+  --boy-soft: oklch(0.94 0.03 232);
+  --boy-foreground: oklch(0.45 0.12 240);
+  --peach: oklch(0.86 0.09 55);
+  --starlight: oklch(0.95 0.06 90);
+  --night: oklch(0.24 0.07 280);
+  --feather: oklch(0.99 0.004 290);
+
+  /* The shared components this template still uses (the music button, the lightbox, the preview banner) read the
+     legacy tokens: map them to indigo and starlight. */
+  --gold: oklch(0.45 0.13 280);
+  --gold-light: oklch(0.95 0.06 90);
+  --gold-pale: oklch(0.94 0.03 285);
+  --gold-deep: oklch(0.36 0.1 280);
+  --white: oklch(0.995 0.004 290);
+  --cream: oklch(0.975 0.012 290);
+  --off-white: oklch(0.955 0.02 290);
+  --text-dark: oklch(0.27 0.06 280);
+  --text-body: oklch(0.38 0.06 280);
+  --text-muted: oklch(0.5 0.05 280);
+  --dark-from: oklch(0.22 0.07 280);
+  --dark-to: oklch(0.32 0.1 285);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at :root and inherit their already-resolved
+     value, so they don't pick up the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-karla);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Night-sky tokens with a starlight primary, for the hero, the countdown and the footer. */
+.theme-revelacion-estrellas .ui-dark {
+  --background: oklch(0.24 0.07 280);
+  --foreground: oklch(0.97 0.012 290);
+  --card: oklch(0.3 0.08 282);
+  --card-foreground: oklch(0.97 0.012 290);
+  --primary: oklch(0.95 0.06 90);
+  --primary-foreground: oklch(0.24 0.07 280);
+  --secondary: oklch(0.32 0.08 282);
+  --secondary-foreground: oklch(0.97 0.012 290);
+  --muted: oklch(0.3 0.08 282);
+  --muted-foreground: oklch(0.8 0.04 285);
+  --accent: oklch(0.32 0.08 282);
+  --accent-foreground: oklch(0.97 0.012 290);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.95 0.06 90);
+
+  background: linear-gradient(180deg, oklch(0.22 0.07 280), oklch(0.3 0.1 290) 70%, oklch(0.38 0.1 330));
+  color: var(--foreground);
+}
+
+/* The sky of EstrellasArt.tsx: the stars twinkle, a shooting star crosses now and then, the stork flies across
+   flapping its wings while its bundle swings, and the moon and the team's stars float. */
+.theme-revelacion-estrellas .estrellas-twinkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: estrellasTwinkle var(--every, 3s) var(--wait, 0s) ease-in-out infinite;
+}
+
+.theme-revelacion-estrellas .estrellas-shoot {
+  animation: estrellasShoot var(--every, 7s) var(--wait, 0s) ease-in infinite;
+}
+
+.theme-revelacion-estrellas .estrellas-fly {
+  animation: estrellasFly 22s linear infinite;
+}
+
+.theme-revelacion-estrellas .estrellas-glide {
+  animation: estrellasGlide 3s ease-in-out infinite;
+}
+
+.theme-revelacion-estrellas .estrellas-flap {
+  transform-box: view-box;
+  transform-origin: 100px 56px;
+  animation: estrellasFlap 0.9s ease-in-out infinite alternate;
+}
+
+.theme-revelacion-estrellas .estrellas-swing {
+  transform-box: view-box;
+  transform-origin: 192px 44px;
+  animation: estrellasSwing 3s ease-in-out infinite;
+}
+
+.theme-revelacion-estrellas .estrellas-float {
+  animation: estrellasFloat var(--every, 6s) var(--wait, 0s) ease-in-out infinite;
+}
+
+@keyframes estrellasTwinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.7);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes estrellasShoot {
+  0%,
+  80% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  83% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-260px, 150px);
+  }
+}
+
+@keyframes estrellasFly {
+  from {
+    transform: translateX(-260px);
+  }
+  to {
+    transform: translateX(calc(100vw + 40px));
+  }
+}
+
+@keyframes estrellasGlide {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes estrellasFlap {
+  from {
+    transform: rotate(-6deg);
+  }
+  to {
+    transform: scaleY(-0.7) rotate(4deg);
+  }
+}
+
+@keyframes estrellasSwing {
+  0%,
+  100% {
+    transform: rotate(-8deg);
+  }
+  50% {
+    transform: rotate(8deg);
+  }
+}
+
+@keyframes estrellasFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(3deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-revelacion-estrellas .estrellas-twinkle,
+  .theme-revelacion-estrellas .estrellas-shoot,
+  .theme-revelacion-estrellas .estrellas-glide,
+  .theme-revelacion-estrellas .estrellas-flap,
+  .theme-revelacion-estrellas .estrellas-swing,
+  .theme-revelacion-estrellas .estrellas-float {
+    animation: none !important;
+  }
+
+  .theme-revelacion-estrellas .estrellas-fly {
+    animation: none !important;
+    transform: translateX(20vw);
+  }
+}

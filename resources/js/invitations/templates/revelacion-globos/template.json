@@ -1,0 +1,16 @@
+{
+  "kind": "gender_reveal",
+  "label": "Revelación globos",
+  "sections": [
+    "family",
+    "venues",
+    "program",
+    "gallery",
+    "dress_code",
+    "gifts"
+  ],
+  "fonts": [
+    "Sniglet:wght@400;800",
+    "Quicksand:wght@400;500;600;700"
+  ]
+}

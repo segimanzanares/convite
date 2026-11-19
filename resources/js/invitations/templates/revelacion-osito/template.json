@@ -1,0 +1,17 @@
+{
+  "kind": "gender_reveal",
+  "label": "Revelación osito",
+  "sections": [
+    "family",
+    "venues",
+    "program",
+    "gallery",
+    "dress_code",
+    "gifts"
+  ],
+  "fonts": [
+    "Lora:ital,wght@0,400;0,500;0,600;1,400;1,500",
+    "Mulish:wght@400;500;600;700",
+    "Caveat:wght@500;700"
+  ]
+}

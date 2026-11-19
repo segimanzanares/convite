@@ -1,0 +1,186 @@
+/* Revelación globos: shadcn/ui's tokens on a vanilla cream page, a grape primary that mixes the two teams, a lemon
+   accent, bubblegum pink (--girl) and sky blue (--boy), very round cards, Sniglet for the titles and Quicksand for the
+   text. The footer switches to grape tokens (.ui-dark). */
+.theme-revelacion-globos {
+  --radius: 1.75rem;
+  --background: oklch(0.985 0.012 85);
+  --foreground: oklch(0.31 0.07 290);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.31 0.07 290);
+  --primary: oklch(0.53 0.16 300);
+  --primary-foreground: oklch(0.99 0.01 300);
+  --secondary: oklch(0.95 0.03 300);
+  --secondary-foreground: oklch(0.42 0.14 300);
+  --muted: oklch(0.97 0.016 80);
+  --muted-foreground: oklch(0.5 0.05 290);
+  --accent: oklch(0.95 0.09 100);
+  --accent-foreground: oklch(0.45 0.1 80);
+  --border: oklch(0.92 0.02 300);
+  --input: oklch(0.87 0.035 300);
+  --ring: oklch(0.68 0.13 300);
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --girl: oklch(0.72 0.16 355);
+  --girl-soft: oklch(0.94 0.045 355);
+  --girl-foreground: oklch(0.47 0.16 355);
+  --boy: oklch(0.7 0.13 235);
+  --boy-soft: oklch(0.94 0.035 235);
+  --boy-foreground: oklch(0.44 0.12 245);
+  --lemon: oklch(0.9 0.14 100);
+
+  /* The shared components this template still uses (the music button, the lightbox, the preview banner) read the
+     legacy tokens: map them to grape and lemon. */
+  --gold: oklch(0.53 0.16 300);
+  --gold-light: oklch(0.9 0.14 100);
+  --gold-pale: oklch(0.95 0.03 300);
+  --gold-deep: oklch(0.42 0.14 300);
+  --white: oklch(1 0 0);
+  --cream: oklch(0.985 0.012 85);
+  --off-white: oklch(0.97 0.016 80);
+  --text-dark: oklch(0.31 0.07 290);
+  --text-body: oklch(0.4 0.06 290);
+  --text-muted: oklch(0.5 0.05 290);
+  --dark-from: oklch(0.3 0.1 295);
+  --dark-to: oklch(0.38 0.13 300);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at :root and inherit their already-resolved
+     value, so they don't pick up the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-quicksand);
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Grape tokens with a lemon primary, for the footer. */
+.theme-revelacion-globos .ui-dark {
+  --background: oklch(0.3 0.1 295);
+  --foreground: oklch(0.97 0.015 300);
+  --card: oklch(0.35 0.11 295);
+  --card-foreground: oklch(0.97 0.015 300);
+  --primary: oklch(0.9 0.14 100);
+  --primary-foreground: oklch(0.3 0.1 295);
+  --secondary: oklch(0.37 0.11 295);
+  --secondary-foreground: oklch(0.97 0.015 300);
+  --muted: oklch(0.37 0.11 295);
+  --muted-foreground: oklch(0.82 0.05 300);
+  --accent: oklch(0.37 0.11 295);
+  --accent-foreground: oklch(0.97 0.015 300);
+  --border: oklch(1 0 0 / 14%);
+  --input: oklch(1 0 0 / 18%);
+  --ring: oklch(0.9 0.14 100);
+
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* The balloons of GlobosArt.tsx: each one bobs on its string from its knot; the confetti inside the mystery balloon
+   jiggles; the balloons of the countdown rise and leave; the popped balloon swells and bursts. */
+.theme-revelacion-globos .globos-bob {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: globosBob var(--every, 5s) var(--wait, 0s) ease-in-out infinite;
+}
+
+.theme-revelacion-globos .globos-jiggle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: globosJiggle var(--every, 2.4s) var(--wait, 0s) ease-in-out infinite;
+}
+
+.theme-revelacion-globos .globos-rise {
+  animation: globosRise var(--every, 9s) var(--wait, 0s) ease-in infinite;
+}
+
+.theme-revelacion-globos .globos-wink {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: globosWink 3.2s var(--wait, 0s) ease-in-out infinite;
+}
+
+.theme-revelacion-globos .globos-pop {
+  animation: globosPop 0.55s cubic-bezier(0.5, 0, 0.75, 0) both;
+}
+
+@keyframes globosBob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(calc(-1 * var(--tilt, 4deg)));
+  }
+  50% {
+    transform: translateY(var(--lift, -14px)) rotate(var(--tilt, 4deg));
+  }
+}
+
+@keyframes globosJiggle {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+  33% {
+    transform: translate(1.5px, -2px) rotate(25deg);
+  }
+  66% {
+    transform: translate(-1.5px, 1px) rotate(-20deg);
+  }
+}
+
+@keyframes globosRise {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  12% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-260px) translateX(var(--dx, 20px));
+  }
+}
+
+@keyframes globosWink {
+  0%,
+  100% {
+    transform: scale(1) rotate(0);
+  }
+  50% {
+    transform: scale(1.18) rotate(12deg);
+  }
+}
+
+@keyframes globosPop {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(1.22);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-revelacion-globos .globos-bob,
+  .theme-revelacion-globos .globos-jiggle,
+  .theme-revelacion-globos .globos-wink,
+  .theme-revelacion-globos .globos-rise {
+    animation: none !important;
+  }
+}

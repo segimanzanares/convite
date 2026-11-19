@@ -43,6 +43,15 @@
   --font-young-serif: 'Young Serif', Georgia, serif;
   --font-newsreader: 'Newsreader', Georgia, serif;
   --font-inter-tight: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --font-sniglet: 'Sniglet', ui-rounded, system-ui, sans-serif;
+  --font-quicksand: 'Quicksand', ui-rounded, system-ui, sans-serif;
+  --font-lora: 'Lora', Georgia, serif;
+  --font-mulish: 'Mulish', ui-sans-serif, system-ui, sans-serif;
+  --font-caveat: 'Caveat', cursive;
+  --font-shrikhand: 'Shrikhand', Georgia, serif;
+  --font-rubik: 'Rubik', ui-sans-serif, system-ui, sans-serif;
+  --font-gloock: 'Gloock', Georgia, serif;
+  --font-karla: 'Karla', ui-sans-serif, system-ui, sans-serif;
 }
 
 @keyframes fadeUp {

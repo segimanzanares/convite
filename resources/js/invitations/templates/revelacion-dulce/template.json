@@ -1,0 +1,16 @@
+{
+  "kind": "gender_reveal",
+  "label": "Revelación dulce",
+  "sections": [
+    "family",
+    "venues",
+    "program",
+    "gallery",
+    "dress_code",
+    "gifts"
+  ],
+  "fonts": [
+    "Shrikhand",
+    "Rubik:wght@400;500;600;700"
+  ]
+}

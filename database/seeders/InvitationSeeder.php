@@ -111,6 +111,30 @@ class InvitationSeeder extends Seeder
                 'og_image' => '/invitations/infantil-unicornio/og-image.jpg',
             ],
             [
+                'template' => 'revelacion-dulce',
+                'title' => 'Mariel & Javier — ¿Niño o niña?',
+                'description' => 'La respuesta está dentro del pastel: acompaña a Mariel y Javier a descubrir si su bebé es niño o niña.',
+                'og_image' => '/invitations/revelacion-dulce/og-image.jpg',
+            ],
+            [
+                'template' => 'revelacion-estrellas',
+                'title' => 'Andrea & Tomás — ¿Niño o niña?',
+                'description' => 'Una cigüeña viene en camino: descubre con Andrea y Tomás si su bebé es niño o niña.',
+                'og_image' => '/invitations/revelacion-estrellas/og-image.jpg',
+            ],
+            [
+                'template' => 'revelacion-globos',
+                'title' => 'Fernanda & Diego — ¿Niño o niña?',
+                'description' => 'Revienta el globo con Fernanda y Diego y descubre si su bebé es niño o niña.',
+                'og_image' => '/invitations/revelacion-globos/og-image.jpg',
+            ],
+            [
+                'template' => 'revelacion-osito',
+                'title' => 'Paulina & Rodrigo — ¿Osito u osita?',
+                'description' => 'Paulina y Rodrigo te invitan a descubrir si su bebé es niño o niña.',
+                'og_image' => '/invitations/revelacion-osito/og-image.jpg',
+            ],
+            [
                 'template' => 'xv-aurora',
                 'title' => 'Renata Isabel — Mis XV Años',
                 'description' => 'Renata cumple quince y quiere celebrarlo contigo.',

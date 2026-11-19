@@ -12,10 +12,11 @@ beforeEach(function () {
 });
 
 it('reads the templates and their kind from the manifests', function () {
-    expect(Invitation::templates())->toHaveKeys(['bautizo-celeste', 'bautizo-luz', 'bautizo-nube', 'bautizo-olivo', 'boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena', 'cumpleanos-confeti', 'cumpleanos-floral', 'cumpleanos-grafito', 'cumpleanos-reserva', 'infantil-dino', 'infantil-dulce', 'infantil-espacial', 'infantil-unicornio', 'xv-aurora', 'xv-celestial', 'xv-disco', 'xv-jardin'])
+    expect(Invitation::templates())->toHaveKeys(['bautizo-celeste', 'bautizo-luz', 'bautizo-nube', 'bautizo-olivo', 'boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena', 'cumpleanos-confeti', 'cumpleanos-floral', 'cumpleanos-grafito', 'cumpleanos-reserva', 'infantil-dino', 'infantil-dulce', 'infantil-espacial', 'infantil-unicornio', 'revelacion-dulce', 'revelacion-estrellas', 'revelacion-globos', 'revelacion-osito', 'xv-aurora', 'xv-celestial', 'xv-disco', 'xv-jardin'])
         ->and(Invitation::factory()->make(['template' => 'cumpleanos-floral'])->kind()->value)->toBe('birthday')
         ->and(Invitation::factory()->make(['template' => 'xv-jardin'])->kind()->value)->toBe('xv')
-        ->and(Invitation::factory()->make(['template' => 'bautizo-nube'])->kind()->value)->toBe('baptism');
+        ->and(Invitation::factory()->make(['template' => 'bautizo-nube'])->kind()->value)->toBe('baptism')
+        ->and(Invitation::factory()->make(['template' => 'revelacion-globos'])->kind()->value)->toBe('gender_reveal');
 });
 
 it('declares the fonts of every template in its manifest', function () {
@@ -75,6 +76,8 @@ it('requires the names the kind of the template needs', function (string $templa
     'wedding parents without names' => ['boda-clasica', ['names' => ['Ana', 'Luis'], 'parents' => [['role' => 'Padres de la novia']]], 'content.parents.0.names'],
     'xv godparents without names' => ['xv-jardin', ['name' => 'Sofía', 'first_name' => 'Sofía', 'godparents' => [['role' => 'Padrinos']]], 'content.godparents.0.names'],
     'baptism without a name' => ['bautizo-luz', ['first_name' => 'Julieta'], 'content.name'],
+    'gender reveal without a name' => ['revelacion-osito', ['names' => ['', 'Luis']], 'content.names.0'],
+    'gender reveal with an unknown answer' => ['revelacion-dulce', ['names' => ['Ana'], 'reveal' => 'both'], 'content.reveal'],
 ]);
 
 it('only accepts files of the invitation itself', function () {
@@ -198,6 +201,46 @@ it('saves and sends the chapters of a baptism', function () {
             ->where('invitation.story.title', 'Una nueva vida')
             ->where('invitation.parents.names', ['Paola', 'Ricardo'])
             ->where('invitation.godparents.0.role', 'Mis padrinos'));
+});
+
+it('saves a gender reveal and keeps its answer secret until it is shown', function () {
+    $invitation = Invitation::factory()->forOrder(Order::factory()->create())->create(['template' => 'revelacion-globos']);
+
+    $this->actingAs(User::factory()->create())
+        ->put(route('admin.invitations.content.update', $invitation), [
+            'content' => [
+                'names' => ['Ana', ''],
+                'due_label' => 'Llega en agosto',
+                'baby_names' => ['girl' => 'Valentina', 'boy' => 'Mateo'],
+                'reveal' => 'girl',
+                'grandparents' => [['role' => 'Abuelos maternos', 'names' => ['Rosa', 'Ernesto']]],
+                // Fields of another kind are dropped
+                'godparents' => [['role' => 'Padrinos', 'names' => ['Luis']]],
+            ],
+        ])
+        ->assertSessionHasNoErrors();
+
+    $invitation->refresh();
+
+    // One parent-to-be is enough to publish
+    expect($invitation->hasContent())->toBeTrue()
+        ->and($invitation->content)->not->toHaveKey('godparents');
+
+    $this->get("/i/{$invitation->slug}")
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('templates/revelacion-globos/InvitationPage')
+            ->where('invitation.kind', 'gender_reveal')
+            ->where('invitation.names', ['Ana'])
+            ->where('invitation.dueLabel', 'Llega en agosto')
+            ->where('invitation.babyNames', ['boy' => 'Mateo', 'girl' => 'Valentina'])
+            ->where('invitation.grandparents.0.role', 'Abuelos maternos')
+            ->where('invitation.reveal', null)
+            ->missing('invitation.godparents'));
+
+    $invitation->forceFill(['reveal_shown_at' => now()])->save();
+
+    $this->get("/i/{$invitation->slug}")
+        ->assertInertia(fn (Assert $page) => $page->where('invitation.reveal', 'girl'));
 });
 
 it('saves and sends the parents and godparents of a wedding', function () {

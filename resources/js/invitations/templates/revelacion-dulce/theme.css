@@ -1,0 +1,203 @@
+/* Revelación dulce: shadcn/ui's tokens in a bakery. A vanilla page with chocolate text, a chocolate primary, a butter
+   cream accent, strawberry (--girl) and blueberry (--boy), Shrikhand for the titles and Rubik for the text. Sections
+   are separated by frosting drips (DripDivider) and the footer switches to chocolate tokens (.ui-dark). */
+.theme-revelacion-dulce {
+  --radius: 0.9rem;
+  --background: oklch(0.975 0.02 80);
+  --foreground: oklch(0.32 0.05 40);
+  --card: oklch(0.995 0.008 85);
+  --card-foreground: oklch(0.32 0.05 40);
+  --primary: oklch(0.42 0.07 40);
+  --primary-foreground: oklch(0.98 0.015 85);
+  --secondary: oklch(0.94 0.035 20);
+  --secondary-foreground: oklch(0.45 0.1 15);
+  --muted: oklch(0.955 0.03 85);
+  --muted-foreground: oklch(0.5 0.045 40);
+  --accent: oklch(0.94 0.06 90);
+  --accent-foreground: oklch(0.45 0.08 70);
+  --border: oklch(0.9 0.03 60);
+  --input: oklch(0.85 0.04 50);
+  --ring: oklch(0.65 0.09 30);
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --girl: oklch(0.72 0.14 8);
+  --girl-soft: oklch(0.93 0.045 8);
+  --girl-foreground: oklch(0.48 0.15 8);
+  --boy: oklch(0.64 0.11 262);
+  --boy-soft: oklch(0.93 0.035 262);
+  --boy-foreground: oklch(0.42 0.12 262);
+  --sponge: oklch(0.86 0.08 80);
+  --frosting: oklch(0.985 0.012 85);
+  --chocolate: oklch(0.38 0.06 40);
+  --flame: oklch(0.82 0.15 70);
+
+  /* The shared components this template still uses (the music button, the lightbox, the preview banner) read the
+     legacy tokens: map them to chocolate and butter cream. */
+  --gold: oklch(0.42 0.07 40);
+  --gold-light: oklch(0.94 0.06 90);
+  --gold-pale: oklch(0.94 0.035 20);
+  --gold-deep: oklch(0.32 0.05 40);
+  --white: oklch(0.995 0.008 85);
+  --cream: oklch(0.975 0.02 80);
+  --off-white: oklch(0.955 0.03 85);
+  --text-dark: oklch(0.32 0.05 40);
+  --text-body: oklch(0.4 0.05 40);
+  --text-muted: oklch(0.5 0.045 40);
+  --dark-from: oklch(0.3 0.05 40);
+  --dark-to: oklch(0.38 0.06 40);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at :root and inherit their already-resolved
+     value, so they don't pick up the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-rubik);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Chocolate tokens with a strawberry primary, for the footer. */
+.theme-revelacion-dulce .ui-dark {
+  --background: oklch(0.3 0.05 40);
+  --foreground: oklch(0.97 0.018 80);
+  --card: oklch(0.35 0.055 40);
+  --card-foreground: oklch(0.97 0.018 80);
+  --primary: oklch(0.8 0.11 8);
+  --primary-foreground: oklch(0.3 0.05 40);
+  --secondary: oklch(0.36 0.055 40);
+  --secondary-foreground: oklch(0.97 0.018 80);
+  --muted: oklch(0.36 0.055 40);
+  --muted-foreground: oklch(0.8 0.035 60);
+  --accent: oklch(0.36 0.055 40);
+  --accent-foreground: oklch(0.97 0.018 80);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.8 0.11 8);
+
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* The bakery of DulceArt.tsx: the candle's flame flickers, the knife hovers over the cake, the slice slides out once
+   the answer is known, sprinkles fall, the cupcakes' frosting wobbles and the kitchen timer's dial turns; in the
+   intro the box's lid flips open. */
+.theme-revelacion-dulce .dulce-flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: dulceFlame 1.1s ease-in-out infinite alternate;
+}
+
+.theme-revelacion-dulce .dulce-knife {
+  animation: dulceKnife 2.6s ease-in-out infinite;
+}
+
+.theme-revelacion-dulce .dulce-slice {
+  animation: dulceSlice 1.2s 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.theme-revelacion-dulce .dulce-sprinkle {
+  animation: dulceSprinkle var(--every, 4s) var(--wait, 0s) linear infinite;
+}
+
+.theme-revelacion-dulce .dulce-wobble {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: dulceWobble var(--every, 3s) var(--wait, 0s) ease-in-out infinite;
+}
+
+.theme-revelacion-dulce .dulce-dial {
+  transform-box: view-box;
+  transform-origin: 60px 66px;
+  animation: dulceDial 12s linear infinite;
+}
+
+.theme-revelacion-dulce .dulce-lid {
+  transform-box: view-box;
+  transform-origin: 100px 70px;
+  transition: transform 0.7s cubic-bezier(0.5, 0, 0.3, 1);
+}
+
+.theme-revelacion-dulce .is-open .dulce-lid {
+  transform: perspective(400px) rotateX(75deg) translateY(-30px);
+}
+
+@keyframes dulceFlame {
+  from {
+    transform: scale(1, 1) rotate(-4deg);
+  }
+  to {
+    transform: scale(0.85, 1.15) rotate(4deg);
+  }
+}
+
+@keyframes dulceKnife {
+  0%,
+  100% {
+    transform: translate(0, -6px) rotate(0);
+  }
+  50% {
+    transform: translate(-3px, 4px) rotate(-3deg);
+  }
+}
+
+@keyframes dulceSlice {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(34px, 6px);
+  }
+}
+
+@keyframes dulceSprinkle {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) rotate(0);
+  }
+  10% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(var(--fall, 180px)) rotate(var(--spin, 200deg));
+  }
+}
+
+@keyframes dulceWobble {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  40% {
+    transform: scale(1.05, 0.95);
+  }
+  60% {
+    transform: scale(0.97, 1.04);
+  }
+}
+
+@keyframes dulceDial {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-revelacion-dulce .dulce-flame,
+  .theme-revelacion-dulce .dulce-knife,
+  .theme-revelacion-dulce .dulce-sprinkle,
+  .theme-revelacion-dulce .dulce-wobble,
+  .theme-revelacion-dulce .dulce-dial {
+    animation: none !important;
+  }
+}

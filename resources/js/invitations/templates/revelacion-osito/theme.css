@@ -1,0 +1,211 @@
+/* Revelación osito: shadcn/ui's tokens in a teddy-bear palette. An oat page with cocoa text, a caramel primary, a sage
+   accent, dusty rose (--girl) and dusty blue (--boy), soft cards, Lora for the titles, Mulish for the text and Caveat
+   for the handwritten notes. The footer switches to cocoa tokens (.ui-dark). */
+.theme-revelacion-osito {
+  --radius: 1.1rem;
+  --background: oklch(0.972 0.014 75);
+  --foreground: oklch(0.33 0.04 55);
+  --card: oklch(0.995 0.005 80);
+  --card-foreground: oklch(0.33 0.04 55);
+  --primary: oklch(0.52 0.08 55);
+  --primary-foreground: oklch(0.98 0.01 80);
+  --secondary: oklch(0.94 0.022 70);
+  --secondary-foreground: oklch(0.42 0.06 55);
+  --muted: oklch(0.955 0.018 75);
+  --muted-foreground: oklch(0.52 0.035 60);
+  --accent: oklch(0.93 0.035 140);
+  --accent-foreground: oklch(0.42 0.06 145);
+  --border: oklch(0.9 0.02 70);
+  --input: oklch(0.86 0.03 65);
+  --ring: oklch(0.7 0.07 60);
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --girl: oklch(0.72 0.09 15);
+  --girl-soft: oklch(0.93 0.035 15);
+  --girl-foreground: oklch(0.48 0.1 15);
+  --boy: oklch(0.7 0.07 240);
+  --boy-soft: oklch(0.93 0.025 240);
+  --boy-foreground: oklch(0.45 0.08 245);
+  --fur: oklch(0.67 0.075 62);
+  --fur-light: oklch(0.86 0.045 72);
+  --fur-dark: oklch(0.42 0.05 55);
+  --honey: oklch(0.88 0.1 85);
+
+  /* The shared components this template still uses (the music button, the lightbox, the preview banner) read the
+     legacy tokens: map them to caramel and honey. */
+  --gold: oklch(0.52 0.08 55);
+  --gold-light: oklch(0.88 0.1 85);
+  --gold-pale: oklch(0.94 0.022 70);
+  --gold-deep: oklch(0.42 0.06 55);
+  --white: oklch(0.995 0.005 80);
+  --cream: oklch(0.972 0.014 75);
+  --off-white: oklch(0.955 0.018 75);
+  --text-dark: oklch(0.33 0.04 55);
+  --text-body: oklch(0.4 0.04 55);
+  --text-muted: oklch(0.52 0.035 60);
+  --dark-from: oklch(0.3 0.035 50);
+  --dark-to: oklch(0.38 0.045 55);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at :root and inherit their already-resolved
+     value, so they don't pick up the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-mulish);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Cocoa tokens with a honey primary, for the footer. */
+.theme-revelacion-osito .ui-dark {
+  --background: oklch(0.3 0.035 50);
+  --foreground: oklch(0.96 0.015 75);
+  --card: oklch(0.35 0.04 50);
+  --card-foreground: oklch(0.96 0.015 75);
+  --primary: oklch(0.88 0.1 85);
+  --primary-foreground: oklch(0.3 0.035 50);
+  --secondary: oklch(0.36 0.04 50);
+  --secondary-foreground: oklch(0.96 0.015 75);
+  --muted: oklch(0.36 0.04 50);
+  --muted-foreground: oklch(0.8 0.03 70);
+  --accent: oklch(0.36 0.04 50);
+  --accent-foreground: oklch(0.96 0.015 75);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.88 0.1 85);
+
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* The teddy of OsitoArt.tsx tilts its head, blinks and holds two balloons that sway; the sleeping bear's Zzz float up;
+   the stars twinkle; in the intro the gift box's lid flies off and the bear peeks out. */
+.theme-revelacion-osito .osito-tilt {
+  transform-box: view-box;
+  transform-origin: 100px 145px;
+  animation: ositoTilt 6s ease-in-out infinite;
+}
+
+.theme-revelacion-osito .osito-blink {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ositoBlink 4.5s var(--wait, 0s) infinite;
+}
+
+.theme-revelacion-osito .osito-sway {
+  transform-box: view-box;
+  transform-origin: var(--origin, 100px 150px);
+  animation: ositoSway var(--every, 5s) var(--wait, 0s) ease-in-out infinite;
+}
+
+.theme-revelacion-osito .osito-zzz {
+  animation: ositoZzz 3.6s var(--wait, 0s) ease-out infinite;
+}
+
+.theme-revelacion-osito .osito-twinkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ositoTwinkle var(--every, 3s) var(--wait, 0s) ease-in-out infinite;
+}
+
+.theme-revelacion-osito .osito-peek {
+  transform: translateY(60px);
+  transition: transform 0.7s 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme-revelacion-osito .osito-lid {
+  transform-box: view-box;
+  transform-origin: 100px 90px;
+  transition:
+    transform 0.6s cubic-bezier(0.5, 0, 0.3, 1),
+    opacity 0.6s 0.2s;
+}
+
+.theme-revelacion-osito .is-open .osito-peek {
+  transform: translateY(0);
+}
+
+.theme-revelacion-osito .is-open .osito-lid {
+  transform: translate(30px, -120px) rotate(24deg);
+  opacity: 0;
+}
+
+@keyframes ositoTilt {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  30% {
+    transform: rotate(-9deg);
+  }
+  45% {
+    transform: rotate(-9deg);
+  }
+  70% {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes ositoBlink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes ositoSway {
+  0%,
+  100% {
+    transform: rotate(calc(-1 * var(--swing, 5deg)));
+  }
+  50% {
+    transform: rotate(var(--swing, 5deg));
+  }
+}
+
+@keyframes ositoZzz {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.6);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(22px, -46px) scale(1.2);
+  }
+}
+
+@keyframes ositoTwinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.75) rotate(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(20deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-revelacion-osito .osito-tilt,
+  .theme-revelacion-osito .osito-blink,
+  .theme-revelacion-osito .osito-sway,
+  .theme-revelacion-osito .osito-zzz,
+  .theme-revelacion-osito .osito-twinkle {
+    animation: none !important;
+  }
+}
