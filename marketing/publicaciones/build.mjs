@@ -159,27 +159,32 @@ const GROUPS = [
   { title: 'Bautizos', emo: '🕊️', line: 'Tiernas, sencillas y llenas de luz', items: [['Celeste', 'bautizo-celeste-01'], ['Luz', 'bautizo-luz-01'], ['Nube', 'bautizo-nube-01'], ['Olivo', 'bautizo-olivo-01']] },
   { title: 'Cumpleaños', emo: '🎂', line: 'Para festejar a cualquier edad', items: [['Confeti', 'cumpleanos-confeti-01'], ['Floral', 'cumpleanos-floral-01'], ['Grafito', 'cumpleanos-grafito-01'], ['Reserva', 'cumpleanos-reserva-01']] },
   { title: 'Fiestas infantiles', emo: '🎈', line: 'Su tema favorito, en una invitación', items: [['Dino', 'infantil-dino-01'], ['Dulce', 'infantil-dulce-01'], ['Espacial', 'infantil-espacial-01'], ['Unicornio', 'infantil-unicornio-01']] },
+  { title: 'Revelación de género', emo: '🍼', line: '¿Niño o niña? La respuesta, en la fiesta', items: [['Dulce', 'revelacion-dulce-01'], ['Estrellas', 'revelacion-estrellas-01'], ['Globos', 'revelacion-globos-01'], ['Osito', 'revelacion-osito-01']] },
 ];
-const POS = { 'boda-moderna-01': 'top', 'cumpleanos-confeti-01': 'top', 'cumpleanos-grafito-01': 'top', 'infantil-dino-01': 'top', 'xv-aurora-01': 'center 8%', 'bautizo-nube-01': 'center 45%', 'boda-clasica-01': 'center 45%' };
+const POS = { 'boda-moderna-01': 'top', 'cumpleanos-confeti-01': 'top', 'cumpleanos-grafito-01': 'top', 'infantil-dino-01': 'top', 'xv-aurora-01': 'center 8%', 'bautizo-nube-01': 'center 45%', 'boda-clasica-01': 'center 45%', 'revelacion-dulce-01': 'center 12%' };
 const ALL = GROUPS.flatMap((g) => g.items.map((i) => i[1]));
-const FAVS = ['boda-clasica-01', 'xv-disco-01', 'bautizo-nube-01', 'cumpleanos-reserva-01', 'infantil-espacial-01'];
+/** Las portadas alternando grupos, para que el collage muestre todos los tipos de evento. */
+const MIXED = [0, 1, 2, 3].flatMap((i) => GROUPS.map((g) => g.items[i][1]));
+const FAVS = ['boda-clasica-01', 'xv-disco-01', 'bautizo-nube-01', 'cumpleanos-reserva-01', 'infantil-espacial-01', 'revelacion-osito-01'];
+/** Abanico de 6 celulares: posición, giro y capa de cada uno. */
+const fan = (left, step, pw, dy = 0) => FAVS.map((s, i) => phone(s, `left:${left + i * step}px;top:${[60, 25, 0, 0, 25, 60][i] + dy}px;transform:rotate(${(i - 2.5) * 4}deg);z-index:${[1, 2, 3, 3, 2, 1][i]}`, pw)).join('');
 
 const P19 = [
   `<div class="slide dark">
     <div style="position:absolute;left:-180px;top:-160px;width:1440px;display:grid;grid-template-columns:repeat(5,1fr);gap:22px;transform:rotate(-9deg)">
-      ${[...ALL, ...ALL.slice(0, 5)].map((s) => `<img src="${shot(s)}" style="width:100%;aspect-ratio:390/700;object-fit:cover;object-position:top;border-radius:20px;box-shadow:0 14px 30px rgba(0,0,0,.4)">`).join('')}
+      ${[...MIXED, ...MIXED.slice(0, 6)].map((s) => `<img src="${shot(s)}" style="width:100%;aspect-ratio:390/700;object-fit:cover;object-position:top;border-radius:20px;box-shadow:0 14px 30px rgba(0,0,0,.4)">`).join('')}
     </div>
     <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(42,26,43,.35) 0%,rgba(42,26,43,.82) 38%,rgba(42,26,43,.82) 66%,rgba(42,26,43,.35) 100%)"></div>
     <div style="position:absolute;top:400px;left:90px;right:90px;text-align:center">
       <div class="eyebrow">Catálogo Convite</div>
-      <h1 class="serif" style="font-size:128px;line-height:.95;margin-top:26px">Nuestras <span style="color:var(--gold)">20 plantillas</span> en un vistazo</h1>
+      <h1 class="serif" style="font-size:128px;line-height:.95;margin-top:26px">Nuestras <span style="color:var(--gold)">24 plantillas</span> en un vistazo</h1>
       <div class="pill" style="margin-top:46px;background:var(--gold);color:var(--ink)">Guárdala y elige con calma <span class="emo">📌</span></div>
     </div>
   </div>`,
   ...GROUPS.map((g, gi) => `<div class="slide light"><div class="frame"></div>
-    <div class="count">${gi + 2} / 7</div>
+    <div class="count">${gi + 2} / 8</div>
     <div style="position:absolute;top:90px;left:96px;right:96px">
-      <h2 class="serif" style="font-size:88px;line-height:1">${g.title} <span class="emo" style="font-size:64px">${g.emo}</span></h2>
+      <h2 class="serif" style="font-size:${g.title.length > 16 ? 76 : 88}px;line-height:1;padding-right:110px">${g.title} <span class="emo" style="font-size:64px">${g.emo}</span></h2>
       <p style="font-size:30px;color:var(--muted);font-weight:500;margin-top:10px">${g.line}</p>
     </div>
     <div style="position:absolute;top:270px;left:0;right:0;display:grid;grid-template-columns:340px 340px;justify-content:center;gap:24px 60px">
@@ -194,7 +199,7 @@ const P19 = [
       <p style="font-size:38px;font-weight:500;margin-top:24px">Escríbenos su nombre en comentarios <span class="emo">👇</span></p>
     </div>
     <div style="position:absolute;top:500px;left:0;right:0;height:520px">
-      ${FAVS.map((s, i) => phone(s, `left:${75 + i * 180}px;top:${[60, 20, 0, 20, 60][i] - 30}px;transform:rotate(${(i - 2) * 6}deg);z-index:${[1, 2, 3, 2, 1][i]}`, 210)).join('')}
+      ${fan(70, 148, 190, -10)}
     </div>
     <p style="position:absolute;top:1060px;left:96px;right:96px;text-align:center;font-size:32px;color:var(--gold-pale);font-weight:500">Todas se adaptan con tus fotos, colores y textos</p>
     <img class="logo" src="${LOGO_DARK}" style="left:50%;transform:translateX(-50%);bottom:84px;height:92px">
@@ -264,9 +269,9 @@ const P20 = [
        </div>
        <div style="width:420px;background:#fff;border-radius:22px 22px 22px 6px;padding:18px 24px;margin-top:22px;color:var(--ink);font-size:28px;font-weight:500">¡Qué bonita! Ya confirmé <span class="emo">🥹</span></div>
      </div>`),
-  story(7, '¿Es solo para bodas?', 'No: también XV años, bautizos, cumpleaños y fiestas infantiles.',
+  story(7, '¿Es solo para bodas?', 'No: también XV años, bautizos, cumpleaños, fiestas infantiles y revelaciones de género.',
     `<div style="position:absolute;left:0;right:0;top:930px;height:520px">
-      ${FAVS.map((s, i) => phone(s, `left:${60 + i * 182}px;top:${[60, 20, 0, 20, 60][i]}px;transform:rotate(${(i - 2) * 6}deg);z-index:${[1, 2, 3, 2, 1][i]}`, 230)).join('')}
+      ${fan(60, 150, 210)}
      </div>`),
   story(8, '¿Cómo pido la mía?', 'Escríbenos por WhatsApp, elige tu diseño y cuéntanos tu historia.',
     `<div style="position:absolute;left:90px;right:90px;top:1080px;height:200px;border:3px dashed rgba(223,163,63,.6);border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--gold-pale);font-weight:500;text-align:center">Aquí va el sticker de enlace<br>a WhatsApp <span class="emo">👆</span></div>`),
@@ -355,7 +360,7 @@ const PCOMENTARIO = [
 // ---------------------------------------------------------------- render
 const SETS = {
   16: { w: 1080, h: 1350, slides: P16, dir: '16-carrusel-digital-vs-papel' },
-  19: { w: 1080, h: 1350, slides: P19, dir: '19-carrusel-20-plantillas' },
+  19: { w: 1080, h: 1350, slides: P19, dir: '19-carrusel-24-plantillas' },
   20: { w: 1080, h: 1920, slides: P20, dir: '20-historias-preguntas' },
   semblanza: { w: 1080, h: 1350, slides: PSEMBLANZA, dir: 'video-semblanza' },
   comentario: { w: 1080, h: 1080, slides: PCOMENTARIO, dir: 'comentario-grupos' },
