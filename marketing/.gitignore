@@ -1,0 +1,19 @@
+# Archivos generados: se vuelven a crear con los scripts y HTML de cada carpeta.
+
+# Imágenes finales de banners, portada y pines (se renderizan desde su .html)
+/banners/banner-*.png
+/facebook/portada-*.png
+/pinterest/pin-*.png
+
+# Publicaciones: node publicaciones/build.mjs
+/publicaciones/**/*.png
+/publicaciones/.html/
+
+# Video: capture.mjs genera shots/, ./build.sh genera frames/ y salida/
+/video/node_modules/
+/video/shots/
+/video/frames/
+/video/frames-corto/
+/video/stills/
+/video/salida/
+*.mp4
