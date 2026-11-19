@@ -1,0 +1,67 @@
+/* The pieces of Confetti.tsx. Rain: each piece falls from above the box at its own --x, swaying and turning, after
+   var(--wait), every var(--every). Burst: each piece flies once from the center to (--dx, --dy) and fades. */
+.confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 14px;
+  border-radius: 2px;
+  opacity: 0;
+}
+
+.confetti-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+}
+
+.confetti-rain {
+  top: -20px;
+  left: var(--x);
+  animation: confettiRain var(--every, 6s) var(--wait, 0s) linear infinite;
+}
+
+.confetti-burst {
+  top: 50%;
+  left: 50%;
+  animation: confettiBurst 1.3s var(--wait, 0s) cubic-bezier(0.15, 0.7, 0.3, 1) both;
+}
+
+@keyframes confettiRain {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0);
+  }
+  8% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(18px, 55vh) rotate(calc(var(--spin) / 2));
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-12px, 110vh) rotate(var(--spin));
+  }
+}
+
+@keyframes confettiBurst {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.4) rotate(0);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy) + 12vmin)) scale(1) rotate(var(--spin));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti-piece {
+    display: none;
+  }
+}

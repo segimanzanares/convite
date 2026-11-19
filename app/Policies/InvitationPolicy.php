@@ -57,6 +57,14 @@ class InvitationPolicy
     }
 
     /**
+     * Show or hide the result of a gender reveal, at the moment of the reveal.
+     */
+    public function showReveal(User $user, Invitation $invitation): bool
+    {
+        return $this->view($user, $invitation);
+    }
+
+    /**
      * Set up, moderate and download the wishes book of the invitation.
      */
     public function manageWishes(User $user, Invitation $invitation): bool

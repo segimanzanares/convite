@@ -21,11 +21,17 @@ enum InvitationKind: string
     case Baptism = 'baptism';
 
     /**
+     * Parents-to-be (one or two names, like a couple) revealing whether their baby is a boy or a girl. The answer is
+     * captured once known and only shown when the party begins.
+     */
+    case GenderReveal = 'gender_reveal';
+
+    /**
      * Whether the content names one celebrant instead of a couple.
      */
     public function hasCelebrant(): bool
     {
-        return $this !== self::Wedding;
+        return $this === self::Birthday || $this->hasChapters();
     }
 
     /**

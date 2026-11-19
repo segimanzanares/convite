@@ -101,6 +101,23 @@ trait InvitationContentRules
             ];
         }
 
+        if ($kind === InvitationKind::GenderReveal) {
+            return [
+                // The parents-to-be: one name is enough
+                'content.names' => ['required', 'array', 'min:1', 'max:2'],
+                'content.names.0' => ['required', 'string', 'max:100'],
+                'content.names.1' => ['nullable', 'string', 'max:100'],
+                'content.families' => ['nullable', 'string', 'max:255'],
+                // e.g. "Llega en abril de 2027"
+                'content.due_label' => ['nullable', 'string', 'max:100'],
+                'content.baby_names' => ['nullable', 'array'],
+                'content.baby_names.boy' => ['nullable', 'string', 'max:100'],
+                'content.baby_names.girl' => ['nullable', 'string', 'max:100'],
+                'content.reveal' => ['nullable', 'in:boy,girl'],
+                ...$this->honorGroupRules('content.grandparents', 4),
+            ];
+        }
+
         $celebrant = [
             'content.name' => ['required', 'string', 'max:255'],
             'content.first_name' => ['required', 'string', 'max:100'],
@@ -137,7 +154,7 @@ trait InvitationContentRules
     }
 
     /**
-     * A list of honor groups (the godparents, or a couple's parents): each one a role and up to four names.
+     * A list of honor groups (the godparents, a couple's parents or a baby's grandparents): each one a role and up to four names.
      *
      * @return array<string, list<string>>
      */

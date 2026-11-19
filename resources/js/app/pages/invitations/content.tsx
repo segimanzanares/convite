@@ -10,6 +10,7 @@ import AlertError from "@/components/alert-error";
 import Heading from "@/components/heading";
 import InputError from "@/components/input-error";
 import Repeater from "@/components/repeater";
+import RevealToggle from "@/components/reveal-toggle";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -80,17 +81,26 @@ function hasChapters(kind: InvitationKind): boolean {
     return kind === "xv" || kind === "baptism";
 }
 
+/** Wedding and gender reveal templates name a couple (the parents-to-be, in a gender reveal) instead of a celebrant. */
+function namesCouple(kind: InvitationKind): boolean {
+    return kind === "wedding" || kind === "gender_reveal";
+}
+
 /** Fills the lists and names the form always edits, so new invitations start with empty inputs. */
 function withDefaults(content: Content, kind: InvitationKind): Content {
     return {
-        ...(kind === "wedding" ? { names: ["", ""] } : {}),
+        ...(namesCouple(kind) ? { names: ["", ""] } : {}),
         venues: [],
         program: [],
         gallery: [],
         swatches: [],
         gifts: [],
         ...(kind === "wedding" ? { parents: [] } : {}),
-        ...(kind !== "birthday" ? { godparents: [] } : {}),
+        ...(kind === "gender_reveal"
+            ? { grandparents: [] }
+            : kind !== "birthday"
+              ? { godparents: [] }
+              : {}),
         ...content,
     };
 }
@@ -102,6 +112,7 @@ type Tab = ContentTab & {
 
 /** The sections of the form, one tab each, keeping only those the template's design shows. */
 function contentTabs(
+    invitation: Invitation,
     kind: InvitationKind,
     has: (section: InvitationSection) => boolean,
 ): Tab[] {
@@ -112,6 +123,12 @@ function contentTabs(
             paths: [],
             content: <GeneralSections kind={kind} />,
         },
+        kind === "gender_reveal" && {
+            value: "reveal",
+            label: "La revelación",
+            paths: ["content.reveal", "content.baby_names", "content.due_label"],
+            content: <RevealSection invitation={invitation} />,
+        },
         hasChapters(kind) && {
             value: "story",
             label: "Mi historia",
@@ -120,8 +137,12 @@ function contentTabs(
         },
         has("family") && {
             value: "family",
-            label: kind === "birthday" ? "Papás" : "Papás y padrinos",
-            paths: ["content.parents", "content.godparents"],
+            label: familyTitles[kind],
+            paths: [
+                "content.parents",
+                "content.godparents",
+                "content.grandparents",
+            ],
             content: <FamilySection kind={kind} />,
         },
         has("venues") && {
@@ -188,7 +209,7 @@ export default function InvitationContent({
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [processing, setProcessing] = useState(false);
     const has = (section: InvitationSection) => sections.includes(section);
-    const tabs = contentTabs(kind, has);
+    const tabs = contentTabs(invitation, kind, has);
     const [tab, setTab] = useState(tabs[0].value);
     const invalidTabs = new Set(
         Object.keys(errors).map((path) => tabOfError(tabs, path)),
@@ -285,23 +306,31 @@ function GeneralSections({ kind }: { kind: InvitationKind }) {
         <>
 
         <ContentSection title="Datos principales">
-            {kind === "wedding" ? (
+            {namesCouple(kind) ? (
                 <div className="grid gap-4 sm:grid-cols-2">
                     <TextField
                         path="content.names.0"
                         label="Primer nombre"
-                        placeholder="Mariana"
+                        placeholder={kind === "wedding" ? "Mariana" : "Ana"}
                     />
                     <TextField
                         path="content.names.1"
-                        label="Segundo nombre"
-                        placeholder="Alejandro"
+                        label={
+                            kind === "wedding"
+                                ? "Segundo nombre"
+                                : "Segundo nombre (opcional)"
+                        }
+                        placeholder={kind === "wedding" ? "Alejandro" : "Luis"}
                     />
                     <div className="sm:col-span-2">
                         <TextField
                             path="content.families"
                             label="Familias"
-                            placeholder="La Familia López & La Familia Pérez"
+                            placeholder={
+                                kind === "wedding"
+                                    ? "La Familia López & La Familia Pérez"
+                                    : "Familia Ramírez Soto"
+                            }
                         />
                     </div>
                     <InputError
@@ -879,6 +908,77 @@ function GiftDetails({ path }: { path: string }) {
     );
 }
 
+/** The answer of a gender reveal; "none" stands for not knowing it yet. */
+const revealLabels: Record<string, string> = {
+    none: "Aún no se sabe",
+    girl: "Es niña",
+    boy: "Es niño",
+};
+
+/**
+ * The names picked for each answer, the due date and the answer itself, which stays secret until someone shows it
+ * at the moment of the reveal.
+ */
+function RevealSection({ invitation }: { invitation: Invitation }) {
+    const form = useContentForm();
+
+    return (
+        <ContentSection
+            title="La revelación"
+            description="Si los dejas vacíos, la plantilla no los muestra."
+        >
+            <div className="grid gap-4 sm:grid-cols-2">
+                <TextField
+                    path="content.baby_names.girl"
+                    label="Nombre si es niña"
+                    placeholder="Valentina"
+                />
+                <TextField
+                    path="content.baby_names.boy"
+                    label="Nombre si es niño"
+                    placeholder="Mateo"
+                />
+                <TextField
+                    path="content.due_label"
+                    label="Llegada estimada"
+                    placeholder="Llega en abril de 2027"
+                />
+                <div className="grid gap-2">
+                    <Label>Resultado</Label>
+                    <Select
+                        value={String(form.value("content.reveal") ?? "none")}
+                        onValueChange={(value) =>
+                            form.set(
+                                "content.reveal",
+                                value === "none" ? null : value,
+                            )
+                        }
+                    >
+                        <SelectTrigger className="w-full">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {Object.entries(revealLabels).map(
+                                ([value, label]) => (
+                                    <SelectItem key={value} value={value}>
+                                        {label}
+                                    </SelectItem>
+                                ),
+                            )}
+                        </SelectContent>
+                    </Select>
+                    <p className="text-muted-foreground text-xs">
+                        Puedes capturarlo antes: la invitación no lo muestra
+                        hasta que lo actives abajo.
+                    </p>
+                    <InputError message={form.error("content.reveal")} />
+                </div>
+            </div>
+            <RevealToggle invitation={invitation} />
+        </ContentSection>
+    );
+}
+
 function ChapterSections() {
     return (
         <ContentSection
@@ -929,17 +1029,55 @@ const familyRoles: Record<
     xv: { parents: "Mis papás", godparents: "Padrinos de velación" },
     baptism: { parents: "Mis papás", godparents: "Padrinos de bautizo" },
     birthday: { parents: "Sus papás", godparents: null },
+    gender_reveal: { parents: "Abuelos maternos", godparents: null },
+};
+
+const familyTitles: Record<InvitationKind, string> = {
+    wedding: "Papás y padrinos",
+    xv: "Papás y padrinos",
+    baptism: "Papás y padrinos",
+    birthday: "Papás",
+    gender_reveal: "Abuelos",
 };
 
 /** The parents (of each one of the couple, in a wedding) and the godparents; kids' birthdays only have parents. */
 function FamilySection({ kind }: { kind: InvitationKind }) {
     const parents = useList<Content>("content.parents");
     const godparents = useList<Content>("content.godparents");
+    const grandparents = useList<Content>("content.grandparents");
     const roles = familyRoles[kind];
+
+    if (kind === "gender_reveal") {
+        return (
+            <ContentSection
+                title="Abuelos"
+                description="Los futuros abuelos del bebé. Si no capturas a nadie, la sección no se muestra."
+            >
+                <Repeater
+                    {...grandparents}
+                    max={4}
+                    addLabel="Agregar abuelos"
+                    create={() => ({
+                        role:
+                            grandparents.items.length === 0
+                                ? "Abuelos maternos"
+                                : "Abuelos paternos",
+                        names: ["", ""],
+                    })}
+                    renderItem={(_, index) => (
+                        <HonorGroupFields
+                            path={`content.grandparents.${index}`}
+                            placeholder="Abuelos maternos"
+                        />
+                    )}
+                />
+            </ContentSection>
+        );
+    }
 
     return (
         <ContentSection
-            title={kind === "birthday" ? "Papás" : "Papás y padrinos"}
+            title={familyTitles[kind]}
             description={
                 kind === "wedding"
                     ? "Si no capturas a nadie, la sección no se muestra."

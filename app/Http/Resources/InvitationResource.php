@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\InvitationKind;
 use App\Models\Invitation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -35,6 +36,11 @@ class InvitationResource extends JsonResource
             'description' => $this->description,
             'og_image' => $this->og_image,
             'guests_purged_at' => $this->guests_purged_at,
+            // Never the result itself: the parents-to-be may not know it yet
+            'reveal' => $this->kind() === InvitationKind::GenderReveal ? [
+                'captured' => filled($this->content['reveal'] ?? null),
+                'shown_at' => $this->reveal_shown_at,
+            ] : null,
             'features' => $this->whenLoaded('order', fn () => $this->order?->plan_snapshot['features'] ?? []),
             'max_guests' => $this->whenLoaded('order', fn () => $this->guestLimit()),
             'max_seats_per_guest' => $this->whenLoaded('order', fn () => $this->seatLimit()),

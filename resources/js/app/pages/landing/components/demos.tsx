@@ -13,6 +13,7 @@ const KIND_FILTERS: { kind: InvitationKind; label: string }[] = [
     { kind: 'xv', label: 'XV años' },
     { kind: 'birthday', label: 'Cumpleaños' },
     { kind: 'baptism', label: 'Bautizos' },
+    { kind: 'gender_reveal', label: 'Revelación de género' },
 ];
 
 const KIND_BADGES: Record<InvitationKind, string> = {
@@ -20,6 +21,7 @@ const KIND_BADGES: Record<InvitationKind, string> = {
     xv: 'bg-gold text-ink',
     birthday: 'bg-terracotta text-white',
     baptism: 'bg-teal text-white',
+    gender_reveal: 'bg-rose-light text-ink',
 };
 
 /** How many designs show before "Ver todos". */

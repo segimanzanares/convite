@@ -60,6 +60,7 @@ class InvitationContentResource extends JsonResource
             'gifts' => array_map($this->gift(...), $content['gifts'] ?? []),
             ...$this->family($kind, $content),
             ...($kind->hasChapters() ? $this->chapters($content) : []),
+            ...($kind === InvitationKind::GenderReveal ? $this->reveal($content) : []),
         ];
     }
 
@@ -102,6 +103,13 @@ class InvitationContentResource extends JsonResource
             ];
         }
 
+        if ($kind === InvitationKind::GenderReveal) {
+            return [
+                'names' => array_values(array_filter($content['names'] ?? [], filled(...))),
+                'families' => $content['families'] ?? '',
+            ];
+        }
+
         return [
             'name' => $content['name'] ?? '',
             'firstName' => $content['first_name'] ?? $content['name'] ?? '',
@@ -112,8 +120,8 @@ class InvitationContentResource extends JsonResource
 
     /**
      * The parents and godparents. A wedding names the parents of each one of the couple (a list of up to two groups);
-     * the other kinds name the celebrant's parents (one group, null without names), and only birthdays have no
-     * godparents.
+     * a gender reveal names the baby's grandparents instead; the other kinds name the celebrant's parents (one group,
+     * null without names), and only birthdays have no godparents.
      *
      * @param  array<string, mixed>  $content
      * @return array<string, mixed>
@@ -125,6 +133,10 @@ class InvitationContentResource extends JsonResource
                 'parents' => array_values($content['parents'] ?? []),
                 'godparents' => array_values($content['godparents'] ?? []),
             ];
+        }
+
+        if ($kind === InvitationKind::GenderReveal) {
+            return ['grandparents' => array_values($content['grandparents'] ?? [])];
         }
 
         $parents = $content['parents'] ?? [];
@@ -232,6 +244,27 @@ class InvitationContentResource extends JsonResource
                     ? ['src' => Invitation::mediaUrl($story['photo']), 'alt' => "Foto de {$name}"]
                     : null,
             ] : null,
+        ];
+    }
+
+    /**
+     * The sections only gender reveal templates have. The answer (boy or girl) stays secret, out of the page, until
+     * someone in the panel shows it at the moment of the reveal (`reveal_shown_at`).
+     *
+     * @param  array<string, mixed>  $content
+     * @return array<string, mixed>
+     */
+    private function reveal(array $content): array
+    {
+        $babyNames = $content['baby_names'] ?? [];
+
+        return [
+            'dueLabel' => $content['due_label'] ?? null,
+            'babyNames' => [
+                'boy' => $babyNames['boy'] ?? null,
+                'girl' => $babyNames['girl'] ?? null,
+            ],
+            'reveal' => $this->reveal_shown_at !== null ? ($content['reveal'] ?? null) : null,
         ];
     }
 }

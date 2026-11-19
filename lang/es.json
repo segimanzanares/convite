@@ -105,5 +105,8 @@
     "Wishes book updated.": "Libro de buenos deseos actualizado.",
     "Message deleted.": "Mensaje eliminado.",
     "No client has that referral code.": "Ningún cliente tiene ese código de referido.",
-    "A client cannot refer themselves.": "Un cliente no puede recomendarse a sí mismo."
+    "A client cannot refer themselves.": "Un cliente no puede recomendarse a sí mismo.",
+    "Capture the result first.": "Primero captura el resultado de la revelación.",
+    "The result is now shown.": "El resultado ya se ve en la invitación.",
+    "The result is hidden again.": "El resultado volvió a ocultarse."
 }

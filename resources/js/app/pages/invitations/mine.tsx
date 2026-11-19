@@ -1,20 +1,21 @@
-import { Head } from '@inertiajs/react';
-import { ExternalLinkIcon, MailOpenIcon } from 'lucide-react';
-import { mine } from '@/actions/App/Http/Controllers/Admin/InvitationController';
-import Heading from '@/components/heading';
-import InvitationSectionLinks from '@/components/invitation-sections';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Head } from "@inertiajs/react";
+import { ExternalLinkIcon, MailOpenIcon } from "lucide-react";
+import { mine } from "@/actions/App/Http/Controllers/Admin/InvitationController";
+import Heading from "@/components/heading";
+import InvitationSectionLinks from "@/components/invitation-sections";
+import RevealToggle from "@/components/reveal-toggle";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
-} from '@/components/ui/card';
-import { formatDate } from '@/lib/format';
-import { invitationStatusLabels } from '@/lib/labels';
-import type { Invitation } from '@/types';
+} from "@/components/ui/card";
+import { formatDate } from "@/lib/format";
+import { invitationStatusLabels } from "@/lib/labels";
+import type { Invitation } from "@/types";
 
 export default function InvitationsMine({
     invitations,
@@ -43,29 +44,41 @@ export default function InvitationsMine({
                                 <CardHeader>
                                     <CardTitle>{invitation.title}</CardTitle>
                                     <CardDescription>
-                                        Evento: {formatDate(invitation.event_date)}
+                                        Evento:{" "}
+                                        {formatDate(invitation.event_date)}
                                         {invitation.rsvp_deadline &&
                                             ` · Confirmar antes del ${formatDate(invitation.rsvp_deadline)}`}
                                     </CardDescription>
                                 </CardHeader>
-                                <CardContent className="flex flex-wrap items-center justify-between gap-3">
-                                    <Badge variant="outline">
-                                        {invitationStatusLabels[invitation.status]}
-                                    </Badge>
-                                    <div className="flex flex-wrap gap-2">
-                                        <InvitationSectionLinks
-                                            invitation={invitation}
-                                        />
-                                        <Button variant="outline" size="sm" asChild>
-                                            <a
-                                                href={invitation.url}
-                                                target="_blank"
-                                                rel="noreferrer"
+                                <CardContent className="space-y-4">
+                                    <RevealToggle invitation={invitation} />
+                                    <div className="flex flex-wrap items-center justify-between gap-3">
+                                        <Badge variant="outline">
+                                            {
+                                                invitationStatusLabels[
+                                                    invitation.status
+                                                ]
+                                            }
+                                        </Badge>
+                                        <div className="flex flex-wrap gap-2">
+                                            <InvitationSectionLinks
+                                                invitation={invitation}
+                                            />
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                asChild
                                             >
-                                                <ExternalLinkIcon />
-                                                Ver invitación
-                                            </a>
-                                        </Button>
+                                                <a
+                                                    href={invitation.url}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                >
+                                                    <ExternalLinkIcon />
+                                                    Ver invitación
+                                                </a>
+                                            </Button>
+                                        </div>
                                     </div>
                                 </CardContent>
                             </Card>
@@ -78,5 +91,5 @@ export default function InvitationsMine({
 }
 
 InvitationsMine.layout = {
-    breadcrumbs: [{ title: 'Mis invitaciones', href: mine() }],
+    breadcrumbs: [{ title: "Mis invitaciones", href: mine() }],
 };

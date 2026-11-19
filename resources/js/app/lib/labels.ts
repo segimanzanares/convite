@@ -48,6 +48,7 @@ export const invitationKindLabels: Record<InvitationKind, string> = {
     birthday: 'Cumpleaños',
     xv: 'XV años',
     baptism: 'Bautizo',
+    gender_reveal: 'Revelación de género',
 };
 
 export const invitationStatusLabels: Record<InvitationStatus, string> = {

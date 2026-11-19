@@ -91,6 +91,7 @@ class Invitation extends Model
             'wishes_enabled' => 'boolean',
             'wishes_public' => 'boolean',
             'wishes_moderated' => 'boolean',
+            'reveal_shown_at' => 'datetime',
         ];
     }
 
@@ -345,7 +346,8 @@ class Invitation extends Model
     }
 
     /**
-     * Whether the content was captured far enough to publish the invitation: it names the couple or the celebrant.
+     * Whether the content was captured far enough to publish the invitation: it names the couple, the celebrant or
+     * the parents-to-be (one name is enough for them).
      */
     public function hasContent(): bool
     {
@@ -360,6 +362,10 @@ class Invitation extends Model
         }
 
         $names = $this->content['names'] ?? [];
+
+        if ($kind === InvitationKind::GenderReveal) {
+            return is_array($names) && filled($names[0] ?? null);
+        }
 
         return is_array($names) && count(array_filter($names, filled(...))) === 2;
     }

@@ -124,4 +124,12 @@ class InvitationService
 
         return $data;
     }
+
+    /**
+     * Show the result of a gender reveal on the invitation from now on, or hide it again.
+     */
+    public function showReveal(Invitation $invitation, bool $shown): void
+    {
+        $invitation->forceFill(['reveal_shown_at' => $shown ? now() : null])->save();
+    }
 }

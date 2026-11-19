@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CheckInController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ClientUserController;
+use App\Http\Controllers\Admin\GenderRevealController;
 use App\Http\Controllers\Admin\GuestController;
 use App\Http\Controllers\Admin\GuestDeliveryController;
 use App\Http\Controllers\Admin\GuestImportController;
@@ -36,6 +37,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('invitations/{invitation}/content', [InvitationContentController::class, 'edit'])->name('invitations.content.edit');
     Route::put('invitations/{invitation}/content', [InvitationContentController::class, 'update'])->name('invitations.content.update');
     Route::post('invitations/{invitation}/media', [InvitationMediaController::class, 'store'])->name('invitations.media.store');
+    Route::put('invitations/{invitation}/reveal', [GenderRevealController::class, 'update'])->name('invitations.reveal.update');
 
     // Guest lists and RSVPs only exist when the invitation's plan includes them, for admins too
     Route::middleware('invitation.feature:guest_management')->scopeBindings()->group(function () {

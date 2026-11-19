@@ -3,7 +3,7 @@ import type { PlanFeature } from './plan';
 
 export type InvitationStatus = 'draft' | 'published' | 'archived';
 
-export type InvitationKind = 'wedding' | 'birthday' | 'xv' | 'baptism';
+export type InvitationKind = 'wedding' | 'birthday' | 'xv' | 'baptism' | 'gender_reveal';
 
 export type InvitationSection =
     | 'family'
@@ -46,6 +46,8 @@ export type Invitation = {
     description: string;
     og_image: string | null;
     guests_purged_at: string | null;
+    /** Gender reveals only: whether the result was captured and when it was shown (never the result itself). */
+    reveal: { captured: boolean; shown_at: string | null } | null;
     /** The features of the order's plan; only sent when the order was loaded. */
     features?: PlanFeature[];
     /** The plan's guest limit, null without one; only sent when the order was loaded. */

@@ -1,6 +1,6 @@
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
-import type { BaptismContent, BirthdayContent, WeddingContent, XvContent } from '../types/invitation';
+import type { BaptismContent, BirthdayContent, GenderRevealContent, WeddingContent, XvContent } from '../types/invitation';
 import type { CelebrantInfo } from '../types/birthday';
 import type { CoupleInfo } from '../types/wedding';
 
@@ -26,7 +26,7 @@ export function initials(...names: string[]): string {
 }
 
 /** The labels shared by every template; each one may still format the date its own way. */
-function labels(content: WeddingContent | BirthdayContent | XvContent | BaptismContent) {
+function labels(content: WeddingContent | BirthdayContent | XvContent | BaptismContent | GenderRevealContent) {
   const { eventDate, deadline } = eventDates(content);
 
   return {
@@ -57,6 +57,28 @@ export function toCelebrant(content: BirthdayContent | XvContent | BaptismConten
     age: content.age ?? 0,
     eventDateTime: content.eventAt ?? '',
     hosts: content.hosts,
+    rsvpWhatsappNumber: content.rsvpWhatsappNumber,
+    musicFile: content.musicFile ?? undefined,
+    ...labels(content),
+  };
+}
+
+/** "Ana & Luis", or the one name of a single parent-to-be. */
+export function joinNames(names: string[]): string {
+  return names.filter(Boolean).join(' & ');
+}
+
+/** The parents-to-be of a gender reveal and the labels its templates share. */
+export function toParentsToBe(content: GenderRevealContent) {
+  const { eventDate } = eventDates(content);
+
+  return {
+    names: content.names,
+    namesLabel: joinNames(content.names),
+    monogram: initials(...content.names),
+    eventDateTime: content.eventAt ?? '',
+    eventDate,
+    families: content.families,
     rsvpWhatsappNumber: content.rsvpWhatsappNumber,
     musicFile: content.musicFile ?? undefined,
     ...labels(content),

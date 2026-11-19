@@ -70,4 +70,22 @@ export interface BaptismContent extends Omit<XvContent, 'kind'> {
   kind: 'baptism';
 }
 
-export type InvitationContent = WeddingContent | BirthdayContent | XvContent | BaptismContent;
+export type BabyGender = 'boy' | 'girl';
+
+/** A gender reveal: the parents-to-be (one or two names) invite to find out whether their baby is a boy or a girl. */
+export interface GenderRevealContent extends BaseContent {
+  kind: 'gender_reveal';
+  /** The parents-to-be, one or two names. */
+  names: string[];
+  families: string;
+  /** e.g. "Llega en abril de 2027". */
+  dueLabel: string | null;
+  /** The name they picked for each answer, if any. */
+  babyNames: Record<BabyGender, string | null>;
+  /** The answer, null until the party begins (or while nobody knows it). */
+  reveal: BabyGender | null;
+  /** The baby's grandparents, e.g. "Abuelos maternos". */
+  grandparents: HonorGroup[];
+}
+
+export type InvitationContent = WeddingContent | BirthdayContent | XvContent | BaptismContent | GenderRevealContent;
