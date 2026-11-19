@@ -1,11 +1,11 @@
 import { ChevronDown, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { buildWhatsappUrl } from '@/lib/contact';
 import { formatPrice } from '@/lib/format';
 import type { OfferedPlan } from '@/types/plan';
 import { Reveal } from './reveal';
 import { Highlight } from './section-heading';
+import { useWhatsappLink } from '../use-whatsapp-link';
 
 type Question = { question: string; answer: string };
 
@@ -43,7 +43,8 @@ const FAQS: Question[] = [
 ];
 
 export function Faq({ plans }: { plans: OfferedPlan[] }) {
-    const whatsappUrl = buildWhatsappUrl('Hola 👋 Tengo una pregunta sobre las invitaciones digitales de Convite.');
+    const whatsappLink = useWhatsappLink();
+    const whatsappUrl = whatsappLink('Hola 👋 Tengo una pregunta sobre las invitaciones digitales de Convite.');
     const lowestPrice = plans.length > 0 ? Math.min(...plans.map((plan) => Number(plan.price))) : null;
     const faqs: Question[] = [
         ...(lowestPrice === null

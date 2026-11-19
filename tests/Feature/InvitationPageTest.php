@@ -5,6 +5,7 @@ use App\Models\Invitation;
 use App\Models\Order;
 use App\Models\User;
 use Database\Seeders\InvitationSeeder;
+use Illuminate\Support\Facades\File;
 use Inertia\Testing\AssertableInertia as Assert;
 
 it('renders an invitation with its template page and meta tags', function () {
@@ -142,3 +143,21 @@ it('seeds a demo of every shared template at the template\'s slug', function () 
         ->and(Invitation::all()->every->hasPage('InvitationPage'))->toBeTrue()
         ->and(Invitation::whereNotNull('order_id')->exists())->toBeFalse();
 });
+
+it('credits Convite with a link to the landing page in every template', function (string $template) {
+    $sources = collect(File::allFiles(resource_path("js/invitations/templates/{$template}")))
+        ->filter(fn ($file) => $file->getExtension() === 'tsx')
+        ->map(fn ($file) => $file->getContents())
+        ->implode("\n");
+
+    // The shared footer carries the credit for the templates that use it
+    if (str_contains($sources, "from '../../components/footer/Footer'")) {
+        $sources = File::get(resource_path('js/invitations/components/footer/Footer.tsx'));
+    }
+
+    expect($sources)
+        ->toContain('Hecho con cariño en')
+        ->toContain('href={conviteUrl}')
+        ->toContain('alt="Convite"');
+    // Listed from the folders: the dataset is built before the application boots
+})->with(array_map('basename', glob(dirname(__DIR__, 2).'/resources/js/invitations/templates/*', GLOB_ONLYDIR)));

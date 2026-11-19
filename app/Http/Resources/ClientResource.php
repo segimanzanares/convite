@@ -24,6 +24,9 @@ class ClientResource extends JsonResource
             'phone' => $this->phone,
             'email' => $this->email,
             'notes' => $this->notes,
+            'referral_code' => $this->referral_code,
+            'referral_url' => $this->referralUrl(),
+            'referred_orders_count' => $this->whenCounted('referredOrders'),
             'orders_count' => $this->whenCounted('orders'),
             'created_at' => $this->created_at,
         ];

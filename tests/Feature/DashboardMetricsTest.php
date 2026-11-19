@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\OrderSource;
 use App\Enums\OrderStatus;
 use App\Enums\PlanFeature;
 use App\Models\Guest;
@@ -35,6 +36,22 @@ it('shows admins the sales and payments of the last six months', function () {
             ])
             ->where('revenue.3', ['month' => '2026-09', 'sales' => '1500.00', 'collected' => '0.00'])
             ->where('revenue.4.collected', '500.00'));
+});
+
+it('shows admins the sales of the last six months by how the clients found Convite', function () {
+    Order::factory()->for(Plan::factory()->create(['price' => 1000]))->count(2)->create(['source' => OrderSource::Instagram]);
+    Order::factory()->for(Plan::factory()->create(['price' => 3000]))->create(['source' => OrderSource::Referral]);
+    Order::factory()->for(Plan::factory()->create(['price' => 500]))->create();
+    Order::factory()->for(Plan::factory()->create(['price' => 9999]))->create(['source' => OrderSource::Tiktok, 'status' => OrderStatus::Quoted]);
+    Order::factory()->for(Plan::factory()->create(['price' => 800]))->create(['source' => OrderSource::Tiktok, 'created_at' => '2026-05-31']);
+
+    $this->actingAs(User::factory()->create())
+        ->get(route('dashboard'))
+        ->assertInertia(fn (Assert $page) => $page->where('salesBySource', [
+            ['source' => 'referral', 'orders' => 1, 'sales' => '3000.00'],
+            ['source' => 'instagram', 'orders' => 2, 'sales' => '2000.00'],
+            ['source' => null, 'orders' => 1, 'sales' => '500.00'],
+        ]));
 });
 
 it('lists the orders that still owe part of their price', function () {

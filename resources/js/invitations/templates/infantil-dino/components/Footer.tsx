@@ -1,6 +1,7 @@
 import { Link } from '@inertiajs/react';
 import logoHorizontal from '../../../assets/images/logo-horizontal.png';
 import { Footprint, Hills } from './Illustrations';
+import { useConviteUrl } from '../../../hooks/useConviteUrl';
 
 interface FooterProps {
   name: string;
@@ -9,6 +10,8 @@ interface FooterProps {
 }
 
 export function Footer({ name, dateLabel, tagline }: FooterProps) {
+  const conviteUrl = useConviteUrl();
+
   return (
     <footer className="relative bg-[#5cb85c] pb-28 text-center">
       <Hills className="relative -mb-px h-24 w-full bg-(--accent) sm:h-32" />
@@ -22,7 +25,7 @@ export function Footer({ name, dateLabel, tagline }: FooterProps) {
         {dateLabel && <p className="mt-3 text-lg font-bold tabular-nums">{dateLabel}</p>}
         <p className="mx-auto mt-3 max-w-sm text-base font-semibold text-pretty">{tagline || '¡Gracias por venir a la fiesta jurásica!'}</p>
         <p className="mt-10 text-sm font-semibold">Hecho con cariño en</p>
-        <Link href="/" className="mx-auto mt-2 block w-fit">
+        <Link href={conviteUrl} className="mx-auto mt-2 block w-fit">
           <img src={logoHorizontal} alt="Convite" className="h-7 opacity-70 brightness-0" />
         </Link>
       </div>

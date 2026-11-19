@@ -1,6 +1,7 @@
 import { Link } from '@inertiajs/react';
 import logoHorizontal from '../../../assets/images/logo-horizontal.png';
 import { Equalizer } from './DiscoArt';
+import { useConviteUrl } from '../../../hooks/useConviteUrl';
 
 interface FooterProps {
   name: string;
@@ -9,6 +10,8 @@ interface FooterProps {
 }
 
 export function Footer({ name, dateLabel, tagline }: FooterProps) {
+  const conviteUrl = useConviteUrl();
+
   return (
     <footer className="border-t border-(--border) bg-(--surface) px-5 pt-16 pb-28 text-center">
       <Equalizer bars={14} className="h-8 opacity-80" />
@@ -17,7 +20,7 @@ export function Footer({ name, dateLabel, tagline }: FooterProps) {
       <p className="mx-auto mt-6 max-w-sm text-sm text-pretty text-(--muted-foreground)">{tagline || 'Gracias por bailar conmigo mis quince.'}</p>
       <div className="mx-auto mt-12 h-px max-w-xs bg-(--border)" />
       <p className="mt-6 text-xs text-(--muted-foreground)">Hecho con cariño en</p>
-      <Link href="/" className="mx-auto mt-2 block w-fit">
+      <Link href={conviteUrl} className="mx-auto mt-2 block w-fit">
         <img src={logoHorizontal} alt="Convite" className="h-7 opacity-60 brightness-0 invert" />
       </Link>
     </footer>

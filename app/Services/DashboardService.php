@@ -69,6 +69,32 @@ class DashboardService
     }
 
     /**
+     * Sales of the same months as monthlyRevenue() by how the client found Convite, the largest first. Orders whose
+     * source was not recorded are grouped under a null source.
+     *
+     * @return list<array{source: string|null, orders: int, sales: string}>
+     */
+    public function salesBySource(): array
+    {
+        $firstMonth = CarbonImmutable::today()->startOfMonth()->subMonths(self::REVENUE_MONTHS - 1);
+
+        return Order::query()
+            ->where('status', '!=', OrderStatus::Quoted)
+            ->where('created_at', '>=', $firstMonth)
+            ->selectRaw('source, count(*) as orders, sum(price) as total')
+            ->groupBy('source')
+            ->orderByDesc('total')
+            ->toBase()
+            ->get()
+            ->map(fn (object $row): array => [
+                'source' => $row->source,
+                'orders' => (int) $row->orders,
+                'sales' => $this->money($row->total),
+            ])
+            ->all();
+    }
+
+    /**
      * The orders that still owe part of their price, the oldest first, with their client and the amount paid.
      *
      * @return Collection<int, Order>

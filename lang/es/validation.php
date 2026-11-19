@@ -216,6 +216,8 @@ return [
         'phone' => 'teléfono',
         'notes' => 'notas',
         'plan_id' => 'plan',
+        'source' => 'origen',
+        'referral_code' => 'código de referido',
         'status' => 'estado',
         'amount' => 'monto',
         'paid_at' => 'fecha de pago',

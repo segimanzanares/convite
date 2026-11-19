@@ -50,5 +50,7 @@ export interface InvitationPageProps {
   rsvp?: RsvpSettings;
   wishes?: WishesSettings | null;
   guest?: InvitationGuest | null;
+  /** The landing page, with UTM parameters and the client's referral code, for the "made with Convite" credit. */
+  conviteUrl?: string;
   [key: string]: unknown;
 }

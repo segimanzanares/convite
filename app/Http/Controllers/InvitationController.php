@@ -11,6 +11,7 @@ use App\Http\Resources\PublicGuestResource;
 use App\Models\Invitation;
 use App\Services\CheckInService;
 use App\Services\GuestService;
+use App\Services\ReferralService;
 use App\Services\WishService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ class InvitationController extends Controller
         private readonly GuestService $guests,
         private readonly CheckInService $checkIn,
         private readonly WishService $wishes,
+        private readonly ReferralService $referrals,
     ) {}
 
     /**
@@ -114,6 +116,8 @@ class InvitationController extends Controller
             'invitation' => InvitationContentResource::make($invitation),
             // Drafts and archived invitations only reach their panel users (see EnsureInvitationIsVisible)
             'preview' => $invitation->isPublished() ? null : $invitation->status->value,
+            // The "made with Convite" credit in the templates' footers links here
+            'conviteUrl' => $this->referrals->invitationCreditUrl($invitation),
             // Read by resources/views/invitations.blade.php for link previews
             'meta' => [
                 'title' => $title,

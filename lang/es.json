@@ -103,5 +103,7 @@
     "The wishes book is closed.": "El libro de buenos deseos ya no recibe mensajes.",
     "The wishes book is full.": "El libro de buenos deseos ya está lleno.",
     "Wishes book updated.": "Libro de buenos deseos actualizado.",
-    "Message deleted.": "Mensaje eliminado."
+    "Message deleted.": "Mensaje eliminado.",
+    "No client has that referral code.": "Ningún cliente tiene ese código de referido.",
+    "A client cannot refer themselves.": "Un cliente no puede recomendarse a sí mismo."
 }

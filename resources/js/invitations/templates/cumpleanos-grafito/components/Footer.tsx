@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react';
 import logoHorizontal from '../../../assets/images/logo-horizontal.png';
+import { useConviteUrl } from '../../../hooks/useConviteUrl';
 
 interface FooterProps {
   name: string;
@@ -8,6 +9,8 @@ interface FooterProps {
 }
 
 export function Footer({ name, dateLabel, tagline }: FooterProps) {
+  const conviteUrl = useConviteUrl();
+
   return (
     <footer className="border-t border-(--border) bg-(--surface) px-5 pt-20 pb-28 sm:px-8">
       <div className="mx-auto max-w-5xl">
@@ -21,8 +24,8 @@ export function Footer({ name, dateLabel, tagline }: FooterProps) {
               {tagline || 'Gracias por estar. Nos vemos en la fiesta.'}
             </p>
           </div>
-          <Link href="/" className="flex items-center gap-2 text-xs text-(--muted-foreground)">
-            Hecho en
+          <Link href={conviteUrl} className="flex items-center gap-2 text-xs text-(--muted-foreground)">
+            Hecho con cariño en
             <img src={logoHorizontal} alt="Convite" className="h-6 opacity-60 brightness-0 invert" />
           </Link>
         </div>

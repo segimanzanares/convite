@@ -1,6 +1,7 @@
 import type {
     InvitationKind,
     InvitationStatus,
+    OrderSource,
     OrderStatus,
     PaymentMethod,
     PlanFeature,
@@ -22,6 +23,18 @@ export const orderStatusLabels: Record<OrderStatus, string> = {
     active: 'Activa',
     delivered: 'Entregada',
     archived: 'Archivada',
+};
+
+export const orderSourceLabels: Record<OrderSource, string> = {
+    instagram: 'Instagram',
+    tiktok: 'TikTok',
+    facebook: 'Facebook',
+    pinterest: 'Pinterest',
+    google: 'Google',
+    invitation: 'Vio una invitación',
+    referral: 'Recomendación de un cliente',
+    partner: 'Recomendación de un proveedor',
+    other: 'Otro',
 };
 
 export const paymentMethodLabels: Record<PaymentMethod, string> = {

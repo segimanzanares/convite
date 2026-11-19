@@ -44,6 +44,7 @@ class DashboardController extends Controller
                 'upcoming_events' => $upcomingEvents->count(),
             ],
             'revenue' => $revenue,
+            'salesBySource' => $this->dashboard->salesBySource(),
             'upcomingEvents' => InvitationResource::collection($upcomingEvents),
             'upcomingEventDays' => DashboardService::UPCOMING_EVENT_DAYS,
             'ordersWithBalance' => OrderResource::collection($ordersWithBalance),

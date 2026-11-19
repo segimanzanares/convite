@@ -1,11 +1,11 @@
 import { Check, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { buildWhatsappUrl } from '@/lib/contact';
 import { formatPrice } from '@/lib/format';
 import { cn } from '@/lib/utils';
 import type { OfferedPlan, PlanFeature } from '@/types/plan';
 import { Reveal } from './reveal';
 import { Highlight, SectionHeading } from './section-heading';
+import { useWhatsappLink } from '../use-whatsapp-link';
 
 const FEATURE_LABELS: Record<PlanFeature | 'catalog_design', string> = {
     catalog_design: 'Invitación digital con un diseño de nuestro catálogo',
@@ -58,6 +58,7 @@ function Checklist({ items, isFeatured }: { items: string[]; isFeatured: boolean
 }
 
 export function Pricing({ plans }: { plans: OfferedPlan[] }) {
+    const whatsappLink = useWhatsappLink();
     if (plans.length === 0) {
         return null;
     }
@@ -81,7 +82,7 @@ export function Pricing({ plans }: { plans: OfferedPlan[] }) {
             <div className={cn('mt-14 grid items-stretch gap-6 xl:gap-5', GRID_COLUMNS[plans.length] ?? 'md:grid-cols-2 lg:grid-cols-3')}>
                 {plans.map((plan, index) => {
                     const isFeatured = index === featuredIndex;
-                    const whatsappUrl = buildWhatsappUrl(`Hola 👋 Me interesa el plan ${plan.name} para mi evento.`);
+                    const whatsappUrl = whatsappLink(`Hola 👋 Me interesa el plan ${plan.name} para mi evento.`);
                     const includes = [
                         FEATURE_LABELS[plan.features.includes('custom_design') ? 'custom_design' : 'catalog_design'],
                         plan.features.includes('online_rsvp') ? null : 'Confirmación de asistencia por WhatsApp',

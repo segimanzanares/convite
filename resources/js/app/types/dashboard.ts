@@ -1,11 +1,20 @@
 import type { RsvpSummary } from './guest';
 import type { Invitation } from './invitation';
+import type { OrderSource } from './order';
 
 /** Sales (orders that are not quotes) and payments of one month, "Y-m". */
 export type MonthlyRevenue = {
     month: string;
     sales: string;
     collected: string;
+};
+
+/** Sales of the revenue chart's months by how the client found Convite. */
+export type SourceSales = {
+    /** Null for orders whose source was not recorded. */
+    source: OrderSource | null;
+    orders: number;
+    sales: string;
 };
 
 export type AdminTotals = {

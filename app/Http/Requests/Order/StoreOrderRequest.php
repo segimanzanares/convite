@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Order;
 
+use App\Concerns\OrderValidationRules;
 use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Models\Plan;
@@ -11,6 +12,8 @@ use Illuminate\Validation\Rule;
 
 class StoreOrderRequest extends FormRequest
 {
+    use OrderValidationRules;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -31,6 +34,7 @@ class StoreOrderRequest extends FormRequest
             'price' => ['required', 'numeric', 'min:0', 'max:99999999.99'],
             'status' => ['nullable', Rule::enum(OrderStatus::class)],
             'notes' => ['nullable', 'string', 'max:2000'],
+            ...$this->orderSourceRules($this->route('client')),
         ];
     }
 }

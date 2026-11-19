@@ -83,6 +83,18 @@ export function trackPageView(url: string) {
     });
 }
 
+/**
+ * Send an event, e.g. a recommended one such as generate_lead. Only on pages
+ * where gtag.js was loaded by trackPageView (the tracked ones).
+ */
+export function trackEvent(name: string, params: Record<string, unknown> = {}) {
+    if (!isLoaded) {
+        return;
+    }
+
+    gtag('event', name, params);
+}
+
 export function updateAnalyticsConsent(choice: ConsentChoice) {
     try {
         localStorage.setItem(CONSENT_STORAGE_KEY, choice);

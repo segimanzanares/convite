@@ -1,5 +1,12 @@
 import { Head, Link, router } from '@inertiajs/react';
-import { KeyRoundIcon, PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
+import {
+    CheckIcon,
+    CopyIcon,
+    KeyRoundIcon,
+    PencilIcon,
+    PlusIcon,
+    TrashIcon,
+} from 'lucide-react';
 import {
     edit,
     index,
@@ -20,6 +27,7 @@ import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import UrlModal from '@/components/url-modal';
+import { useClipboard } from '@/hooks/use-clipboard';
 import { formatDate, formatMoney } from '@/lib/format';
 import { invitationStatusLabels, orderStatusLabels } from '@/lib/labels';
 import type { Client, ClientUser, Invitation, Order, Plan } from '@/types';
@@ -33,6 +41,7 @@ type Props = {
     invitations: Invitation[];
     canHavePanelAccess: boolean;
     plans: Plan[];
+    referralsEnabled: boolean;
     modal: 'order' | 'access' | null;
 };
 
@@ -43,8 +52,12 @@ export default function ClientShow({
     invitations,
     canHavePanelAccess,
     plans,
+    referralsEnabled,
     modal,
 }: Props) {
+    const [copiedText, copy] = useClipboard();
+    const referredSales = client.referred_orders_count ?? 0;
+
     const removeAccess = (user: ClientUser) =>
         new Promise((resolve) =>
             router.delete(destroyAccess({ client: client.id, user: user.id }), {
@@ -144,6 +157,38 @@ export default function ClientShow({
                         ))}
                     </DataTable>
                 </section>
+
+                {referralsEnabled && (
+                    <section className="space-y-4">
+                        <Heading
+                            variant="small"
+                            title="Programa de referidos"
+                            description="Quien llegue con este código o enlace tiene un descuento, y su contratación queda ligada a este cliente."
+                        />
+                        <div className="flex flex-wrap items-center gap-3">
+                            <code className="bg-muted rounded-md px-3 py-1.5 font-mono text-sm font-semibold tracking-wider">
+                                {client.referral_code}
+                            </code>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => copy(client.referral_url)}
+                            >
+                                {copiedText === client.referral_url ? (
+                                    <CheckIcon />
+                                ) : (
+                                    <CopyIcon />
+                                )}
+                                Copiar enlace
+                            </Button>
+                            <span className="text-muted-foreground text-sm">
+                                {referredSales === 1
+                                    ? '1 venta recomendada'
+                                    : `${referredSales} ventas recomendadas`}
+                            </span>
+                        </div>
+                    </section>
+                )}
 
                 <section className="space-y-4">
                     <div className="flex flex-wrap items-center justify-between gap-4">
@@ -300,7 +345,11 @@ export default function ClientShow({
             >
                 {(shown) =>
                     shown === 'order' ? (
-                        <OrderCreateForm client={client} plans={plans} />
+                        <OrderCreateForm
+                            client={client}
+                            plans={plans}
+                            referralsEnabled={referralsEnabled}
+                        />
                     ) : (
                         <ClientAccessForm client={client} />
                     )

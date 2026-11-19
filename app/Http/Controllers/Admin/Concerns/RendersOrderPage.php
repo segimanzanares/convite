@@ -6,6 +6,7 @@ use App\Enums\PaymentMethod;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Services\OrderService;
+use App\Services\ReferralService;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -23,6 +24,7 @@ trait RendersOrderPage
         return Inertia::render('orders/show', [
             'order' => OrderResource::make(app(OrderService::class)->loadDetails($order)),
             'paymentMethods' => array_column(PaymentMethod::cases(), 'value'),
+            'referralsEnabled' => app(ReferralService::class)->isEnabled(),
             'modal' => $modal,
         ]);
     }

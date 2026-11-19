@@ -30,6 +30,8 @@ class OrderResource extends JsonResource
             'grants_panel_access' => $this->grantsPanelAccess(),
             'status' => $this->status,
             'notes' => $this->notes,
+            'source' => $this->source,
+            'referrer' => $this->whenLoaded('referrer', fn () => $this->referrer?->only(['id', 'name', 'referral_code'])),
             'amount_paid' => $this->when($hasPaymentsSum, fn () => $this->amountPaid()),
             'balance' => $this->when($hasPaymentsSum, fn () => $this->balance()),
             'client' => ClientResource::make($this->whenLoaded('client')),

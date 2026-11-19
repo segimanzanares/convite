@@ -2,6 +2,7 @@ import { Form } from '@inertiajs/react';
 import { useState } from 'react';
 import { store } from '@/actions/App/Http/Controllers/Admin/OrderController';
 import InputError from '@/components/input-error';
+import OrderSourceFields from '@/components/order-source-fields';
 import { Button } from '@/components/ui/button';
 import { DialogBody, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -28,9 +29,11 @@ const schema: ValidationSchema = {
 export default function OrderCreateForm({
     client,
     plans,
+    referralsEnabled,
 }: {
     client: Client;
     plans: Plan[];
+    referralsEnabled: boolean;
 }) {
     const { formRef, onBefore, onChange } = useInertiaFormValidation(schema);
     const [price, setPrice] = useState('');
@@ -110,6 +113,11 @@ export default function OrderCreateForm({
                                 <InputError message={errors.status} />
                             </div>
                         </div>
+
+                        <OrderSourceFields
+                            allowReferral={referralsEnabled}
+                            errors={errors}
+                        />
 
                         <div className="grid gap-2">
                             <Label htmlFor="notes">Notas</Label>

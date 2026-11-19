@@ -21,6 +21,7 @@ import { Button } from '@/components/ui/button';
 import UrlModal from '@/components/url-modal';
 import { formatDate, formatMoney } from '@/lib/format';
 import {
+    orderSourceLabels,
     orderStatusLabels,
     paymentMethodLabels,
     planFeatureLabels,
@@ -32,10 +33,16 @@ import PaymentForm from './components/payment-form';
 type Props = {
     order: Order;
     paymentMethods: PaymentMethod[];
+    referralsEnabled: boolean;
     modal: 'edit' | 'payment' | null;
 };
 
-export default function OrderShow({ order, paymentMethods, modal }: Props) {
+export default function OrderShow({
+    order,
+    paymentMethods,
+    referralsEnabled,
+    modal,
+}: Props) {
     const payments = order.payments ?? [];
     const invitations = order.invitations ?? [];
 
@@ -140,6 +147,24 @@ export default function OrderShow({ order, paymentMethods, modal }: Props) {
                             {order.notes}
                         </p>
                     )}
+                    {order.source && (
+                        <p className="text-muted-foreground text-sm">
+                            Cómo nos conoció: {orderSourceLabels[order.source]}
+                            {order.referrer && (
+                                <>
+                                    {' '}
+                                    (
+                                    <Link
+                                        href={showClient(order.referrer.id)}
+                                        className="text-foreground hover:underline"
+                                    >
+                                        {order.referrer.name}
+                                    </Link>
+                                    , código {order.referrer.referral_code})
+                                </>
+                            )}
+                        </p>
+                    )}
                 </section>
 
                 <section className="space-y-4">
@@ -241,7 +266,10 @@ export default function OrderShow({ order, paymentMethods, modal }: Props) {
             >
                 {(shown) =>
                     shown === 'edit' ? (
-                        <OrderEditForm order={order} />
+                        <OrderEditForm
+                            order={order}
+                            referralsEnabled={referralsEnabled}
+                        />
                     ) : (
                         <PaymentForm
                             order={order}

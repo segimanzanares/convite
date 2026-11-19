@@ -65,4 +65,26 @@ return [
 
     'wishes_max_messages' => (int) env('CONVITE_WISHES_MAX_MESSAGES', 1000),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Referral Program
+    |--------------------------------------------------------------------------
+    |
+    | Every client has a referral code to share. Whoever opens the landing
+    | page with it (?ref=CODE) is offered this discount, and the code is
+    | remembered in a cookie for this many days so it reaches WhatsApp even
+    | if they come back later. The admin applies the discount on the order.
+    |
+    | Turning the program off hides it from the landing page, the invitations
+    | and the panel, and new orders can no longer be referrals. The codes and
+    | the referrers of past orders are kept, so turning it back on restores it.
+    |
+    */
+
+    'referrals_enabled' => (bool) env('CONVITE_REFERRALS_ENABLED', true),
+
+    'referral_discount_percent' => (int) env('CONVITE_REFERRAL_DISCOUNT_PERCENT', 10),
+
+    'referral_cookie_days' => (int) env('CONVITE_REFERRAL_COOKIE_DAYS', 60),
+
 ];

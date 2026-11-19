@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderSource;
 use App\Enums\OrderStatus;
 use App\Enums\PlanFeature;
 use Database\Factories\OrderFactory;
@@ -21,12 +22,14 @@ use Illuminate\Support\Carbon;
  * @property string $price
  * @property array{name: string, max_guests: int|null, max_seats_per_guest?: int|null, features: list<string>} $plan_snapshot
  * @property OrderStatus $status
+ * @property OrderSource|null $source
+ * @property int|null $referrer_client_id
  * @property string|null $notes
  * @property string|null $payments_sum_amount
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['client_id', 'plan_id', 'price', 'plan_snapshot', 'status', 'notes'])]
+#[Fillable(['client_id', 'plan_id', 'price', 'plan_snapshot', 'status', 'source', 'referrer_client_id', 'notes'])]
 class Order extends Model
 {
     /** @use HasFactory<OrderFactory> */
@@ -43,6 +46,7 @@ class Order extends Model
             'price' => 'decimal:2',
             'plan_snapshot' => 'array',
             'status' => OrderStatus::class,
+            'source' => OrderSource::class,
         ];
     }
 
@@ -56,6 +60,16 @@ class Order extends Model
     public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class);
+    }
+
+    /**
+     * The client who recommended Convite to this order's client.
+     *
+     * @return BelongsTo<Client, $this>
+     */
+    public function referrer(): BelongsTo
+    {
+        return $this->belongsTo(Client::class, 'referrer_client_id');
     }
 
     /** @return HasMany<Payment, $this> */

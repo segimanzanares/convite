@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Order;
 
+use App\Concerns\OrderValidationRules;
 use App\Enums\OrderStatus;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -9,6 +10,8 @@ use Illuminate\Validation\Rule;
 
 class UpdateOrderRequest extends FormRequest
 {
+    use OrderValidationRules;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -28,6 +31,7 @@ class UpdateOrderRequest extends FormRequest
             'price' => ['required', 'numeric', 'min:0', 'max:99999999.99'],
             'status' => ['required', Rule::enum(OrderStatus::class)],
             'notes' => ['nullable', 'string', 'max:2000'],
+            ...$this->orderSourceRules($this->route('order')->client, $this->route('order')),
         ];
     }
 }

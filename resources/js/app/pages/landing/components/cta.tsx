@@ -1,8 +1,8 @@
 import { ArrowRight, Clock, HeartHandshake } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { buildWhatsappUrl } from '@/lib/contact';
 import { Petal, Sparkle } from './illustrations/decorations';
 import { Reveal } from './reveal';
+import { useWhatsappLink } from '../use-whatsapp-link';
 
 /** An envelope flying off with its trail of hearts, for the closing call to action. */
 function FlyingEnvelope() {
@@ -46,7 +46,8 @@ function FlyingEnvelope() {
 }
 
 export function Cta() {
-    const whatsappUrl = buildWhatsappUrl(
+    const whatsappLink = useWhatsappLink();
+    const whatsappUrl = whatsappLink(
         'Hola 👋 Me interesa el servicio de invitaciones digitales de Convite. ¿Podemos platicar sobre mi evento?',
     );
 

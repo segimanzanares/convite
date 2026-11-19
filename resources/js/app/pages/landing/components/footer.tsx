@@ -1,8 +1,8 @@
 import { Link } from '@inertiajs/react';
 import { MessageCircle } from 'lucide-react';
 import logoNegativo from '@/assets/images/logo-negativo.png';
-import { buildWhatsappUrl } from '@/lib/contact';
 import { dashboard } from '@/routes';
+import { useWhatsappLink } from '../use-whatsapp-link';
 
 const SECTIONS = [
     { href: '#disenos', label: 'Diseños' },
@@ -15,7 +15,8 @@ const SECTIONS = [
 const EVENTS = ['Bodas', 'XV años', 'Bautizos', 'Cumpleaños', 'Fiestas infantiles'];
 
 export function Footer() {
-    const whatsappUrl = buildWhatsappUrl('Hola 👋 Quiero cotizar una invitación digital para mi evento.');
+    const whatsappLink = useWhatsappLink();
+    const whatsappUrl = whatsappLink('Hola 👋 Quiero cotizar una invitación digital para mi evento.');
 
     return (
         <footer className="bg-primary-dark text-white">

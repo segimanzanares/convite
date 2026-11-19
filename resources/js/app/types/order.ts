@@ -4,6 +4,18 @@ import type { PlanSnapshot } from './plan';
 
 export type OrderStatus = 'quoted' | 'active' | 'delivered' | 'archived';
 
+/** How the client found Convite (App\Enums\OrderSource). */
+export type OrderSource =
+    | 'instagram'
+    | 'tiktok'
+    | 'facebook'
+    | 'pinterest'
+    | 'google'
+    | 'invitation'
+    | 'referral'
+    | 'partner'
+    | 'other';
+
 export type PaymentMethod = 'cash' | 'transfer' | 'other';
 
 export type Payment = {
@@ -23,6 +35,9 @@ export type Order = {
     grants_panel_access: boolean;
     status: OrderStatus;
     notes: string | null;
+    source: OrderSource | null;
+    /** The client who recommended Convite. Only sent on the order page. */
+    referrer?: Pick<Client, 'id' | 'name' | 'referral_code'> | null;
     /** Only sent when the payments sum was loaded. */
     amount_paid?: string;
     balance?: string;

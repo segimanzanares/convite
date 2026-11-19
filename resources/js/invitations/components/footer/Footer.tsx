@@ -1,5 +1,6 @@
 import logoHorizontal from '../../assets/images/logo-horizontal.png';
 import { Link } from '@inertiajs/react';
+import { useConviteUrl } from '../../hooks/useConviteUrl';
 
 interface FooterProps {
   title: string;
@@ -8,6 +9,8 @@ interface FooterProps {
 }
 
 export function Footer({ title, dateLabel, tagline = 'Con amor eterno · Para siempre' }: FooterProps) {
+  const conviteUrl = useConviteUrl();
+
   return (
     <footer className="text-center py-[60px] px-10 bg-ivory">
       <div className="flex items-center justify-center gap-3 mx-auto mb-[30px] before:content-[''] before:flex-1 before:max-w-[100px] before:h-px before:bg-[linear-gradient(to_right,transparent,var(--color-gold))] after:content-[''] after:flex-1 after:max-w-[100px] after:h-px after:bg-[linear-gradient(to_left,transparent,var(--color-gold))]">
@@ -19,9 +22,9 @@ export function Footer({ title, dateLabel, tagline = 'Con amor eterno · Para si
       <div className="font-display text-[10px] tracking-[0.4em] text-gold mt-2.5">{dateLabel}</div>
       <div className="w-[120px] h-px mx-auto bg-[linear-gradient(to_right,transparent,var(--color-gold),transparent)] animate-[fadeUp_1.2s_0.5s_forwards] mt-[30px]" />
       <p className="font-display text-[9px] tracking-[0.5em] text-gold uppercase mt-3">{tagline}</p>
-      <p className="font-display text-[8px] tracking-[0.3em] text-gold/70 uppercase mt-[30px] mb-2">Invitación creada con</p>
-      <Link href="/" className="block w-fit mx-auto">
-        <img src={logoHorizontal} alt="Logo" className="h-8 opacity-50" />
+      <p className="font-display text-[8px] tracking-[0.3em] text-gold/70 uppercase mt-[30px] mb-2">Hecho con cariño en</p>
+      <Link href={conviteUrl} className="block w-fit mx-auto">
+        <img src={logoHorizontal} alt="Convite" className="h-8 opacity-50" />
       </Link>
     </footer>
   );

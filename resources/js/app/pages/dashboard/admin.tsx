@@ -19,13 +19,24 @@ import {
     formatMoney,
     formatMonth,
 } from '@/lib/format';
-import { invitationStatusLabels, orderStatusLabels } from '@/lib/labels';
+import {
+    invitationStatusLabels,
+    orderSourceLabels,
+    orderStatusLabels,
+} from '@/lib/labels';
 import { dashboard } from '@/routes';
-import type { AdminTotals, Invitation, MonthlyRevenue, Order } from '@/types';
+import type {
+    AdminTotals,
+    Invitation,
+    MonthlyRevenue,
+    Order,
+    SourceSales,
+} from '@/types';
 
 type Props = {
     totals: AdminTotals;
     revenue: MonthlyRevenue[];
+    salesBySource: SourceSales[];
     upcomingEvents: Invitation[];
     upcomingEventDays: number;
     ordersWithBalance: Order[];
@@ -44,11 +55,16 @@ function daysUntil(date: string): number {
 export default function AdminDashboard({
     totals,
     revenue,
+    salesBySource,
     upcomingEvents,
     upcomingEventDays,
     ordersWithBalance,
 }: Props) {
     const previousMonth = revenue.at(-2);
+    const sourceSalesTotal = salesBySource.reduce(
+        (sum, row) => sum + Number(row.sales),
+        0,
+    );
 
     return (
         <>
@@ -111,6 +127,45 @@ export default function AdminDashboard({
                         }))}
                         format={formatMoney}
                     />
+                </section>
+
+                <section className="space-y-4">
+                    <Heading
+                        variant="small"
+                        title="Ventas por origen"
+                        description={`Cómo nos conocieron los clientes de los últimos ${revenue.length} meses`}
+                    />
+                    <DataTable
+                        columns={['Origen', 'Contrataciones', 'Ventas']}
+                        empty="No hay ventas en estos meses."
+                        isEmpty={salesBySource.length === 0}
+                    >
+                        {salesBySource.map((row) => (
+                            <tr key={row.source ?? 'none'}>
+                                <td className="px-2 py-3 md:px-4">
+                                    {row.source
+                                        ? orderSourceLabels[row.source]
+                                        : 'Sin registrar'}
+                                </td>
+                                <td className="px-2 py-3 md:px-4">
+                                    {row.orders}
+                                </td>
+                                <td className="px-2 py-3 md:px-4">
+                                    {formatMoney(row.sales)}
+                                    {sourceSalesTotal > 0 && (
+                                        <span className="text-muted-foreground ml-2 text-xs">
+                                            {Math.round(
+                                                (Number(row.sales) /
+                                                    sourceSalesTotal) *
+                                                    100,
+                                            )}
+                                            %
+                                        </span>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                    </DataTable>
                 </section>
 
                 <section className="space-y-4">
