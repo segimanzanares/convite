@@ -312,12 +312,12 @@ const PSEMBLANZA = [
       ['boda-floral-09', [0.23, 0.82], [0.28, 0.552]],
     ])}</div>
     <div style="position:absolute;top:1018px;left:110px;display:flex;flex-direction:column;gap:10px">
-      ${check('📸', 'Sus fotos con su canción')}${check('✍️', 'Textos y dedicatorias')}${check('🖥️', 'Listo para la pantalla del salón')}${check('⏱️', 'De 3 a 5 min · listo en 3 a 5 días')}
+      ${check('📸', 'Sus fotos con su canción favorita')}${check('✍️', 'Frases y fechas especiales')}${check('🎵', 'Premium: fotos al ritmo de la música')}${check('⏱️', 'Listo en 2 a 5 días hábiles')}
     </div>
     <div style="position:absolute;top:1026px;right:110px;text-align:right">
       <div style="font-size:22px;letter-spacing:.2em;color:var(--gold-pale);font-weight:600">DESDE</div>
-      <div class="serif" style="font-size:104px;line-height:1;color:var(--gold)">$600</div>
-      <div style="font-size:22px;letter-spacing:.2em;color:var(--gold-pale);font-weight:600">MXN</div>
+      <div class="serif" style="font-size:104px;line-height:1;color:var(--gold);font-variant-numeric:lining-nums">$599</div>
+      <div style="margin-top:10px;font-size:22px;letter-spacing:.2em;color:var(--gold-pale);font-weight:600">MXN</div>
     </div>
     <div style="position:absolute;bottom:66px;left:100px;right:100px;display:flex;align-items:center;justify-content:space-between;padding-top:20px;border-top:1px solid rgba(223,163,63,.3)">
       <img src="${LOGO_DARK}" style="height:56px">
