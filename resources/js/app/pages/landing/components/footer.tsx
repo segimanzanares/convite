@@ -1,8 +1,9 @@
 import { Link } from '@inertiajs/react';
 import { MessageCircle } from 'lucide-react';
 import logoNegativo from '@/assets/images/logo-negativo.png';
-import { dashboard } from '@/routes';
+import { dashboard, services } from '@/routes';
 import { useWhatsappLink } from '../use-whatsapp-link';
+import { SectionLink } from './section-link';
 
 const SECTIONS = [
     { href: '#disenos', label: 'Diseños' },
@@ -10,7 +11,7 @@ const SECTIONS = [
     { href: '#como-funciona', label: 'Cómo funciona' },
     { href: '#planes', label: 'Planes' },
     { href: '#preguntas', label: 'Preguntas frecuentes' },
-];
+] as const;
 
 const EVENTS = ['Bodas', 'XV años', 'Bautizos', 'Revelación de género', 'Cumpleaños', 'Fiestas infantiles'];
 
@@ -32,11 +33,16 @@ export function Footer() {
                     <ul className="space-y-2.5 text-sm text-white/65">
                         {SECTIONS.map((section) => (
                             <li key={section.href}>
-                                <a href={section.href} className="transition-colors hover:text-white">
+                                <SectionLink href={section.href} className="transition-colors hover:text-white">
                                     {section.label}
-                                </a>
+                                </SectionLink>
                             </li>
                         ))}
+                        <li>
+                            <Link href={services()} className="transition-colors hover:text-white">
+                                Servicios
+                            </Link>
+                        </li>
                     </ul>
                 </nav>
                 <div>

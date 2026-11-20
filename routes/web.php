@@ -6,10 +6,12 @@ use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LiveGalleryController;
 use App\Http\Controllers\RsvpController;
+use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\WishController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', LandingController::class)->name('landing');
+Route::get('servicios', ServicesController::class)->name('services');
 
 // The door of the event, for the staff checking guests in (scanning a pass opens the guest's link, see
 // InvitationController::guest). Declared before the personalized links so "puerta" is not read as a token

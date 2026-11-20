@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import logoNegativo from '@/assets/images/logo-negativo.png';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { dashboard } from '@/routes';
+import { dashboard, services } from '@/routes';
 import { useWhatsappLink } from '../use-whatsapp-link';
+import { SectionLink } from './section-link';
 
 const LINKS = [
     { href: '#disenos', label: 'Diseños' },
@@ -13,7 +14,9 @@ const LINKS = [
     { href: '#como-funciona', label: 'Cómo funciona' },
     { href: '#planes', label: 'Planes' },
     { href: '#preguntas', label: 'Preguntas' },
-];
+] as const;
+
+const LINK_CLASS = 'rounded-full px-3 py-1.5 text-sm text-white/75 transition-colors hover:bg-white/10 hover:text-white';
 
 export function Header() {
     const whatsappLink = useWhatsappLink();
@@ -36,19 +39,18 @@ export function Header() {
                     isScrolled && 'max-w-5xl shadow-[0_18px_40px_-18px_rgba(42,26,43,0.65)]',
                 )}
             >
-                <a href="#inicio" className="shrink-0">
+                <SectionLink href="#inicio" className="shrink-0">
                     <img src={logoNegativo} alt="Convite — Invitaciones digitales" className="h-7 sm:h-8" />
-                </a>
+                </SectionLink>
                 <nav aria-label="Secciones" className="hidden items-center gap-1 lg:flex">
                     {LINKS.map((link) => (
-                        <a
-                            key={link.href}
-                            href={link.href}
-                            className="rounded-full px-3 py-1.5 text-sm text-white/75 transition-colors hover:bg-white/10 hover:text-white"
-                        >
+                        <SectionLink key={link.href} href={link.href} className={LINK_CLASS}>
                             {link.label}
-                        </a>
+                        </SectionLink>
                     ))}
+                    <Link href={services()} className={LINK_CLASS}>
+                        Servicios
+                    </Link>
                 </nav>
                 <div className="flex items-center gap-1.5 sm:gap-2">
                     {/* The panel's home: visitors without a session land on its login */}

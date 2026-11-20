@@ -1,7 +1,5 @@
 import { Head } from '@inertiajs/react';
-import { useEffect } from 'react';
 import { CookieConsentBanner } from '@/components/cookie-consent-banner';
-import { trackEvent } from '@/lib/analytics';
 import type { DemoInvitation } from '@/types/invitation';
 import type { OfferedPlan } from '@/types/plan';
 import { Cta } from './components/cta';
@@ -13,26 +11,12 @@ import { Header } from './components/header';
 import { Hero } from './components/hero';
 import { Marquee } from './components/marquee';
 import { Pricing } from './components/pricing';
+import { Services } from './components/services';
 import { Steps } from './components/steps';
-import { useReferral } from './use-whatsapp-link';
+import { useWhatsappLeadTracking } from './use-whatsapp-link';
 
 export function LandingPage({ demos, plans }: { demos: DemoInvitation[]; plans: OfferedPlan[] }) {
-    const referral = useReferral();
-
-    // Sales close over WhatsApp, so opening a chat is the landing's conversion: one listener covers every button
-    useEffect(() => {
-        const onClick = (event: MouseEvent) => {
-            const link = event.target instanceof Element ? event.target.closest('a[href^="https://wa.me/"]') : null;
-
-            if (link) {
-                trackEvent('generate_lead', { method: 'whatsapp', referral: referral !== null });
-            }
-        };
-
-        document.addEventListener('click', onClick);
-
-        return () => document.removeEventListener('click', onClick);
-    }, [referral]);
+    useWhatsappLeadTracking();
 
     return (
         <div className="bg-background text-foreground">
@@ -44,6 +28,7 @@ export function LandingPage({ demos, plans }: { demos: DemoInvitation[]; plans: 
                 <Demos demos={demos} />
                 <Features />
                 <Steps />
+                <Services />
                 <Pricing plans={plans} />
                 <Faq plans={plans} />
                 <Cta />

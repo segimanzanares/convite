@@ -16,8 +16,16 @@ felicitaciones desde la invitación y los anfitriones lo descargan en PDF) y una
 en vivo: los invitados escanean un código QR en el salón, suben sus fotos desde el
 celular y aparecen al momento en una pantalla.
 
-Los precios son de pago único, en pesos mexicanos, y se muestran en la sección de
-planes de la página de inicio.
+Además de las invitaciones digitales, Convite hace videos semblanza ($599 MXN, de hasta
+3 minutos, o $999 MXN, de 3 a 5 minutos con las fotos sincronizadas con el ritmo de la
+música), invitaciones en video ($499 MXN) y tarjetas ($299 MXN) y pases imprimibles
+con un diseño personalizado, en PDF ($249 MXN hasta 50 pases y $99 MXN por cada 50
+adicionales, o $469 MXN la tarjeta con los pases), todos con entrega en 2 a 5 días
+hábiles.
+
+Los precios son de pago único, en pesos mexicanos. Los de las invitaciones digitales se
+muestran en la sección de planes de la página de inicio, y los de los demás servicios en
+la página de servicios.
 
 ## Páginas
 
@@ -25,6 +33,9 @@ planes de la página de inicio.
   diseños con una invitación de ejemplo de cada uno, sus funciones, el proceso de
   trabajo, los planes con sus precios, preguntas frecuentes y el contacto por WhatsApp
   para cotizar.
+- [Servicios](https://convite.smsoluciones.online/servicios): los servicios además de
+  las invitaciones digitales (video semblanza, invitación en video, tarjeta y pases
+  imprimibles con diseño personalizado), con sus precios y tiempos de entrega.
 
 ## Notas para agentes y rastreadores
 
