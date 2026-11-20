@@ -6,6 +6,7 @@ export type ConsentChoice = 'granted' | 'denied';
 declare global {
     interface Window {
         dataLayer: unknown[];
+        [gaDisableKey: `ga-disable-${string}`]: boolean | undefined;
     }
 }
 
@@ -69,11 +70,25 @@ function load(): boolean {
     return true;
 }
 
+/**
+ * Turn every hit of gtag.js on or off. Once loaded on the landing page, gtag.js
+ * stays in the SPA, and its enhanced measurement sends page views on history
+ * changes and other automatic events by itself, so it is turned off for the
+ * pages that are not measured (the panel, the door of the event).
+ */
+export function setAnalyticsEnabled(enabled: boolean) {
+    if (GA_ID) {
+        window[`ga-disable-${GA_ID}`] = !enabled;
+    }
+}
+
 /** Send a page view of the given Inertia URL (path and query). */
 export function trackPageView(url: string) {
     if (!load()) {
         return;
     }
+
+    setAnalyticsEnabled(true);
 
     lastTrackedUrl = url;
     gtag('event', 'page_view', {
