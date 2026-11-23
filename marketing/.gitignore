@@ -13,10 +13,12 @@
 /video/node_modules/
 /video/shots/
 /video/scroll/
+/video/secciones/
 /video/frames/
 /video/frames-corto/
 /video/frames-chat/
 /video/frames-scroll/
+/video/frames-dentro/
 /video/stills/
 /video/salida/
 *.mp4

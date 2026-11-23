@@ -4,6 +4,8 @@
 #   ./build.sh largo    -> solo convite-short*.mp4
 #   ./build.sh corto    -> solo convite-short-corto*.mp4
 #   ./build.sh chat     -> video 1 de las publicaciones, "El chat imposible" (chat-imposible*.mp4)
+#   ./build.sh dentro   -> video 8, "Lo que hay dentro de una invitación" con boda-floral (dentro-invitacion*.mp4);
+#                          antes: node capture-secciones.mjs boda-floral (con el libro de deseos habilitado en la demo local)
 #   ./build.sh scroll   -> video 3, "Scroll satisfactorio" con xv-disco (scroll-xv*.mp4); antes: node capture-scroll.mjs xv-disco
 # Requiere ffmpeg y Chrome. Las capturas de shots/ se generan antes con capture.mjs (sitio local en el puerto 8123).
 set -euo pipefail
@@ -68,6 +70,18 @@ if [[ "$QUIERO" == scroll ]]; then
 [0:a][mus]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.95[a]" \
     -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -movflags +faststart salida/scroll-xv-musica.mp4
   rm -rf frames-scroll stills salida/sfx-scroll.wav
+fi
+
+if [[ "$QUIERO" == dentro ]]; then
+  PAGE=dentro-invitacion.html FRAMES=frames-dentro node render.mjs
+  PAGE=dentro-invitacion.html node sfx.mjs salida/sfx-dentro.wav
+  ffmpeg -v error -y -framerate 30 -i frames-dentro/f%05d.jpg -i salida/sfx-dentro.wav -c:v libx264 -preset slow -crf 17 \
+    -pix_fmt yuv420p -c:a aac -b:a 192k -movflags +faststart -shortest salida/dentro-invitacion.mp4
+  ffmpeg -v error -y -i salida/dentro-invitacion.mp4 -ss 0.52 -i assets/music2.mp3 -filter_complex "
+[1:a]atrim=0:18,asetpts=PTS-STARTPTS,volume=-8dB,afade=t=in:d=0.2,afade=t=out:st=16.8:d=1.2[mus];
+[0:a][mus]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.95[a]" \
+    -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -movflags +faststart salida/dentro-invitacion-musica.mp4
+  rm -rf frames-dentro stills salida/sfx-dentro.wav
 fi
 
 ls -la salida
