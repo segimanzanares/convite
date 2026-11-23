@@ -12,9 +12,11 @@
 # Video: capture.mjs genera shots/, ./build.sh genera frames/ y salida/
 /video/node_modules/
 /video/shots/
+/video/scroll/
 /video/frames/
 /video/frames-corto/
 /video/frames-chat/
+/video/frames-scroll/
 /video/stills/
 /video/salida/
 *.mp4

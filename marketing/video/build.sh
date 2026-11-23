@@ -4,6 +4,7 @@
 #   ./build.sh largo    -> solo convite-short*.mp4
 #   ./build.sh corto    -> solo convite-short-corto*.mp4
 #   ./build.sh chat     -> video 1 de las publicaciones, "El chat imposible" (chat-imposible*.mp4)
+#   ./build.sh scroll   -> video 3, "Scroll satisfactorio" con xv-disco (scroll-xv*.mp4); antes: node capture-scroll.mjs xv-disco
 # Requiere ffmpeg y Chrome. Las capturas de shots/ se generan antes con capture.mjs (sitio local en el puerto 8123).
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -54,6 +55,19 @@ if [[ "$QUIERO" == chat ]]; then
 [0:a][mus]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.95[a]" \
     -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -movflags +faststart salida/chat-imposible-musica.mp4
   rm -rf frames-chat stills salida/sfx-chat.wav
+fi
+
+if [[ "$QUIERO" == scroll ]]; then
+  PAGE=scroll-xv.html FRAMES=frames-scroll node render.mjs
+  PAGE=scroll-xv.html node sfx.mjs salida/sfx-scroll.wav
+  ffmpeg -v error -y -framerate 30 -i frames-scroll/f%05d.jpg -i salida/sfx-scroll.wav -c:v libx264 -preset slow -crf 17 \
+    -pix_fmt yuv420p -c:a aac -b:a 192k -movflags +faststart -shortest salida/scroll-xv.mp4
+  DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 salida/scroll-xv.mp4)
+  ffmpeg -v error -y -i salida/scroll-xv.mp4 -ss 0.52 -i assets/music2.mp3 -filter_complex "
+[1:a]atrim=0:$DUR,asetpts=PTS-STARTPTS,volume=-7dB,afade=t=in:d=0.2,afade=t=out:st=$(echo "$DUR - 1.2" | bc):d=1.2[mus];
+[0:a][mus]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.95[a]" \
+    -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -movflags +faststart salida/scroll-xv-musica.mp4
+  rm -rf frames-scroll stills salida/sfx-scroll.wav
 fi
 
 ls -la salida
