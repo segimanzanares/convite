@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Convite · El chat imposible</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  /* Video 1 de "Publicaciones para ganar alcance": el chat imposible (12 s) */
+  #sc1 .hookbox { top: 110px; height: 330px; }
+  .hk { position: absolute; left: 0; right: 0; font-size: 84px; line-height: 1.05; letter-spacing: -2px; }
+  .hk small { display: block; font-size: 52px; letter-spacing: 8px; color: var(--gold); margin-bottom: 18px; }
+  .hk b { color: var(--gold); }
+
+  /* Teléfono con el chat */
+  .phone.chatp { width: 780px; height: 1420px; top: 470px; border-radius: 96px; padding: 18px; }
+  .phone.chatp .screen { border-radius: 80px; background: #efe6da; }
+  .wall { position: absolute; inset: 0; opacity: .5;
+    background-image: radial-gradient(#d8c9b4 2.5px, transparent 3px), radial-gradient(#d8c9b4 2.5px, transparent 3px);
+    background-size: 60px 60px; background-position: 0 0, 30px 30px; }
+  .ghead { position: absolute; z-index: 3; left: 0; right: 0; top: 0; height: 190px; padding: 70px 36px 0; display: flex; align-items: center; gap: 24px;
+    background: var(--ink); color: var(--ivory); text-align: left; }
+  .ghead .av { flex: none; display: grid; place-items: center; width: 96px; height: 96px; border-radius: 50%; background: var(--gold-pale); font-size: 56px; font-family: 'Noto Color Emoji'; }
+  .ghead b { display: block; font-size: 44px; }
+  .ghead .sub { position: relative; height: 40px; font-size: 30px; font-weight: 400; }
+  .ghead .sub span { position: absolute; left: 0; white-space: nowrap; }
+  #typing { color: var(--teal-light); }
+  #members { color: #cdbccd; }
+  .viewport { position: absolute; left: 0; right: 0; top: 190px; bottom: 130px; overflow: hidden; }
+  .msgs { position: absolute; left: 0; right: 0; top: 0; padding: 30px 28px 0; display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+  #sc1 { visibility: visible; }
+  .m { color: var(--ink); max-width: 600px; margin-bottom: 18px; padding: 16px 26px 18px; border-radius: 10px 36px 36px 36px; background: #fff; font-size: 42px; line-height: 1.15; font-weight: 500;
+    box-shadow: 0 4px 10px #2a1a2b1f; transform-origin: 0 0; }
+  .m i { display: block; font-style: normal; font-size: 30px; font-weight: 600; margin-bottom: 4px; color: var(--c); }
+  .m.big { font-size: 64px; font-weight: 600; letter-spacing: -1px; }
+  .m.out { align-self: flex-end; background: #dcf5d2; border-radius: 36px 10px 36px 36px; transform-origin: 100% 0; }
+  .m .t { display: block; text-align: right; font-size: 24px; font-weight: 400; color: #7a8a77; margin-top: 6px; }
+  .msgs img { position: static; display: block; }
+  .photo { width: 440px; height: 440px; border-radius: 22px; overflow: hidden; margin-bottom: 10px; }
+  .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; filter: blur(7px) saturate(.7) brightness(.9); transform: scale(1.15); }
+  /* Vista previa del enlace */
+  .link { position: relative; width: 560px; padding: 12px 12px 18px; }
+  .lprev { border-radius: 22px; overflow: hidden; background: #fff; }
+  .lprev .img { height: 300px; overflow: hidden; }
+  .msgs .lprev .img img { width: 100%; height: 300px; object-fit: cover; object-position: 50% 42%; }
+  .lprev .txt { padding: 16px 22px 20px; }
+  .lprev b { display: block; font-size: 38px; }
+  .lprev p { font-size: 28px; font-weight: 400; color: #6a566b; margin-top: 4px; }
+  .lprev u { display: block; text-decoration: none; font-size: 26px; font-weight: 400; color: #8a7a8b; margin-top: 8px; }
+  .link .url { display: block; font-size: 31px; overflow-wrap: anywhere; color: #1a73a8; margin: 14px 10px 0; text-decoration: underline; }
+  .react { position: absolute; right: 30px; bottom: -40px; padding: 8px 20px; border-radius: 999px; background: #fff; box-shadow: 0 4px 12px #0003; font-size: 34px; white-space: nowrap; }
+  .react .emo { font-size: 34px; }
+  .inbar { position: absolute; left: 0; right: 0; bottom: 0; height: 130px; padding: 22px 28px 40px; display: flex; gap: 18px; background: #f6efe6; }
+  .inbar div { flex: 1; border-radius: 999px; background: #fff; }
+  .inbar span { width: 68px; border-radius: 50%; background: var(--ink); }
+  /* Silencio: los mensajes de antes se apagan */
+  .qmarks span, .zz span { position: absolute; font-family: 'Noto Color Emoji'; font-size: 80px; opacity: 0; }
+  .demo { position: absolute; inset: 0; z-index: 5; visibility: hidden; background: #fff; }
+  #d0 { object-position: bottom !important; }
+  #rip { z-index: 10; }
+  .demo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .ok { width: max-content; top: 300px; font-size: 64px; padding: 24px 50px; border-radius: 999px; background: var(--ivory); color: var(--ink); box-shadow: 0 20px 50px #0006; }
+  .ok .emo { font-size: 60px; }
+  .ok s { text-decoration: none; display: inline-grid; place-items: center; width: 70px; height: 70px; margin-left: 14px; border-radius: 50%; background: #1f9d6b; color: #fff; font-size: 44px; vertical-align: 6px; }
+
+  /* Cierre */
+  #e1 { top: 470px; width: 280px; }
+  #e2 { top: 770px; }
+  #e3 { top: 950px; color: #6a566b; letter-spacing: 6px; text-transform: uppercase; font-size: 50px; }
+  #e4 { top: 1180px; width: max-content; font-size: 76px; letter-spacing: -1px; padding: 36px 80px; border-radius: 999px; background: var(--ink); color: var(--ivory); box-shadow: 0 26px 60px #2a1a2b66; }
+  #e5 { top: 1400px; font-size: 56px; font-weight: 500; color: var(--ink); }
+  #e5 .script { font-size: 110px; color: var(--rose); }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1 · El chat del grupo familiar -->
+  <section class="sc dark" id="sc1">
+    <div class="hookbox">
+      <div class="hk" id="h1"><small>POV</small>mandaste tu invitación<br>al grupo familiar <span class="emo">📸</span></div>
+      <div class="hk h" id="h2"><small>HASTA QUE…</small>mandaste <b>un enlace</b> <span class="emo">🔗</span></div>
+      <div class="hk h" id="h3"><small>Y DE PRONTO…</small>silencio total <span class="emo">🤫</span></div>
+      <div class="hk h" id="h4"><small>CON UN SOLO ENLACE</small>todo quedó claro <span class="emo">✨</span></div>
+    </div>
+    <div class="qmarks" id="qm"></div>
+    <div class="phone chatp" id="ph">
+      <div class="screen">
+        <div class="wall"></div>
+        <div class="viewport"><div class="msgs" id="msgs">
+          <div class="m out" id="m0"><div class="photo"><img src="shots/boda-serena-01.png"></div>¡Nos casamos! <span class="emo">💍</span><span class="t">9:41 ✓✓</span></div>
+        </div></div>
+        <div class="ghead">
+          <span class="av">👨‍👩‍👧‍👦</span>
+          <div><b>Familia <span class="emo">💒</span></b>
+            <div class="sub"><span id="members">Abuela, Mamá, Tía Lupita, Tío Beto…</span><span id="typing" class="h">Tía Lupita está escribiendo…</span></div></div>
+        </div>
+        <div class="inbar"><div></div><span></span></div>
+        <div class="demo" id="demo">
+          <img id="d0" src="shots/boda-serena-00.png">
+          <img class="h" id="d1" src="shots/boda-serena-01.png">
+          <img class="h" id="d2" src="shots/boda-serena-05.png">
+          <img class="h" id="d3" src="shots/boda-serena-06.png">
+        </div>
+      </div>
+      <div class="ripple" id="rip"></div>
+    </div>
+    <div class="ok h" id="ok1"><span class="emo">📍</span> ¿Dónde queda? <s>✓</s></div>
+    <div class="ok h" id="ok2"><span class="emo">🕐</span> ¿A qué hora es? <s>✓</s></div>
+  </section>
+
+  <!-- 2 · Cierre -->
+  <section class="sc ivory" id="sc2">
+    <img class="logo h" id="e1" src="assets/convite-icon.png">
+    <div class="word h" id="e2">Convite</div>
+    <div class="md h" id="e3">Invitaciones digitales</div>
+    <div class="h" id="e4">Síguenos <span class="emo">✨</span></div>
+    <div class="h" id="e5">para más ideas<br><span class="script">para tu fiesta</span></div>
+  </section>
+
+</div>
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script src="timeline-chat-imposible.js"></script>
+</body>
+</html>

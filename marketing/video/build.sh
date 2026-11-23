@@ -3,6 +3,7 @@
 #   ./build.sh          -> las dos versiones (larga y corta)
 #   ./build.sh largo    -> solo convite-short*.mp4
 #   ./build.sh corto    -> solo convite-short-corto*.mp4
+#   ./build.sh chat     -> video 1 de las publicaciones, "El chat imposible" (chat-imposible*.mp4)
 # Requiere ffmpeg y Chrome. Las capturas de shots/ se generan antes con capture.mjs (sitio local en el puerto 8123).
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -40,6 +41,19 @@ if [[ "$QUIERO" == todos || "$QUIERO" == corto ]]; then
   rm -rf frames-corto stills
   mezclar salida/convite-short-corto.mp4 assets/voz2.mp3 'volume=2dB,apad,atrim=0:43' 43 \
     'if(lt(t,12.0),0.8, if(gte(t,37.85),1.35,1))' 41.3 1.7 salida/convite-short-corto-musica.mp4
+fi
+
+if [[ "$QUIERO" == chat ]]; then
+  PAGE=chat-imposible.html FRAMES=frames-chat node render.mjs
+  PAGE=chat-imposible.html node sfx.mjs salida/sfx-chat.wav
+  ffmpeg -v error -y -framerate 30 -i frames-chat/f%05d.jpg -i salida/sfx-chat.wav -c:v libx264 -preset slow -crf 17 \
+    -pix_fmt yuv420p -c:a aac -b:a 192k -movflags +faststart -shortest salida/chat-imposible.mp4
+  # Con música de fondo: music2.mp3 debajo de los efectos, con fade al final
+  ffmpeg -v error -y -i salida/chat-imposible.mp4 -ss 0.52 -i assets/music2.mp3 -filter_complex "
+[1:a]atrim=0:12,asetpts=PTS-STARTPTS,volume=-9dB,afade=t=in:d=0.2,afade=t=out:st=11:d=1[mus];
+[0:a][mus]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.95[a]" \
+    -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -movflags +faststart salida/chat-imposible-musica.mp4
+  rm -rf frames-chat stills salida/sfx-chat.wav
 fi
 
 ls -la salida
