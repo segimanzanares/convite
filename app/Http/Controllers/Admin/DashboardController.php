@@ -48,6 +48,7 @@ class DashboardController extends Controller
             'upcomingEvents' => InvitationResource::collection($upcomingEvents),
             'upcomingEventDays' => DashboardService::UPCOMING_EVENT_DAYS,
             'ordersWithBalance' => OrderResource::collection($ordersWithBalance),
+            'commissionsOwed' => $this->dashboard->commissionsOwed(),
         ]);
     }
 

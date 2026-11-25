@@ -113,6 +113,35 @@ class DashboardService
     }
 
     /**
+     * The commissions owed to partners, by partner, the largest first: those of orders paid in full whose commission
+     * was not paid yet. Quotes are left out, as on the partner page.
+     *
+     * @return list<array{partner: array{id: int, name: string, code: string}, orders: int, amount: string}>
+     */
+    public function commissionsOwed(): array
+    {
+        return Order::query()
+            ->whereNotNull('partner_id')
+            ->whereNull('commission_paid_at')
+            ->where('status', '!=', OrderStatus::Quoted)
+            ->where('price', '>', 0)
+            ->where('price', '<=', Payment::query()
+                ->selectRaw('coalesce(sum(amount), 0)')
+                ->whereColumn('payments.order_id', 'orders.id'))
+            ->with('partner:id,name,code')
+            ->get()
+            ->groupBy('partner_id')
+            ->map(fn (Collection $orders): array => [
+                'partner' => $orders->first()->partner->only(['id', 'name', 'code']),
+                'orders' => $orders->count(),
+                'amount' => $this->money($orders->sum(fn (Order $order) => (float) $order->commissionAmount())),
+            ])
+            ->sortByDesc(fn (array $row) => (float) $row['amount'])
+            ->values()
+            ->all();
+    }
+
+    /**
      * The sum of the balances of the given orders.
      *
      * @param  Collection<int, Order>  $orders

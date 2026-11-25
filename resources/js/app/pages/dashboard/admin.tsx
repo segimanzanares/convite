@@ -8,6 +8,7 @@ import {
 import { show as showClient } from '@/actions/App/Http/Controllers/Admin/ClientController';
 import { edit as editContent } from '@/actions/App/Http/Controllers/Admin/InvitationContentController';
 import { show as showOrder } from '@/actions/App/Http/Controllers/Admin/OrderController';
+import { show as showPartner } from '@/actions/App/Http/Controllers/Admin/PartnerController';
 import BarChart from '@/components/bar-chart';
 import DataTable from '@/components/data-table';
 import Heading from '@/components/heading';
@@ -30,6 +31,7 @@ import type {
     Invitation,
     MonthlyRevenue,
     Order,
+    PartnerCommissionsOwed,
     SourceSales,
 } from '@/types';
 
@@ -40,6 +42,7 @@ type Props = {
     upcomingEvents: Invitation[];
     upcomingEventDays: number;
     ordersWithBalance: Order[];
+    commissionsOwed: PartnerCommissionsOwed[];
 };
 
 /** Days from today (in the browser) to a "Y-m-d" date. */
@@ -59,10 +62,15 @@ export default function AdminDashboard({
     upcomingEvents,
     upcomingEventDays,
     ordersWithBalance,
+    commissionsOwed,
 }: Props) {
     const previousMonth = revenue.at(-2);
     const sourceSalesTotal = salesBySource.reduce(
         (sum, row) => sum + Number(row.sales),
+        0,
+    );
+    const commissionsOwedTotal = commissionsOwed.reduce(
+        (sum, row) => sum + Number(row.amount),
         0,
     );
 
@@ -295,6 +303,45 @@ export default function AdminDashboard({
                                 </td>
                                 <td className="px-2 py-3 font-medium whitespace-nowrap tabular-nums md:px-4">
                                     {formatMoney(order.balance ?? 0)}
+                                </td>
+                            </tr>
+                        ))}
+                    </DataTable>
+                </section>
+
+                <section className="space-y-4">
+                    <Heading
+                        variant="small"
+                        title="Comisiones por pagar"
+                        description={
+                            commissionsOwedTotal > 0
+                                ? `${formatMoney(commissionsOwedTotal)} a aliados por contrataciones ya liquidadas; se marcan como pagadas en la página de cada aliado`
+                                : 'Comisiones de aliados por contrataciones ya liquidadas'
+                        }
+                    />
+                    <DataTable
+                        columns={['Aliado', 'Contrataciones', 'Por pagar']}
+                        empty="No hay comisiones por pagar."
+                        isEmpty={commissionsOwed.length === 0}
+                    >
+                        {commissionsOwed.map((row) => (
+                            <tr key={row.partner.id}>
+                                <td className="px-2 py-3 font-medium md:px-4">
+                                    <Link
+                                        href={showPartner(row.partner.id)}
+                                        className="hover:underline"
+                                    >
+                                        {row.partner.name}
+                                    </Link>
+                                    <div className="text-muted-foreground font-mono text-xs font-normal">
+                                        {row.partner.code}
+                                    </div>
+                                </td>
+                                <td className="px-2 py-3 md:px-4">
+                                    {row.orders}
+                                </td>
+                                <td className="px-2 py-3 font-medium whitespace-nowrap tabular-nums md:px-4">
+                                    {formatMoney(row.amount)}
                                 </td>
                             </tr>
                         ))}

@@ -6,6 +6,7 @@ use App\Enums\PlanFeature;
 use App\Models\Guest;
 use App\Models\Invitation;
 use App\Models\Order;
+use App\Models\Partner;
 use App\Models\Payment;
 use App\Models\Plan;
 use App\Models\Rsvp;
@@ -69,6 +70,36 @@ it('lists the orders that still owe part of their price', function () {
             ->has('ordersWithBalance', 2)
             ->where('ordersWithBalance.0.id', $owing->id)
             ->where('ordersWithBalance.0.balance', '2000.00'));
+});
+
+it('lists the commissions owed to each partner, for orders paid in full', function () {
+    $ana = Partner::factory()->create(['name' => 'Ana', 'code' => 'ANA']);
+    $luis = Partner::factory()->create(['name' => 'Luis', 'code' => 'LUIS']);
+    $partnerOrder = function (Partner $partner, string $paid, array $attributes = []): Order {
+        $order = Order::factory()->for(Plan::factory()->create(['price' => 1000]))->create([
+            'source' => OrderSource::Partner,
+            'partner_id' => $partner->id,
+            'commission_percent' => '10.00',
+            ...$attributes,
+        ]);
+        Payment::factory()->for($order)->create(['amount' => $paid]);
+
+        return $order;
+    };
+    $partnerOrder($ana, '1000');
+    $partnerOrder($ana, '1000', ['commission_percent' => '20.00']);
+    $partnerOrder($luis, '1000');
+    // Not owed: not paid in full, already paid to the partner, or a quote
+    $partnerOrder($luis, '999');
+    $partnerOrder($luis, '1000', ['commission_paid_at' => now()]);
+    $partnerOrder($luis, '1000', ['status' => OrderStatus::Quoted]);
+
+    $this->actingAs(User::factory()->create())
+        ->get(route('dashboard'))
+        ->assertInertia(fn (Assert $page) => $page->where('commissionsOwed', [
+            ['partner' => ['id' => $ana->id, 'name' => 'Ana', 'code' => 'ANA'], 'orders' => 2, 'amount' => '300.00'],
+            ['partner' => ['id' => $luis->id, 'name' => 'Luis', 'code' => 'LUIS'], 'orders' => 1, 'amount' => '100.00'],
+        ]));
 });
 
 it('lists the events of the coming days, without the demos', function () {

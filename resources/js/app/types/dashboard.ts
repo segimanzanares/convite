@@ -1,6 +1,7 @@
 import type { RsvpSummary } from './guest';
 import type { Invitation } from './invitation';
 import type { OrderSource } from './order';
+import type { Partner } from './partner';
 
 /** Sales (orders that are not quotes) and payments of one month, "Y-m". */
 export type MonthlyRevenue = {
@@ -15,6 +16,13 @@ export type SourceSales = {
     source: OrderSource | null;
     orders: number;
     sales: string;
+};
+
+/** What Convite owes a partner: the commissions of their orders paid in full, not paid yet. */
+export type PartnerCommissionsOwed = {
+    partner: Pick<Partner, 'id' | 'name' | 'code'>;
+    orders: number;
+    amount: string;
 };
 
 export type AdminTotals = {
