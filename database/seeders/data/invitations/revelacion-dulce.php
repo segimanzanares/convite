@@ -2,8 +2,7 @@
 
 /*
 | Content of the revelacion-dulce demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource), which keeps the answer secret. The venue photo comes from the wedding demo and the
-| music from another demo.
+| InvitationContentResource), which keeps the answer secret. The venue photo comes from the wedding demo.
 */
 
 $image = fn (string $file): string => "/invitations/revelacion-dulce/images/{$file}";
@@ -18,7 +17,7 @@ return [
         'due_label' => 'Llega en agosto de 2027',
         'baby_names' => ['girl' => 'Regina', 'boy' => 'Emiliano'],
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/cumpleanos-confeti/music.mp3',
+        'music' => '/invitations/revelacion-dulce/music.mp3',
         'message' => 'La respuesta está horneada dentro del pastel. Cuando lo partamos, lo sabremos todos juntos.',
         'closing_message' => 'Gracias por endulzar esta espera con nosotros. Fresa o mora azul, lo mejor es que ya viene en camino.',
         'tagline' => 'Con mucho amor, Mariel y Javier',

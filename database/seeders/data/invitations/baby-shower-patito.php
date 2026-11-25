@@ -2,7 +2,7 @@
 
 /*
 | Content of the baby-shower-patito demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource). The venue photo comes from the wedding demo and the music from another demo.
+| InvitationContentResource). The venue photo comes from the wedding demo.
 */
 
 $image = fn (string $file): string => "/invitations/baby-shower-patito/images/{$file}";
@@ -17,7 +17,7 @@ return [
         'baby_name' => null,
         'due_label' => 'Llega en julio de 2027',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/infantil-dulce/music.mp3',
+        'music' => '/invitations/baby-shower-patito/music.mp3',
         'message' => 'Ya estamos chapoteando de gusto. Ven a celebrar con nosotros la llegada de nuestro bebé con juegos, burbujas y mucho cariño.',
         'closing_message' => 'Gracias por llenar de burbujas y cariño este día. ¡Nos vemos muy pronto, ya con el patito en casa!',
         'tagline' => 'Con cariño, Karla e Iván',

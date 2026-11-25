@@ -2,8 +2,7 @@
 
 /*
 | Content of the revelacion-osito demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource), which keeps the answer secret. The venue photo comes from the wedding demo and the
-| music from another demo.
+| InvitationContentResource), which keeps the answer secret. The venue photo comes from the wedding demo.
 */
 
 $image = fn (string $file): string => "/invitations/revelacion-osito/images/{$file}";
@@ -18,7 +17,7 @@ return [
         'due_label' => 'Llega en octubre de 2027',
         'baby_names' => ['girl' => 'Emilia', 'boy' => 'Mateo'],
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/bautizo-nube/music.mp3',
+        'music' => '/invitations/revelacion-osito/music.mp3',
         'message' => 'Muy pronto conoceremos a nuestro osito… ¿o será osita? Queremos que estés con nosotros cuando lo descubramos.',
         'closing_message' => 'Gracias por acompañarnos con tanto cariño. Sea osito u osita, ya tiene una familia que lo espera con los brazos abiertos.',
         'tagline' => 'Con cariño, Paulina y Rodrigo',

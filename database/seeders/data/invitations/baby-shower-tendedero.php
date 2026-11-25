@@ -2,7 +2,7 @@
 
 /*
 | Content of the baby-shower-tendedero demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource). The venue photo comes from the wedding demo and the music from another demo.
+| InvitationContentResource). The venue photo comes from the wedding demo.
 */
 
 $image = fn (string $file): string => "/invitations/baby-shower-tendedero/images/{$file}";
@@ -17,7 +17,7 @@ return [
         'baby_name' => null,
         'due_label' => 'Llega en junio de 2027',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/boda-serena/music.mp3',
+        'music' => '/invitations/baby-shower-tendedero/music.mp3',
         'message' => 'Ya tendimos su ropita y estamos preparando el nido. Nos encantaría que nos acompañes a celebrar la llegada de nuestro bebé.',
         'closing_message' => 'Gracias por ayudarnos a preparar el nido con tanto cariño. Nos vemos pronto, ya con el bebé en brazos.',
         'tagline' => 'Con cariño, Regina y Pablo',

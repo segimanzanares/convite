@@ -2,7 +2,7 @@
 
 /*
 | Content of the baby-shower-safari demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource). The venue photo comes from the wedding demo and the music from another demo.
+| InvitationContentResource). The venue photo comes from the wedding demo.
 */
 
 $image = fn (string $file): string => "/invitations/baby-shower-safari/images/{$file}";
@@ -17,7 +17,7 @@ return [
         'baby_name' => 'Santiago',
         'due_label' => 'Llega en abril de 2027',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/infantil-dino/music.mp3',
+        'music' => '/invitations/baby-shower-safari/music.mp3',
         'message' => 'La familia está por crecer y queremos celebrarlo contigo: una tarde de juegos, antojos y mucho cariño para recibir a Santiago.',
         'closing_message' => 'Gracias por ser parte de esta pequeña gran aventura. Con tu cariño, Santiago llega a un mundo lleno de amor.',
         'tagline' => 'Con cariño, Valeria y Andrés',

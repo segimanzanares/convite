@@ -2,7 +2,7 @@
 
 /*
 | Content of the baby-shower-lluvia demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource). The venue photo comes from the wedding demo and the music from another demo.
+| InvitationContentResource). The venue photo comes from the wedding demo.
 */
 
 $image = fn (string $file): string => "/invitations/baby-shower-lluvia/images/{$file}";
@@ -17,7 +17,7 @@ return [
         'baby_name' => 'Emilia',
         'due_label' => 'Llega en mayo de 2027',
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/bautizo-luz/music.mp3',
+        'music' => '/invitations/baby-shower-lluvia/music.mp3',
         'message' => 'Se viene una lluvia de amor para Emilia y no queremos que te la pierdas. Ven a consentirnos con tu compañía.',
         'closing_message' => 'Gracias por llover tanto cariño sobre nosotras. Emilia ya sabe que la esperan muchos abrazos.',
         'tagline' => 'Con amor, Daniela',

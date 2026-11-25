@@ -2,8 +2,7 @@
 
 /*
 | Content of the revelacion-estrellas demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource), which keeps the answer secret. The venue photo comes from the wedding demo and the
-| music from another demo.
+| InvitationContentResource), which keeps the answer secret. The venue photo comes from the wedding demo.
 */
 
 $image = fn (string $file): string => "/invitations/revelacion-estrellas/images/{$file}";
@@ -18,7 +17,7 @@ return [
         'due_label' => 'Llega en noviembre de 2027',
         'baby_names' => ['girl' => 'Luna', 'boy' => 'León'],
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/xv-celestial/music.mp3',
+        'music' => '/invitations/revelacion-estrellas/music.mp3',
         'message' => 'Trae un paquete muy esperado, y bajo las estrellas descubriremos si es un niño o una niña.',
         'closing_message' => 'Gracias por acompañarnos en esta noche tan especial. Niño o niña, ya es la estrella más brillante de nuestro cielo.',
         'tagline' => 'Con amor, Andrea y Tomás',

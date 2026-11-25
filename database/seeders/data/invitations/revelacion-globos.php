@@ -2,8 +2,7 @@
 
 /*
 | Content of the revelacion-globos demo. It has no order, so its date always shows 60 days ahead (see
-| InvitationContentResource), which keeps the answer secret. The venue photo comes from the wedding demo and the
-| music from another demo.
+| InvitationContentResource), which keeps the answer secret. The venue photo comes from the wedding demo.
 */
 
 $image = fn (string $file): string => "/invitations/revelacion-globos/images/{$file}";
@@ -18,7 +17,7 @@ return [
         'due_label' => 'Llega en septiembre de 2027',
         'baby_names' => ['girl' => 'Valentina', 'boy' => 'Santiago'],
         'rsvp_whatsapp' => '521234567890',
-        'music' => '/invitations/infantil-dulce/music.mp3',
+        'music' => '/invitations/revelacion-globos/music.mp3',
         'message' => 'Un globo, dos colores y una noticia que nos tiene flotando. Ven a descubrir con nosotros si nuestro bebé será niño o niña.',
         'closing_message' => 'Gracias por ser parte de esta espera tan bonita. Rosa o azul, este bebé ya llegó a una familia que lo ama.',
         'tagline' => 'Con amor, Fernanda y Diego',
