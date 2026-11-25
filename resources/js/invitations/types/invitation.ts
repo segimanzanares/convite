@@ -88,4 +88,28 @@ export interface GenderRevealContent extends BaseContent {
   grandparents: HonorGroup[];
 }
 
-export type InvitationContent = WeddingContent | BirthdayContent | XvContent | BaptismContent | GenderRevealContent;
+/** One group of guests of a baby shower's "lluvia de pañales" and the size asked of it, e.g. "Etapa 2" for "Apellidos de la A a la M". */
+export interface DiaperSize {
+  label: string;
+  note: string | null;
+}
+
+/**
+ * A baby shower: the parents-to-be (one or two names) celebrate the baby on its way with their family and friends.
+ */
+export interface BabyShowerContent extends BaseContent {
+  kind: 'baby_shower';
+  /** The parents-to-be, one or two names. */
+  names: string[];
+  families: string;
+  /** The baby's name, if they picked one. */
+  babyName: string | null;
+  /** e.g. "Llega en marzo de 2027". */
+  dueLabel: string | null;
+  /** Who hosts the party, e.g. "Organizan con cariño" or "Abuelos maternos". */
+  hosts: HonorGroup[];
+  /** The "lluvia de pañales": a note and the size asked of each group of guests; null without either. */
+  diapers: { note: string | null; sizes: DiaperSize[] } | null;
+}
+
+export type InvitationContent = WeddingContent | BirthdayContent | XvContent | BaptismContent | GenderRevealContent | BabyShowerContent;

@@ -1,6 +1,6 @@
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
-import type { BaptismContent, BirthdayContent, GenderRevealContent, WeddingContent, XvContent } from '../types/invitation';
+import type { BabyShowerContent, BaptismContent, BirthdayContent, GenderRevealContent, WeddingContent, XvContent } from '../types/invitation';
 import type { CelebrantInfo } from '../types/birthday';
 import type { CoupleInfo } from '../types/wedding';
 
@@ -26,7 +26,7 @@ export function initials(...names: string[]): string {
 }
 
 /** The labels shared by every template; each one may still format the date its own way. */
-function labels(content: WeddingContent | BirthdayContent | XvContent | BaptismContent | GenderRevealContent) {
+function labels(content: WeddingContent | BirthdayContent | XvContent | BaptismContent | GenderRevealContent | BabyShowerContent) {
   const { eventDate, deadline } = eventDates(content);
 
   return {
@@ -68,8 +68,8 @@ export function joinNames(names: string[]): string {
   return names.filter(Boolean).join(' & ');
 }
 
-/** The parents-to-be of a gender reveal and the labels its templates share. */
-export function toParentsToBe(content: GenderRevealContent) {
+/** The parents-to-be of a gender reveal or a baby shower and the labels their templates share. */
+export function toParentsToBe(content: GenderRevealContent | BabyShowerContent) {
   const { eventDate } = eventDates(content);
 
   return {

@@ -101,15 +101,24 @@ trait InvitationContentRules
             ];
         }
 
+        if ($kind === InvitationKind::BabyShower) {
+            return [
+                ...$this->parentsToBeRules(),
+                'content.baby_name' => ['nullable', 'string', 'max:100'],
+                // Who hosts the party, e.g. "Organizan con cariño: las tías"
+                ...$this->honorGroupRules('content.hosts', 4),
+                // The "lluvia de pañales": a note and the size asked of each group of guests
+                'content.diapers' => ['nullable', 'array'],
+                'content.diapers.note' => ['nullable', 'string', 'max:500'],
+                'content.diapers.sizes' => ['nullable', 'array', 'max:6'],
+                'content.diapers.sizes.*.label' => ['required', 'string', 'max:50'],
+                'content.diapers.sizes.*.note' => ['nullable', 'string', 'max:100'],
+            ];
+        }
+
         if ($kind === InvitationKind::GenderReveal) {
             return [
-                // The parents-to-be: one name is enough
-                'content.names' => ['required', 'array', 'min:1', 'max:2'],
-                'content.names.0' => ['required', 'string', 'max:100'],
-                'content.names.1' => ['nullable', 'string', 'max:100'],
-                'content.families' => ['nullable', 'string', 'max:255'],
-                // e.g. "Llega en abril de 2027"
-                'content.due_label' => ['nullable', 'string', 'max:100'],
+                ...$this->parentsToBeRules(),
                 'content.baby_names' => ['nullable', 'array'],
                 'content.baby_names.boy' => ['nullable', 'string', 'max:100'],
                 'content.baby_names.girl' => ['nullable', 'string', 'max:100'],
@@ -154,7 +163,24 @@ trait InvitationContentRules
     }
 
     /**
-     * A list of honor groups (the godparents, a couple's parents or a baby's grandparents): each one a role and up to four names.
+     * The parents-to-be of a gender reveal or a baby shower (one name is enough) and the due date as text.
+     *
+     * @return array<string, list<string>>
+     */
+    private function parentsToBeRules(): array
+    {
+        return [
+            'content.names' => ['required', 'array', 'min:1', 'max:2'],
+            'content.names.0' => ['required', 'string', 'max:100'],
+            'content.names.1' => ['nullable', 'string', 'max:100'],
+            'content.families' => ['nullable', 'string', 'max:255'],
+            // e.g. "Llega en abril de 2027"
+            'content.due_label' => ['nullable', 'string', 'max:100'],
+        ];
+    }
+
+    /**
+     * A list of honor groups (the godparents, a couple's parents, a baby's grandparents or a baby shower's hosts): each one a role and up to four names.
      *
      * @return array<string, list<string>>
      */

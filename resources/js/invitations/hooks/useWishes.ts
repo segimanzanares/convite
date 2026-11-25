@@ -34,12 +34,13 @@ const OCCASIONS: Record<Exclude<InvitationContent['kind'], 'birthday'>, string> 
   xv: 'Mis XV años',
   baptism: 'Mi bautizo',
   gender_reveal: '¿Niño o niña?',
+  baby_shower: 'Nuestro baby shower',
 };
 
 function toCover(invitation: InvitationContent): WishesCover {
   const dateLabel = formatDate(eventDates(invitation).eventDate, "dd '·' MMMM '·' yyyy");
 
-  if (invitation.kind === 'wedding' || invitation.kind === 'gender_reveal') {
+  if (invitation.kind === 'wedding' || invitation.kind === 'gender_reveal' || invitation.kind === 'baby_shower') {
     const title = invitation.names.filter(Boolean).join(' & ');
 
     return {

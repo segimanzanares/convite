@@ -363,7 +363,7 @@ class Invitation extends Model
 
         $names = $this->content['names'] ?? [];
 
-        if ($kind === InvitationKind::GenderReveal) {
+        if ($kind->hasParentsToBe()) {
             return is_array($names) && filled($names[0] ?? null);
         }
 

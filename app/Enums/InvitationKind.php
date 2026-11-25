@@ -27,11 +27,25 @@ enum InvitationKind: string
     case GenderReveal = 'gender_reveal';
 
     /**
+     * Parents-to-be (one or two names) celebrating the baby on its way with their family and friends: the baby's
+     * name if they picked one, the due date, who hosts the party and the diaper sizes guests may bring.
+     */
+    case BabyShower = 'baby_shower';
+
+    /**
      * Whether the content names one celebrant instead of a couple.
      */
     public function hasCelebrant(): bool
     {
         return $this === self::Birthday || $this->hasChapters();
+    }
+
+    /**
+     * Whether the content names the parents-to-be (one or two names, like a couple) instead of a celebrant.
+     */
+    public function hasParentsToBe(): bool
+    {
+        return $this === self::GenderReveal || $this === self::BabyShower;
     }
 
     /**

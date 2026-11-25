@@ -22,6 +22,8 @@ interface RsvpSectionProps {
   doneArt: ReactNode;
   /** The emoji of the yes and the no cards. */
   emojis: { yes: string; no: string };
+  /** The thanks under an online answer, after the seats: "¡Nos vemos en la revelación!" and its no by default. */
+  doneMessages?: { yes: string; no: string };
 }
 
 type DoneProps = Pick<RsvpSectionProps, 'doneArt' | 'titleClassName'> & { title: string; children?: ReactNode };
@@ -146,7 +148,17 @@ export function RsvpSection(props: RsvpSectionProps) {
 }
 
 /** Answers stored by the server, through the open form or a guest's personalized link. */
-function OnlineRsvp({ calendar, venues, online, doneArt, titleClassName, emojis }: RsvpSectionProps & { online: ReturnType<typeof useOnlineRsvp> }) {
+const DONE_MESSAGES = { yes: '¡Nos vemos en la revelación!', no: 'Te vamos a extrañar; te contaremos si fue niño o niña.' };
+
+function OnlineRsvp({
+  calendar,
+  venues,
+  online,
+  doneArt,
+  titleClassName,
+  emojis,
+  doneMessages = DONE_MESSAGES,
+}: RsvpSectionProps & { online: ReturnType<typeof useOnlineRsvp> }) {
   const { guest, form, setField, errors, isAnswered, isOpen, maxSeats } = online;
 
   if (isAnswered) {
@@ -154,8 +166,8 @@ function OnlineRsvp({ calendar, venues, online, doneArt, titleClassName, emojis 
       <Done doneArt={doneArt} titleClassName={titleClassName} title={form.attending ? '¡Gracias por confirmar!' : 'Gracias por avisarnos'}>
         <p className="mt-2 text-sm text-(--muted-foreground)">
           {form.attending
-            ? `Apartamos ${form.seats === 1 ? 'tu lugar' : `${form.seats} lugares`}. ¡Nos vemos en la revelación!`
-            : 'Te vamos a extrañar; te contaremos si fue niño o niña.'}
+            ? `Apartamos ${form.seats === 1 ? 'tu lugar' : `${form.seats} lugares`}. ${doneMessages.yes}`
+            : doneMessages.no}
         </p>
         <div className="mt-6 flex flex-col justify-center gap-2 sm:flex-row">
           {form.attending && <CalendarButton calendar={calendar} venues={venues} />}

@@ -81,9 +81,9 @@ function hasChapters(kind: InvitationKind): boolean {
     return kind === "xv" || kind === "baptism";
 }
 
-/** Wedding and gender reveal templates name a couple (the parents-to-be, in a gender reveal) instead of a celebrant. */
+/** Wedding, gender reveal and baby shower templates name a couple (the parents-to-be, in the last two) instead of a celebrant. */
 function namesCouple(kind: InvitationKind): boolean {
-    return kind === "wedding" || kind === "gender_reveal";
+    return kind === "wedding" || kind === "gender_reveal" || kind === "baby_shower";
 }
 
 /** Fills the lists and names the form always edits, so new invitations start with empty inputs. */
@@ -98,9 +98,11 @@ function withDefaults(content: Content, kind: InvitationKind): Content {
         ...(kind === "wedding" ? { parents: [] } : {}),
         ...(kind === "gender_reveal"
             ? { grandparents: [] }
-            : kind !== "birthday"
-              ? { godparents: [] }
-              : {}),
+            : kind === "baby_shower"
+              ? { hosts: [], diapers: { note: "", sizes: [] } }
+              : kind !== "birthday"
+                ? { godparents: [] }
+                : {}),
         ...content,
     };
 }
@@ -129,6 +131,12 @@ function contentTabs(
             paths: ["content.reveal", "content.baby_names", "content.due_label"],
             content: <RevealSection invitation={invitation} />,
         },
+        kind === "baby_shower" && {
+            value: "baby",
+            label: "El bebé",
+            paths: ["content.baby_name", "content.due_label", "content.diapers"],
+            content: <BabyShowerSection />,
+        },
         hasChapters(kind) && {
             value: "story",
             label: "Mi historia",
@@ -142,6 +150,7 @@ function contentTabs(
                 "content.parents",
                 "content.godparents",
                 "content.grandparents",
+                "content.hosts",
             ],
             content: <FamilySection kind={kind} />,
         },
@@ -979,6 +988,63 @@ function RevealSection({ invitation }: { invitation: Invitation }) {
     );
 }
 
+/** The baby's name, the due date and the "lluvia de pañales": a note and the size asked of each group of guests. */
+function BabyShowerSection() {
+    const sizes = useList<Content>("content.diapers.sizes");
+
+    return (
+        <>
+            <ContentSection
+                title="El bebé"
+                description="Si los dejas vacíos, la plantilla no los muestra."
+            >
+                <div className="grid gap-4 sm:grid-cols-2">
+                    <TextField
+                        path="content.baby_name"
+                        label="Nombre del bebé"
+                        placeholder="Emilia"
+                    />
+                    <TextField
+                        path="content.due_label"
+                        label="Llegada estimada"
+                        placeholder="Llega en marzo de 2027"
+                    />
+                </div>
+            </ContentSection>
+            <ContentSection
+                title="Lluvia de pañales"
+                description="La talla que le toca a cada grupo de invitados. Sin tallas ni nota, la sección no se muestra."
+            >
+                <TextAreaField
+                    path="content.diapers.note"
+                    label="Nota"
+                    placeholder="Si quieres traer pañales, aquí va la etapa según la inicial de tu apellido."
+                />
+                <Repeater
+                    {...sizes}
+                    max={6}
+                    addLabel="Agregar talla"
+                    create={() => ({ label: "", note: "" })}
+                    renderItem={(_, index) => (
+                        <div className="grid gap-4 sm:grid-cols-2">
+                            <TextField
+                                path={`content.diapers.sizes.${index}.label`}
+                                label="Talla"
+                                placeholder="Etapa 2"
+                            />
+                            <TextField
+                                path={`content.diapers.sizes.${index}.note`}
+                                label="Para quién"
+                                placeholder="Apellidos de la A a la M"
+                            />
+                        </div>
+                    )}
+                />
+            </ContentSection>
+        </>
+    );
+}
+
 function ChapterSections() {
     return (
         <ContentSection
@@ -1030,6 +1096,7 @@ const familyRoles: Record<
     baptism: { parents: "Mis papás", godparents: "Padrinos de bautizo" },
     birthday: { parents: "Sus papás", godparents: null },
     gender_reveal: { parents: "Abuelos maternos", godparents: null },
+    baby_shower: { parents: "Organizan con cariño", godparents: null },
 };
 
 const familyTitles: Record<InvitationKind, string> = {
@@ -1038,6 +1105,7 @@ const familyTitles: Record<InvitationKind, string> = {
     baptism: "Papás y padrinos",
     birthday: "Papás",
     gender_reveal: "Abuelos",
+    baby_shower: "Anfitriones",
 };
 
 /** The parents (of each one of the couple, in a wedding) and the godparents; kids' birthdays only have parents. */
@@ -1045,7 +1113,36 @@ function FamilySection({ kind }: { kind: InvitationKind }) {
     const parents = useList<Content>("content.parents");
     const godparents = useList<Content>("content.godparents");
     const grandparents = useList<Content>("content.grandparents");
+    const hosts = useList<Content>("content.hosts");
     const roles = familyRoles[kind];
+
+    if (kind === "baby_shower") {
+        return (
+            <ContentSection
+                title="Anfitriones"
+                description="Quienes organizan e invitan: amigas, tías, abuelos. Si no capturas a nadie, la sección no se muestra."
+            >
+                <Repeater
+                    {...hosts}
+                    max={4}
+                    addLabel="Agregar anfitriones"
+                    create={() => ({
+                        role:
+                            hosts.items.length === 0
+                                ? roles.parents
+                                : "Futuros abuelos",
+                        names: ["", ""],
+                    })}
+                    renderItem={(_, index) => (
+                        <HonorGroupFields
+                            path={`content.hosts.${index}`}
+                            placeholder={roles.parents}
+                        />
+                    )}
+                />
+            </ContentSection>
+        );
+    }
 
     if (kind === "gender_reveal") {
         return (

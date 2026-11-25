@@ -61,6 +61,7 @@ class InvitationContentResource extends JsonResource
             ...$this->family($kind, $content),
             ...($kind->hasChapters() ? $this->chapters($content) : []),
             ...($kind === InvitationKind::GenderReveal ? $this->reveal($content) : []),
+            ...($kind === InvitationKind::BabyShower ? $this->babyShower($content) : []),
         ];
     }
 
@@ -103,7 +104,7 @@ class InvitationContentResource extends JsonResource
             ];
         }
 
-        if ($kind === InvitationKind::GenderReveal) {
+        if ($kind->hasParentsToBe()) {
             return [
                 'names' => array_values(array_filter($content['names'] ?? [], filled(...))),
                 'families' => $content['families'] ?? '',
@@ -120,7 +121,7 @@ class InvitationContentResource extends JsonResource
 
     /**
      * The parents and godparents. A wedding names the parents of each one of the couple (a list of up to two groups);
-     * a gender reveal names the baby's grandparents instead; the other kinds name the celebrant's parents (one group,
+     * a gender reveal names the baby's grandparents instead and a baby shower its hosts; the other kinds name the celebrant's parents (one group,
      * null without names), and only birthdays have no godparents.
      *
      * @param  array<string, mixed>  $content
@@ -137,6 +138,10 @@ class InvitationContentResource extends JsonResource
 
         if ($kind === InvitationKind::GenderReveal) {
             return ['grandparents' => array_values($content['grandparents'] ?? [])];
+        }
+
+        if ($kind === InvitationKind::BabyShower) {
+            return ['hosts' => array_values($content['hosts'] ?? [])];
         }
 
         $parents = $content['parents'] ?? [];
@@ -265,6 +270,31 @@ class InvitationContentResource extends JsonResource
                 'girl' => $babyNames['girl'] ?? null,
             ],
             'reveal' => $this->reveal_shown_at !== null ? ($content['reveal'] ?? null) : null,
+        ];
+    }
+
+    /**
+     * The sections only baby shower templates have: the baby's name, the due date and the diaper sizes guests may
+     * bring (null without sizes nor a note).
+     *
+     * @param  array<string, mixed>  $content
+     * @return array<string, mixed>
+     */
+    private function babyShower(array $content): array
+    {
+        $diapers = $content['diapers'] ?? [];
+        $sizes = array_map(fn (array $size) => [
+            'label' => $size['label'],
+            'note' => $size['note'] ?? null,
+        ], $diapers['sizes'] ?? []);
+
+        return [
+            'babyName' => $content['baby_name'] ?? null,
+            'dueLabel' => $content['due_label'] ?? null,
+            'diapers' => $sizes !== [] || filled($diapers['note'] ?? null) ? [
+                'note' => $diapers['note'] ?? null,
+                'sizes' => $sizes,
+            ] : null,
         ];
     }
 }

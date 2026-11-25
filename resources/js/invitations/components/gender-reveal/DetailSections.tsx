@@ -200,8 +200,14 @@ function CopyButton({ value, label }: { value: string; label?: string }) {
   );
 }
 
+interface GiftsSectionProps extends SharedSectionProps {
+  gifts: GiftOption[];
+  /** The colors of each kind's icon; the teams' by default. */
+  iconColors?: Record<GiftKind, string>;
+}
+
 /** The gift options as a grid of cards, each with its icon, its details and its action. */
-export function GiftsSection({ gifts, heading, titleClassName, className }: SharedSectionProps & { gifts: GiftOption[] }) {
+export function GiftsSection({ gifts, heading, titleClassName, className, iconColors = GIFT_COLORS }: GiftsSectionProps) {
   return (
     <Section className={className}>
       {heading}
@@ -210,7 +216,7 @@ export function GiftsSection({ gifts, heading, titleClassName, className }: Shar
           const Icon = GIFT_ICONS[gift.kind];
           return (
             <Card key={`${gift.kind}-${gift.title}`} className="flex flex-col p-6">
-              <span className={cn('flex size-14 items-center justify-center rounded-full', GIFT_COLORS[gift.kind])}>
+              <span className={cn('flex size-14 items-center justify-center rounded-full', iconColors[gift.kind])}>
                 <Icon className="size-7" />
               </span>
               <h3 className={cn('mt-4 text-xl', titleClassName)}>{gift.title}</h3>

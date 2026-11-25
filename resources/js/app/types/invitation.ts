@@ -3,7 +3,7 @@ import type { PlanFeature } from './plan';
 
 export type InvitationStatus = 'draft' | 'published' | 'archived';
 
-export type InvitationKind = 'wedding' | 'birthday' | 'xv' | 'baptism' | 'gender_reveal';
+export type InvitationKind = 'wedding' | 'birthday' | 'xv' | 'baptism' | 'gender_reveal' | 'baby_shower';
 
 export type InvitationSection =
     | 'family'

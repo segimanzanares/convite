@@ -14,6 +14,7 @@ const KIND_FILTERS: { kind: InvitationKind; label: string }[] = [
     { kind: 'birthday', label: 'Cumpleaños' },
     { kind: 'baptism', label: 'Bautizos' },
     { kind: 'gender_reveal', label: 'Revelación de género' },
+    { kind: 'baby_shower', label: 'Baby shower' },
 ];
 
 const KIND_BADGES: Record<InvitationKind, string> = {
@@ -22,6 +23,7 @@ const KIND_BADGES: Record<InvitationKind, string> = {
     birthday: 'bg-terracotta text-white',
     baptism: 'bg-teal text-white',
     gender_reveal: 'bg-rose-light text-ink',
+    baby_shower: 'bg-teal-light text-ink',
 };
 
 /** How many designs show before "Ver todos". */
