@@ -23,6 +23,7 @@ import {
 } from '@/actions/App/Http/Controllers/Admin/OrderController';
 import ConfirmDialog from '@/components/confirm-dialog';
 import DataTable from '@/components/data-table';
+import DetailButton from '@/components/detail-button';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -127,6 +128,7 @@ export default function ClientShow({
                             { label: 'Pagado', desktop: true },
                             { label: 'Saldo', desktop: true },
                             'Estado',
+                            '',
                         ]}
                         empty="Aún no hay contrataciones."
                         isEmpty={orders.length === 0}
@@ -161,6 +163,12 @@ export default function ClientShow({
                                     <Badge variant="outline">
                                         {orderStatusLabels[order.status]}
                                     </Badge>
+                                </td>
+                                <td className="px-2 py-3 text-right md:px-4">
+                                    <DetailButton
+                                        href={showOrder(order.id)}
+                                        label={`Ver detalle del plan ${order.plan.name}`}
+                                    />
                                 </td>
                             </tr>
                         ))}

@@ -1,5 +1,5 @@
 import { Form, Head, Link, router } from '@inertiajs/react';
-import { PencilIcon, PlusIcon, SearchIcon, TrashIcon } from 'lucide-react';
+import { EyeIcon, PencilIcon, PlusIcon, SearchIcon, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
 import {
     create,
@@ -12,6 +12,7 @@ import {
 } from '@/actions/App/Http/Controllers/Admin/ClientController';
 import ConfirmDialog from '@/components/confirm-dialog';
 import DataTable from '@/components/data-table';
+import DetailButton from '@/components/detail-button';
 import Heading from '@/components/heading';
 import Pagination from '@/components/pagination';
 import RowActionsMenu from '@/components/row-actions-menu';
@@ -166,6 +167,10 @@ function ClientRow({ client }: { client: Client }) {
             </td>
             <td className="px-2 py-3 text-right md:px-4">
                 <div className="hidden items-center justify-end gap-2 md:flex">
+                    <DetailButton
+                        href={show(client.id)}
+                        label={`Ver detalle de ${client.name}`}
+                    />
                     <Button variant="outline" size="icon" asChild>
                         <Link
                             href={edit(client.id, { query })}
@@ -190,6 +195,12 @@ function ClientRow({ client }: { client: Client }) {
                 </div>
 
                 <RowActionsMenu label={`Acciones de ${client.name}`}>
+                    <DropdownMenuItem asChild>
+                        <Link href={show(client.id)}>
+                            <EyeIcon />
+                            Ver detalle
+                        </Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                         <Link
                             href={edit(client.id, { query })}

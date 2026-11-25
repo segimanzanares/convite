@@ -18,6 +18,7 @@ import {
 import CommissionAction from "@/components/commission-action";
 import ConfirmDialog from "@/components/confirm-dialog";
 import DataTable from "@/components/data-table";
+import DetailButton from "@/components/detail-button";
 import Heading from "@/components/heading";
 import StatCard from "@/components/stat-card";
 import { Badge } from "@/components/ui/badge";
@@ -288,7 +289,13 @@ export default function PartnerShow({ partner, orders, landingUrl }: Props) {
                                     </Badge>
                                 </td>
                                 <td className="px-2 py-3 text-right md:px-4">
-                                    <CommissionAction order={order} />
+                                    <div className="flex items-center justify-end gap-2">
+                                        <CommissionAction order={order} />
+                                        <DetailButton
+                                            href={showOrder(order.id)}
+                                            label={`Ver detalle de la contratación de ${order.client?.name ?? "este cliente"}`}
+                                        />
+                                    </div>
                                 </td>
                             </tr>
                         ))}

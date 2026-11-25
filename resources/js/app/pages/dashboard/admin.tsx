@@ -11,6 +11,7 @@ import { show as showOrder } from '@/actions/App/Http/Controllers/Admin/OrderCon
 import { show as showPartner } from '@/actions/App/Http/Controllers/Admin/PartnerController';
 import BarChart from '@/components/bar-chart';
 import DataTable from '@/components/data-table';
+import DetailButton from '@/components/detail-button';
 import Heading from '@/components/heading';
 import StatCard from '@/components/stat-card';
 import { Badge } from '@/components/ui/badge';
@@ -263,6 +264,7 @@ export default function AdminDashboard({
                             { label: 'Precio', desktop: true },
                             { label: 'Pagado', desktop: true },
                             'Saldo',
+                            '',
                         ]}
                         empty="Todas las contrataciones están pagadas."
                         isEmpty={ordersWithBalance.length === 0}
@@ -304,6 +306,12 @@ export default function AdminDashboard({
                                 <td className="px-2 py-3 font-medium whitespace-nowrap tabular-nums md:px-4">
                                     {formatMoney(order.balance ?? 0)}
                                 </td>
+                                <td className="px-2 py-3 text-right md:px-4">
+                                    <DetailButton
+                                        href={showOrder(order.id)}
+                                        label={`Ver detalle de la contratación de ${order.client?.name ?? 'este cliente'}`}
+                                    />
+                                </td>
                             </tr>
                         ))}
                     </DataTable>
@@ -320,7 +328,7 @@ export default function AdminDashboard({
                         }
                     />
                     <DataTable
-                        columns={['Aliado', 'Contrataciones', 'Por pagar']}
+                        columns={['Aliado', 'Contrataciones', 'Por pagar', '']}
                         empty="No hay comisiones por pagar."
                         isEmpty={commissionsOwed.length === 0}
                     >
@@ -342,6 +350,12 @@ export default function AdminDashboard({
                                 </td>
                                 <td className="px-2 py-3 font-medium whitespace-nowrap tabular-nums md:px-4">
                                     {formatMoney(row.amount)}
+                                </td>
+                                <td className="px-2 py-3 text-right md:px-4">
+                                    <DetailButton
+                                        href={showPartner(row.partner.id)}
+                                        label={`Ver detalle de ${row.partner.name}`}
+                                    />
                                 </td>
                             </tr>
                         ))}
