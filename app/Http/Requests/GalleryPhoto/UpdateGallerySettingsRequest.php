@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests\GalleryPhoto;
 
+use App\Services\LiveGalleryService;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Whether the live gallery waits for a panel user's approval before the wall shows a photo.
+ * How the live gallery works: whether the wall waits for a panel user's approval to show a photo, the days before and
+ * after the event it takes photos, and how long the wall shows each one.
  */
 class UpdateGallerySettingsRequest extends FormRequest
 {
@@ -24,6 +26,22 @@ class UpdateGallerySettingsRequest extends FormRequest
     {
         return [
             'moderated' => ['required', 'boolean'],
+            'opens_days_before' => ['required', 'integer', 'min:0', 'max:'.LiveGalleryService::MAX_OPENS_DAYS_BEFORE],
+            'closes_days_after' => ['required', 'integer', 'min:1', 'max:'.app(LiveGalleryService::class)->maxClosesDaysAfter()],
+            'slide_seconds' => ['required', 'integer', 'min:'.LiveGalleryService::MIN_SLIDE_SECONDS, 'max:'.LiveGalleryService::MAX_SLIDE_SECONDS],
+        ];
+    }
+
+    /**
+     * @return array{moderated: bool, opens_days_before: int, closes_days_after: int, slide_seconds: int}
+     */
+    public function settings(): array
+    {
+        return [
+            'moderated' => $this->boolean('moderated'),
+            'opens_days_before' => $this->integer('opens_days_before'),
+            'closes_days_after' => $this->integer('closes_days_after'),
+            'slide_seconds' => $this->integer('slide_seconds'),
         ];
     }
 }

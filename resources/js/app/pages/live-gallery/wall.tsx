@@ -9,9 +9,6 @@ import type { GalleryPhoto, LiveGalleryPageProps } from '@/types/live-gallery';
 /** How often the wall asks for new photos. */
 const REFRESH_MS = 8_000;
 
-/** How long each photo stays on screen. */
-const SLIDE_MS = 7_000;
-
 /** How long a photo stays at least before a new one cuts in. */
 const MIN_SLIDE_MS = 2_500;
 
@@ -23,9 +20,9 @@ const MIN_SLIDE_MS = 2_500;
  */
 export default function LiveGalleryWall() {
     const { gallery, photos } = usePage<LiveGalleryPageProps>().props;
-    const current = useSlideshow(photos);
+    const current = useSlideshow(photos, gallery.slide_seconds * 1000);
 
-    usePoll(REFRESH_MS, { only: ['photos'] }, { mode: 'rest', background: 'continue' });
+    usePoll(REFRESH_MS, { only: ['gallery', 'photos'] }, { mode: 'rest', background: 'continue' });
 
     return (
         <main className="relative flex h-screen cursor-none items-center justify-center overflow-hidden bg-radial-[at_50%_35%] from-[color-mix(in_oklch,var(--primary),white_12%)] to-[color-mix(in_oklch,var(--primary),black_45%)] text-primary-foreground">
@@ -71,10 +68,10 @@ export default function LiveGalleryWall() {
 }
 
 /**
- * The photo on screen. New photos (the ones not seen before) go up as soon as they arrive, oldest of them first;
+ * The photo on screen, for the time the invitation chose (`slideMs`). New photos (the ones not seen before) go up as soon as they arrive, oldest of them first;
  * otherwise the wall moves to the next of the latest photos. A photo hidden from the panel leaves the screen on the next refresh.
  */
-function useSlideshow(photos: GalleryPhoto[]): GalleryPhoto | null {
+function useSlideshow(photos: GalleryPhoto[], slideMs: number): GalleryPhoto | null {
     const [current, setCurrent] = useState<GalleryPhoto | null>(photos[0] ?? null);
     const shown = useRef(current);
     const shownAt = useRef(0);
@@ -113,20 +110,20 @@ function useSlideshow(photos: GalleryPhoto[]): GalleryPhoto | null {
             show(fresh.current.shift() ?? photos[0] ?? null);
         } else if (added.length > 0) {
             // A new photo goes up right away, or as soon as the one on screen had a moment
-            const wait = Math.max(0, MIN_SLIDE_MS - (Date.now() - shownAt.current));
+            const wait = Math.max(0, Math.min(MIN_SLIDE_MS, slideMs) - (Date.now() - shownAt.current));
             window.clearTimeout(cutIn.current);
             cutIn.current = window.setTimeout(advance, wait);
         }
-    }, [photos, show, advance]);
+    }, [photos, show, advance, slideMs]);
 
     useEffect(() => () => window.clearTimeout(cutIn.current), []);
 
     // Each photo gets its full time on screen, counted from when it went up
     useEffect(() => {
-        const timer = window.setTimeout(advance, SLIDE_MS);
+        const timer = window.setTimeout(advance, slideMs);
 
         return () => window.clearTimeout(timer);
-    }, [current, advance]);
+    }, [current, advance, slideMs]);
 
     return current;
 }

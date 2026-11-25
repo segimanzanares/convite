@@ -58,11 +58,9 @@ class LiveGalleryController extends Controller
 
     public function updateSettings(UpdateGallerySettingsRequest $request, Invitation $invitation): RedirectResponse
     {
-        $this->gallery->setModerated($invitation, $request->boolean('moderated'));
+        $this->gallery->updateSettings($invitation, $request->settings());
 
-        Inertia::flash('toast', ['type' => 'success', 'message' => $request->boolean('moderated')
-            ? __('New photos will wait for your approval.')
-            : __('New photos will show on the wall right away.')]);
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Live gallery updated.')]);
 
         return to_route('admin.invitations.gallery.index', $invitation);
     }

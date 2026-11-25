@@ -97,8 +97,6 @@
     "The photo could not be read. Try another one.": "No pudimos leer la foto. Prueba con otra.",
     "New gallery link ready. The previous one and its QR code no longer work.": "Nuevo enlace de galería listo. El anterior y su código QR ya no funcionan.",
     "Gallery link ready.": "Enlace de galería listo.",
-    "New photos will wait for your approval.": "Las fotos nuevas esperarán tu aprobación.",
-    "New photos will show on the wall right away.": "Las fotos nuevas aparecerán en el muro de inmediato.",
     "Photo deleted.": "Foto eliminada.",
     "The wishes book is closed.": "El libro de buenos deseos ya no recibe mensajes.",
     "The wishes book is full.": "El libro de buenos deseos ya está lleno.",
@@ -118,5 +116,6 @@
     "Commission marked as paid.": "Comisión marcada como pagada.",
     "Commission marked as unpaid.": "Comisión marcada como no pagada.",
     "The commission is owed once the order is paid in full.": "La comisión se paga una vez que la contratación esté pagada por completo.",
-    "{0} No commissions were owed.|{1} :count commission marked as paid.|[2,*] :count commissions marked as paid.": "{0} No había comisiones por pagar.|{1} :count comisión marcada como pagada.|[2,*] :count comisiones marcadas como pagadas."
+    "{0} No commissions were owed.|{1} :count commission marked as paid.|[2,*] :count commissions marked as paid.": "{0} No había comisiones por pagar.|{1} :count comisión marcada como pagada.|[2,*] :count comisiones marcadas como pagadas.",
+    "Live gallery updated.": "Galería en vivo actualizada."
 }

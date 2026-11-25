@@ -38,6 +38,9 @@ use Illuminate\Support\Facades\Storage;
  * @property string|null $door_token
  * @property string|null $gallery_token
  * @property bool $gallery_moderated
+ * @property int $gallery_opens_days_before
+ * @property int $gallery_closes_days_after
+ * @property int $gallery_slide_seconds
  * @property bool $wishes_enabled
  * @property bool $wishes_public
  * @property bool $wishes_moderated
@@ -88,6 +91,9 @@ class Invitation extends Model
             'guests_purged_at' => 'datetime',
             'content' => 'array',
             'gallery_moderated' => 'boolean',
+            'gallery_opens_days_before' => 'integer',
+            'gallery_closes_days_after' => 'integer',
+            'gallery_slide_seconds' => 'integer',
             'wishes_enabled' => 'boolean',
             'wishes_public' => 'boolean',
             'wishes_moderated' => 'boolean',
@@ -225,24 +231,26 @@ class Invitation extends Model
     }
 
     /**
-     * When guests may start sharing photos in the live gallery: the start of the event day. Null without an event date.
+     * When guests may start sharing photos in the live gallery: the start of the event day, or of as many days before
+     * it as the invitation chose (gallery_opens_days_before). Null without an event date.
      */
     public function galleryOpensAt(): ?CarbonImmutable
     {
-        return $this->event_date?->toImmutable()->startOfDay();
+        return $this->event_date?->toImmutable()->subDays($this->gallery_opens_days_before ?? 0)->startOfDay();
     }
 
     /**
-     * When the live gallery stops taking photos: noon of the day after the event, like check-in.
+     * When the live gallery stops taking photos: noon of the day the invitation chose after the event
+     * (gallery_closes_days_after, the next day by default, like check-in), since parties run past midnight.
      */
     public function galleryClosesAt(): ?CarbonImmutable
     {
-        return $this->checkInClosesAt();
+        return $this->event_date?->toImmutable()->addDays($this->gallery_closes_days_after ?? 1)->setTime(12, 0);
     }
 
     /**
      * Whether guests may share photos now: the plan includes the live gallery, the guest data was not purged and the
-     * time falls within the event, in the application's time zone.
+     * time falls within the gallery's window, in the application's time zone.
      */
     public function galleryIsOpen(): bool
     {

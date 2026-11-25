@@ -31,6 +31,17 @@ class LiveGalleryService
     /** Folder of the gallery's Inertia pages, under resources/js/app/pages (see HandleInertiaRequests::PUBLIC_PAGES). */
     public const string PAGES = 'live-gallery/';
 
+    /** The most days before the event the gallery may open, e.g. for a welcome party the day before. */
+    public const int MAX_OPENS_DAYS_BEFORE = 7;
+
+    /** The most days after the event the gallery may keep taking photos, unless the purge comes sooner. */
+    public const int MAX_CLOSES_DAYS_AFTER = 30;
+
+    /** How long the wall may show each photo, in seconds. */
+    public const int MIN_SLIDE_SECONDS = 3;
+
+    public const int MAX_SLIDE_SECONDS = 60;
+
     /** How many of the latest photos the wall cycles through. */
     public const int WALL_PHOTOS = 60;
 
@@ -148,11 +159,27 @@ class LiveGalleryService
     }
 
     /**
-     * Whether the invitation moderates its gallery: the guests' photos wait for a panel user's approval.
+     * Save how the invitation's gallery works: whether the guests' photos wait for a panel user's approval, how many
+     * days before the event it opens and after it closes, and how long the wall shows each photo.
+     *
+     * @param  array{moderated: bool, opens_days_before: int, closes_days_after: int, slide_seconds: int}  $settings
      */
-    public function setModerated(Invitation $invitation, bool $moderated): void
+    public function updateSettings(Invitation $invitation, array $settings): void
     {
-        $invitation->forceFill(['gallery_moderated' => $moderated])->save();
+        $invitation->forceFill([
+            'gallery_moderated' => $settings['moderated'],
+            'gallery_opens_days_before' => $settings['opens_days_before'],
+            'gallery_closes_days_after' => $settings['closes_days_after'],
+            'gallery_slide_seconds' => $settings['slide_seconds'],
+        ])->save();
+    }
+
+    /**
+     * The most days after the event the gallery may keep taking photos: never past the day its photos are purged.
+     */
+    public function maxClosesDaysAfter(): int
+    {
+        return min(self::MAX_CLOSES_DAYS_AFTER, (int) config('convite.guest_retention_days'));
     }
 
     /**
@@ -199,7 +226,7 @@ class LiveGalleryService
     /**
      * The gallery as the panel shows it, or null when the plan does not include it.
      *
-     * @return array{upload_url: string|null, wall_url: string|null, moderated: bool, opens_at: string|null, closes_at: string|null, is_open: bool, max_photos: int, summary: array{total: int, pending: int, approved: int, hidden: int}}|null
+     * @return array{upload_url: string|null, wall_url: string|null, moderated: bool, opens_days_before: int, closes_days_after: int, slide_seconds: int, max_opens_days_before: int, max_closes_days_after: int, min_slide_seconds: int, max_slide_seconds: int, opens_at: string|null, closes_at: string|null, is_open: bool, max_photos: int, summary: array{total: int, pending: int, approved: int, hidden: int}}|null
      */
     public function panelSettings(Invitation $invitation): ?array
     {
@@ -211,6 +238,13 @@ class LiveGalleryService
             'upload_url' => $this->uploadUrl($invitation),
             'wall_url' => $this->wallUrl($invitation),
             'moderated' => $invitation->gallery_moderated,
+            'opens_days_before' => $invitation->gallery_opens_days_before,
+            'closes_days_after' => $invitation->gallery_closes_days_after,
+            'slide_seconds' => $invitation->gallery_slide_seconds,
+            'max_opens_days_before' => self::MAX_OPENS_DAYS_BEFORE,
+            'max_closes_days_after' => $this->maxClosesDaysAfter(),
+            'min_slide_seconds' => self::MIN_SLIDE_SECONDS,
+            'max_slide_seconds' => self::MAX_SLIDE_SECONDS,
             'opens_at' => $invitation->galleryOpensAt()?->toIso8601String(),
             'closes_at' => $invitation->galleryClosesAt()?->toIso8601String(),
             'is_open' => $invitation->galleryIsOpen(),
@@ -220,7 +254,8 @@ class LiveGalleryService
     }
 
     /**
-     * The props the guests' upload page and the wall share: the gallery's window and links, and the page meta tags.
+     * The props the guests' upload page and the wall share: the gallery's window and links, how long the wall shows
+     * each photo, and the page meta tags.
      *
      * @return array{gallery: array<string, mixed>, meta: array<string, string>}
      */
@@ -233,6 +268,7 @@ class LiveGalleryService
                 'opens_at' => $invitation->galleryOpensAt()?->toIso8601String(),
                 'closes_at' => $invitation->galleryClosesAt()?->toIso8601String(),
                 'moderated' => $invitation->gallery_moderated,
+                'slide_seconds' => $invitation->gallery_slide_seconds,
                 'upload_url' => $this->uploadUrl($invitation),
                 'wall_url' => $this->wallUrl($invitation),
             ],

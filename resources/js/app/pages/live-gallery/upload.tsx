@@ -42,11 +42,7 @@ export default function LiveGalleryUpload() {
                 <Alert className="bg-card">
                     <CalendarClockIcon />
                     <AlertTitle>La galería no está recibiendo fotos</AlertTitle>
-                    <AlertDescription>
-                        {gallery.opens_at && gallery.closes_at
-                            ? `La galería recibe fotos del ${formatGalleryTime(gallery.opens_at)} al ${formatGalleryTime(gallery.closes_at)}. ¡Te esperamos en el evento!`
-                            : 'La galería se abre el día del evento.'}
-                    </AlertDescription>
+                    <AlertDescription>{closedMessage(gallery.opens_at, gallery.closes_at)}</AlertDescription>
                 </Alert>
             )}
 
@@ -295,4 +291,17 @@ function saveName(name: string) {
     } catch {
         // Private browsing: the guest types it again next time
     }
+}
+
+/** Why the gallery takes no photos: it has not opened yet, it already closed, or the event has no date. */
+function closedMessage(opensAt: string | null, closesAt: string | null): string {
+    if (!opensAt || !closesAt) {
+        return 'La galería se abre cerca del día del evento.';
+    }
+
+    if (new Date(closesAt).getTime() <= Date.now()) {
+        return `Hasta el ${formatGalleryTime(closesAt)} la galería recibió fotos. ¡Gracias por compartirlas!`;
+    }
+
+    return `Del ${formatGalleryTime(opensAt)} al ${formatGalleryTime(closesAt)} la galería recibe fotos. ¡Te esperamos en el evento!`;
 }

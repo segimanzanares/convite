@@ -19,7 +19,6 @@ import {
     index,
     regenerateLink,
     updatePhoto,
-    updateSettings,
 } from '@/actions/App/Http/Controllers/Admin/LiveGalleryController';
 import ConfirmDialog from '@/components/confirm-dialog';
 import Heading from '@/components/heading';
@@ -30,6 +29,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useClipboard } from '@/hooks/use-clipboard';
 import { formatDateTime } from '@/lib/format';
 import { invitationBreadcrumbs } from '@/lib/invitation-sections';
+import GallerySettingsPanel from './components/gallery-settings';
 import type {
     Auth,
     GalleryPhoto,
@@ -61,8 +61,8 @@ const FILTER_LABELS: Record<GalleryPhotoStatus, string> = {
 };
 
 /**
- * The live gallery of an invitation: its QR code and links, whether new photos wait for approval, and every photo the
- * guests shared, to approve, hide or delete them and download them all.
+ * The live gallery of an invitation: its QR code and links, its settings (approval, when it takes photos, how long
+ * the wall shows each one), and every photo the guests shared, to approve, hide or delete them and download them all.
  */
 export default function GalleryIndex({ invitation, gallery, photos }: Props) {
     const [filter, setFilter] = useState<Filter>(
@@ -81,13 +81,6 @@ export default function GalleryIndex({ invitation, gallery, photos }: Props) {
         { only: ['gallery', 'photos'] },
         { autoStart: gallery.is_open, mode: 'rest', background: 'pause' },
     );
-
-    const setModerated = (moderated: boolean) =>
-        router.put(
-            updateSettings(invitation.slug),
-            { moderated },
-            { preserveScroll: true },
-        );
 
     return (
         <>
@@ -126,31 +119,10 @@ export default function GalleryIndex({ invitation, gallery, photos }: Props) {
 
                 <LinkPanel invitation={invitation} gallery={gallery} />
 
-                <section className="border-sidebar-border/70 dark:border-sidebar-border space-y-3 rounded-xl border p-4">
-                    <div>
-                        <h2 className="font-medium">Publicación de las fotos</h2>
-                        <p className="text-muted-foreground text-sm">
-                            Si eliges revisarlas, las fotos nuevas no salen en
-                            el muro hasta que las apruebes aquí. Las que ya se
-                            subieron no cambian.
-                        </p>
-                    </div>
-                    <ToggleGroup
-                        type="single"
-                        variant="outline"
-                        value={gallery.moderated ? 'moderated' : 'direct'}
-                        onValueChange={(value) =>
-                            value && setModerated(value === 'moderated')
-                        }
-                    >
-                        <ToggleGroupItem value="direct" className="px-3">
-                            Publicar al momento
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="moderated" className="px-3">
-                            Revisar antes
-                        </ToggleGroupItem>
-                    </ToggleGroup>
-                </section>
+                <GallerySettingsPanel
+                    invitation={invitation}
+                    gallery={gallery}
+                />
 
                 <dl className="grid grid-cols-2 gap-4 lg:grid-cols-4">
                     <StatCard
@@ -266,9 +238,6 @@ function LinkPanel({
                         Código QR de la galería
                     </h2>
                     <p className="text-muted-foreground text-sm">
-                        {gallery.opens_at && gallery.closes_at
-                            ? `Recibe fotos del ${formatDateTime(gallery.opens_at)} al ${formatDateTime(gallery.closes_at)}.`
-                            : 'Recibe fotos el día del evento, cuando la invitación tenga fecha.'}{' '}
                         Imprímelo en las mesas o proyéctalo: los invitados lo
                         escanean y suben sus fotos, que aparecen en el muro.
                     </p>

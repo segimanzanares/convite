@@ -17,12 +17,14 @@ export interface GalleryPhoto {
 /** The gallery's window and links, sent with the guests' upload page and the wall. */
 export interface LiveGallery {
     title: string;
-    /** Guests may share photos now (from the start of the event day until noon after it). */
+    /** Guests may share photos now, within the window the invitation chose around the event. */
     is_open: boolean;
     opens_at: string | null;
     closes_at: string | null;
     /** New photos wait for a panel user's approval before the wall shows them. */
     moderated: boolean;
+    /** How long the wall shows each photo. */
+    slide_seconds: number;
     upload_url: string;
     wall_url: string;
 }
@@ -40,6 +42,17 @@ export interface GallerySettings {
     upload_url: string | null;
     wall_url: string | null;
     moderated: boolean;
+    /** Days before the event the gallery opens, at 00:00 (0 = the event day). */
+    opens_days_before: number;
+    /** Days after the event the gallery closes, at noon. */
+    closes_days_after: number;
+    /** How long the wall shows each photo. */
+    slide_seconds: number;
+    max_opens_days_before: number;
+    /** Never past the day the guest data is purged. */
+    max_closes_days_after: number;
+    min_slide_seconds: number;
+    max_slide_seconds: number;
     opens_at: string | null;
     closes_at: string | null;
     is_open: boolean;

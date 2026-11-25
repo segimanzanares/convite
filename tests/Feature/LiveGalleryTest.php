@@ -116,6 +116,22 @@ it('takes photos from the start of the event day until noon after it', function 
     'the next noon' => ['2026-12-06 12:01', false],
 ]);
 
+it('takes photos within the days the invitation chose around the event', function (string $now, bool $isOpen) {
+    $invitation = invitationWithGallery([
+        'event_date' => '2026-12-05',
+        'gallery_opens_days_before' => 1,
+        'gallery_closes_days_after' => 3,
+    ]);
+    $this->travelTo($now);
+
+    expect($invitation->fresh()->galleryIsOpen())->toBe($isOpen);
+})->with([
+    'two days before' => ['2026-12-03 23:59', false],
+    'the day before' => ['2026-12-04 00:00', true],
+    'three days after, in the morning' => ['2026-12-08 11:59', true],
+    'three days after, past noon' => ['2026-12-08 12:01', false],
+]);
+
 it('takes no photos once the gallery is full', function () {
     Storage::fake('public');
     config(['convite.live_gallery_max_photos' => 1]);
@@ -153,14 +169,45 @@ it('lets the client hide a photo from the wall and approve it again', function (
     expect($photo->fresh()->status)->toBe(GalleryPhotoStatus::Approved);
 });
 
-it('turns moderation on for new photos', function () {
+it('saves the moderation, the window and the time of each photo on the wall', function () {
     $invitation = invitationWithGallery();
 
     $this->actingAs(User::factory()->client($invitation->client)->create())
-        ->put(route('admin.invitations.gallery.settings', $invitation), ['moderated' => true])
+        ->put(route('admin.invitations.gallery.settings', $invitation), [
+            'moderated' => true,
+            'opens_days_before' => 2,
+            'closes_days_after' => 7,
+            'slide_seconds' => 15,
+        ])
         ->assertRedirect(route('admin.invitations.gallery.index', $invitation));
 
-    expect($invitation->fresh()->gallery_moderated)->toBeTrue();
+    expect($invitation->fresh())
+        ->gallery_moderated->toBeTrue()
+        ->gallery_opens_days_before->toBe(2)
+        ->gallery_closes_days_after->toBe(7)
+        ->gallery_slide_seconds->toBe(15);
+    $this->get(galleryUrl($invitation, 'invitations.gallery.wall'))
+        ->assertInertia(fn (Assert $page) => $page->where('gallery.slide_seconds', 15));
+});
+
+it('does not keep the gallery open past the purge of the guest data', function () {
+    config(['convite.guest_retention_days' => 10]);
+    $invitation = invitationWithGallery();
+
+    $this->actingAs(User::factory()->client($invitation->client)->create())
+        ->put(route('admin.invitations.gallery.settings', $invitation), [
+            'moderated' => false,
+            'opens_days_before' => 8,
+            'closes_days_after' => 11,
+            'slide_seconds' => 2,
+        ])
+        ->assertSessionHasErrors([
+            'opens_days_before' => 'El campo días antes del evento no debe ser mayor que 7.',
+            'closes_days_after' => 'El campo días después del evento no debe ser mayor que 10.',
+            'slide_seconds' => 'El campo segundos por foto debe ser al menos 3.',
+        ]);
+
+    expect($invitation->fresh()->gallery_closes_days_after)->toBe(1);
 });
 
 it('deletes a photo with its files', function () {
