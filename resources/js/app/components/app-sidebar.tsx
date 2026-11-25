@@ -1,10 +1,18 @@
 import { Link, usePage } from '@inertiajs/react';
-import { Globe, LayoutGrid, MailOpen, Package, Users } from 'lucide-react';
+import {
+    Globe,
+    Handshake,
+    LayoutGrid,
+    MailOpen,
+    Package,
+    Users,
+} from 'lucide-react';
 import { index as clientsIndex } from '@/actions/App/Http/Controllers/Admin/ClientController';
 import {
     index as invitationsIndex,
     mine as invitationsMine,
 } from '@/actions/App/Http/Controllers/Admin/InvitationController';
+import { index as partnersIndex } from '@/actions/App/Http/Controllers/Admin/PartnerController';
 import { index as plansIndex } from '@/actions/App/Http/Controllers/Admin/PlanController';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
@@ -50,6 +58,11 @@ export function AppSidebar() {
                       title: 'Invitaciones',
                       href: invitationsIndex(),
                       icon: MailOpen,
+                  },
+                  {
+                      title: 'Aliados',
+                      href: partnersIndex(),
+                      icon: Handshake,
                   },
                   {
                       title: 'Planes',

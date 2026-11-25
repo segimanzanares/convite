@@ -52,6 +52,14 @@ class ReferralService
     }
 
     /**
+     * Whether the visitor opened a client's referral link (?ref=CODE with a known code) while the program is on.
+     */
+    public function isReferralLink(Request $request): bool
+    {
+        return $this->isEnabled() && Client::findByReferralCode($request->query('ref')) !== null;
+    }
+
+    /**
      * The link to the landing page from an invitation's "made with Convite" credit. Its UTM parameters tell Google
      * Analytics the visit came from an invitation and which template, and a client's invitation carries the client's
      * referral code while the program is on, so a guest who orders their own invitation counts as referred by them.

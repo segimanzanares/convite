@@ -6,14 +6,15 @@ import type { OfferedPlan } from '@/types/plan';
 import { FallingPetals } from './illustrations/decorations';
 import { HeroIllustration } from './illustrations/hero-illustration';
 import { Highlight } from './section-heading';
-import { useReferral, useWhatsappLink } from '../use-whatsapp-link';
+import { useLandingDiscount, usePartner, useWhatsappLink } from '../use-whatsapp-link';
 
 /** The demo the hero's phone opens. */
 const HERO_DEMO = 'boda-clasica';
 
 export function Hero({ plans, demos }: { plans: OfferedPlan[]; demos: DemoInvitation[] }) {
     const whatsappLink = useWhatsappLink();
-    const referral = useReferral();
+    const discount = useLandingDiscount();
+    const isFromPartner = usePartner() !== null;
     const whatsappUrl = whatsappLink('Hola 👋 Quiero cotizar una invitación digital para mi evento.');
     const lowestPrice = plans.length > 0 ? Math.min(...plans.map((plan) => Number(plan.price))) : null;
     const heroDemoUrl = demos.find((demo) => demo.slug === HERO_DEMO)?.url ?? null;
@@ -36,12 +37,12 @@ export function Hero({ plans, demos }: { plans: OfferedPlan[]; demos: DemoInvita
 
             <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 pt-32 pb-20 sm:px-6 md:pt-40 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:pb-28">
                 <div className="text-center lg:text-left">
-                    {referral ? (
+                    {discount ? (
                         <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold-pale/80 py-1 pr-3 pl-1 text-xs font-medium text-ink shadow-xs backdrop-blur">
                             <span className="flex items-center gap-1 rounded-full bg-gold px-2 py-0.5 text-ink">
-                                <Gift className="size-3" /> {referral.discount_percent}% de descuento
+                                <Gift className="size-3" /> {discount.discount_percent}% de descuento
                             </span>
-                            Por recomendación, con el código {referral.code}
+                            {isFromPartner ? 'Con el código' : 'Por recomendación, con el código'} {discount.code}
                         </span>
                     ) : (
                         <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/10 bg-white/70 py-1 pr-3 pl-1 text-xs font-medium text-primary shadow-xs backdrop-blur">

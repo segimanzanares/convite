@@ -1,5 +1,6 @@
 import type { Client } from './client';
 import type { Invitation } from './invitation';
+import type { CommissionStatus, Partner } from './partner';
 import type { PlanSnapshot } from './plan';
 
 export type OrderStatus = 'quoted' | 'active' | 'delivered' | 'archived';
@@ -38,6 +39,16 @@ export type Order = {
     source: OrderSource | null;
     /** The client who recommended Convite. Only sent on the order page. */
     referrer?: Pick<Client, 'id' | 'name' | 'referral_code'> | null;
+    /** The partner who brought the client, who earns a commission on the order. */
+    partner_id: number | null;
+    /** Only sent on the order page. */
+    partner?: Pick<Partner, 'id' | 'name' | 'code'> | null;
+    /** The partner's percent when they were assigned. */
+    commission_percent: string | null;
+    commission_amount: string | null;
+    /** Only sent when the payments sum was loaded; null without a partner. */
+    commission_status?: CommissionStatus | null;
+    commission_paid_at: string | null;
     /** Only sent when the payments sum was loaded. */
     amount_paid?: string;
     balance?: string;

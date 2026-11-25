@@ -10,6 +10,7 @@ use App\Http\Resources\PlanResource;
 use App\Http\Resources\UserResource;
 use App\Models\Client;
 use App\Models\Plan;
+use App\Services\PartnerService;
 use App\Services\ReferralService;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -42,6 +43,7 @@ trait RendersClientPage
             'canHavePanelAccess' => $client->orders->contains->grantsPanelAccess(),
             'plans' => PlanResource::collection(Plan::query()->offered()->get()),
             'referralsEnabled' => app(ReferralService::class)->isEnabled(),
+            'partners' => $modal === 'order' ? app(PartnerService::class)->options() : [],
             'modal' => $modal,
         ]);
     }

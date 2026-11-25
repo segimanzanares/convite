@@ -4,9 +4,11 @@ namespace App\Http\Requests\Order;
 
 use App\Concerns\OrderValidationRules;
 use App\Enums\OrderStatus;
+use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class UpdateOrderRequest extends FormRequest
 {
@@ -33,5 +35,15 @@ class UpdateOrderRequest extends FormRequest
             'notes' => ['nullable', 'string', 'max:2000'],
             ...$this->orderSourceRules($this->route('order')->client, $this->route('order')),
         ];
+    }
+
+    /**
+     * Get the "after" validation callables for the request.
+     *
+     * @return list<Closure(Validator): void>
+     */
+    public function after(): array
+    {
+        return [$this->keepsPaidPartner($this->route('order'))];
     }
 }

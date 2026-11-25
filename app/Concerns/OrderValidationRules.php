@@ -5,10 +5,12 @@ namespace App\Concerns;
 use App\Enums\OrderSource;
 use App\Models\Client;
 use App\Models\Order;
+use App\Models\Partner;
 use App\Services\ReferralService;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 trait OrderValidationRules
 {
@@ -46,6 +48,42 @@ trait OrderValidationRules
                     }
                 },
             ],
+            // Optional: a vendor may recommend Convite without being a partner, and then no commission is owed
+            'partner_id' => [
+                'nullable',
+                'integer',
+                Rule::exists(Partner::class, 'id'),
+                function (string $attribute, mixed $value, Closure $fail) use ($order): void {
+                    if ($this->input('source') !== OrderSource::Partner->value || (int) $value === $order?->partner_id) {
+                        return;
+                    }
+
+                    if (! Partner::query()->whereKey($value)->value('is_active')) {
+                        $fail(__('The partner is no longer active.'));
+                    }
+                },
+            ],
         ];
+    }
+
+    /**
+     * Once the partner was paid their commission on the order, the order keeps them as its source.
+     *
+     * @return Closure(Validator): void
+     */
+    protected function keepsPaidPartner(Order $order): Closure
+    {
+        return function (Validator $validator) use ($order): void {
+            if ($order->commission_paid_at === null || ! $this->has('source')) {
+                return;
+            }
+
+            $keepsPartner = $this->input('source') === OrderSource::Partner->value
+                && (int) $this->input('partner_id') === $order->partner_id;
+
+            if (! $keepsPartner) {
+                $validator->errors()->add('partner_id', __('The partner was already paid their commission on this order, so it keeps them.'));
+            }
+        };
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CommissionStatus;
 use App\Enums\OrderSource;
 use App\Enums\OrderStatus;
 use App\Enums\PlanFeature;
@@ -24,12 +25,15 @@ use Illuminate\Support\Carbon;
  * @property OrderStatus $status
  * @property OrderSource|null $source
  * @property int|null $referrer_client_id
+ * @property int|null $partner_id
+ * @property string|null $commission_percent
+ * @property Carbon|null $commission_paid_at
  * @property string|null $notes
  * @property string|null $payments_sum_amount
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['client_id', 'plan_id', 'price', 'plan_snapshot', 'status', 'source', 'referrer_client_id', 'notes'])]
+#[Fillable(['client_id', 'plan_id', 'price', 'plan_snapshot', 'status', 'source', 'referrer_client_id', 'partner_id', 'commission_percent', 'commission_paid_at', 'notes'])]
 class Order extends Model
 {
     /** @use HasFactory<OrderFactory> */
@@ -47,6 +51,8 @@ class Order extends Model
             'plan_snapshot' => 'array',
             'status' => OrderStatus::class,
             'source' => OrderSource::class,
+            'commission_percent' => 'decimal:2',
+            'commission_paid_at' => 'datetime',
         ];
     }
 
@@ -70,6 +76,16 @@ class Order extends Model
     public function referrer(): BelongsTo
     {
         return $this->belongsTo(Client::class, 'referrer_client_id');
+    }
+
+    /**
+     * The partner who brought this order's client, who earns a commission on it.
+     *
+     * @return BelongsTo<Partner, $this>
+     */
+    public function partner(): BelongsTo
+    {
+        return $this->belongsTo(Partner::class);
     }
 
     /** @return HasMany<Payment, $this> */
@@ -128,5 +144,39 @@ class Order extends Model
     public function balance(): string
     {
         return number_format((float) $this->price - (float) $this->amountPaid(), 2, '.', '');
+    }
+
+    /**
+     * The partner's commission on the order's price, or null when no partner brought it.
+     */
+    public function commissionAmount(): ?string
+    {
+        if ($this->partner_id === null || $this->commission_percent === null) {
+            return null;
+        }
+
+        return number_format(round((float) $this->price * (float) $this->commission_percent / 100, 2), 2, '.', '');
+    }
+
+    /**
+     * Where the partner's commission stands: owed once the order is paid in full, until it is marked as paid. Null
+     * when no partner brought the order.
+     */
+    public function commissionStatus(): ?CommissionStatus
+    {
+        return match (true) {
+            $this->partner_id === null => null,
+            $this->commission_paid_at !== null => CommissionStatus::Paid,
+            $this->isPaidInFull() => CommissionStatus::Earned,
+            default => CommissionStatus::Pending,
+        };
+    }
+
+    /**
+     * Whether the payments cover the price. A free order is never paid in full, so it owes no commission.
+     */
+    public function isPaidInFull(): bool
+    {
+        return (float) $this->price > 0 && (float) $this->balance() <= 0;
     }
 }

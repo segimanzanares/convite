@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\InvitationController;
 use App\Http\Controllers\Admin\InvitationMediaController;
 use App\Http\Controllers\Admin\LiveGalleryController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\PartnerCommissionController;
+use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RsvpController;
@@ -31,6 +33,13 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::resource('clients.users', ClientUserController::class)->only(['create', 'store', 'destroy']);
     Route::resource('clients.orders', OrderController::class)->shallow()->except('index');
     Route::resource('orders.payments', PaymentController::class)->shallow()->only(['create', 'store', 'destroy']);
+
+    Route::resource('partners', PartnerController::class);
+    Route::controller(PartnerCommissionController::class)->group(function () {
+        Route::post('partners/{partner}/commissions/pay', 'payEarned')->name('partners.commissions.pay');
+        Route::post('orders/{order}/commission', 'store')->name('orders.commission.store');
+        Route::delete('orders/{order}/commission', 'destroy')->name('orders.commission.destroy');
+    });
 
     Route::get('invitations/mine', [InvitationController::class, 'mine'])->name('invitations.mine');
     Route::resource('invitations', InvitationController::class)->except(['show', 'destroy']);

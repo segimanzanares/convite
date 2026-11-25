@@ -17,7 +17,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { useInertiaFormValidation } from '@/hooks/use-inertia-form-validation';
 import { orderStatusLabels } from '@/lib/labels';
 import { min, numeric, required } from '@/lib/validators';
-import type { Order, OrderStatus, ValidationSchema } from '@/types';
+import type {
+    Order,
+    OrderStatus,
+    PartnerOption,
+    ValidationSchema,
+} from '@/types';
 
 const schema: ValidationSchema = {
     price: [required('El precio es obligatorio.'), numeric(), min(0)],
@@ -26,9 +31,11 @@ const schema: ValidationSchema = {
 export default function OrderEditForm({
     order,
     referralsEnabled,
+    partners,
 }: {
     order: Order;
     referralsEnabled: boolean;
+    partners: PartnerOption[];
 }) {
     const { formRef, onBefore, onChange } = useInertiaFormValidation(schema);
 
@@ -84,6 +91,8 @@ export default function OrderEditForm({
                         <OrderSourceFields
                             source={order.source}
                             referralCode={order.referrer?.referral_code}
+                            partnerId={order.partner_id}
+                            partners={partners}
                             allowReferral={
                                 referralsEnabled || order.source === 'referral'
                             }

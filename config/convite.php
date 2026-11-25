@@ -87,4 +87,19 @@ return [
 
     'referral_cookie_days' => (int) env('CONVITE_REFERRAL_COOKIE_DAYS', 60),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Partners ("Aliados")
+    |--------------------------------------------------------------------------
+    |
+    | Wedding planners, influencers and other partners share a link with
+    | their code. Whoever opens it is offered the partner's discount, and the
+    | code is remembered in a cookie for this many days so it reaches
+    | WhatsApp even if they come back later. Only the latest link counts:
+    | a partner's link replaces a client's referral code, and vice versa.
+    |
+    */
+
+    'partner_cookie_days' => (int) env('CONVITE_PARTNER_COOKIE_DAYS', 60),
+
 ];

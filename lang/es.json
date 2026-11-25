@@ -108,5 +108,15 @@
     "A client cannot refer themselves.": "Un cliente no puede recomendarse a sí mismo.",
     "Capture the result first.": "Primero captura el resultado de la revelación.",
     "The result is now shown.": "El resultado ya se ve en la invitación.",
-    "The result is hidden again.": "El resultado volvió a ocultarse."
+    "The result is hidden again.": "El resultado volvió a ocultarse.",
+    "Partner created.": "Aliado creado.",
+    "Partner updated.": "Aliado actualizado.",
+    "Partner deleted.": "Aliado eliminado.",
+    "The partner has orders, so it cannot be deleted. Deactivate it instead.": "El aliado tiene contrataciones, así que no se puede eliminar. Desactívalo en su lugar.",
+    "The partner is no longer active.": "El aliado ya no está activo.",
+    "The partner was already paid their commission on this order, so it keeps them.": "Al aliado ya se le pagó su comisión de esta contratación, así que no se puede cambiar.",
+    "Commission marked as paid.": "Comisión marcada como pagada.",
+    "Commission marked as unpaid.": "Comisión marcada como no pagada.",
+    "The commission is owed once the order is paid in full.": "La comisión se paga una vez que la contratación esté pagada por completo.",
+    "{0} No commissions were owed.|{1} :count commission marked as paid.|[2,*] :count commissions marked as paid.": "{0} No había comisiones por pagar.|{1} :count comisión marcada como pagada.|[2,*] :count comisiones marcadas como pagadas."
 }

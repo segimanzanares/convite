@@ -6,6 +6,7 @@ export type * from './invitation';
 export type * from './live-gallery';
 export type * from './navigation';
 export type * from './order';
+export type * from './partner';
 export type * from './plan';
 export type * from './ui';
 export type * from './validation';

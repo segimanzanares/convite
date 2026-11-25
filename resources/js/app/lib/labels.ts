@@ -1,8 +1,10 @@
 import type {
+    CommissionStatus,
     InvitationKind,
     InvitationStatus,
     OrderSource,
     OrderStatus,
+    PartnerKind,
     PaymentMethod,
     PlanFeature,
 } from '@/types';
@@ -33,7 +35,7 @@ export const orderSourceLabels: Record<OrderSource, string> = {
     google: 'Google',
     invitation: 'Vio una invitación',
     referral: 'Recomendación de un cliente',
-    partner: 'Recomendación de un proveedor',
+    partner: 'Recomendación de un aliado o proveedor',
     other: 'Otro',
 };
 
@@ -56,4 +58,18 @@ export const invitationStatusLabels: Record<InvitationStatus, string> = {
     draft: 'Borrador',
     published: 'Publicada',
     archived: 'Archivada',
+};
+
+export const partnerKindLabels: Record<PartnerKind, string> = {
+    wedding_planner: 'Wedding planner',
+    influencer: 'Influencer',
+    venue: 'Salón o jardín',
+    photographer: 'Fotógrafo',
+    other: 'Otro',
+};
+
+export const commissionStatusLabels: Record<CommissionStatus, string> = {
+    pending: 'Pendiente de pago del cliente',
+    earned: 'Por pagar',
+    paid: 'Pagada',
 };

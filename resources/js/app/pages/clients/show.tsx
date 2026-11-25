@@ -30,7 +30,14 @@ import UrlModal from '@/components/url-modal';
 import { useClipboard } from '@/hooks/use-clipboard';
 import { formatDate, formatMoney } from '@/lib/format';
 import { invitationStatusLabels, orderStatusLabels } from '@/lib/labels';
-import type { Client, ClientUser, Invitation, Order, Plan } from '@/types';
+import type {
+    Client,
+    ClientUser,
+    Invitation,
+    Order,
+    PartnerOption,
+    Plan,
+} from '@/types';
 import ClientAccessForm from './components/client-access-form';
 import OrderCreateForm from './components/order-create-form';
 
@@ -42,6 +49,7 @@ type Props = {
     canHavePanelAccess: boolean;
     plans: Plan[];
     referralsEnabled: boolean;
+    partners: PartnerOption[];
     modal: 'order' | 'access' | null;
 };
 
@@ -53,6 +61,7 @@ export default function ClientShow({
     canHavePanelAccess,
     plans,
     referralsEnabled,
+    partners,
     modal,
 }: Props) {
     const [copiedText, copy] = useClipboard();
@@ -349,6 +358,7 @@ export default function ClientShow({
                             client={client}
                             plans={plans}
                             referralsEnabled={referralsEnabled}
+                            partners={partners}
                         />
                     ) : (
                         <ClientAccessForm client={client} />

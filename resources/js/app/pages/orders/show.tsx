@@ -9,6 +9,8 @@ import {
     edit,
     show,
 } from '@/actions/App/Http/Controllers/Admin/OrderController';
+import { show as showPartner } from '@/actions/App/Http/Controllers/Admin/PartnerController';
+import CommissionAction from '@/components/commission-action';
 import {
     create as createPayment,
     destroy as destroyPayment,
@@ -21,12 +23,13 @@ import { Button } from '@/components/ui/button';
 import UrlModal from '@/components/url-modal';
 import { formatDate, formatMoney } from '@/lib/format';
 import {
+    commissionStatusLabels,
     orderSourceLabels,
     orderStatusLabels,
     paymentMethodLabels,
     planFeatureLabels,
 } from '@/lib/labels';
-import type { Order, Payment, PaymentMethod } from '@/types';
+import type { Order, PartnerOption, Payment, PaymentMethod } from '@/types';
 import OrderEditForm from './components/order-edit-form';
 import PaymentForm from './components/payment-form';
 
@@ -34,6 +37,7 @@ type Props = {
     order: Order;
     paymentMethods: PaymentMethod[];
     referralsEnabled: boolean;
+    partners: PartnerOption[];
     modal: 'edit' | 'payment' | null;
 };
 
@@ -41,6 +45,7 @@ export default function OrderShow({
     order,
     paymentMethods,
     referralsEnabled,
+    partners,
     modal,
 }: Props) {
     const payments = order.payments ?? [];
@@ -163,9 +168,53 @@ export default function OrderShow({
                                     , código {order.referrer.referral_code})
                                 </>
                             )}
+                            {order.partner && (
+                                <>
+                                    {' '}
+                                    (
+                                    <Link
+                                        href={showPartner(order.partner.id)}
+                                        className="text-foreground hover:underline"
+                                    >
+                                        {order.partner.name}
+                                    </Link>
+                                    , código {order.partner.code})
+                                </>
+                            )}
                         </p>
                     )}
                 </section>
+
+                {order.partner && order.commission_status && (
+                    <section className="space-y-3">
+                        <Heading
+                            variant="small"
+                            title="Comisión del aliado"
+                            description="Se le paga una vez que la contratación está pagada por completo."
+                        />
+                        <div className="flex flex-wrap items-center gap-3 text-sm">
+                            <span className="font-semibold">
+                                {formatMoney(order.commission_amount ?? 0)}
+                            </span>
+                            <span className="text-muted-foreground">
+                                {order.commission_percent}% de{' '}
+                                {formatMoney(order.price)}
+                            </span>
+                            <Badge
+                                variant={
+                                    order.commission_status === 'earned'
+                                        ? 'default'
+                                        : 'outline'
+                                }
+                            >
+                                {commissionStatusLabels[order.commission_status]}
+                                {order.commission_paid_at &&
+                                    ` el ${formatDate(order.commission_paid_at)}`}
+                            </Badge>
+                            <CommissionAction order={order} />
+                        </div>
+                    </section>
+                )}
 
                 <section className="space-y-4">
                     <div className="flex flex-wrap items-center justify-between gap-4">
@@ -269,6 +318,7 @@ export default function OrderShow({
                         <OrderEditForm
                             order={order}
                             referralsEnabled={referralsEnabled}
+                            partners={partners}
                         />
                     ) : (
                         <PaymentForm

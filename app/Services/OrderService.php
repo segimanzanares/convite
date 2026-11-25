@@ -6,6 +6,7 @@ use App\Enums\OrderSource;
 use App\Enums\OrderStatus;
 use App\Models\Client;
 use App\Models\Order;
+use App\Models\Partner;
 use App\Models\Plan;
 
 class OrderService
@@ -14,14 +15,14 @@ class OrderService
      * Sell a plan to a client. The order keeps a copy of the plan's limits and features, so later changes to the plan
      * do not affect it.
      *
-     * @param  array{plan_id: int|string, price: string|float, status?: string|null, notes?: string|null, source?: string|null, referral_code?: string|null}  $data
+     * @param  array{plan_id: int|string, price: string|float, status?: string|null, notes?: string|null, source?: string|null, referral_code?: string|null, partner_id?: int|string|null}  $data
      */
     public function create(Client $client, array $data): Order
     {
         $plan = Plan::findOrFail($data['plan_id']);
 
         return $client->orders()->create([
-            ...$this->withReferrer($data),
+            ...$this->withPartner($this->withReferrer($data)),
             'plan_snapshot' => $plan->snapshot(),
             'status' => $data['status'] ?? OrderStatus::Quoted,
         ]);
@@ -30,11 +31,11 @@ class OrderService
     /**
      * Update the price, status, notes or source of an order. Its plan and snapshot never change.
      *
-     * @param  array{price: string|float, status: string, notes?: string|null, source?: string|null, referral_code?: string|null}  $data
+     * @param  array{price: string|float, status: string, notes?: string|null, source?: string|null, referral_code?: string|null, partner_id?: int|string|null}  $data
      */
     public function update(Order $order, array $data): Order
     {
-        $order->update($this->withReferrer($data));
+        $order->update($this->withPartner($this->withReferrer($data), $order));
 
         return $order;
     }
@@ -63,6 +64,37 @@ class OrderService
     }
 
     /**
+     * Only orders from a partner keep one. Assigning a partner, or another one, copies their current commission percent
+     * to the order; keeping the same partner keeps the percent and payment it already had.
+     *
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    private function withPartner(array $data, ?Order $order = null): array
+    {
+        if (! array_key_exists('source', $data)) {
+            unset($data['partner_id']);
+
+            return $data;
+        }
+
+        $partnerId = $data['source'] === OrderSource::Partner->value && filled($data['partner_id'] ?? null)
+            ? (int) $data['partner_id']
+            : null;
+
+        if ($partnerId !== null && $partnerId === $order?->partner_id) {
+            return [...$data, 'partner_id' => $partnerId];
+        }
+
+        return [
+            ...$data,
+            'partner_id' => $partnerId,
+            'commission_percent' => $partnerId === null ? null : Partner::findOrFail($partnerId)->commission_percent,
+            'commission_paid_at' => null,
+        ];
+    }
+
+    /**
      * Delete an order without payments, e.g. one registered by mistake. An order with payments is kept for the
      * sales history, so this returns false for it.
      */
@@ -76,12 +108,13 @@ class OrderService
     }
 
     /**
-     * Load what the order page shows: the client, who referred them, the payments and the invitations.
+     * Load what the order page shows: the client, who referred them or the partner who brought them, the payments and
+     * the invitations.
      */
     public function loadDetails(Order $order): Order
     {
         return $order
-            ->load(['client', 'referrer', 'invitations', 'payments' => fn ($query) => $query->latest('paid_at')->latest('id')])
+            ->load(['client', 'referrer', 'partner', 'invitations', 'payments' => fn ($query) => $query->latest('paid_at')->latest('id')])
             ->loadSum('payments', 'amount');
     }
 }

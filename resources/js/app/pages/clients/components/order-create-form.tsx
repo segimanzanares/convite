@@ -19,7 +19,13 @@ import { useInertiaFormValidation } from '@/hooks/use-inertia-form-validation';
 import { formatMoney } from '@/lib/format';
 import { orderStatusLabels } from '@/lib/labels';
 import { min, numeric, required } from '@/lib/validators';
-import type { Client, OrderStatus, Plan, ValidationSchema } from '@/types';
+import type {
+    Client,
+    OrderStatus,
+    PartnerOption,
+    Plan,
+    ValidationSchema,
+} from '@/types';
 
 const schema: ValidationSchema = {
     plan_id: [required('Elige un plan.')],
@@ -30,10 +36,12 @@ export default function OrderCreateForm({
     client,
     plans,
     referralsEnabled,
+    partners,
 }: {
     client: Client;
     plans: Plan[];
     referralsEnabled: boolean;
+    partners: PartnerOption[];
 }) {
     const { formRef, onBefore, onChange } = useInertiaFormValidation(schema);
     const [price, setPrice] = useState('');
@@ -116,6 +124,7 @@ export default function OrderCreateForm({
 
                         <OrderSourceFields
                             allowReferral={referralsEnabled}
+                            partners={partners}
                             errors={errors}
                         />
 
