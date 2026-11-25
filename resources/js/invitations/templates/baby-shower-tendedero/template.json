@@ -1,0 +1,17 @@
+{
+  "kind": "baby_shower",
+  "label": "Baby shower tendedero",
+  "sections": [
+    "family",
+    "venues",
+    "program",
+    "gallery",
+    "dress_code",
+    "gifts"
+  ],
+  "fonts": [
+    "Yeseva One",
+    "Work Sans:wght@400;500;600",
+    "Reenie Beanie"
+  ]
+}

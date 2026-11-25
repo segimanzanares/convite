@@ -1,0 +1,118 @@
+/* Baby shower tendedero: shadcn/ui's tokens in a boho palette. A linen page with walnut text, a terracotta primary,
+   dusty rose (--secondary) and sage (--accent) as the two pastel tones, Yeseva One for the titles, Work Sans for the
+   text and Reenie Beanie for the handwritten tags. The illustrations add the clothes' colors, the twine and the
+   clothespins. The footer switches to clay tokens (.ui-dark). */
+.theme-baby-shower-tendedero {
+  --radius: 0.9rem;
+  --background: oklch(0.968 0.014 75);
+  --foreground: oklch(0.32 0.035 45);
+  --card: oklch(0.99 0.008 80);
+  --card-foreground: oklch(0.32 0.035 45);
+  --primary: oklch(0.57 0.11 42);
+  --primary-foreground: oklch(0.985 0.01 80);
+  --secondary: oklch(0.93 0.03 30);
+  --secondary-foreground: oklch(0.47 0.08 30);
+  --muted: oklch(0.948 0.017 75);
+  --muted-foreground: oklch(0.5 0.03 50);
+  --accent: oklch(0.93 0.03 130);
+  --accent-foreground: oklch(0.43 0.05 135);
+  --border: oklch(0.89 0.02 70);
+  --input: oklch(0.85 0.025 65);
+  --ring: oklch(0.68 0.09 45);
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --rose: oklch(0.78 0.065 25);
+  --mustard: oklch(0.8 0.115 80);
+  --sage: oklch(0.7 0.05 135);
+  --clay: oklch(0.63 0.1 42);
+  --twine: oklch(0.58 0.04 60);
+  --pin: oklch(0.74 0.06 70);
+
+  /* The shared components this template still uses (the music button, the lightbox, the preview banner) read the
+     legacy tokens: map them to terracotta and mustard. */
+  --gold: oklch(0.57 0.11 42);
+  --gold-light: oklch(0.8 0.115 80);
+  --gold-pale: oklch(0.93 0.03 30);
+  --gold-deep: oklch(0.47 0.09 40);
+  --white: oklch(0.99 0.008 80);
+  --cream: oklch(0.968 0.014 75);
+  --off-white: oklch(0.948 0.017 75);
+  --text-dark: oklch(0.32 0.035 45);
+  --text-body: oklch(0.38 0.035 45);
+  --text-muted: oklch(0.5 0.03 50);
+  --dark-from: oklch(0.36 0.06 40);
+  --dark-to: oklch(0.42 0.08 42);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at :root and inherit their already-resolved
+     value, so they don't pick up the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-work-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Clay tokens with a mustard primary, for the footer. */
+.theme-baby-shower-tendedero .ui-dark {
+  --background: oklch(0.36 0.06 40);
+  --foreground: oklch(0.96 0.015 75);
+  --card: oklch(0.41 0.07 40);
+  --card-foreground: oklch(0.96 0.015 75);
+  --primary: oklch(0.8 0.115 80);
+  --primary-foreground: oklch(0.36 0.06 40);
+  --secondary: oklch(0.42 0.07 40);
+  --secondary-foreground: oklch(0.96 0.015 75);
+  --muted: oklch(0.42 0.07 40);
+  --muted-foreground: oklch(0.84 0.03 60);
+  --accent: oklch(0.42 0.07 40);
+  --accent-foreground: oklch(0.96 0.015 75);
+  --border: oklch(1 0 0 / 14%);
+  --input: oklch(1 0 0 / 18%);
+  --ring: oklch(0.8 0.115 80);
+
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* The motion of TendederoArt.tsx: every piece of clothing and every pennant sways from its clothespin in the wind;
+   the hanger of the intro swings and, once opened, rises out of the screen. */
+.theme-baby-shower-tendedero .tende-sway {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: tendeSway var(--every, 3.6s) var(--wait, 0s) ease-in-out infinite;
+}
+
+.theme-baby-shower-tendedero .tende-lift {
+  transition:
+    transform 0.9s cubic-bezier(0.5, 0, 0.3, 1),
+    opacity 0.6s 0.3s;
+}
+
+.theme-baby-shower-tendedero .is-open .tende-lift {
+  transform: translateY(-70vh) rotate(-8deg);
+  opacity: 0;
+}
+
+@keyframes tendeSway {
+  0%,
+  100% {
+    transform: rotate(calc(-1 * var(--swing, 6deg)));
+  }
+  50% {
+    transform: rotate(var(--swing, 6deg));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-baby-shower-tendedero .tende-sway {
+    animation: none !important;
+  }
+}

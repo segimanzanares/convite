@@ -52,6 +52,15 @@
   --font-rubik: 'Rubik', ui-sans-serif, system-ui, sans-serif;
   --font-gloock: 'Gloock', Georgia, serif;
   --font-karla: 'Karla', ui-sans-serif, system-ui, sans-serif;
+  --font-grandstander: 'Grandstander', ui-rounded, system-ui, sans-serif;
+  --font-lexend: 'Lexend', ui-sans-serif, system-ui, sans-serif;
+  --font-comfortaa: 'Comfortaa', ui-rounded, system-ui, sans-serif;
+  --font-albert: 'Albert Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-yeseva: 'Yeseva One', Georgia, serif;
+  --font-work-sans: 'Work Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-reenie: 'Reenie Beanie', cursive;
+  --font-chewy: 'Chewy', ui-rounded, system-ui, sans-serif;
+  --font-mplus-rounded: 'M PLUS Rounded 1c', ui-rounded, system-ui, sans-serif;
 }
 
 @keyframes fadeUp {

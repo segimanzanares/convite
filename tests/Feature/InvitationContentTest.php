@@ -12,11 +12,12 @@ beforeEach(function () {
 });
 
 it('reads the templates and their kind from the manifests', function () {
-    expect(Invitation::templates())->toHaveKeys(['bautizo-celeste', 'bautizo-luz', 'bautizo-nube', 'bautizo-olivo', 'boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena', 'cumpleanos-confeti', 'cumpleanos-floral', 'cumpleanos-grafito', 'cumpleanos-reserva', 'infantil-dino', 'infantil-dulce', 'infantil-espacial', 'infantil-unicornio', 'revelacion-dulce', 'revelacion-estrellas', 'revelacion-globos', 'revelacion-osito', 'xv-aurora', 'xv-celestial', 'xv-disco', 'xv-jardin'])
+    expect(Invitation::templates())->toHaveKeys(['baby-shower-lluvia', 'baby-shower-patito', 'baby-shower-safari', 'baby-shower-tendedero', 'bautizo-celeste', 'bautizo-luz', 'bautizo-nube', 'bautizo-olivo', 'boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena', 'cumpleanos-confeti', 'cumpleanos-floral', 'cumpleanos-grafito', 'cumpleanos-reserva', 'infantil-dino', 'infantil-dulce', 'infantil-espacial', 'infantil-unicornio', 'revelacion-dulce', 'revelacion-estrellas', 'revelacion-globos', 'revelacion-osito', 'xv-aurora', 'xv-celestial', 'xv-disco', 'xv-jardin'])
         ->and(Invitation::factory()->make(['template' => 'cumpleanos-floral'])->kind()->value)->toBe('birthday')
         ->and(Invitation::factory()->make(['template' => 'xv-jardin'])->kind()->value)->toBe('xv')
         ->and(Invitation::factory()->make(['template' => 'bautizo-nube'])->kind()->value)->toBe('baptism')
-        ->and(Invitation::factory()->make(['template' => 'revelacion-globos'])->kind()->value)->toBe('gender_reveal');
+        ->and(Invitation::factory()->make(['template' => 'revelacion-globos'])->kind()->value)->toBe('gender_reveal')
+        ->and(Invitation::factory()->make(['template' => 'baby-shower-patito'])->kind()->value)->toBe('baby_shower');
 });
 
 it('declares the fonts of every template in its manifest', function () {
@@ -78,6 +79,8 @@ it('requires the names the kind of the template needs', function (string $templa
     'baptism without a name' => ['bautizo-luz', ['first_name' => 'Julieta'], 'content.name'],
     'gender reveal without a name' => ['revelacion-osito', ['names' => ['', 'Luis']], 'content.names.0'],
     'gender reveal with an unknown answer' => ['revelacion-dulce', ['names' => ['Ana'], 'reveal' => 'both'], 'content.reveal'],
+    'baby shower without a name' => ['baby-shower-safari', ['names' => ['', 'Luis']], 'content.names.0'],
+    'baby shower diaper size without a label' => ['baby-shower-lluvia', ['names' => ['Ana'], 'diapers' => ['sizes' => [['note' => 'Apellidos A–M']]]], 'content.diapers.sizes.0.label'],
 ]);
 
 it('only accepts files of the invitation itself', function () {
@@ -201,6 +204,51 @@ it('saves and sends the chapters of a baptism', function () {
             ->where('invitation.story.title', 'Una nueva vida')
             ->where('invitation.parents.names', ['Paola', 'Ricardo'])
             ->where('invitation.godparents.0.role', 'Mis padrinos'));
+});
+
+it('saves and sends the content of a baby shower', function () {
+    $invitation = Invitation::factory()->forOrder(Order::factory()->create())->create(['template' => 'baby-shower-tendedero']);
+
+    $this->actingAs(User::factory()->create())
+        ->put(route('admin.invitations.content.update', $invitation), [
+            'content' => [
+                'names' => ['Regina', ''],
+                'baby_name' => 'Emilia',
+                'due_label' => 'Llega en junio',
+                'hosts' => [['role' => 'Organizan con cariño', 'names' => ['Las tías']]],
+                'diapers' => ['note' => 'Según tu apellido', 'sizes' => [['label' => 'Etapa 2', 'note' => 'A a la M']]],
+                // Fields of another kind are dropped
+                'grandparents' => [['role' => 'Abuelos', 'names' => ['Rosa']]],
+            ],
+        ])
+        ->assertSessionHasNoErrors();
+
+    $invitation->refresh();
+
+    // One parent-to-be is enough to publish
+    expect($invitation->hasContent())->toBeTrue()
+        ->and($invitation->content)->not->toHaveKey('grandparents');
+
+    $this->get("/i/{$invitation->slug}")
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('templates/baby-shower-tendedero/InvitationPage')
+            ->where('invitation.kind', 'baby_shower')
+            ->where('invitation.names', ['Regina'])
+            ->where('invitation.babyName', 'Emilia')
+            ->where('invitation.dueLabel', 'Llega en junio')
+            ->where('invitation.hosts.0.names', ['Las tías'])
+            ->where('invitation.diapers', ['note' => 'Según tu apellido', 'sizes' => [['label' => 'Etapa 2', 'note' => 'A a la M']]])
+            ->missing('invitation.grandparents'));
+});
+
+it('sends no diaper section for a baby shower without sizes nor a note', function () {
+    $invitation = Invitation::factory()->create([
+        'template' => 'baby-shower-patito',
+        'content' => ['names' => ['Karla'], 'diapers' => ['note' => null, 'sizes' => []]],
+    ]);
+
+    $this->get("/i/{$invitation->slug}")
+        ->assertInertia(fn (Assert $page) => $page->where('invitation.diapers', null)->where('invitation.hosts', []));
 });
 
 it('saves a gender reveal and keeps its answer secret until it is shown', function () {

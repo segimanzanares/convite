@@ -140,8 +140,8 @@ it('opens the edit form with the orders an invitation can be linked to', functio
             ->where('invitation.id', $invitation->id)
             ->where('invitation.template_label', 'Boda clásica')
             ->has('orders', 2)
-            ->where('templates.0.name', 'bautizo-celeste')
-            ->where('templates.0.kind', 'baptism'));
+            ->where('templates.0.name', 'baby-shower-lluvia')
+            ->where('templates.0.kind', 'baby_shower'));
 });
 
 it('serves the printable pages only when the plan of the order includes them', function (array $features, int $cardStatus, int $passesStatus) {

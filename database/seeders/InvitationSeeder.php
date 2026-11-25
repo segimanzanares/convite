@@ -15,6 +15,30 @@ class InvitationSeeder extends Seeder
     {
         $invitations = [
             [
+                'template' => 'baby-shower-lluvia',
+                'title' => 'Daniela — Baby shower de Emilia',
+                'description' => 'Se viene una lluvia de amor para Emilia: acompaña a Daniela en su baby shower.',
+                'og_image' => '/invitations/baby-shower-lluvia/og-image.jpg',
+            ],
+            [
+                'template' => 'baby-shower-patito',
+                'title' => 'Karla & Iván — Baby shower',
+                'description' => 'Un patito viene en camino: celebra con Karla e Iván la llegada de su bebé.',
+                'og_image' => '/invitations/baby-shower-patito/og-image.jpg',
+            ],
+            [
+                'template' => 'baby-shower-safari',
+                'title' => 'Valeria & Andrés — Baby shower',
+                'description' => 'Una pequeña gran aventura está por comenzar: celebra con Valeria y Andrés la llegada de Santiago.',
+                'og_image' => '/invitations/baby-shower-safari/og-image.jpg',
+            ],
+            [
+                'template' => 'baby-shower-tendedero',
+                'title' => 'Regina & Pablo — Baby shower',
+                'description' => 'Ya tendieron su ropita: ayuda a Regina y Pablo a preparar el nido para su bebé.',
+                'og_image' => '/invitations/baby-shower-tendedero/og-image.jpg',
+            ],
+            [
                 'template' => 'bautizo-celeste',
                 'title' => 'Emiliano José — Mi Bautizo',
                 'description' => 'Emiliano será bautizado y quiere que estés ahí para celebrarlo.',

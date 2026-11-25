@@ -1,0 +1,229 @@
+/* Baby shower lluvia de amor: shadcn/ui's tokens in a soft-sky palette. A pale sky page with navy-violet text, a
+   periwinkle primary, lilac (--secondary) and butter (--accent) as the two pastel tones, Comfortaa for the titles and
+   Albert Sans for the text. The illustrations add the cloud, the drops, the hearts and the sun. The footer switches
+   to dusk tokens (.ui-dark). */
+.theme-baby-shower-lluvia {
+  --radius: 1.5rem;
+  --background: oklch(0.978 0.012 240);
+  --foreground: oklch(0.33 0.06 275);
+  --card: oklch(0.997 0.004 240);
+  --card-foreground: oklch(0.33 0.06 275);
+  --primary: oklch(0.56 0.12 270);
+  --primary-foreground: oklch(0.99 0.005 270);
+  --secondary: oklch(0.935 0.04 300);
+  --secondary-foreground: oklch(0.45 0.1 300);
+  --muted: oklch(0.96 0.018 245);
+  --muted-foreground: oklch(0.52 0.04 270);
+  --accent: oklch(0.955 0.055 95);
+  --accent-foreground: oklch(0.47 0.08 75);
+  --border: oklch(0.91 0.02 260);
+  --input: oklch(0.87 0.03 265);
+  --ring: oklch(0.7 0.1 270);
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --cloud: oklch(0.995 0.004 240);
+  --cloud-shade: oklch(0.9 0.03 250);
+  --drop: oklch(0.78 0.08 235);
+  --heart: oklch(0.76 0.12 10);
+  --sun: oklch(0.89 0.13 92);
+  --lilac: oklch(0.78 0.08 300);
+  --face: oklch(0.38 0.06 275);
+
+  /* The shared components this template still uses (the music button, the lightbox, the preview banner) read the
+     legacy tokens: map them to periwinkle and butter. */
+  --gold: oklch(0.56 0.12 270);
+  --gold-light: oklch(0.89 0.13 92);
+  --gold-pale: oklch(0.935 0.04 300);
+  --gold-deep: oklch(0.45 0.1 275);
+  --white: oklch(0.997 0.004 240);
+  --cream: oklch(0.978 0.012 240);
+  --off-white: oklch(0.96 0.018 245);
+  --text-dark: oklch(0.33 0.06 275);
+  --text-body: oklch(0.4 0.05 275);
+  --text-muted: oklch(0.52 0.04 270);
+  --dark-from: oklch(0.32 0.08 280);
+  --dark-to: oklch(0.4 0.1 285);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at :root and inherit their already-resolved
+     value, so they don't pick up the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-albert);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Dusk tokens with a butter primary, for the footer. */
+.theme-baby-shower-lluvia .ui-dark {
+  --background: oklch(0.34 0.08 280);
+  --foreground: oklch(0.97 0.012 270);
+  --card: oklch(0.39 0.09 280);
+  --card-foreground: oklch(0.97 0.012 270);
+  --primary: oklch(0.89 0.13 92);
+  --primary-foreground: oklch(0.34 0.08 280);
+  --secondary: oklch(0.4 0.09 280);
+  --secondary-foreground: oklch(0.97 0.012 270);
+  --muted: oklch(0.4 0.09 280);
+  --muted-foreground: oklch(0.84 0.04 280);
+  --accent: oklch(0.4 0.09 280);
+  --accent-foreground: oklch(0.97 0.012 270);
+  --border: oklch(1 0 0 / 14%);
+  --input: oklch(1 0 0 / 18%);
+  --ring: oklch(0.89 0.13 92);
+
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* The motion of LluviaArt.tsx: the cloud floats and blinks while drops and hearts fall from it; the umbrella sways
+   from its handle and, in the intro, opens; the rainbow draws itself; the hearts of the hero drift down. */
+.theme-baby-shower-lluvia .lluvia-float {
+  transform-box: view-box;
+  animation: lluviaFloat var(--every, 6s) var(--wait, 0s) ease-in-out infinite;
+}
+
+.theme-baby-shower-lluvia .lluvia-blink {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: lluviaBlink 5s var(--wait, 0s) infinite;
+}
+
+.theme-baby-shower-lluvia .lluvia-fall {
+  animation: lluviaFall var(--every, 2.6s) var(--wait, 0s) ease-in infinite;
+}
+
+.theme-baby-shower-lluvia .lluvia-sway {
+  transform-box: view-box;
+  transform-origin: var(--origin, 110px 200px);
+  animation: lluviaSway var(--every, 5s) var(--wait, 0s) ease-in-out infinite;
+}
+
+.theme-baby-shower-lluvia .lluvia-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: lluviaDraw 7s var(--wait, 0s) ease-in-out infinite;
+}
+
+.theme-baby-shower-lluvia .lluvia-drift {
+  animation: lluviaDrift var(--every, 10s) var(--wait, 0s) linear infinite;
+}
+
+/* The intro's umbrella waits closed and opens when the dialog gets .is-open. */
+.theme-baby-shower-lluvia .lluvia-canopy {
+  transform-box: view-box;
+  transform-origin: 110px 92px;
+}
+
+.theme-baby-shower-lluvia .lluvia-closed .lluvia-canopy {
+  transform: scale(0.28, 0.9);
+  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme-baby-shower-lluvia .is-open .lluvia-closed .lluvia-canopy {
+  transform: scale(1);
+}
+
+@keyframes lluviaFloat {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(var(--dx, 6px), var(--lift, -6px));
+  }
+}
+
+@keyframes lluviaBlink {
+  0%,
+  93%,
+  100% {
+    transform: scaleY(1);
+  }
+  96% {
+    transform: scaleY(0.15);
+  }
+}
+
+@keyframes lluviaFall {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(var(--fall, 90px));
+  }
+}
+
+@keyframes lluviaSway {
+  0%,
+  100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes lluviaDraw {
+  0% {
+    stroke-dashoffset: 1;
+  }
+  35%,
+  80% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -1;
+  }
+}
+
+@keyframes lluviaDrift {
+  0% {
+    opacity: 0;
+    transform: translate(0, -10%) rotate(-10deg);
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx, 20px), 105vh) rotate(20deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-baby-shower-lluvia .lluvia-float,
+  .theme-baby-shower-lluvia .lluvia-blink,
+  .theme-baby-shower-lluvia .lluvia-fall,
+  .theme-baby-shower-lluvia .lluvia-sway,
+  .theme-baby-shower-lluvia .lluvia-draw,
+  .theme-baby-shower-lluvia .lluvia-drift {
+    animation: none !important;
+  }
+
+  .theme-baby-shower-lluvia .lluvia-draw {
+    stroke-dashoffset: 0;
+  }
+
+  .theme-baby-shower-lluvia .lluvia-drift {
+    display: none;
+  }
+}

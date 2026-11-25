@@ -60,11 +60,13 @@ it('shows the published demo of each template', function () {
 
     $this->get('/')
         ->assertInertia(fn (Assert $page) => $page
-            ->where('demos', fn ($demos) => collect($demos)->pluck('slug')->all() === ['bautizo-celeste', 'bautizo-luz', 'bautizo-nube', 'bautizo-olivo', 'boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena', 'cumpleanos-confeti', 'cumpleanos-floral', 'cumpleanos-grafito', 'cumpleanos-reserva', 'infantil-dino', 'infantil-dulce', 'infantil-espacial', 'infantil-unicornio', 'revelacion-dulce', 'revelacion-estrellas', 'revelacion-globos', 'revelacion-osito', 'xv-aurora', 'xv-celestial', 'xv-disco'])
-            ->where('demos.0.url', route('invitations.show', 'bautizo-celeste'))
-            ->where('demos.0.image', '/invitations/bautizo-celeste/og-image.jpg')
-            ->where('demos.0.kind', 'baptism')
-            ->where('demos.9.kind', 'birthday')
-            ->where('demos.9.template_label', 'Cumpleaños floral')
-            ->where('demos.16.kind', 'gender_reveal'));
+            ->where('demos', fn ($demos) => collect($demos)->pluck('slug')->all() === ['baby-shower-lluvia', 'baby-shower-patito', 'baby-shower-safari', 'baby-shower-tendedero', 'bautizo-celeste', 'bautizo-luz', 'bautizo-nube', 'bautizo-olivo', 'boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena', 'cumpleanos-confeti', 'cumpleanos-floral', 'cumpleanos-grafito', 'cumpleanos-reserva', 'infantil-dino', 'infantil-dulce', 'infantil-espacial', 'infantil-unicornio', 'revelacion-dulce', 'revelacion-estrellas', 'revelacion-globos', 'revelacion-osito', 'xv-aurora', 'xv-celestial', 'xv-disco'])
+            ->where('demos.0.kind', 'baby_shower')
+            ->where('demos.0.template_label', 'Baby shower lluvia de amor')
+            ->where('demos.4.url', route('invitations.show', 'bautizo-celeste'))
+            ->where('demos.4.image', '/invitations/bautizo-celeste/og-image.jpg')
+            ->where('demos.4.kind', 'baptism')
+            ->where('demos.13.kind', 'birthday')
+            ->where('demos.13.template_label', 'Cumpleaños floral')
+            ->where('demos.20.kind', 'gender_reveal'));
 });

@@ -1,0 +1,16 @@
+{
+  "kind": "baby_shower",
+  "label": "Baby shower safari",
+  "sections": [
+    "family",
+    "venues",
+    "program",
+    "gallery",
+    "dress_code",
+    "gifts"
+  ],
+  "fonts": [
+    "Grandstander:wght@500;600;700",
+    "Lexend:wght@300;400;500;600"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "kind": "baby_shower",
+  "label": "Baby shower lluvia de amor",
+  "sections": [
+    "family",
+    "venues",
+    "program",
+    "gallery",
+    "dress_code",
+    "gifts"
+  ],
+  "fonts": [
+    "Comfortaa:wght@500;600;700",
+    "Albert Sans:wght@400;500;600;700"
+  ]
+}

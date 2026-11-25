@@ -1,0 +1,174 @@
+/* Baby shower patito: shadcn/ui's tokens in a bath-time palette. A pale aqua page with deep-teal text, a teal primary,
+   sunflower (--secondary) and aqua (--accent) as the two pastel tones, Chewy for the titles and M PLUS Rounded 1c for
+   the text. The illustrations add the duck, its beak, the water and the bubbles. The footer switches to deep-water
+   tokens (.ui-dark). */
+.theme-baby-shower-patito {
+  --radius: 1.6rem;
+  --background: oklch(0.982 0.014 200);
+  --foreground: oklch(0.33 0.05 220);
+  --card: oklch(0.997 0.004 200);
+  --card-foreground: oklch(0.33 0.05 220);
+  --primary: oklch(0.55 0.1 215);
+  --primary-foreground: oklch(0.99 0.005 200);
+  --secondary: oklch(0.96 0.065 98);
+  --secondary-foreground: oklch(0.48 0.09 75);
+  --muted: oklch(0.96 0.022 200);
+  --muted-foreground: oklch(0.5 0.045 215);
+  --accent: oklch(0.935 0.045 195);
+  --accent-foreground: oklch(0.43 0.08 210);
+  --border: oklch(0.9 0.03 205);
+  --input: oklch(0.86 0.04 205);
+  --ring: oklch(0.7 0.09 210);
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --duck: oklch(0.88 0.16 92);
+  --duck-shade: oklch(0.8 0.15 80);
+  --beak: oklch(0.72 0.16 48);
+  --water: oklch(0.82 0.08 210);
+  --water-deep: oklch(0.7 0.1 215);
+  --bubble: oklch(1 0 0 / 0.65);
+  --bubble-edge: oklch(0.7 0.08 215 / 0.55);
+  --tub: oklch(0.995 0.003 200);
+  --eye: oklch(0.28 0.04 230);
+
+  /* The shared components this template still uses (the music button, the lightbox, the preview banner) read the
+     legacy tokens: map them to teal and sunflower. */
+  --gold: oklch(0.55 0.1 215);
+  --gold-light: oklch(0.88 0.16 92);
+  --gold-pale: oklch(0.96 0.065 98);
+  --gold-deep: oklch(0.45 0.09 215);
+  --white: oklch(0.997 0.004 200);
+  --cream: oklch(0.982 0.014 200);
+  --off-white: oklch(0.96 0.022 200);
+  --text-dark: oklch(0.33 0.05 220);
+  --text-body: oklch(0.4 0.05 220);
+  --text-muted: oklch(0.5 0.045 215);
+  --dark-from: oklch(0.36 0.07 220);
+  --dark-to: oklch(0.44 0.09 215);
+
+  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at :root and inherit their already-resolved
+     value, so they don't pick up the overrides above unless redeclared here on the same scope. */
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-pale: var(--gold-pale);
+  --color-gold-deep: var(--gold-deep);
+  --color-cream: var(--cream);
+  --color-off-white: var(--off-white);
+  --color-ivory: var(--white);
+  --color-ink: var(--text-dark);
+
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-mplus-rounded);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Deep-water tokens with a sunflower primary, for the footer. */
+.theme-baby-shower-patito .ui-dark {
+  --background: oklch(0.38 0.07 220);
+  --foreground: oklch(0.97 0.012 200);
+  --card: oklch(0.43 0.08 220);
+  --card-foreground: oklch(0.97 0.012 200);
+  --primary: oklch(0.88 0.16 92);
+  --primary-foreground: oklch(0.33 0.06 220);
+  --secondary: oklch(0.44 0.08 220);
+  --secondary-foreground: oklch(0.97 0.012 200);
+  --muted: oklch(0.44 0.08 220);
+  --muted-foreground: oklch(0.85 0.04 205);
+  --accent: oklch(0.44 0.08 220);
+  --accent-foreground: oklch(0.97 0.012 200);
+  --border: oklch(1 0 0 / 14%);
+  --input: oklch(1 0 0 / 18%);
+  --ring: oklch(0.88 0.16 92);
+
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* The motion of PatitoArt.tsx: the ducks bob and rock on the water, blink and paddle; the waves slide; the bubbles
+   rise and pop; in the intro the duck pops out of the foam of the tub. */
+.theme-baby-shower-patito .patito-bob {
+  transform-box: view-box;
+  transform-origin: var(--origin, 100px 150px);
+  animation: patitoBob var(--every, 3.2s) var(--wait, 0s) ease-in-out infinite;
+}
+
+.theme-baby-shower-patito .patito-blink {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: patitoBlink 4.2s var(--wait, 0s) infinite;
+}
+
+.theme-baby-shower-patito .patito-waves {
+  animation: patitoWaves var(--every, 4s) linear infinite;
+}
+
+.theme-baby-shower-patito .patito-rise {
+  animation: patitoRise var(--every, 6s) var(--wait, 0s) ease-in infinite;
+}
+
+.theme-baby-shower-patito .patito-pop-up {
+  transform: translateY(46px);
+  transition: transform 0.7s 0.2s cubic-bezier(0.34, 1.7, 0.64, 1);
+}
+
+.theme-baby-shower-patito .is-open .patito-pop-up {
+  transform: translateY(-14px);
+}
+
+@keyframes patitoBob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(var(--lift, -5px)) rotate(3deg);
+  }
+}
+
+@keyframes patitoBlink {
+  0%,
+  90%,
+  100% {
+    transform: scaleY(1);
+  }
+  94% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes patitoWaves {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-40px);
+  }
+}
+
+@keyframes patitoRise {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.6);
+  }
+  12% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+    transform: translate(var(--dx, 8px), calc(var(--rise, 160px) * -0.85)) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx, 8px), calc(var(--rise, 160px) * -1)) scale(1.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-baby-shower-patito .patito-bob,
+  .theme-baby-shower-patito .patito-blink,
+  .theme-baby-shower-patito .patito-waves,
+  .theme-baby-shower-patito .patito-rise {
+    animation: none !important;
+  }
+}
