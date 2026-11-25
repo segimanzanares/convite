@@ -1,5 +1,6 @@
-import { Head } from '@inertiajs/react';
+import { DoorOpenIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
+import EventPage from '@/components/event-page';
 import type { Door } from '@/types/check-in';
 
 /** Frame of the door pages: what event this is and how many people have arrived. Made for a phone held at the door. */
@@ -7,21 +8,38 @@ export function DoorLayout({ door, children }: { door: Door; children: ReactNode
     const { summary } = door;
 
     return (
-        <main className="min-h-screen bg-cream text-ink">
-            <Head title={`Registro de llegadas — ${door.title}`} />
-            <header className="bg-primary text-ivory px-4 pt-6 pb-5">
-                <div className="max-w-md mx-auto">
-                    <p className="text-[11px] tracking-[0.3em] uppercase text-ivory/70">Registro de llegadas</p>
-                    <h1 className="text-xl mt-1">{door.title}</h1>
-                    {door.is_open && (
-                        <p className="mt-3 text-sm">
-                            <span className="text-2xl font-medium">{summary.arrived_seats}</span> de {summary.seats} personas ·{' '}
-                            {summary.arrived_guests} de {summary.guests} pases
-                        </p>
-                    )}
-                </div>
-            </header>
-            <div className="max-w-md mx-auto px-4 py-6">{children}</div>
-        </main>
+        <EventPage
+            headTitle={`Registro de llegadas — ${door.title}`}
+            eyebrow="Registro de llegadas"
+            title={door.title}
+            icon={<DoorOpenIcon />}
+            summary={
+                door.is_open && (
+                    <dl className="mt-5 grid grid-cols-2 gap-3">
+                        <Counter label="Personas" arrived={summary.arrived_seats} total={summary.seats} />
+                        <Counter label="Pases" arrived={summary.arrived_guests} total={summary.guests} />
+                    </dl>
+                )
+            }
+        >
+            {children}
+        </EventPage>
+    );
+}
+
+function Counter({ label, arrived, total }: { label: string; arrived: number; total: number }) {
+    const percent = total > 0 ? Math.min(100, Math.round((arrived / total) * 100)) : 0;
+
+    return (
+        <div className="rounded-lg border border-primary-foreground/15 bg-primary-foreground/10 px-3 py-2.5">
+            <dt className="text-xs text-primary-foreground/70">{label}</dt>
+            <dd className="mt-0.5">
+                <span className="text-2xl font-semibold tabular-nums">{arrived}</span>
+                <span className="text-sm text-primary-foreground/70"> de {total}</span>
+                <span className="mt-2 block h-1 overflow-hidden rounded-full bg-primary-foreground/20" aria-hidden>
+                    <span className="block h-full rounded-full bg-primary-foreground transition-[width]" style={{ width: `${percent}%` }} />
+                </span>
+            </dd>
+        </div>
     );
 }

@@ -1,6 +1,11 @@
-import { Head, usePage, usePoll } from '@inertiajs/react';
-import { CameraIcon, CheckIcon, ImageUpIcon, RotateCwIcon, TriangleAlertIcon } from 'lucide-react';
+import { usePage, usePoll } from '@inertiajs/react';
+import { CalendarClockIcon, CameraIcon, CheckIcon, ImageIcon, ImageUpIcon, RotateCwIcon, TriangleAlertIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import EventPage from '@/components/event-page';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { formatGalleryTime, shrinkPhoto, uploadPhoto } from '@/lib/live-gallery';
 import type { GalleryPhoto, LiveGalleryPageProps } from '@/types/live-gallery';
 
@@ -30,28 +35,23 @@ export default function LiveGalleryUpload() {
     const { gallery, photos } = usePage<LiveGalleryPageProps>().props;
 
     return (
-        <main className="min-h-screen bg-cream text-ink">
-            <Head title={`Fotos — ${gallery.title}`} />
-            <header className="bg-primary px-4 pt-6 pb-5 text-ivory">
-                <div className="mx-auto max-w-md">
-                    <p className="text-[11px] tracking-[0.3em] text-ivory/70 uppercase">Galería en vivo</p>
-                    <h1 className="mt-1 text-xl">{gallery.title}</h1>
-                </div>
-            </header>
-            <div className="mx-auto max-w-md px-4 py-6">
-                {gallery.is_open ? (
-                    <Uploader />
-                ) : (
-                    <p className="border border-primary/15 bg-ivory p-5 leading-relaxed">
+        <EventPage headTitle={`Fotos — ${gallery.title}`} eyebrow="Galería en vivo" title={gallery.title} icon={<ImageIcon />}>
+            {gallery.is_open ? (
+                <Uploader />
+            ) : (
+                <Alert className="bg-card">
+                    <CalendarClockIcon />
+                    <AlertTitle>La galería no está recibiendo fotos</AlertTitle>
+                    <AlertDescription>
                         {gallery.opens_at && gallery.closes_at
                             ? `La galería recibe fotos del ${formatGalleryTime(gallery.opens_at)} al ${formatGalleryTime(gallery.closes_at)}. ¡Te esperamos en el evento!`
                             : 'La galería se abre el día del evento.'}
-                    </p>
-                )}
+                    </AlertDescription>
+                </Alert>
+            )}
 
-                <RecentPhotos photos={photos} refreshes={gallery.is_open} />
-            </div>
-        </main>
+            <RecentPhotos photos={photos} refreshes={gallery.is_open} />
+        </EventPage>
     );
 }
 
@@ -124,34 +124,40 @@ function Uploader() {
 
     return (
         <section>
-            <p className="text-sm leading-relaxed text-ink/80">
+            <p className="text-sm leading-relaxed text-muted-foreground">
                 Comparte las fotos que tomes en el evento.{' '}
                 {gallery.moderated
                     ? 'Aparecerán en la pantalla del salón cuando los anfitriones las aprueben.'
                     : 'Aparecerán al momento en la pantalla del salón.'}
             </p>
 
-            <label className="mt-5 block">
-                <span className="text-sm text-ink/70">Tu nombre (opcional)</span>
-                <input
+            <div className="mt-5 grid gap-2">
+                <Label htmlFor="uploader_name">
+                    Tu nombre <span className="font-normal text-muted-foreground">(opcional)</span>
+                </Label>
+                <Input
+                    id="uploader_name"
                     type="text"
                     value={name}
                     maxLength={60}
                     autoComplete="name"
                     onChange={(event) => setName(event.target.value)}
-                    className="mt-1 w-full border border-primary/30 bg-ivory px-4 py-3 text-base"
+                    className="h-11 bg-background text-base md:text-base"
                 />
-            </label>
-            <label className="mt-3 block">
-                <span className="text-sm text-ink/70">Un mensaje para acompañar tus fotos (opcional)</span>
-                <input
+            </div>
+            <div className="mt-4 grid gap-2">
+                <Label htmlFor="message">
+                    Un mensaje para acompañar tus fotos <span className="font-normal text-muted-foreground">(opcional)</span>
+                </Label>
+                <Input
+                    id="message"
                     type="text"
                     value={message}
                     maxLength={140}
                     onChange={(event) => setMessage(event.target.value)}
-                    className="mt-1 w-full border border-primary/30 bg-ivory px-4 py-3 text-base"
+                    className="h-11 bg-background text-base md:text-base"
                 />
-            </label>
+            </div>
 
             <input
                 ref={pickerRef}
@@ -176,32 +182,30 @@ function Uploader() {
                 }}
             />
             <div className="mt-5 grid grid-cols-2 gap-3">
-                <button
-                    type="button"
-                    onClick={() => pickerRef.current?.click()}
-                    className="flex items-center justify-center gap-2 bg-primary px-4 py-4 text-ivory"
-                >
-                    <ImageUpIcon className="size-5" aria-hidden />
+                <Button type="button" size="lg" onClick={() => pickerRef.current?.click()} className="h-12 text-base [&_svg:not([class*='size-'])]:size-5">
+                    <ImageUpIcon aria-hidden />
                     Elegir fotos
-                </button>
-                <button
+                </Button>
+                <Button
                     type="button"
+                    size="lg"
+                    variant="outline"
                     onClick={() => cameraRef.current?.click()}
-                    className="flex items-center justify-center gap-2 border border-primary px-4 py-4 text-primary"
+                    className="h-12 text-base [&_svg:not([class*='size-'])]:size-5"
                 >
-                    <CameraIcon className="size-5" aria-hidden />
+                    <CameraIcon aria-hidden />
                     Tomar foto
-                </button>
+                </Button>
             </div>
 
             {uploads.length > 0 && (
                 <div className="mt-6">
-                    <p role="status" className="text-sm text-ink/70">
+                    <p role="status" className="text-sm text-muted-foreground">
                         {done} de {uploads.length} {uploads.length === 1 ? 'foto subida' : 'fotos subidas'}
                     </p>
                     <ul className="mt-2 grid grid-cols-3 gap-2">
                         {uploads.map((upload) => (
-                            <li key={upload.key} className="relative aspect-square overflow-hidden bg-ivory">
+                            <li key={upload.key} className="relative aspect-square overflow-hidden rounded-md border bg-muted">
                                 <img src={upload.preview} alt="" className="size-full object-cover" />
                                 <UploadState
                                     upload={upload}
@@ -220,7 +224,7 @@ function UploadState({ upload, onRetry }: { upload: Upload; onRetry: () => void 
     switch (upload.state) {
         case 'done':
             return (
-                <span className="absolute top-1 right-1 rounded-full bg-primary p-1 text-ivory" aria-label="Subida">
+                <span className="absolute top-1 right-1 rounded-full bg-primary p-1 text-primary-foreground shadow-sm" aria-label="Subida">
                     <CheckIcon className="size-3.5" />
                 </span>
             );
@@ -230,7 +234,7 @@ function UploadState({ upload, onRetry }: { upload: Upload; onRetry: () => void 
                     type="button"
                     onClick={onRetry}
                     title={upload.error}
-                    className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-ink/70 p-1 text-center text-[11px] leading-tight text-ivory"
+                    className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-black/65 p-1 text-center text-[11px] leading-tight text-white"
                 >
                     <TriangleAlertIcon className="size-4" aria-hidden />
                     {upload.error}
@@ -242,8 +246,8 @@ function UploadState({ upload, onRetry }: { upload: Upload; onRetry: () => void 
             );
         default:
             return (
-                <span className="absolute inset-x-0 bottom-0 h-1.5 bg-ink/30">
-                    <span className="block h-full bg-gold transition-[width]" style={{ width: `${upload.progress}%` }} />
+                <span className="absolute inset-x-0 bottom-0 h-1.5 bg-black/30">
+                    <span className="block h-full bg-white transition-[width]" style={{ width: `${upload.progress}%` }} />
                 </span>
             );
     }
@@ -258,10 +262,10 @@ function RecentPhotos({ photos, refreshes }: { photos: GalleryPhoto[]; refreshes
 
     return (
         <section className="mt-10">
-            <h2 className="text-[11px] tracking-[0.3em] text-ink/60 uppercase">Fotos del evento</h2>
-            <ul className="mt-3 grid grid-cols-3 gap-1">
+            <h2 className="text-sm font-semibold tracking-tight">Fotos del evento</h2>
+            <ul className="mt-3 grid grid-cols-3 gap-1.5">
                 {photos.map((photo) => (
-                    <li key={photo.id} className="aspect-square overflow-hidden bg-ivory">
+                    <li key={photo.id} className="aspect-square overflow-hidden rounded-md bg-muted">
                         <a href={photo.url} target="_blank" rel="noreferrer">
                             <img
                                 src={photo.thumb_url}

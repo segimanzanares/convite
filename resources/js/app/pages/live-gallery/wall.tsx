@@ -2,6 +2,7 @@ import { Head, usePage, usePoll } from '@inertiajs/react';
 import { ExpandIcon } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Button } from '@/components/ui/button';
 import { formatGalleryTime } from '@/lib/live-gallery';
 import type { GalleryPhoto, LiveGalleryPageProps } from '@/types/live-gallery';
 
@@ -16,7 +17,9 @@ const MIN_SLIDE_MS = 2_500;
 
 /**
  * The wall projected at the venue: one photo at a time, full screen. New photos jump the line as soon as they arrive;
- * between them the wall cycles through the latest ones. A corner shows the QR code to share more.
+ * between them the wall cycles through the latest ones. A corner shows the QR code to share more. Being projected in a
+ * dim room, it sits on a dark gradient of the primary color with `primary-foreground` text. (A nested `dark` class would
+ * not do: Tailwind resolves `--color-*` on `:root`, so only `<html>` can switch the theme.)
  */
 export default function LiveGalleryWall() {
     const { gallery, photos } = usePage<LiveGalleryPageProps>().props;
@@ -25,7 +28,7 @@ export default function LiveGalleryWall() {
     usePoll(REFRESH_MS, { only: ['photos'] }, { mode: 'rest', background: 'continue' });
 
     return (
-        <main className="relative flex h-screen cursor-none items-center justify-center overflow-hidden bg-ink text-ivory">
+        <main className="relative flex h-screen cursor-none items-center justify-center overflow-hidden bg-radial-[at_50%_35%] from-[color-mix(in_oklch,var(--primary),white_12%)] to-[color-mix(in_oklch,var(--primary),black_45%)] text-primary-foreground">
             <Head title={`Muro de fotos — ${gallery.title}`} />
 
             {current ? (
@@ -38,17 +41,17 @@ export default function LiveGalleryWall() {
                         className="relative max-h-full max-w-full object-contain shadow-2xl"
                     />
                     {(current.uploader_name || current.message) && (
-                        <figcaption className="absolute bottom-8 left-8 max-w-[60%] bg-ink/70 px-5 py-3 backdrop-blur">
-                            {current.message && <p className="font-serif text-2xl leading-snug">“{current.message}”</p>}
-                            {current.uploader_name && <p className="mt-1 text-sm text-ivory/70">{current.uploader_name}</p>}
+                        <figcaption className="absolute bottom-8 left-8 max-w-[60%] rounded-xl border border-primary-foreground/15 bg-primary/75 px-5 py-3 shadow-lg backdrop-blur">
+                            {current.message && <p className="text-2xl leading-snug font-medium tracking-tight">“{current.message}”</p>}
+                            {current.uploader_name && <p className="mt-1 text-sm text-primary-foreground/70">{current.uploader_name}</p>}
                         </figcaption>
                     )}
                 </figure>
             ) : (
                 <div className="px-8 text-center">
-                    <p className="text-sm tracking-[0.3em] text-ivory/60 uppercase">Galería en vivo</p>
-                    <h1 className="mt-3 font-serif text-5xl">{gallery.title}</h1>
-                    <p className="mt-6 text-lg text-ivory/80">
+                    <p className="text-sm font-medium tracking-wide text-primary-foreground/70">Galería en vivo</p>
+                    <h1 className="mt-3 text-5xl font-semibold tracking-tight">{gallery.title}</h1>
+                    <p className="mt-6 text-lg text-primary-foreground/80">
                         {gallery.is_open || !gallery.opens_at
                             ? 'Escanea el código y comparte la primera foto.'
                             : `Las fotos aparecerán aquí a partir del ${formatGalleryTime(gallery.opens_at)}.`}
@@ -56,9 +59,10 @@ export default function LiveGalleryWall() {
                 </div>
             )}
 
-            <aside className="absolute right-8 bottom-8 flex items-center gap-4 bg-ivory p-4 text-ink shadow-xl">
-                <QRCodeSVG value={gallery.upload_url} size={132} fgColor="#2a1a2b" bgColor="#fffdf9" />
-                <p className="max-w-36 font-serif text-xl leading-tight">Escanea y comparte tus fotos</p>
+            {/* Light, so phones read the code on any projector; the code takes the text color (primary) */}
+            <aside className="absolute right-8 bottom-8 flex items-center gap-4 rounded-xl bg-card p-4 text-primary shadow-xl">
+                <QRCodeSVG value={gallery.upload_url} size={132} fgColor="currentColor" bgColor="transparent" />
+                <p className="max-w-36 text-xl leading-tight font-semibold tracking-tight">Escanea y comparte tus fotos</p>
             </aside>
 
             <FullscreenButton />
@@ -142,13 +146,14 @@ function FullscreenButton() {
     }
 
     return (
-        <button
+        <Button
             type="button"
+            variant="ghost"
             onClick={() => void document.documentElement.requestFullscreen()}
-            className="absolute top-6 right-6 flex cursor-pointer items-center gap-2 bg-ivory/10 px-4 py-2 text-sm text-ivory backdrop-blur hover:bg-ivory/20"
+            className="absolute top-6 right-6 cursor-pointer bg-primary-foreground/10 text-primary-foreground backdrop-blur hover:bg-primary-foreground/20 hover:text-primary-foreground"
         >
-            <ExpandIcon className="size-4" aria-hidden />
+            <ExpandIcon aria-hidden />
             Pantalla completa
-        </button>
+        </Button>
     );
 }

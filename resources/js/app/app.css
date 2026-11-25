@@ -62,8 +62,9 @@
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
 
-    /* Convite's brand, drawn from the convite-icon mark, for the landing page and
-       the door of the event. Primary is the brand's plum, shared with the panel. */
+    /* Convite's brand, drawn from the convite-icon mark, for the landing page (the
+       door and the live gallery use shadcn/ui's tokens, like the panel). Primary is
+       the brand's plum, shared with the panel. */
     --color-gold: #dfa33f;
     --color-gold-light: #ecc077;
     --color-gold-pale: #f7e9cc;

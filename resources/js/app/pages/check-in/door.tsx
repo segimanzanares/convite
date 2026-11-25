@@ -1,7 +1,12 @@
 import { useMemo, useState } from 'react';
 import { usePage, usePoll } from '@inertiajs/react';
+import { ArrowLeftIcon, CalendarClockIcon, ChevronRightIcon, QrCodeIcon, SearchIcon } from 'lucide-react';
 import { CheckInCard } from './components/check-in-card';
 import { DoorLayout } from './components/door-layout';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { formatDoorTime, peopleLabel } from '@/lib/check-in';
 import type { CheckInGuest, DoorPageProps } from '@/types/check-in';
 
@@ -18,11 +23,15 @@ export function DoorPage() {
     if (!door.is_open || guests === null) {
         return (
             <DoorLayout door={door}>
-                <p className="bg-ivory border border-primary/15 p-5 leading-relaxed">
-                    {door.opens_at && door.closes_at
-                        ? `El registro de llegadas funciona del ${formatDoorTime(door.opens_at)} al ${formatDoorTime(door.closes_at)}. Abran este mismo enlace en ese horario.`
-                        : 'El registro de llegadas se abre cuando el evento tenga fecha.'}
-                </p>
+                <Alert className="bg-card">
+                    <CalendarClockIcon />
+                    <AlertTitle>El registro de llegadas está cerrado</AlertTitle>
+                    <AlertDescription>
+                        {door.opens_at && door.closes_at
+                            ? `El registro de llegadas funciona del ${formatDoorTime(door.opens_at)} al ${formatDoorTime(door.closes_at)}. Abran este mismo enlace en ese horario.`
+                            : 'El registro de llegadas se abre cuando el evento tenga fecha.'}
+                    </AlertDescription>
+                </Alert>
             </DoorLayout>
         );
     }
@@ -49,14 +58,18 @@ function OpenDoor({ guests }: { guests: CheckInGuest[] }) {
 
     return (
         <>
-            <p className="text-sm leading-relaxed text-ink/80">
-                Escaneen el código QR de cada pase con la cámara del celular: se abre la pantalla para registrar su llegada. Si
-                alguien olvidó su pase, búsquenlo aquí.
-            </p>
+            <Alert className="bg-card">
+                <QrCodeIcon />
+                <AlertDescription>
+                    Escaneen el código QR de cada pase con la cámara del celular: se abre la pantalla para registrar su llegada. Si
+                    alguien olvidó su pase, búsquenlo aquí.
+                </AlertDescription>
+            </Alert>
 
-            <label className="mt-5 block">
+            <label className="relative mt-5 block">
                 <span className="sr-only">Buscar invitado por nombre</span>
-                <input
+                <SearchIcon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
+                <Input
                     type="search"
                     value={search}
                     onChange={(event) => {
@@ -64,39 +77,43 @@ function OpenDoor({ guests }: { guests: CheckInGuest[] }) {
                         setSelectedId(null);
                     }}
                     placeholder="Buscar por nombre"
-                    className="w-full border border-primary/30 bg-ivory px-4 py-3 text-base"
+                    className="h-11 bg-background pl-9 text-base md:text-base"
                 />
             </label>
 
             {selected ? (
                 <div className="mt-5">
                     <CheckInCard key={selected.id} guest={selected} />
-                    <button type="button" onClick={() => setSelectedId(null)} className="mt-3 w-full py-2 text-sm text-primary underline">
+                    <Button type="button" variant="ghost" onClick={() => setSelectedId(null)} className="mt-3 w-full">
+                        <ArrowLeftIcon />
                         Volver a los resultados
-                    </button>
+                    </Button>
                 </div>
             ) : (
                 term.length >= 2 && (
-                    <ul className="mt-4 divide-y divide-primary/10 bg-ivory border border-primary/15">
-                        {matches.length === 0 && <li className="px-4 py-3 text-sm text-ink/60">Nadie coincide con la búsqueda.</li>}
+                    <ul className="mt-4 divide-y overflow-hidden rounded-xl border bg-card shadow-sm">
+                        {matches.length === 0 && <li className="px-4 py-3 text-sm text-muted-foreground">Nadie coincide con la búsqueda.</li>}
                         {matches.map((guest) => (
                             <li key={guest.id}>
                                 <button
                                     type="button"
                                     onClick={() => setSelectedId(guest.id)}
-                                    className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
+                                    className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition-colors outline-none hover:bg-accent focus-visible:bg-accent"
                                 >
-                                    <span>
-                                        {guest.name}
-                                        <span className="block text-xs text-ink/60">
+                                    <span className="min-w-0">
+                                        <span className="block font-medium">{guest.name}</span>
+                                        <span className="block text-xs text-muted-foreground">
                                             {peopleLabel(guest.seats)} · Mesa {guest.table_label ?? '—'}
                                         </span>
                                     </span>
-                                    {guest.checked_in_at && (
-                                        <span className="shrink-0 text-xs text-primary">
-                                            Llegó {guest.checked_in_seats}/{guest.seats}
-                                        </span>
-                                    )}
+                                    <span className="flex shrink-0 items-center gap-2">
+                                        {guest.checked_in_at && (
+                                            <Badge variant="secondary">
+                                                Llegó {guest.checked_in_seats}/{guest.seats}
+                                            </Badge>
+                                        )}
+                                        <ChevronRightIcon className="size-4 text-muted-foreground" aria-hidden />
+                                    </span>
                                 </button>
                             </li>
                         ))}
