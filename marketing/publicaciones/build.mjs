@@ -334,8 +334,8 @@ const PCOMENTARIO = [
     <div style="position:absolute;top:84px;left:84px;width:560px">
       <div class="eyebrow" style="font-size:22px">¿Buscas invitaciones?</div>
       <h1 class="serif" style="font-size:84px;line-height:.96;margin-top:18px">Invitaciones <span style="color:var(--gold)">digitales</span> que enamoran</h1>
-      <p style="font-size:26px;line-height:1.4;margin-top:22px;color:var(--gold-pale);font-weight:500">Bodas · XV años · Bautizos · Cumpleaños<br>Fiestas infantiles · Revelación de género</p>
-      <div style="display:flex;flex-direction:column;gap:12px;margin-top:34px">
+      <p style="font-size:26px;line-height:1.4;margin-top:16px;color:var(--gold-pale);font-weight:500">Bodas · XV años · Bautizos · Cumpleaños<br>Fiestas infantiles · Baby shower<br>Revelación de género</p>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:22px">
         ${check('🎵', 'Con su canción y sus fotos')}${check('📍', 'Mapa al salón con un toque')}${check('✅', 'Confirman asistencia en línea')}${check('📲', 'Se comparte por WhatsApp')}
       </div>
     </div>
