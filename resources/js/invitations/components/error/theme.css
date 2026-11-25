@@ -1,0 +1,29 @@
+/* The 404 and 410 pages: shadcn/ui's tokens in Convite's own palette, as in the panel (resources/js/app/app.css). An
+   ivory page with plum text and a plum primary, gold as the accent, Geist for the text and Cormorant Garamond for the
+   titles. */
+.theme-error {
+  --radius: 0.75rem;
+  --background: oklch(0.985 0.006 80);
+  --foreground: oklch(0.246 0.039 324.7);
+  --card: oklch(0.997 0.003 80);
+  --card-foreground: oklch(0.246 0.039 324.7);
+  --primary: oklch(0.246 0.039 324.7);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.955 0.03 82);
+  --secondary-foreground: oklch(0.47 0.1 70);
+  --muted: oklch(0.965 0.008 80);
+  --muted-foreground: oklch(0.5 0.025 325);
+  --accent: oklch(0.955 0.012 80);
+  --accent-foreground: oklch(0.246 0.039 324.7);
+  --border: oklch(0.92 0.012 80);
+  --input: oklch(0.9 0.015 80);
+  --ring: oklch(0.55 0.05 325);
+
+  --gold: oklch(0.76 0.13 75);
+  --gold-pale: oklch(0.94 0.04 82);
+
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist);
+  -webkit-font-smoothing: antialiased;
+}

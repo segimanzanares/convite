@@ -62,10 +62,10 @@ it('adds the fonts of the printable pages to them only', function () {
         ->assertSee('family=Great+Vibes', escape: false);
 });
 
-it('loads the shared components\' fonts on the pages that are not a template\'s', function () {
+it('loads the error pages\' fonts on the pages that are not a template\'s', function () {
     $this->get('/i/no-existe')
         ->assertNotFound()
-        ->assertSee('<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&amp;family=Cinzel:wght@300;400;500&amp;family=Great+Vibes&amp;family=Jost:wght@300;400;500&amp;display=swap" rel="stylesheet" />', escape: false);
+        ->assertSee('<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Cormorant+Garamond:ital,wght@1,500&amp;family=Jost:wght@300;400;500&amp;display=swap" rel="stylesheet" />', escape: false);
 });
 
 it('returns 404 for printable pages a template does not provide', function (string $path) {

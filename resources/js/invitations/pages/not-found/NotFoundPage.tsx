@@ -1,18 +1,21 @@
-import { useEffect } from 'react';
-import { Link } from '@inertiajs/react';
+import { SearchX } from 'lucide-react';
+import { ErrorScreen } from '../../components/error/ErrorScreen';
 
 export function NotFoundPage() {
-  useEffect(() => {
-    document.title = 'Página no encontrada';
-  }, []);
-
   return (
-    <section className="max-w-[920px] mx-auto text-center px-10 pb-[100px] pt-40">
-      <p className="font-display text-[10px] tracking-[0.6em] text-gold uppercase mb-4">Error 404</p>
-      <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] text-[var(--text-body)] italic">
-        No encontramos esta invitación. <Link href="/">Volver al inicio</Link>
+    <ErrorScreen
+      status={404}
+      pageTitle="Página no encontrada"
+      badge="Error 404"
+      title="No encontramos esta página"
+      icon={<SearchX />}
+      showBack
+    >
+      <p>
+        Puede que el enlace esté incompleto o que la invitación haya cambiado de dirección. Revisa el enlace que te
+        compartieron o pídeselo de nuevo a los anfitriones.
       </p>
-    </section>
+    </ErrorScreen>
   );
 }
 

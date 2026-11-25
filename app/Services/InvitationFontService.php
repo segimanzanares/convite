@@ -14,15 +14,14 @@ class InvitationFontService
     private const array SHARED_FONTS = ['Jost:wght@300;400;500'];
 
     /**
-     * The shared components' own fonts (--font-body, --font-display and --font-script), for the pages that are not a
-     * template's (the 404 and 410 pages).
+     * The fonts of the pages that are not a template's (the 404 and 410 pages, see components/error/ErrorScreen):
+     * Geist for the text and Cormorant Garamond for the titles.
      *
      * @var list<string>
      */
     private const array DEFAULT_FONTS = [
-        'Cormorant Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500',
-        'Cinzel:wght@300;400;500',
-        'Great Vibes',
+        'Geist:wght@400;500;600',
+        'Cormorant Garamond:ital,wght@1,500',
     ];
 
     /**
