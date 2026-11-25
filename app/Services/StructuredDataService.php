@@ -21,7 +21,7 @@ class StructuredDataService
             return null;
         }
 
-        return 'Invitaciones digitales para bodas, XV años, bautizos, revelaciones de género y cumpleaños, con confirmación de asistencia, '
+        return 'Invitaciones digitales para bodas, XV años, bautizos, baby showers y cumpleaños, con confirmación de asistencia, '
             .'cuenta regresiva y música. Desde '.$this->formatPrice((string) $plans->min('price')).' MXN.';
     }
 
@@ -40,10 +40,10 @@ class StructuredDataService
             '@id' => url('/#service'),
             'name' => 'Invitaciones digitales',
             'serviceType' => 'Diseño de invitaciones digitales',
-            'description' => 'Invitaciones digitales para bodas, XV años, bautizos, revelaciones de género y cumpleaños, con diseño de catálogo o exclusivo, confirmación de asistencia, cuenta regresiva, ubicación con mapa, galería y música de fondo.',
+            'description' => 'Invitaciones digitales para bodas, XV años, bautizos, baby showers, revelaciones de género y cumpleaños, con diseño de catálogo o exclusivo, confirmación de asistencia, cuenta regresiva, ubicación con mapa, galería y música de fondo.',
             'provider' => $organization,
             'areaServed' => ['@type' => 'Country', 'name' => 'México'],
-            'audience' => ['@type' => 'Audience', 'audienceType' => 'Personas que organizan bodas, XV años, bautizos, revelaciones de género y cumpleaños'],
+            'audience' => ['@type' => 'Audience', 'audienceType' => 'Personas que organizan bodas, XV años, bautizos, baby showers, revelaciones de género y cumpleaños'],
         ];
 
         if ($plans->isNotEmpty()) {
@@ -75,7 +75,7 @@ class StructuredDataService
                     'url' => url('/'),
                     'logo' => asset('app-icon.png'),
                     'image' => asset('og-image.jpg'),
-                    'description' => 'Diseño y publicación de invitaciones digitales para bodas, XV años, bautizos, revelaciones de género y cumpleaños.',
+                    'description' => 'Diseño y publicación de invitaciones digitales para bodas, XV años, bautizos, baby showers, revelaciones de género y cumpleaños.',
                     'areaServed' => 'MX',
                     'knowsLanguage' => 'es',
                 ],

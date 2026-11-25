@@ -1,10 +1,11 @@
-import { Baby, Cake, Gem, Heart, PartyPopper, Sparkles, VenusAndMars } from 'lucide-react';
+import { Baby, Cake, Footprints, Gem, Heart, PartyPopper, Sparkles, VenusAndMars } from 'lucide-react';
 import { Sparkle } from './illustrations/decorations';
 
 const ITEMS = [
     { icon: Heart, label: 'Bodas' },
     { icon: Gem, label: 'XV años' },
     { icon: Baby, label: 'Bautizos' },
+    { icon: Footprints, label: 'Baby shower' },
     { icon: VenusAndMars, label: 'Revelación de género' },
     { icon: Cake, label: 'Cumpleaños' },
     { icon: PartyPopper, label: 'Fiestas infantiles' },

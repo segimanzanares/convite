@@ -38,7 +38,7 @@ const FAQS: Question[] = [
     {
         question: '¿Es solo para bodas?',
         answer:
-            'No. Diseñamos invitaciones digitales para XV años, bautizos, revelaciones de género, cumpleaños y cualquier evento que merezca una invitación tan especial como la ocasión.',
+            'No. Diseñamos invitaciones digitales para XV años, bautizos, baby showers, revelaciones de género, cumpleaños y cualquier evento que merezca una invitación tan especial como la ocasión.',
     },
 ];
 

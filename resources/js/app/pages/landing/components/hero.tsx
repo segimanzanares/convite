@@ -55,7 +55,7 @@ export function Hero({ plans, demos }: { plans: OfferedPlan[]; demos: DemoInvita
                         La invitación que su evento <Highlight><span className="text-[1.3em] leading-none">merece</span></Highlight>
                     </h1>
                     <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-pretty text-muted-foreground lg:mx-0">
-                        Bodas, XV años, bautizos, revelaciones de género y cumpleaños. Elijan un diseño de nuestro catálogo o pidan uno exclusivo;
+                        Bodas, XV años, bautizos, baby showers, revelaciones de género y cumpleaños. Elijan un diseño de nuestro catálogo o pidan uno exclusivo;
                         nosotros lo llenamos con su historia y sus fotos, y queda listo para compartir por WhatsApp.
                     </p>
 

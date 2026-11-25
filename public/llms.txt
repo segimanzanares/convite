@@ -1,6 +1,6 @@
 # Convite
 
-> Convite diseña y publica invitaciones digitales para bodas, XV años, bautizos, cumpleaños y fiestas infantiles, en México.
+> Convite diseña y publica invitaciones digitales para bodas, XV años, bautizos, baby showers, revelaciones de género, cumpleaños y fiestas infantiles, en México.
 
 Cada cliente elige un diseño del catálogo de Convite o pide uno exclusivo para su
 evento; Convite lo llena con su contenido (nombres, fecha, lugares, fotos y música) y

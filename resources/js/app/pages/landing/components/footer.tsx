@@ -13,7 +13,7 @@ const SECTIONS = [
     { href: '#preguntas', label: 'Preguntas frecuentes' },
 ] as const;
 
-const EVENTS = ['Bodas', 'XV años', 'Bautizos', 'Revelación de género', 'Cumpleaños', 'Fiestas infantiles'];
+const EVENTS = ['Bodas', 'XV años', 'Bautizos', 'Baby shower', 'Revelación de género', 'Cumpleaños', 'Fiestas infantiles'];
 
 export function Footer() {
     const whatsappLink = useWhatsappLink();
@@ -25,7 +25,7 @@ export function Footer() {
                 <div>
                     <img src={logoNegativo} alt="Convite — Invitaciones digitales" className="h-9" />
                     <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
-                        Invitaciones digitales para bodas, XV años, bautizos, revelaciones de género y cumpleaños, hechas a la medida de su evento.
+                        Invitaciones digitales para bodas, XV años, bautizos, baby showers, revelaciones de género y cumpleaños, hechas a la medida de su evento.
                     </p>
                 </div>
                 <nav aria-label="Secciones del sitio">

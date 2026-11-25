@@ -39,7 +39,7 @@ it('describes the offered plans and their lowest price to search engines', funct
 
 it('keeps the default description when no plan is offered', function () {
     $this->get('/')
-        ->assertSee('Listas para compartir en días.', escape: false)
+        ->assertSee('Listas en días.', escape: false)
         ->assertDontSee('"offers"', escape: false);
 });
 

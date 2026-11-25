@@ -6,7 +6,7 @@
     $meta = array_merge([
         // The same title the landing page's <Head> sets once rendered (see app.tsx's title callback)
         'title' => 'Invitaciones digitales para bodas, XV años y más - Convite',
-        'description' => 'Invitaciones digitales para bodas, XV años, bautizos, revelaciones de género y cumpleaños, con confirmación de asistencia, cuenta regresiva, galería y música. Listas para compartir en días.',
+        'description' => 'Invitaciones digitales para bodas, XV años, bautizos, baby showers y cumpleaños, con confirmación de asistencia, cuenta regresiva y música. Listas en días.',
         'image' => null,
         'robots' => 'index, follow',
     ], array_filter(data_get($page, 'props.meta') ?? []));

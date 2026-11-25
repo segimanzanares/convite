@@ -20,7 +20,7 @@ class ServicesController extends Controller
             // Read by resources/views/partials/meta.blade.php
             'meta' => [
                 'title' => 'Video semblanza, invitación en video e imprimibles - Convite',
-                'description' => 'Además de invitaciones digitales: video semblanza, invitación en video, tarjeta y pases imprimibles con diseño personalizado para bodas, XV años, bautizos y cumpleaños. Entrega en 2 a 5 días hábiles.',
+                'description' => 'Además de invitaciones digitales: video semblanza, invitación en video, tarjeta y pases imprimibles con diseño personalizado para bodas, XV años, bautizos, baby showers y cumpleaños. Entrega en 2 a 5 días hábiles.',
             ],
         ]);
     }
