@@ -93,7 +93,7 @@ it('gives panel access to a client whose plan includes it', function () {
         $mail = $notification->toMail($user);
 
         return $mail->actionUrl === route('password.reset', ['token' => $notification->token, 'email' => $user->email])
-            && $mail->subject === 'Bienvenido a Convite';
+            && $mail->subject === 'Tu acceso al panel de Convite';
     });
 });
 
@@ -130,6 +130,37 @@ it('lets the welcome link set the password of a new client user', function () {
 
     $this->post(route('login.store'), ['email' => 'ana@example.com', 'password' => 'una-contraseña-larga']);
     $this->assertAuthenticatedAs($user);
+});
+
+it('resends the password email only to a panel user of its own client', function () {
+    Notification::fake();
+    $client = Client::factory()->create();
+    $clientUser = User::factory()->client($client)->create();
+    $otherClientUser = User::factory()->client()->create();
+    $admin = User::factory()->create();
+
+    $this->actingAs($admin)
+        ->post(route('admin.clients.users.password-reset', [$client, $otherClientUser]))
+        ->assertNotFound();
+    $this->actingAs($admin)
+        ->post(route('admin.clients.users.password-reset', [$client, $clientUser]))
+        ->assertRedirect(route('admin.clients.show', $client));
+
+    Notification::assertSentTo($clientUser, ClientAccessGranted::class);
+    Notification::assertNotSentTo($otherClientUser, ClientAccessGranted::class);
+});
+
+it('throttles resending the password email', function () {
+    Notification::fake();
+    $client = Client::factory()->create();
+    $clientUser = User::factory()->client($client)->create();
+    $this->actingAs(User::factory()->create());
+
+    $this->post(route('admin.clients.users.password-reset', [$client, $clientUser]));
+    $this->post(route('admin.clients.users.password-reset', [$client, $clientUser]))
+        ->assertInertiaFlash('toast.type', 'error');
+
+    Notification::assertSentToTimes($clientUser, ClientAccessGranted::class, 1);
 });
 
 it('removes a panel user only from its own client', function () {

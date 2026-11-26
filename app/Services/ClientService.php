@@ -90,6 +90,18 @@ class ClientService
     }
 
     /**
+     * Email a client user the welcome again, with a new link to choose their password. The token comes from the
+     * password broker, so resending is throttled like a "Forgot password?" request. Returns the broker's status.
+     */
+    public function sendPasswordReset(User $user): string
+    {
+        return Password::broker()->sendResetLink(
+            ['email' => $user->email],
+            fn (User $user, string $token) => $user->notify(new ClientAccessGranted($token)),
+        );
+    }
+
+    /**
      * Remove a panel user of the client.
      */
     public function revokeAccess(User $user): void

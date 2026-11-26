@@ -3,6 +3,7 @@ import {
     CheckIcon,
     CopyIcon,
     KeyRoundIcon,
+    MailIcon,
     PencilIcon,
     PlusIcon,
     TrashIcon,
@@ -15,6 +16,7 @@ import {
 import {
     create as createAccess,
     destroy as destroyAccess,
+    sendPasswordReset,
 } from '@/actions/App/Http/Controllers/Admin/ClientUserController';
 import { edit as editInvitation } from '@/actions/App/Http/Controllers/Admin/InvitationController';
 import {
@@ -74,6 +76,15 @@ export default function ClientShow({
                 preserveScroll: true,
                 onFinish: resolve,
             }),
+        );
+
+    const resendPasswordReset = (user: ClientUser) =>
+        new Promise((resolve) =>
+            router.post(
+                sendPasswordReset({ client: client.id, user: user.id }),
+                {},
+                { preserveScroll: true, onFinish: resolve },
+            ),
         );
 
     return (
@@ -253,7 +264,25 @@ export default function ClientShow({
                                     <td className="text-muted-foreground hidden px-4 py-3 md:table-cell">
                                         {user.email}
                                     </td>
-                                    <td className="px-2 py-3 text-right md:px-4">
+                                    <td className="space-x-2 px-2 py-3 text-right whitespace-nowrap md:px-4">
+                                        <ConfirmDialog
+                                            trigger={
+                                                <Button
+                                                    variant="outline"
+                                                    size="icon"
+                                                    aria-label={`Reenviar a ${user.name} el correo para elegir su contraseña`}
+                                                    title="Reenviar correo para restablecer la contraseña"
+                                                >
+                                                    <MailIcon />
+                                                </Button>
+                                            }
+                                            title={`¿Reenviar el correo a ${user.name}?`}
+                                            description={`Enviaremos a ${user.email} un enlace nuevo para elegir su contraseña. Los enlaces anteriores dejarán de funcionar.`}
+                                            confirmLabel="Reenviar correo"
+                                            onConfirm={() =>
+                                                resendPasswordReset(user)
+                                            }
+                                        />
                                         <ConfirmDialog
                                             trigger={
                                                 <Button

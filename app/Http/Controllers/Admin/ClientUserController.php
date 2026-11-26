@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Services\ClientService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Password;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -40,6 +41,23 @@ class ClientUserController extends Controller
         $user = $this->clients->grantAccess($client, $request->validated());
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Access granted. We sent an email to :email to choose a password.', ['email' => $user->email])]);
+
+        return to_route('admin.clients.show', $client);
+    }
+
+    /**
+     * Email a panel user of the client a new link to choose their password.
+     */
+    public function sendPasswordReset(Client $client, User $user): RedirectResponse
+    {
+        Gate::authorize('update', $client);
+        abort_unless($user->client_id === $client->id, 404);
+
+        $status = $this->clients->sendPasswordReset($user);
+
+        Inertia::flash('toast', $status === Password::ResetLinkSent
+            ? ['type' => 'success', 'message' => __('We sent an email to :email to choose a new password.', ['email' => $user->email])]
+            : ['type' => 'error', 'message' => __($status)]);
 
         return to_route('admin.clients.show', $client);
     }

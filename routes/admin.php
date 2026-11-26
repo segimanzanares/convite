@@ -31,6 +31,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 
     Route::resource('clients', ClientController::class);
     Route::resource('clients.users', ClientUserController::class)->only(['create', 'store', 'destroy']);
+    Route::post('clients/{client}/users/{user}/password-reset', [ClientUserController::class, 'sendPasswordReset'])->name('clients.users.password-reset');
     Route::resource('clients.orders', OrderController::class)->shallow()->except('index');
     Route::resource('orders.payments', PaymentController::class)->shallow()->only(['create', 'store', 'destroy']);
 
