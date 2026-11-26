@@ -16,6 +16,8 @@ export interface Door {
     /** The door page, with the counter and the search by name. */
     url: string;
     summary: CheckInSummary;
+    /** A demo's door (`/i/{slug}/demo/puerta`): sample guests, and check-ins only change the screen. */
+    demo?: boolean;
 }
 
 /** A guest as the staff at the door sees them. */

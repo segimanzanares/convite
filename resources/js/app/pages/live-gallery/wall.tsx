@@ -22,7 +22,8 @@ export default function LiveGalleryWall() {
     const { gallery, photos } = usePage<LiveGalleryPageProps>().props;
     const current = useSlideshow(photos, gallery.slide_seconds * 1000);
 
-    usePoll(REFRESH_MS, { only: ['gallery', 'photos'] }, { mode: 'rest', background: 'continue' });
+    // A demo's wall shows sample photos, so it has nothing new to ask for
+    usePoll(REFRESH_MS, { only: ['gallery', 'photos'] }, { mode: 'rest', background: 'continue', autoStart: !gallery.demo });
 
     return (
         <main className="relative flex h-screen cursor-none items-center justify-center overflow-hidden bg-radial-[at_50%_35%] from-[color-mix(in_oklch,var(--primary),white_12%)] to-[color-mix(in_oklch,var(--primary),black_45%)] text-primary-foreground">
@@ -61,6 +62,12 @@ export default function LiveGalleryWall() {
                 <QRCodeSVG value={gallery.upload_url} size={132} fgColor="currentColor" bgColor="transparent" />
                 <p className="max-w-36 text-xl leading-tight font-semibold tracking-tight">Escanea y comparte tus fotos</p>
             </aside>
+
+            {gallery.demo && (
+                <p className="absolute top-6 left-6 rounded-full bg-primary-foreground/10 px-4 py-2 text-sm font-medium backdrop-blur">
+                    Demostración con fotos de ejemplo
+                </p>
+            )}
 
             <FullscreenButton />
         </main>

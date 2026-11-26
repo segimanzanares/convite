@@ -6,6 +6,7 @@ import './styles/variables.css';
 import { initAnalytics } from './config/analytics';
 import { CookieConsentBanner } from './components/cookie-consent/CookieConsentBanner';
 import { PreviewBanner } from './components/preview/PreviewBanner';
+import { ShowcaseBar } from './components/preview/ShowcaseBar';
 
 // Only the invitations: each template's pages under ./templates/<template>,
 // plus the 404 and 410 pages under ./pages. The server names them by path,
@@ -27,6 +28,7 @@ createInertiaApp({
       <StrictMode>
         <App {...props} />
         <PreviewBanner initialProps={props.initialPage.props} />
+        <ShowcaseBar initialProps={props.initialPage.props} />
         <CookieConsentBanner />
       </StrictMode>,
     );

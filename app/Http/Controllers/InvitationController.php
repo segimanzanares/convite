@@ -42,6 +42,7 @@ class InvitationController extends Controller
             'rsvp' => ($plan ? $this->showcase->rsvpSettings($invitation, $plan) : null) ?? $this->rsvpSettings($invitation),
             'wishes' => $plan ? $this->showcase->wishesProps($invitation, $plan) : $this->wishes->invitationProps($invitation),
             'guest' => null,
+            'showcase' => $plan ? $this->showcase->invitationBar($invitation, $plan) : null,
         ]);
     }
 

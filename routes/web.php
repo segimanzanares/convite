@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\CheckInController;
+use App\Http\Controllers\DemoShowcaseController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LiveGalleryController;
@@ -34,6 +35,13 @@ Route::controller(LiveGalleryController::class)->prefix('i/{invitation}/fotos/{g
     Route::get('/', 'show')->name('show');
     Route::post('/', 'store')->middleware('throttle:gallery')->name('store');
     Route::get('muro', 'wall')->name('wall');
+});
+
+// The door and the live gallery of a demo, with sample guests and photos and storing nothing (see DemoShowcaseService)
+Route::controller(DemoShowcaseController::class)->prefix('i/{invitation}/demo')->name('invitations.demo.')->middleware('invitation.visible')->group(function () {
+    Route::get('puerta', 'door')->name('door');
+    Route::get('fotos', 'gallery')->name('gallery');
+    Route::get('fotos/muro', 'wall')->name('wall');
 });
 
 Route::controller(InvitationController::class)->prefix('i/{invitation}')->name('invitations.')->middleware('invitation.visible')->group(function () {

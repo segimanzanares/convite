@@ -1,6 +1,7 @@
 import { usePage, usePoll } from '@inertiajs/react';
-import { CalendarClockIcon, CameraIcon, CheckIcon, ImageIcon, ImageUpIcon, RotateCwIcon, TriangleAlertIcon } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { CalendarClockIcon, CameraIcon, CheckIcon, ImageIcon, ImageUpIcon, MonitorPlayIcon, RotateCwIcon, TriangleAlertIcon } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import DemoNotice from '@/components/demo-notice';
 import EventPage from '@/components/event-page';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -33,11 +34,29 @@ type Upload = {
  */
 export default function LiveGalleryUpload() {
     const { gallery, photos } = usePage<LiveGalleryPageProps>().props;
+    // A demo's gallery stores nothing, so the visitor's photos only join the ones below on this screen
+    const [demoPhotos, setDemoPhotos] = useState<GalleryPhoto[]>([]);
+    const addDemoPhoto = useCallback((photo: GalleryPhoto) => setDemoPhotos((current) => [photo, ...current]), []);
 
     return (
         <EventPage headTitle={`Fotos — ${gallery.title}`} eyebrow="Galería en vivo" title={gallery.title} icon={<ImageIcon />}>
+            {gallery.demo && (
+                <DemoNotice>
+                    <p>
+                        Así se ve la página que abren tus invitados al escanear el código QR de la galería. Prueba subir una foto: solo
+                        aparecerá en tu pantalla, nada se guarda.
+                    </p>
+                    <Button asChild variant="outline" size="sm" className="mt-2 bg-background">
+                        <a href={gallery.wall_url} target="_blank" rel="noopener">
+                            <MonitorPlayIcon />
+                            Ver el muro que se proyecta en el salón
+                        </a>
+                    </Button>
+                </DemoNotice>
+            )}
+
             {gallery.is_open ? (
-                <Uploader />
+                <Uploader onDemoUpload={addDemoPhoto} />
             ) : (
                 <Alert className="bg-card">
                     <CalendarClockIcon />
@@ -46,12 +65,13 @@ export default function LiveGalleryUpload() {
                 </Alert>
             )}
 
-            <RecentPhotos photos={photos} refreshes={gallery.is_open} />
+            <RecentPhotos photos={[...demoPhotos, ...photos]} refreshes={gallery.is_open && !gallery.demo} />
         </EventPage>
     );
 }
 
-function Uploader() {
+/** `onDemoUpload` gets each photo a demo's gallery pretends to upload. */
+function Uploader({ onDemoUpload }: { onDemoUpload: (photo: GalleryPhoto) => void }) {
     const { gallery } = usePage<LiveGalleryPageProps>().props;
     const [name, setName] = useState(() => readName());
     const [message, setMessage] = useState('');
@@ -74,10 +94,12 @@ function Uploader() {
         isUploading.current = true;
         update(next.key, { state: 'uploading', progress: 0, error: undefined });
 
-        shrinkPhoto(next.file)
-            .then((photo) =>
-                uploadPhoto(gallery.upload_url, photo, next.fields, (progress) => update(next.key, { progress })),
-            )
+        const onProgress = (progress: number) => update(next.key, { progress });
+        const upload = gallery.demo
+            ? pretendUpload(onProgress).then(() => onDemoUpload(demoPhoto(next)))
+            : shrinkPhoto(next.file).then((photo) => uploadPhoto(gallery.upload_url, photo, next.fields, onProgress));
+
+        upload
             .then(() => update(next.key, { state: 'done', progress: 100 }))
             .catch((error: Error) => update(next.key, { state: 'failed', error: error.message }))
             .finally(() => {
@@ -85,7 +107,7 @@ function Uploader() {
                 // Wake the effect up for the next photo in the queue
                 setUploads((current) => [...current]);
             });
-    }, [uploads, gallery.upload_url]);
+    }, [uploads, gallery.upload_url, gallery.demo, onDemoUpload]);
 
     // Free the previews when leaving the page
     const previews = useRef<string[]>([]);
@@ -275,6 +297,36 @@ function RecentPhotos({ photos, refreshes }: { photos: GalleryPhoto[]; refreshes
             </ul>
         </section>
     );
+}
+
+/** Fills the progress bar over about a second, as a demo's gallery stores nothing. */
+function pretendUpload(onProgress: (progress: number) => void): Promise<void> {
+    return new Promise((resolve) => {
+        let progress = 0;
+        const timer = window.setInterval(() => {
+            progress = Math.min(100, progress + 10 + Math.random() * 15);
+            onProgress(Math.round(progress));
+
+            if (progress >= 100) {
+                window.clearInterval(timer);
+                resolve();
+            }
+        }, 120);
+    });
+}
+
+/** The photo a demo's gallery shows for an upload, from the preview on the visitor's phone. */
+function demoPhoto(upload: Upload): GalleryPhoto {
+    return {
+        id: -Date.now(),
+        url: upload.preview,
+        thumb_url: upload.preview,
+        width: 0,
+        height: 0,
+        uploader_name: upload.fields.uploader_name.trim() || null,
+        message: upload.fields.message.trim() || null,
+        created_at: new Date().toISOString(),
+    };
 }
 
 function readName(): string {

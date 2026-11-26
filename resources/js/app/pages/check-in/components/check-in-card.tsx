@@ -9,11 +9,18 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import type { CheckInGuest } from '@/types/check-in';
 import { formatArrivalTime, peopleLabel } from '@/lib/check-in';
 
+/** How a demo door checks guests in, on the screen only. */
+export interface DemoCheckIn {
+    checkIn: (guest: CheckInGuest, seats: number) => void;
+    undo: (guest: CheckInGuest) => void;
+}
+
 /**
   * One guest at the door: who they are, their table and answer, and the number of people arriving. Checking in again
-  * corrects the number (e.g. the rest of the family arrives later) instead of adding to it.
+  * corrects the number (e.g. the rest of the family arrives later) instead of adding to it. A demo door passes `demo`,
+  * which takes the check-ins instead of the server.
   */
-export function CheckInCard({ guest }: { guest: CheckInGuest }) {
+export function CheckInCard({ guest, demo }: { guest: CheckInGuest; demo?: DemoCheckIn }) {
     const errors = usePage().props.errors as Record<string, string | undefined>;
     const [seats, setSeats] = useState(defaultSeats(guest));
     const [processing, setProcessing] = useState(false);
@@ -23,11 +30,21 @@ export function CheckInCard({ guest }: { guest: CheckInGuest }) {
     const options = { preserveScroll: true, onStart: () => setProcessing(true), onFinish: () => setProcessing(false) };
 
     function checkIn() {
+        if (demo) {
+            demo.checkIn(guest, seats);
+            return;
+        }
+
         router.post(guest.check_in_url, { seats }, options);
     }
 
     /** Resolves once the request finishes, so the dialog stays open meanwhile. */
     function undo() {
+        if (demo) {
+            demo.undo(guest);
+            return Promise.resolve();
+        }
+
         return new Promise<void>((resolve) => {
             router.delete(guest.check_in_url, {
                 ...options,

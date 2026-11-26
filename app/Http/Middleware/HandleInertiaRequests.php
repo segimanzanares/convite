@@ -30,7 +30,7 @@ class HandleInertiaRequests extends Middleware
      *
      * @var list<string>
      */
-    private const array PUBLIC_ROUTES = ['landing', 'services', 'invitations.door.*', 'invitations.check-in.*', 'invitations.gallery.*'];
+    private const array PUBLIC_ROUTES = ['landing', 'services', 'invitations.door.*', 'invitations.check-in.*', 'invitations.gallery.*', 'invitations.demo.*'];
 
     /**
      * Request attribute that overrides the pages picked from the URL.

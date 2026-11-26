@@ -1,14 +1,15 @@
 import { useMemo, useState } from 'react';
 import { usePage, usePoll } from '@inertiajs/react';
-import { ArrowLeftIcon, CalendarClockIcon, ChevronRightIcon, QrCodeIcon, SearchIcon } from 'lucide-react';
-import { CheckInCard } from './components/check-in-card';
+import { ArrowLeftIcon, CalendarClockIcon, ChevronRightIcon, QrCodeIcon, ScanLineIcon, SearchIcon } from 'lucide-react';
+import { CheckInCard, type DemoCheckIn } from './components/check-in-card';
 import { DoorLayout } from './components/door-layout';
+import DemoNotice from '@/components/demo-notice';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { formatDoorTime, peopleLabel } from '@/lib/check-in';
-import type { CheckInGuest, DoorPageProps } from '@/types/check-in';
+import type { CheckInGuest, CheckInSummary, Door, DoorPageProps } from '@/types/check-in';
 
 /** How often the counter and the list refresh, since several phones may be checking guests in at once. */
 const REFRESH_MS = 15_000;
@@ -36,6 +37,10 @@ export function DoorPage() {
         );
     }
 
+    if (door.demo) {
+        return <DemoDoor door={door} initialGuests={guests} />;
+    }
+
     return (
         <DoorLayout door={door}>
             <OpenDoor guests={guests} />
@@ -43,11 +48,56 @@ export function DoorPage() {
     );
 }
 
-function OpenDoor({ guests }: { guests: CheckInGuest[] }) {
+/**
+ * A demo's door: the same page with sample guests, whose check-ins only change what this screen shows. A button stands
+ * in for the camera, opening a guest as scanning their pass would.
+ */
+function DemoDoor({ door, initialGuests }: { door: Door; initialGuests: CheckInGuest[] }) {
+    const [guests, setGuests] = useState(initialGuests);
+
+    const update = (guest: CheckInGuest, changes: Partial<CheckInGuest>) =>
+        setGuests((current) => current.map((item) => (item.id === guest.id ? { ...item, ...changes } : item)));
+
+    const demo: DemoCheckIn = {
+        checkIn: (guest, seats) => update(guest, { checked_in_at: guest.checked_in_at ?? new Date().toISOString(), checked_in_seats: seats }),
+        undo: (guest) => update(guest, { checked_in_at: null, checked_in_seats: 0 }),
+    };
+
+    return (
+        <DoorLayout door={{ ...door, summary: summarize(guests) }}>
+            <DemoNotice>
+                Así se ve el registro de llegadas en el celular de quien recibe a los invitados, con una lista de ejemplo. Nada de
+                lo que hagas aquí se guarda.
+            </DemoNotice>
+            <OpenDoor guests={guests} demo={demo} />
+        </DoorLayout>
+    );
+}
+
+function summarize(guests: CheckInGuest[]): CheckInSummary {
+    const arrived = guests.filter((guest) => guest.checked_in_at !== null);
+
+    return {
+        guests: guests.length,
+        seats: guests.reduce((total, guest) => total + guest.seats, 0),
+        arrived_guests: arrived.length,
+        arrived_seats: arrived.reduce((total, guest) => total + guest.checked_in_seats, 0),
+    };
+}
+
+function OpenDoor({ guests, demo }: { guests: CheckInGuest[]; demo?: DemoCheckIn }) {
     const [search, setSearch] = useState('');
     const [selectedId, setSelectedId] = useState<number | null>(null);
 
-    usePoll(REFRESH_MS, { only: ['door', 'guests'] }, { mode: 'rest', background: 'pause' });
+    usePoll(REFRESH_MS, { only: ['door', 'guests'] }, { mode: 'rest', background: 'pause', autoStart: !demo });
+
+    /** Opens a guest who has not fully arrived, as scanning their pass would. */
+    function scanPass() {
+        const waiting = guests.filter((guest) => guest.checked_in_seats < guest.seats && guest.id !== selectedId);
+        const pool = waiting.length > 0 ? waiting : guests;
+        setSearch('');
+        setSelectedId(pool[Math.floor(Math.random() * pool.length)]?.id ?? null);
+    }
 
     const term = search.trim().toLocaleLowerCase('es');
     const matches = useMemo(
@@ -66,6 +116,13 @@ function OpenDoor({ guests }: { guests: CheckInGuest[] }) {
                 </AlertDescription>
             </Alert>
 
+            {demo && (
+                <Button type="button" size="lg" onClick={scanPass} className="mt-5 h-12 w-full text-base">
+                    <ScanLineIcon />
+                    Simular el escaneo de un pase
+                </Button>
+            )}
+
             <label className="relative mt-5 block">
                 <span className="sr-only">Buscar invitado por nombre</span>
                 <SearchIcon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
@@ -83,7 +140,7 @@ function OpenDoor({ guests }: { guests: CheckInGuest[] }) {
 
             {selected ? (
                 <div className="mt-5">
-                    <CheckInCard key={selected.id} guest={selected} />
+                    <CheckInCard key={selected.id} guest={selected} demo={demo} />
                     <Button type="button" variant="ghost" onClick={() => setSelectedId(null)} className="mt-3 w-full">
                         <ArrowLeftIcon />
                         Volver a los resultados

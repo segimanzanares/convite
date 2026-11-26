@@ -27,6 +27,8 @@ export interface LiveGallery {
     slide_seconds: number;
     upload_url: string;
     wall_url: string;
+    /** A demo's gallery (`/i/{slug}/demo/fotos`): sample photos, and uploads only show on the visitor's screen. */
+    demo?: boolean;
 }
 
 export interface LiveGalleryPageProps {
