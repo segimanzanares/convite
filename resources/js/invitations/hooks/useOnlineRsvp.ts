@@ -16,7 +16,8 @@ interface OnlineRsvpForm {
  * It reads the `rsvp` settings and the personalized link's `guest` from the
  * page props, so templates do not need to pass them down. A guest sees their
  * current answer and may change it until the deadline; the open form starts
- * blank every time.
+ * blank every time. A demo showing a plan (`settings.demo`) stores nothing: the
+ * form only checks the name and shows the answer as sent.
  */
 export function useOnlineRsvp() {
   const { rsvp: settings, guest = null } = usePage<InvitationPageProps>().props;
@@ -36,6 +37,17 @@ export function useOnlineRsvp() {
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!settings) return;
+
+    if (settings.demo) {
+      if (!http.data.name.trim()) {
+        http.setError('name', 'Escribe tu nombre.');
+        return;
+      }
+
+      http.clearErrors();
+      setIsAnswered(true);
+      return;
+    }
 
     http.post(settings.url, { onSuccess: () => setIsAnswered(true) });
   }

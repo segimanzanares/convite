@@ -10,6 +10,7 @@ use App\Http\Resources\PassGuestResource;
 use App\Http\Resources\PublicGuestResource;
 use App\Models\Invitation;
 use App\Services\CheckInService;
+use App\Services\DemoShowcaseService;
 use App\Services\GuestService;
 use App\Services\ReferralService;
 use App\Services\WishService;
@@ -26,16 +27,20 @@ class InvitationController extends Controller
         private readonly CheckInService $checkIn,
         private readonly WishService $wishes,
         private readonly ReferralService $referrals,
+        private readonly DemoShowcaseService $showcase,
     ) {}
 
     /**
-     * The open invitation, which anyone with its link can answer when the plan includes online RSVPs.
+     * The open invitation, which anyone with its link can answer when the plan includes online RSVPs. A demo given
+     * `?plan=<slug>` shows that plan's online RSVP and wishes book without storing anything (see DemoShowcaseService).
      */
-    public function show(Invitation $invitation): Response
+    public function show(Request $request, Invitation $invitation): Response
     {
+        $plan = $this->showcase->requestedPlan($request, $invitation);
+
         return $this->render($invitation, 'InvitationPage', $invitation->title, [
-            'rsvp' => $this->rsvpSettings($invitation),
-            'wishes' => $this->wishes->invitationProps($invitation),
+            'rsvp' => ($plan ? $this->showcase->rsvpSettings($invitation, $plan) : null) ?? $this->rsvpSettings($invitation),
+            'wishes' => $plan ? $this->showcase->wishesProps($invitation, $plan) : $this->wishes->invitationProps($invitation),
             'guest' => null,
         ]);
     }

@@ -71,7 +71,8 @@ function toCover(invitation: InvitationContent): WishesCover {
  * does not offer it, and then the section renders nothing.
  *
  * The book opens on its cover (`page` -1); each message the invitation makes public is a page. A message sent while
- * the book is public and not moderated becomes the first page, and the book opens on it.
+ * the book is public and not moderated becomes the first page, and the book opens on it. A demo showing a plan
+ * (`book.demo`) stores nothing: the message only joins the book on the visitor's screen.
  */
 export function useWishes() {
   const { wishes: book = null, guest = null, invitation } = usePage<
@@ -95,16 +96,30 @@ export function useWishes() {
     event.preventDefault();
     if (!book) return;
 
-    http.post(book.url, {
-      onSuccess: (wish) => {
-        setSent(wish);
-        if (isPublic && wish.status === 'approved') {
-          setWishes((current) => [wish, ...current]);
-          setPage(0);
-        }
-        http.setData('message', '');
-      },
-    });
+    const onSuccess = (wish: StoredWish) => {
+      setSent(wish);
+      if (isPublic && wish.status === 'approved') {
+        setWishes((current) => [wish, ...current]);
+        setPage(0);
+      }
+      http.setData('message', '');
+    };
+
+    if (book.demo) {
+      const authorName = http.data.author_name.trim();
+      const message = http.data.message.trim();
+
+      if (!authorName || !message) {
+        http.setError(authorName ? 'message' : 'author_name', authorName ? 'Escribe tu mensaje.' : 'Escribe tu nombre.');
+        return;
+      }
+
+      http.clearErrors();
+      onSuccess({ id: Date.now(), author_name: authorName, message, created_at: new Date().toISOString(), status: 'approved' });
+      return;
+    }
+
+    http.post(book.url, { onSuccess });
   }
 
   return {

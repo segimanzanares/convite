@@ -7,6 +7,8 @@ export interface RsvpSettings {
   url: string;
   /** The most people one answer through the open form may confirm. */
   max_seats: number;
+  /** A demo showing a plan (`?plan=<slug>`): the form only pretends to send the answer. */
+  demo?: boolean;
 }
 
 export interface RsvpAnswer {
@@ -44,6 +46,8 @@ export interface WishesSettings {
   max_length: number;
   /** The latest approved messages, newest first; empty unless `public`. */
   wishes: PublicWish[];
+  /** A demo showing a plan (`?plan=<slug>`): sample messages, and the form only pretends to send. */
+  demo?: boolean;
 }
 
 export interface InvitationPageProps {

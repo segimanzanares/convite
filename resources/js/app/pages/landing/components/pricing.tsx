@@ -1,7 +1,8 @@
-import { Check, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Check, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatPrice } from '@/lib/format';
 import { cn } from '@/lib/utils';
+import type { DemoInvitation } from '@/types/invitation';
 import type { OfferedPlan, PlanFeature } from '@/types/plan';
 import { Reveal } from './reveal';
 import { Highlight, SectionHeading } from './section-heading';
@@ -57,11 +58,21 @@ function Checklist({ items, isFeatured }: { items: string[]; isFeatured: boolean
     );
 }
 
-export function Pricing({ plans }: { plans: OfferedPlan[] }) {
+/**
+ * The demo each plan's "Ver demo" opens: the first wedding, or the first demo there is. With `?plan=` the demo shows
+ * what the plan includes, such as the online RSVP and the wishes book (see DemoShowcaseService).
+ */
+function showcaseDemo(demos: DemoInvitation[]): DemoInvitation | undefined {
+    return demos.find((demo) => demo.kind === 'wedding') ?? demos[0];
+}
+
+export function Pricing({ plans, demos }: { plans: OfferedPlan[]; demos: DemoInvitation[] }) {
     const whatsappLink = useWhatsappLink();
     if (plans.length === 0) {
         return null;
     }
+
+    const demo = showcaseDemo(demos);
 
     // With three or more plans, the middle one stands out as the recommended
     const featuredIndex = plans.length >= 3 ? Math.floor(plans.length / 2) : -1;
@@ -154,6 +165,20 @@ export function Pricing({ plans }: { plans: OfferedPlan[] }) {
                                                 Lo quiero
                                             </a>
                                         </Button>
+                                        {demo && (
+                                            /* A plain link: the invitations are another Inertia app, so the page reloads anyway */
+                                            <a
+                                                href={`${demo.url}?plan=${encodeURIComponent(plan.slug)}`}
+                                                target="_blank"
+                                                rel="noopener"
+                                                className={cn(
+                                                    'mt-3 flex items-center justify-center gap-1 text-sm font-medium underline-offset-4 hover:underline',
+                                                    isFeatured ? 'text-gold-light' : 'text-primary',
+                                                )}
+                                            >
+                                                Ver demo <ArrowUpRight className="size-3.5" aria-hidden="true" />
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
                             </div>

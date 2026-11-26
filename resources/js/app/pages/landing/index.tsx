@@ -29,7 +29,7 @@ export function LandingPage({ demos, plans }: { demos: DemoInvitation[]; plans: 
                 <Features />
                 <Steps />
                 <Services />
-                <Pricing plans={plans} />
+                <Pricing plans={plans} demos={demos} />
                 <Faq plans={plans} />
                 <Cta />
             </main>
