@@ -4,6 +4,8 @@ import { router } from '@inertiajs/react';
 /** Set by InvitationController when a demo is opened with `?plan=<slug>` (see DemoShowcaseService). */
 interface Showcase {
   plan: string;
+  print_card_url: string | null;
+  guest_passes_url: string | null;
   door_url: string | null;
   gallery_url: string | null;
   wall_url: string | null;
@@ -12,8 +14,9 @@ interface Showcase {
 const showcaseOf = (props: Record<string, unknown>) => (props.showcase as Showcase | null | undefined) ?? null;
 
 /**
- * Names the plan a demo is showing and links to the demo door and live gallery when the plan includes them. Like
- * PreviewBanner, it is rendered next to the Inertia app, so every template shows it without changes.
+ * Names the plan a demo is showing and links to the printable card and passes (when the template has them) and to the
+ * demo door and live gallery, as far as the plan includes them. Like PreviewBanner, it is rendered next to the Inertia
+ * app, so every template shows it without changes.
  */
 export function ShowcaseBar({ initialProps }: { initialProps: Record<string, unknown> }) {
   const [showcase, setShowcase] = useState<Showcase | null>(() => showcaseOf(initialProps));
@@ -24,6 +27,8 @@ export function ShowcaseBar({ initialProps }: { initialProps: Record<string, unk
   if (!showcase || isDismissed) return null;
 
   const links = [
+    { label: 'Tarjeta imprimible', url: showcase.print_card_url },
+    { label: 'Pases', url: showcase.guest_passes_url },
     { label: 'Registro en la puerta', url: showcase.door_url },
     { label: 'Galería en vivo', url: showcase.gallery_url },
     { label: 'Muro de fotos', url: showcase.wall_url },

@@ -72,6 +72,31 @@ it('stores nothing a visitor sends from a demo showing a plan', function () {
         ->and(Wish::count())->toBe(0);
 });
 
+it('links the bar of a demo to the printable pages its template has and the plan includes', function () {
+    Plan::factory()->withFeatures(PlanFeature::PrintCard, PlanFeature::GuestPasses)->create(['slug' => 'estandar']);
+    Plan::factory()->create(['slug' => 'basico']);
+    $withPages = Invitation::factory()->create(['template' => 'boda-clasica']);
+    $withoutPages = Invitation::factory()->create(['template' => 'xv-aurora']);
+
+    $this->get(route('invitations.show', ['invitation' => $withPages, 'plan' => 'estandar']))
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('showcase.print_card_url', route('invitations.print-card', $withPages))
+            ->where('showcase.guest_passes_url', route('invitations.guest-passes', $withPages))
+        );
+
+    $this->get(route('invitations.show', ['invitation' => $withPages, 'plan' => 'basico']))
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('showcase.print_card_url', null)
+            ->where('showcase.guest_passes_url', null)
+        );
+
+    $this->get(route('invitations.show', ['invitation' => $withoutPages, 'plan' => 'estandar']))
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('showcase.print_card_url', null)
+            ->where('showcase.guest_passes_url', null)
+        );
+});
+
 it('links the bar of a demo to the door and the live gallery when the plan includes them', function () {
     Plan::factory()->withFeatures(PlanFeature::OnlineRsvp, PlanFeature::Wishes)->create(['slug' => 'premium', 'name' => 'Premium']);
     Plan::factory()->withFeatures(PlanFeature::GuestManagement, PlanFeature::CheckIn, PlanFeature::LiveGallery)->create(['slug' => 'exclusivo', 'name' => 'Exclusivo']);

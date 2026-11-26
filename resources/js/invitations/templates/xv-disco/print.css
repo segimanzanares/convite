@@ -1,0 +1,204 @@
+/* The printable card and guest passes of the XV disco night: the shared layouts (components/print-card) on the
+   midnight-violet dance floor of the invitation, framed in a pink-to-cyan neon line, with Unbounded for the name and
+   the numbers and Outfit for the text. The theme's legacy tokens (--white, --cream, --gold...) already map the shared
+   styles to the dark palette; this file swaps the floral ornaments for the neon look. As in PrintCard.css, every color
+   is opaque (no glows) so PDF viewers don't composite soft masks. */
+
+.theme-xv-disco.print-card-page {
+  background: oklch(0.11 0.025 300);
+  font-family: var(--font-outfit);
+  color: var(--text-body);
+}
+
+/* Toolbar, as the invitation's pink buttons */
+.theme-xv-disco .print-card-toolbar__primary {
+  font-family: var(--font-unbounded);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.theme-xv-disco .print-card-toolbar__primary:hover { background: var(--neon-cyan); }
+.theme-xv-disco .print-card-toolbar__link,
+.theme-xv-disco .guest-editor__footer {
+  font-family: var(--font-outfit);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--accent-foreground);
+}
+.theme-xv-disco .print-card-toolbar__hint,
+.theme-xv-disco .guest-editor__note {
+  font-size: 14px;
+  font-style: normal;
+  color: var(--muted-foreground);
+}
+.theme-xv-disco .guest-editor__label { font-size: 14px; color: var(--foreground); }
+.theme-xv-disco .guest-editor__label code,
+.theme-xv-disco .guest-editor__input { font-family: var(--font-outfit); }
+.theme-xv-disco .guest-editor__input {
+  border: 1px solid oklch(0.32 0.05 300);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--foreground);
+}
+.theme-xv-disco .guest-editor__input:focus { outline: 2px solid var(--primary); outline-offset: 0; }
+
+/* The card: a spotlight of violet over the dance floor */
+.theme-xv-disco .print-card {
+  background: radial-gradient(ellipse 90% 55% at 50% 0%, oklch(0.27 0.09 305), oklch(0.15 0.03 300) 70%);
+}
+.theme-xv-disco .guest-pass {
+  background: radial-gradient(ellipse 80% 90% at 30% 0%, oklch(0.25 0.08 305), oklch(0.15 0.03 300) 75%);
+  font-family: var(--font-outfit);
+}
+
+/* Ornaments: a neon frame, pink to violet to cyan, instead of the floral corners. A border image, not a mask, so it
+   stays opaque; border images take no radius, so the corners are square, like a ticket's. */
+.theme-xv-disco .print-card__corner,
+.theme-xv-disco .print-card__mark { display: none; }
+.theme-xv-disco .print-card__frame {
+  border: 0.45mm solid;
+  border-image: linear-gradient(135deg, var(--neon-pink), var(--neon-violet), var(--neon-cyan)) 1;
+  border-radius: 0;
+}
+.theme-xv-disco .print-card__frame::before { display: none; }
+.theme-xv-disco .guest-pass .print-card__frame { border-width: 0.35mm; }
+
+/* Card typography */
+.theme-xv-disco .print-card__eyebrow,
+.theme-xv-disco .print-card__label,
+.theme-xv-disco .print-card__signature,
+.theme-xv-disco .print-card__date,
+.theme-xv-disco .print-card__time,
+.theme-xv-disco .print-card__url {
+  font-family: var(--font-unbounded);
+  font-weight: 400;
+  color: var(--neon-cyan);
+}
+.theme-xv-disco .print-card__eyebrow { font-size: 6.5pt; letter-spacing: 0.35em; }
+.theme-xv-disco .print-card__label { font-size: 5.8pt; letter-spacing: 0.2em; }
+.theme-xv-disco .print-card__signature { font-size: 6pt; letter-spacing: 0.25em; color: var(--muted-foreground); }
+.theme-xv-disco .print-card__date { font-size: 7.5pt; letter-spacing: 0.18em; color: var(--foreground); }
+.theme-xv-disco .print-card__time { font-size: 7.5pt; letter-spacing: 0.12em; color: var(--neon-gold); }
+.theme-xv-disco .print-card__url { font-size: 5.5pt; letter-spacing: 0.06em; }
+
+.theme-xv-disco .print-card__rule,
+.theme-xv-disco .guest-pass__rule {
+  background: linear-gradient(to right, var(--neon-pink), var(--neon-violet), var(--neon-cyan));
+}
+.theme-xv-disco .print-card__rule { width: 24mm; height: 0.35mm; }
+
+/* The name in neon pink. Not painted pink to cyan as in the invitation: text clipping a gradient leaves hairlines at
+   the edges of its box in the PDF, so the gradients stay on the frame and the rules. */
+.theme-xv-disco .print-card__names,
+.theme-xv-disco .guest-pass__names,
+.theme-xv-disco .print-card__monogram { color: var(--neon-pink); }
+.theme-xv-disco .print-card__names {
+  font-family: var(--font-unbounded);
+  font-size: 25pt;
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+.theme-xv-disco .print-card__subtitle {
+  margin: 0 0 3mm;
+  font-family: var(--font-unbounded);
+  font-size: 11pt;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--neon-gold);
+}
+.theme-xv-disco .print-card__lead {
+  font-family: var(--font-outfit);
+  font-size: 11pt;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--text-body);
+}
+.theme-xv-disco .print-card__place { font-size: 10pt; letter-spacing: 0.04em; color: var(--muted-foreground); }
+
+/* Card back */
+.theme-xv-disco .print-card__monogram {
+  border: 0.35mm solid var(--neon-cyan);
+  font-family: var(--font-unbounded);
+  font-size: 12pt;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+.theme-xv-disco .print-card__event,
+.theme-xv-disco .print-card__note,
+.theme-xv-disco .print-card__rsvp {
+  font-family: var(--font-outfit);
+  font-size: 9pt;
+  font-style: normal;
+  color: var(--muted-foreground);
+}
+.theme-xv-disco .print-card__event + .print-card__event { border-left-color: oklch(0.35 0.08 305); }
+.theme-xv-disco .print-card__event h3,
+.theme-xv-disco .print-card__dress h3 {
+  font-family: var(--font-unbounded);
+  font-size: 9pt;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--foreground);
+}
+.theme-xv-disco .print-card__rsvp strong { font-weight: 600; color: var(--foreground); }
+/* The code stays dark on light, so every phone reads it */
+.theme-xv-disco .print-card__qr {
+  border: 0.35mm solid var(--neon-cyan);
+  border-radius: 2mm;
+  background: #fdfaf4;
+}
+.theme-xv-disco .print-card__swatches span { border-color: oklch(0.4 0.05 300); }
+
+/* Guest passes */
+.theme-xv-disco .guest-pass__eyebrow,
+.theme-xv-disco .guest-pass__label,
+.theme-xv-disco .guest-pass__unit,
+.theme-xv-disco .guest-pass__table,
+.theme-xv-disco .guest-pass__date {
+  font-family: var(--font-unbounded);
+  font-weight: 400;
+  color: var(--neon-cyan);
+}
+.theme-xv-disco .guest-pass__eyebrow { font-size: 4.4pt; letter-spacing: 0.25em; }
+.theme-xv-disco .guest-pass__label { font-size: 4.2pt; letter-spacing: 0.2em; color: var(--muted-foreground); }
+.theme-xv-disco .guest-pass__table,
+.theme-xv-disco .guest-pass__date { letter-spacing: 0.15em; color: var(--foreground); }
+.theme-xv-disco .guest-pass__unit { font-size: 3.8pt; letter-spacing: 0.15em; }
+.theme-xv-disco .guest-pass__names {
+  margin: 0.8mm 0 0.2mm;
+  font-family: var(--font-unbounded);
+  font-size: 15pt;
+  font-weight: 800;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.theme-xv-disco .guest-pass__rule { width: 14mm; height: 0.3mm; }
+.theme-xv-disco .guest-pass__guest {
+  font-family: var(--font-outfit);
+  font-size: 10.5pt;
+  font-weight: 600;
+  color: var(--foreground);
+}
+.theme-xv-disco .guest-pass__badge {
+  border: 0.35mm solid var(--neon-pink);
+  outline: 0.2mm solid oklch(0.4 0.1 305);
+  outline-offset: 0.7mm;
+  background: oklch(0.13 0.03 300);
+}
+.theme-xv-disco .guest-pass__seats {
+  font-family: var(--font-unbounded);
+  font-weight: 800;
+  color: var(--neon-gold);
+}
+.theme-xv-disco .guest-pass__qr {
+  padding: 0.8mm;
+  border-radius: 1mm;
+  background: #fdfaf4;
+}

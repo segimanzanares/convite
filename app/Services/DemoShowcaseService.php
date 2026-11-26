@@ -161,16 +161,20 @@ class DemoShowcaseService
     }
 
     /**
-     * The bar of a demo showing the plan: its name and the demo pages of what it includes besides the invitation.
+     * The bar of a demo showing the plan: its name and the pages of what it includes besides the invitation. The
+     * printable card and passes only when the template ships them.
      *
-     * @return array{plan: string, door_url: string|null, gallery_url: string|null, wall_url: string|null}
+     * @return array{plan: string, print_card_url: string|null, guest_passes_url: string|null, door_url: string|null, gallery_url: string|null, wall_url: string|null}
      */
     public function invitationBar(Invitation $invitation, Plan $plan): array
     {
         $hasGallery = $this->includes($plan, PlanFeature::LiveGallery);
+        $offersPage = fn (string $page, PlanFeature $feature): bool => $this->includes($plan, $feature) && $invitation->hasPage($page);
 
         return [
             'plan' => $plan->name,
+            'print_card_url' => $offersPage(Invitation::PRINT_CARD_PAGE, PlanFeature::PrintCard) ? route('invitations.print-card', $invitation) : null,
+            'guest_passes_url' => $offersPage(Invitation::GUEST_PASSES_PAGE, PlanFeature::GuestPasses) ? route('invitations.guest-passes', $invitation) : null,
             'door_url' => $this->includes($plan, PlanFeature::CheckIn) ? route('invitations.demo.door', $invitation) : null,
             'gallery_url' => $hasGallery ? route('invitations.demo.gallery', $invitation) : null,
             'wall_url' => $hasGallery ? route('invitations.demo.wall', $invitation) : null,
