@@ -5,17 +5,24 @@ namespace App\Providers;
 use App\Models\User;
 use App\Services\InvitationFontService;
 use Carbon\CarbonImmutable;
+use Google\Client as GoogleClient;
+use Google\Service\Drive as GoogleDrive;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View as RenderedView;
+use League\Flysystem\Filesystem;
+use Masbug\Flysystem\GoogleDriveAdapter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,6 +43,29 @@ class AppServiceProvider extends ServiceProvider
         $this->configureAuthorization();
         $this->configureRateLimiting();
         $this->configureInvitationFonts();
+        $this->configureGoogleDriveDisk();
+    }
+
+    /**
+     * The `google` disk stores a copy of the backups on Google Drive (see config/backup.php).
+     */
+    protected function configureGoogleDriveDisk(): void
+    {
+        Storage::extend('google', function (Application $app, array $config): FilesystemAdapter {
+            $client = new GoogleClient;
+            $client->setClientId($config['clientId']);
+            $client->setClientSecret($config['clientSecret']);
+            $client->refreshToken($config['refreshToken']);
+
+            $adapter = new GoogleDriveAdapter(new GoogleDrive($client), $config['folder'] ?? '/');
+            $filesystem = new Filesystem($adapter, $config);
+
+            // The adapter throws when listing a missing folder, which makes pruning the backups
+            // fail, so make sure the backup folder exists.
+            $filesystem->createDirectory(config('backup.folder'));
+
+            return new FilesystemAdapter($filesystem, $adapter, $config);
+        });
     }
 
     /**
