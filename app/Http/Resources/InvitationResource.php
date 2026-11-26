@@ -36,6 +36,7 @@ class InvitationResource extends JsonResource
             'description' => $this->description,
             'og_image' => $this->og_image,
             'guests_purged_at' => $this->guests_purged_at,
+            'uploads_purged_at' => $this->uploads_purged_at,
             // Never the result itself: the parents-to-be may not know it yet
             'reveal' => $this->kind() === InvitationKind::GenderReveal ? [
                 'captured' => filled($this->content['reveal'] ?? null),

@@ -1,6 +1,8 @@
 import { Form } from '@inertiajs/react';
+import { TriangleAlertIcon } from 'lucide-react';
 import { useState } from 'react';
 import InputError from '@/components/input-error';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { DialogBody, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -54,6 +56,12 @@ export default function InvitationForm({
     const [orderId, setOrderId] = useState(
         defaultValues?.order_id ? String(defaultValues.order_id) : NO_ORDER,
     );
+    const [status, setStatus] = useState<InvitationStatus>(
+        defaultValues?.status ?? 'draft',
+    );
+    // Its uploads were deleted after it was archived, so taking it out of the archive shows it without them
+    const unarchivesPurged =
+        !!defaultValues?.uploads_purged_at && status !== 'archived';
     const selectedOrder = orders.find((order) => String(order.id) === orderId);
     // Mirrors the server rule: an exclusive template needs a plan with a custom design, or no order (a demo)
     const allowsExclusive =
@@ -223,8 +231,9 @@ export default function InvitationForm({
                                 </p>
                                 <Select
                                     name="status"
-                                    defaultValue={
-                                        defaultValues?.status ?? 'draft'
+                                    value={status}
+                                    onValueChange={(value) =>
+                                        setStatus(value as InvitationStatus)
                                     }
                                 >
                                     <SelectTrigger
@@ -251,6 +260,21 @@ export default function InvitationForm({
                                 <InputError message={errors.status} />
                             </div>
                         </div>
+
+                        {unarchivesPurged && (
+                            <Alert>
+                                <TriangleAlertIcon />
+                                <AlertTitle>
+                                    Sus fotos y su música ya se eliminaron
+                                </AlertTitle>
+                                <AlertDescription>
+                                    Se borraron al depurar la invitación
+                                    archivada. Si la sacas del archivo, se verá
+                                    sin ellas hasta que vuelvas a subirlas en su
+                                    contenido.
+                                </AlertDescription>
+                            </Alert>
+                        )}
 
                         <fieldset className="grid gap-4">
                             <legend className="mb-4 text-sm font-medium">

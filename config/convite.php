@@ -16,6 +16,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Uploads Retention
+    |--------------------------------------------------------------------------
+    |
+    | The photos, music and live gallery of an archived invitation are deleted
+    | this many days after its event date by the invitations:purge-uploads
+    | command, which runs daily.
+    |
+    */
+
+    'uploads_retention_days' => (int) env('CONVITE_UPLOADS_RETENTION_DAYS', 7),
+
+    /*
+    |--------------------------------------------------------------------------
     | Open RSVP Form
     |--------------------------------------------------------------------------
     |

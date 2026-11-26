@@ -35,6 +35,7 @@ use Illuminate\Support\Facades\Storage;
  * @property string|null $og_image
  * @property array<string, mixed>|null $content
  * @property Carbon|null $guests_purged_at
+ * @property Carbon|null $uploads_purged_at
  * @property string|null $door_token
  * @property string|null $gallery_token
  * @property bool $gallery_moderated
@@ -89,6 +90,7 @@ class Invitation extends Model
             'rsvp_deadline' => 'date',
             'status' => InvitationStatus::class,
             'guests_purged_at' => 'datetime',
+            'uploads_purged_at' => 'datetime',
             'content' => 'array',
             'gallery_moderated' => 'boolean',
             'gallery_opens_days_before' => 'integer',
@@ -306,6 +308,21 @@ class Invitation extends Model
         $query->whereNull('guests_purged_at')
             ->whereNotNull('event_date')
             ->whereDate('event_date', '<', today()->subDays($retentionDays));
+    }
+
+    /**
+     * Limit the query to the archived invitations whose uploads must be deleted: their event was the given number of
+     * days ago or more, and they were not purged yet.
+     *
+     * @param  Builder<Invitation>  $query
+     */
+    #[Scope]
+    protected function dueForUploadsPurge(Builder $query, int $retentionDays): void
+    {
+        $query->where('status', InvitationStatus::Archived)
+            ->whereNull('uploads_purged_at')
+            ->whereNotNull('event_date')
+            ->whereDate('event_date', '<=', today()->subDays($retentionDays));
     }
 
     /**

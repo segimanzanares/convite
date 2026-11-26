@@ -46,6 +46,8 @@ export type Invitation = {
     description: string;
     og_image: string | null;
     guests_purged_at: string | null;
+    /** When invitations:purge-uploads deleted its photos and music; its content still points to them. */
+    uploads_purged_at: string | null;
     /** Gender reveals only: whether the result was captured and when it was shown (never the result itself). */
     reveal: { captured: boolean; shown_at: string | null } | null;
     /** The features of the order's plan; only sent when the order was loaded. */

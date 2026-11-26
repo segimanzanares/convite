@@ -9,6 +9,7 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('guests:purge')->daily();
+Schedule::command('invitations:purge-uploads')->dailyAt('03:00');
 Schedule::command('rsvps:digest')->dailyAt('08:00');
 
 $backupFailureEmail = config('backup.notification_email');
