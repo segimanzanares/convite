@@ -1,0 +1,27 @@
+/* The printable card and guest passes of revelacion-dulce: the shared layouts (components/print-card) in the invitation's fonts,
+   Shrikhand for the names, Rubik for the text. The colors come from the theme's legacy tokens (--gold, --cream...), which PrintCard.css reads. */
+.theme-revelacion-dulce.print-card-page {
+  --font-script: 'Shrikhand', Georgia, serif;
+  --font-display: 'Rubik', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Rubik', ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-body);
+  color: var(--text-body);
+}
+
+/* The name is set in a display face, not a script: smaller and tighter than the shared 44pt */
+.theme-revelacion-dulce .print-card__names { font-size: 28pt; font-weight: 400; line-height: 1.08; }
+.theme-revelacion-dulce .print-card__amp { margin: 1mm 0; font-size: 20pt; }
+.theme-revelacion-dulce .print-card__subtitle { font-size: 15pt; }
+.theme-revelacion-dulce .print-card__lead { font-style: normal; font-size: 10.5pt; }
+.theme-revelacion-dulce .print-card__monogram { font-size: 15pt; font-weight: 400; }
+.theme-revelacion-dulce .guest-pass__names { font-size: 14pt; font-weight: 400; }
+
+/* A modern design: one rounded frame in the theme's color instead of the floral corners and the dashed inner line */
+.theme-revelacion-dulce .print-card__corner,
+.theme-revelacion-dulce .print-card__mark,
+.theme-revelacion-dulce .print-card__frame::before { display: none; }
+.theme-revelacion-dulce .print-card__frame {
+  border: 0.35mm solid var(--gold);
+  border-radius: 3mm;
+}
+.theme-revelacion-dulce .guest-pass .print-card__frame { border-width: 0.3mm; border-radius: 2mm; }

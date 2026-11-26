@@ -1,0 +1,27 @@
+/* The printable card and guest passes of cumpleanos-confeti: the shared layouts (components/print-card) in the invitation's fonts,
+   DM Serif Display for the name, DM Sans for the text. The colors come from the theme's legacy tokens (--gold, --cream...), which PrintCard.css reads. */
+.theme-cumpleanos-confeti.print-card-page {
+  --font-script: 'DM Serif Display', Georgia, serif;
+  --font-display: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-body);
+  color: var(--text-body);
+}
+
+/* The name is set in a display face, not a script: smaller and tighter than the shared 44pt */
+.theme-cumpleanos-confeti .print-card__names { font-size: 32pt; font-weight: 400; line-height: 1.08; }
+.theme-cumpleanos-confeti .print-card__amp { margin: 1mm 0; font-size: 22pt; }
+.theme-cumpleanos-confeti .print-card__subtitle { font-size: 15pt; }
+.theme-cumpleanos-confeti .print-card__lead { font-style: normal; font-size: 10.5pt; }
+.theme-cumpleanos-confeti .print-card__monogram { font-size: 15pt; font-weight: 400; }
+.theme-cumpleanos-confeti .guest-pass__names { font-size: 16pt; font-weight: 400; }
+
+/* A modern design: one rounded frame in the theme's color instead of the floral corners and the dashed inner line */
+.theme-cumpleanos-confeti .print-card__corner,
+.theme-cumpleanos-confeti .print-card__mark,
+.theme-cumpleanos-confeti .print-card__frame::before { display: none; }
+.theme-cumpleanos-confeti .print-card__frame {
+  border: 0.35mm solid var(--gold);
+  border-radius: 3mm;
+}
+.theme-cumpleanos-confeti .guest-pass .print-card__frame { border-width: 0.3mm; border-radius: 2mm; }

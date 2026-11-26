@@ -31,7 +31,7 @@ it('renders an invitation with its template page and meta tags', function () {
         ->assertDontSee('og:image:width', escape: false);
 });
 
-it('serves the printable pages a template provides', function (string $template, string $path, string $page, string $title) {
+it('serves the printable pages of every template', function (string $template, string $path, string $page, string $title) {
     $invitation = Invitation::factory()->create(['template' => $template, 'title' => 'Boda Demo']);
 
     $this->get("/i/{$invitation->slug}/{$path}")
@@ -39,7 +39,7 @@ it('serves the printable pages a template provides', function (string $template,
         ->assertInertia(fn (Assert $inertia) => $inertia
             ->component("templates/{$template}/{$page}")
             ->where('meta.title', $title));
-})->with(['boda-clasica', 'boda-floral', 'boda-moderna', 'boda-serena'])->with([
+})->with(array_map('basename', glob(dirname(__DIR__, 2).'/resources/js/invitations/templates/*', GLOB_ONLYDIR)))->with([
     'print card' => ['tarjeta', 'PrintCardPage', 'Tarjeta impresa — Boda Demo'],
     'guest passes' => ['pases', 'GuestPassesPage', 'Pases de invitados — Boda Demo'],
 ]);
@@ -69,7 +69,8 @@ it('loads the error pages\' fonts on the pages that are not a template\'s', func
 });
 
 it('returns 404 for printable pages a template does not provide', function (string $path) {
-    $invitation = Invitation::factory()->create(['template' => 'cumpleanos-floral']);
+    // Every template ships both pages, so a folder without them stands in for a future one that does not
+    $invitation = Invitation::factory()->create(['template' => 'plantilla-sin-imprimibles']);
 
     $this->get("/i/{$invitation->slug}/{$path}")->assertNotFound();
 })->with(['tarjeta', 'pases']);

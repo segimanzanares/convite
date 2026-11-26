@@ -6,13 +6,13 @@
 
 .theme-xv-disco.print-card-page {
   background: oklch(0.11 0.025 300);
-  font-family: var(--font-outfit);
+  font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
   color: var(--text-body);
 }
 
 /* Toolbar, as the invitation's pink buttons */
 .theme-xv-disco .print-card-toolbar__primary {
-  font-family: var(--font-unbounded);
+  font-family: 'Unbounded', ui-sans-serif, system-ui, sans-serif;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -23,7 +23,7 @@
 .theme-xv-disco .print-card-toolbar__primary:hover { background: var(--neon-cyan); }
 .theme-xv-disco .print-card-toolbar__link,
 .theme-xv-disco .guest-editor__footer {
-  font-family: var(--font-outfit);
+  font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
   font-size: 13px;
   letter-spacing: 0.08em;
   color: var(--accent-foreground);
@@ -36,7 +36,7 @@
 }
 .theme-xv-disco .guest-editor__label { font-size: 14px; color: var(--foreground); }
 .theme-xv-disco .guest-editor__label code,
-.theme-xv-disco .guest-editor__input { font-family: var(--font-outfit); }
+.theme-xv-disco .guest-editor__input { font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif; }
 .theme-xv-disco .guest-editor__input {
   border: 1px solid oklch(0.32 0.05 300);
   border-radius: 10px;
@@ -51,7 +51,7 @@
 }
 .theme-xv-disco .guest-pass {
   background: radial-gradient(ellipse 80% 90% at 30% 0%, oklch(0.25 0.08 305), oklch(0.15 0.03 300) 75%);
-  font-family: var(--font-outfit);
+  font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Ornaments: a neon frame, pink to violet to cyan, instead of the floral corners. A border image, not a mask, so it
@@ -73,7 +73,7 @@
 .theme-xv-disco .print-card__date,
 .theme-xv-disco .print-card__time,
 .theme-xv-disco .print-card__url {
-  font-family: var(--font-unbounded);
+  font-family: 'Unbounded', ui-sans-serif, system-ui, sans-serif;
   font-weight: 400;
   color: var(--neon-cyan);
 }
@@ -96,7 +96,7 @@
 .theme-xv-disco .guest-pass__names,
 .theme-xv-disco .print-card__monogram { color: var(--neon-pink); }
 .theme-xv-disco .print-card__names {
-  font-family: var(--font-unbounded);
+  font-family: 'Unbounded', ui-sans-serif, system-ui, sans-serif;
   font-size: 25pt;
   font-weight: 800;
   line-height: 1.08;
@@ -105,7 +105,7 @@
 }
 .theme-xv-disco .print-card__subtitle {
   margin: 0 0 3mm;
-  font-family: var(--font-unbounded);
+  font-family: 'Unbounded', ui-sans-serif, system-ui, sans-serif;
   font-size: 11pt;
   font-weight: 600;
   letter-spacing: 0.3em;
@@ -113,7 +113,7 @@
   color: var(--neon-gold);
 }
 .theme-xv-disco .print-card__lead {
-  font-family: var(--font-outfit);
+  font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
   font-size: 11pt;
   font-style: normal;
   font-weight: 300;
@@ -125,7 +125,7 @@
 /* Card back */
 .theme-xv-disco .print-card__monogram {
   border: 0.35mm solid var(--neon-cyan);
-  font-family: var(--font-unbounded);
+  font-family: 'Unbounded', ui-sans-serif, system-ui, sans-serif;
   font-size: 12pt;
   font-weight: 800;
   letter-spacing: 0;
@@ -133,7 +133,7 @@
 .theme-xv-disco .print-card__event,
 .theme-xv-disco .print-card__note,
 .theme-xv-disco .print-card__rsvp {
-  font-family: var(--font-outfit);
+  font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
   font-size: 9pt;
   font-style: normal;
   color: var(--muted-foreground);
@@ -141,7 +141,7 @@
 .theme-xv-disco .print-card__event + .print-card__event { border-left-color: oklch(0.35 0.08 305); }
 .theme-xv-disco .print-card__event h3,
 .theme-xv-disco .print-card__dress h3 {
-  font-family: var(--font-unbounded);
+  font-family: 'Unbounded', ui-sans-serif, system-ui, sans-serif;
   font-size: 9pt;
   font-weight: 600;
   line-height: 1.25;
@@ -162,7 +162,7 @@
 .theme-xv-disco .guest-pass__unit,
 .theme-xv-disco .guest-pass__table,
 .theme-xv-disco .guest-pass__date {
-  font-family: var(--font-unbounded);
+  font-family: 'Unbounded', ui-sans-serif, system-ui, sans-serif;
   font-weight: 400;
   color: var(--neon-cyan);
 }
@@ -173,7 +173,7 @@
 .theme-xv-disco .guest-pass__unit { font-size: 3.8pt; letter-spacing: 0.15em; }
 .theme-xv-disco .guest-pass__names {
   margin: 0.8mm 0 0.2mm;
-  font-family: var(--font-unbounded);
+  font-family: 'Unbounded', ui-sans-serif, system-ui, sans-serif;
   font-size: 15pt;
   font-weight: 800;
   line-height: 1.1;
@@ -181,7 +181,7 @@
 }
 .theme-xv-disco .guest-pass__rule { width: 14mm; height: 0.3mm; }
 .theme-xv-disco .guest-pass__guest {
-  font-family: var(--font-outfit);
+  font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
   font-size: 10.5pt;
   font-weight: 600;
   color: var(--foreground);
@@ -193,7 +193,7 @@
   background: oklch(0.13 0.03 300);
 }
 .theme-xv-disco .guest-pass__seats {
-  font-family: var(--font-unbounded);
+  font-family: 'Unbounded', ui-sans-serif, system-ui, sans-serif;
   font-weight: 800;
   color: var(--neon-gold);
 }

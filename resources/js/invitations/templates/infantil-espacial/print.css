@@ -1,0 +1,27 @@
+/* The printable card and guest passes of infantil-espacial: the shared layouts (components/print-card) in the invitation's fonts,
+   Luckiest Guy for the name, Fredoka and Nunito, as the theme sets them. The colors come from the theme's legacy tokens (--gold, --cream...), which PrintCard.css reads. */
+.theme-infantil-espacial.print-card-page {
+  font-family: var(--font-body);
+  color: var(--text-body);
+}
+
+/* The name is set in a display face, not a script: smaller and tighter than the shared 44pt */
+.theme-infantil-espacial .print-card__names { font-size: 28pt; font-weight: 400; line-height: 1.08; }
+.theme-infantil-espacial .print-card__amp { margin: 1mm 0; font-size: 20pt; }
+.theme-infantil-espacial .print-card__subtitle { font-size: 15pt; }
+.theme-infantil-espacial .print-card__lead { font-style: normal; font-size: 10.5pt; }
+.theme-infantil-espacial .print-card__monogram { font-size: 15pt; font-weight: 400; }
+.theme-infantil-espacial .guest-pass__names { font-size: 15pt; font-weight: 400; }
+
+.theme-infantil-espacial .print-card__names,
+.theme-infantil-espacial .guest-pass__names { letter-spacing: 0.02em; }
+
+/* A modern design: one rounded frame in the theme's color instead of the floral corners and the dashed inner line */
+.theme-infantil-espacial .print-card__corner,
+.theme-infantil-espacial .print-card__mark,
+.theme-infantil-espacial .print-card__frame::before { display: none; }
+.theme-infantil-espacial .print-card__frame {
+  border: 0.35mm solid var(--gold);
+  border-radius: 3mm;
+}
+.theme-infantil-espacial .guest-pass .print-card__frame { border-width: 0.3mm; border-radius: 2mm; }

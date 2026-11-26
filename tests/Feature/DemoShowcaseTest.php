@@ -72,11 +72,10 @@ it('stores nothing a visitor sends from a demo showing a plan', function () {
         ->and(Wish::count())->toBe(0);
 });
 
-it('links the bar of a demo to the printable pages its template has and the plan includes', function () {
+it('links the bar of a demo to the printable pages the plan includes', function () {
     Plan::factory()->withFeatures(PlanFeature::PrintCard, PlanFeature::GuestPasses)->create(['slug' => 'estandar']);
     Plan::factory()->create(['slug' => 'basico']);
     $withPages = Invitation::factory()->create(['template' => 'boda-clasica']);
-    $withoutPages = Invitation::factory()->create(['template' => 'xv-aurora']);
 
     $this->get(route('invitations.show', ['invitation' => $withPages, 'plan' => 'estandar']))
         ->assertInertia(fn (Assert $page) => $page
@@ -85,12 +84,6 @@ it('links the bar of a demo to the printable pages its template has and the plan
         );
 
     $this->get(route('invitations.show', ['invitation' => $withPages, 'plan' => 'basico']))
-        ->assertInertia(fn (Assert $page) => $page
-            ->where('showcase.print_card_url', null)
-            ->where('showcase.guest_passes_url', null)
-        );
-
-    $this->get(route('invitations.show', ['invitation' => $withoutPages, 'plan' => 'estandar']))
         ->assertInertia(fn (Assert $page) => $page
             ->where('showcase.print_card_url', null)
             ->where('showcase.guest_passes_url', null)

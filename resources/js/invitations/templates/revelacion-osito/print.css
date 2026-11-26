@@ -1,0 +1,29 @@
+/* The printable card and guest passes of revelacion-osito: the shared layouts (components/print-card) in the invitation's fonts,
+   Lora for the names, Caveat for the handwritten subtitle, Mulish for the text. The colors come from the theme's legacy tokens (--gold, --cream...), which PrintCard.css reads. */
+.theme-revelacion-osito.print-card-page {
+  --font-script: 'Lora', Georgia, serif;
+  --font-display: 'Mulish', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Mulish', ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-body);
+  color: var(--text-body);
+}
+
+/* The name is set in a display face, not a script: smaller and tighter than the shared 44pt */
+.theme-revelacion-osito .print-card__names { font-size: 30pt; font-weight: 500; line-height: 1.08; }
+.theme-revelacion-osito .print-card__amp { margin: 1mm 0; font-size: 21pt; }
+.theme-revelacion-osito .print-card__subtitle { font-size: 15pt; }
+.theme-revelacion-osito .print-card__lead { font-style: normal; font-size: 10.5pt; }
+.theme-revelacion-osito .print-card__monogram { font-size: 15pt; font-weight: 500; }
+.theme-revelacion-osito .guest-pass__names { font-size: 15pt; font-weight: 500; }
+
+.theme-revelacion-osito .print-card__subtitle { font-family: 'Caveat', cursive; font-size: 22pt; font-weight: 700; }
+
+/* A modern design: one rounded frame in the theme's color instead of the floral corners and the dashed inner line */
+.theme-revelacion-osito .print-card__corner,
+.theme-revelacion-osito .print-card__mark,
+.theme-revelacion-osito .print-card__frame::before { display: none; }
+.theme-revelacion-osito .print-card__frame {
+  border: 0.35mm solid var(--gold);
+  border-radius: 3mm;
+}
+.theme-revelacion-osito .guest-pass .print-card__frame { border-width: 0.3mm; border-radius: 2mm; }

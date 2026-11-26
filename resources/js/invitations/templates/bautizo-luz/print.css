@@ -1,0 +1,32 @@
+/* The printable card and guest passes of bautizo-luz: the shared layouts (components/print-card) in the invitation's fonts,
+   Newsreader in italic for the name, Inter Tight for the text. The colors come from the theme's legacy tokens (--gold, --cream...), which PrintCard.css reads. */
+.theme-bautizo-luz.print-card-page {
+  --font-script: 'Newsreader', Georgia, serif;
+  --font-display: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-body);
+  color: var(--text-body);
+}
+
+/* The name is set in a display face, not a script: smaller and tighter than the shared 44pt */
+.theme-bautizo-luz .print-card__names { font-size: 30pt; font-weight: 400; line-height: 1.08; }
+.theme-bautizo-luz .print-card__amp { margin: 1mm 0; font-size: 21pt; }
+.theme-bautizo-luz .print-card__subtitle { font-size: 15pt; }
+.theme-bautizo-luz .print-card__lead { font-style: normal; font-size: 10.5pt; }
+.theme-bautizo-luz .print-card__monogram { font-size: 15pt; font-weight: 400; }
+.theme-bautizo-luz .guest-pass__names { font-size: 15pt; font-weight: 400; }
+
+.theme-bautizo-luz .print-card__names,
+.theme-bautizo-luz .print-card__subtitle,
+.theme-bautizo-luz .guest-pass__names { font-style: italic; }
+.theme-bautizo-luz .print-card__lead { font-family: 'Newsreader', Georgia, serif; font-style: italic; }
+
+/* A modern design: one rounded frame in the theme's color instead of the floral corners and the dashed inner line */
+.theme-bautizo-luz .print-card__corner,
+.theme-bautizo-luz .print-card__mark,
+.theme-bautizo-luz .print-card__frame::before { display: none; }
+.theme-bautizo-luz .print-card__frame {
+  border: 0.35mm solid var(--gold);
+  border-radius: 3mm;
+}
+.theme-bautizo-luz .guest-pass .print-card__frame { border-width: 0.3mm; border-radius: 2mm; }

@@ -1,0 +1,27 @@
+/* The printable card and guest passes of baby-shower-lluvia: the shared layouts (components/print-card) in the invitation's fonts,
+   Comfortaa for the names, Albert Sans for the text. The colors come from the theme's legacy tokens (--gold, --cream...), which PrintCard.css reads. */
+.theme-baby-shower-lluvia.print-card-page {
+  --font-script: 'Comfortaa', ui-rounded, system-ui, sans-serif;
+  --font-display: 'Albert Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Albert Sans', ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-body);
+  color: var(--text-body);
+}
+
+/* The name is set in a display face, not a script: smaller and tighter than the shared 44pt */
+.theme-baby-shower-lluvia .print-card__names { font-size: 27pt; font-weight: 700; line-height: 1.08; }
+.theme-baby-shower-lluvia .print-card__amp { margin: 1mm 0; font-size: 19pt; }
+.theme-baby-shower-lluvia .print-card__subtitle { font-size: 15pt; }
+.theme-baby-shower-lluvia .print-card__lead { font-style: normal; font-size: 10.5pt; }
+.theme-baby-shower-lluvia .print-card__monogram { font-size: 15pt; font-weight: 700; }
+.theme-baby-shower-lluvia .guest-pass__names { font-size: 13pt; font-weight: 700; }
+
+/* A modern design: one rounded frame in the theme's color instead of the floral corners and the dashed inner line */
+.theme-baby-shower-lluvia .print-card__corner,
+.theme-baby-shower-lluvia .print-card__mark,
+.theme-baby-shower-lluvia .print-card__frame::before { display: none; }
+.theme-baby-shower-lluvia .print-card__frame {
+  border: 0.35mm solid var(--gold);
+  border-radius: 3mm;
+}
+.theme-baby-shower-lluvia .guest-pass .print-card__frame { border-width: 0.3mm; border-radius: 2mm; }
