@@ -1,0 +1,43 @@
+{
+    "kind": "wedding",
+    "names": ["Mariana", "Alejandro"],
+    "age": null,
+    "date": "2027-06-12",
+    "time": "15:00",
+    "honor": [
+        {
+            "key": "parents",
+            "groups": [
+                {"role": "Padres de la novia", "names": ["Guadalupe Ríos de López", "Fernando López Medina"]},
+                {"role": "Padres del novio", "names": ["Rosa María Hernández", "Jorge Pérez Castillo"]}
+            ]
+        },
+        {
+            "key": "godparents",
+            "groups": [
+                {"role": "Padrinos de velación", "names": ["Claudia y Arturo Mendoza"]},
+                {"role": "Padrinos de anillos", "names": ["Sofía y Daniel Ortega"]},
+                {"role": "Padrinos de lazo", "names": ["Patricia y Luis Navarro"]}
+            ]
+        }
+    ],
+    "venues": [
+        {
+            "icon": "⛪",
+            "tag": "Ceremonia religiosa",
+            "name": "Parroquia de San Rafael Arcángel",
+            "address_lines": ["Calle de los Laureles 214", "Barrio de San Rafael, Villa del Mar"],
+            "time": "15:00 hrs"
+        },
+        {
+            "icon": "🥂",
+            "tag": "Recepción & Banquete",
+            "name": "Hacienda Los Almendros",
+            "address_lines": ["Camino Real a La Ensenada km 3", "Col. Las Palmas, Villa del Mar"],
+            "time": "16:00 hrs"
+        }
+    ],
+    "photos": ["~/Imágenes/novios.jpg"],
+    "music": null,
+    "primary": null
+}

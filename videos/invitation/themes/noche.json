@@ -1,0 +1,22 @@
+{
+    "label": "Noche: azul profundo, dorado y flores marfil",
+    "dark": true,
+    "background": "#1d2541",
+    "paper_edge": "#0f1426",
+    "grain_alpha": 0.08,
+    "primary": "#d4b46a",
+    "primary_deep": "#a8873f",
+    "primary_light": "#f0dca6",
+    "primary_text": "#e6cd8e",
+    "ink": "#f7f1e3",
+    "ink_soft": "#c9c1ae",
+    "leaf": "#7f957a",
+    "leaf_dark": "#5d7058",
+    "leaf_light": "#a9b9a2",
+    "flower": "#efe4cf",
+    "flower_light": "#fbf6ea",
+    "flower_deep": "#b8a37a",
+    "flower_center": "#f4e3b5",
+    "card": "#25304f",
+    "card_alpha": 0.88
+}

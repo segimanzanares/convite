@@ -1,0 +1,22 @@
+{
+    "label": "Clásico: marfil, dorado y flores rosas",
+    "dark": false,
+    "background": "#fdfaf4",
+    "paper_edge": "#f1e8d6",
+    "grain_alpha": 0.06,
+    "primary": "#c9a84c",
+    "primary_deep": "#a07830",
+    "primary_light": "#e8d08a",
+    "primary_text": "#a07830",
+    "ink": "#2c1f0a",
+    "ink_soft": "#5e4a2e",
+    "leaf": "#8b9e7a",
+    "leaf_dark": "#617052",
+    "leaf_light": "#b5c2a6",
+    "flower": "#d8aaa4",
+    "flower_light": "#f1d9d3",
+    "flower_deep": "#b07a74",
+    "flower_center": "#ffffff",
+    "card": "#ffffff",
+    "card_alpha": 0.9
+}
