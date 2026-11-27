@@ -5,7 +5,8 @@
   --primary: #a8792f;
   --primary-light: #d9b56f;
   --primary-pale: #ebe1cc;
-  --primary-deep: #1f2d4a;
+  --navy: #1f2d4a;
+  --primary-deep: var(--navy);
   --card: #f8f4ec;
   --primary-foreground: var(--card);
   --surface: #f2ece0;
@@ -23,6 +24,11 @@
   --font-script: 'Playfair Display', Georgia, serif;
   --font-body: 'EB Garamond', Georgia, serif;
   font-family: var(--font-body);
+}
+
+/* A custom primary (styles/custom-colors.css) replaces the brass, not the navy of the titles. */
+:root[data-custom-colors] .theme-cumpleanos-reserva {
+  --primary-deep: var(--navy);
 }
 
 .theme-cumpleanos-reserva .font-script {

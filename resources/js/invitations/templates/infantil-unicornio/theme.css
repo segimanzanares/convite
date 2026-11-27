@@ -6,7 +6,8 @@
   --primary: #c2549f;
   --primary-light: #f7b9de;
   --primary-pale: #fbe7f4;
-  --primary-deep: #6f3a9c;
+  --grape: #6f3a9c;
+  --primary-deep: var(--grape);
   --card: #fffbfe;
   --primary-foreground: var(--card);
   --surface: #fdf2fa;
@@ -23,6 +24,11 @@
   --font-display: 'Fredoka', ui-rounded, system-ui, sans-serif;
   --font-body: 'Nunito', ui-rounded, system-ui, sans-serif;
   font-family: var(--font-body);
+}
+
+/* A custom primary (styles/custom-colors.css) replaces the orchid pink, not the grape of the titles. */
+:root[data-custom-colors] .theme-infantil-unicornio {
+  --primary-deep: var(--grape);
 }
 
 /* Pacifico's tall ascenders need more room between lines. */

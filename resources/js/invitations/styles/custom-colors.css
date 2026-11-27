@@ -1,0 +1,23 @@
+/* The primary color the admin picked in place of the template's own (see lib/customColors.ts, which sets
+   data-custom-colors, --brand and --brand-foreground on <html>). Every template's primary and its shades follow it:
+   the light sections take it as is, the dark ones (.ui-dark, [data-tone='dark']) a lighter mix that reads on them.
+
+   The selectors outrank the templates' own (.theme-<template> and .theme-<template> .ui-dark), whatever the order
+   the stylesheets load in. A template whose design needs another rule (say, a --primary-deep that is not a shade of
+   the primary but a color of its own) adds it in its theme.css as `:root[data-custom-colors] .theme-<template>`,
+   which outranks these in turn. The template's art drawn in fixed colors keeps them. */
+:root[data-custom-colors] :where([class^='theme-'], [class*=' theme-']) {
+  --primary: var(--brand);
+  --primary-foreground: var(--brand-foreground);
+  --primary-light: color-mix(in oklch, var(--brand) 55%, white);
+  --primary-pale: color-mix(in oklch, var(--brand) 20%, white);
+  --primary-deep: color-mix(in oklch, var(--brand) 75%, black);
+  --ring: var(--brand);
+}
+
+:root[data-custom-colors] :is(.ui-dark, [data-tone='dark']) {
+  --primary: color-mix(in oklch, var(--brand) 60%, white);
+  --primary-foreground: var(--background, var(--dark-from));
+  --primary-deep: color-mix(in oklch, var(--brand) 80%, white);
+  --ring: color-mix(in oklch, var(--brand) 60%, white);
+}

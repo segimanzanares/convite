@@ -435,9 +435,10 @@ class Invitation extends Model
      * Every template: each folder that ships an InvitationPage and declares its kind in a template.json manifest,
      * keyed by folder name. A design made for one client sets "exclusive": true, so other invitations cannot pick it.
      * "fonts" lists the Google Fonts families its pages use (as in the css2 API's family parameter, e.g.
-     * "Cinzel:wght@300;400;500"), and "print_fonts" the ones only its printable pages add.
+     * "Cinzel:wght@300;400;500"), and "print_fonts" the ones only its printable pages add. "colors" names the
+     * design's own primary color and background (hex) and the primary colors the panel suggests in its place.
      *
-     * @return array<string, array{kind: InvitationKind, label: string, sections: list<string>, exclusive: bool, fonts: list<string>, print_fonts: list<string>}>
+     * @return array<string, array{kind: InvitationKind, label: string, sections: list<string>, exclusive: bool, fonts: list<string>, print_fonts: list<string>, colors: array{primary: string|null, background: string|null, suggestions: list<array{label: string, primary: string}>}}>
      */
     public static function templates(): array
     {
@@ -460,6 +461,7 @@ class Invitation extends Model
                     'exclusive' => (bool) ($manifest['exclusive'] ?? false),
                     'fonts' => array_values(array_filter($manifest['fonts'] ?? [], is_string(...))),
                     'print_fonts' => array_values(array_filter($manifest['print_fonts'] ?? [], is_string(...))),
+                    'colors' => self::manifestColors($manifest['colors'] ?? []),
                 ];
             }
 
@@ -467,5 +469,35 @@ class Invitation extends Model
 
             return $templates;
         });
+    }
+
+    /**
+     * The "colors" of a template's manifest, keeping only well-formed hex colors.
+     *
+     * @return array{primary: string|null, background: string|null, suggestions: list<array{label: string, primary: string}>}
+     */
+    private static function manifestColors(mixed $colors): array
+    {
+        $colors = is_array($colors) ? $colors : [];
+        $hex = fn (mixed $value): ?string => is_string($value) && self::isHexColor($value) ? strtoupper($value) : null;
+
+        return [
+            'primary' => $hex($colors['primary'] ?? null),
+            'background' => $hex($colors['background'] ?? null),
+            'suggestions' => array_values(array_filter(array_map(
+                fn (mixed $suggestion) => is_array($suggestion) && is_string($suggestion['label'] ?? null) && $hex($suggestion['primary'] ?? null)
+                    ? ['label' => $suggestion['label'], 'primary' => $hex($suggestion['primary'])]
+                    : null,
+                is_array($colors['suggestions'] ?? null) ? $colors['suggestions'] : [],
+            ))),
+        ];
+    }
+
+    /**
+     * A color as the panel captures it: # and six hex digits.
+     */
+    public static function isHexColor(string $value): bool
+    {
+        return preg_match('/^#[0-9A-Fa-f]{6}$/', $value) === 1;
     }
 }

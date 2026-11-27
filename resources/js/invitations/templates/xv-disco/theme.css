@@ -42,6 +42,11 @@
   -webkit-font-smoothing: antialiased;
 }
 
+/* A custom primary (styles/custom-colors.css) also paints the neon that glows in the primary's pink. */
+:root[data-custom-colors] .theme-xv-disco {
+  --neon-pink: var(--brand);
+}
+
 /* Text painted pink to cyan, and the neon glow of the titles and the numbers. */
 .theme-xv-disco .disco-gradient-text {
   background: linear-gradient(100deg, var(--neon-pink) 15%, var(--neon-violet) 50%, var(--neon-cyan) 85%);

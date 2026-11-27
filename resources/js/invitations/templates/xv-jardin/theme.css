@@ -6,7 +6,8 @@
   --primary: #a8894a;
   --primary-light: #dcc994;
   --primary-pale: #e6e9da;
-  --primary-deep: #2f4a38;
+  --forest: #2f4a38;
+  --primary-deep: var(--forest);
   --card: #fffdf8;
   --primary-foreground: var(--card);
   --surface: #faf7ef;
@@ -18,6 +19,11 @@
   --dark-from: #1b2e24;
   --dark-to: #2f4a38;
   --envelope-bg: radial-gradient(circle at 50% 38%, #34513f 0%, #1d3127 55%, #0f1c15 100%);
+}
+
+/* A custom primary (styles/custom-colors.css) replaces the antique gold, not the forest green of the titles. */
+:root[data-custom-colors] .theme-xv-jardin {
+  --primary-deep: var(--forest);
 }
 
 /* The dark pine sections (countdown, RSVP) need a brighter gold than the

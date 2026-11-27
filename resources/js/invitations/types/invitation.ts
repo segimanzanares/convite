@@ -27,6 +27,16 @@ interface BaseContent {
   dressCode: DressCodeData | null;
   swatches: ColorSwatchData[];
   gifts: GiftOption[];
+  /** The primary color the admin picked in place of the template's own; null keeps the design's colors. */
+  colors: CustomColors | null;
+}
+
+/** See lib/customColors.ts, which applies them. */
+export interface CustomColors {
+  /** e.g. "#3F7A62". */
+  primary: string;
+  /** The text color that reads on the primary. */
+  primaryForeground: string;
 }
 
 export interface WeddingContent extends BaseContent {

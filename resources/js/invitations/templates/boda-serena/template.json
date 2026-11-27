@@ -18,5 +18,23 @@
   "print_fonts": [
     "Cormorant Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500",
     "Great Vibes"
-  ]
+  ],
+  "colors": {
+    "primary": "#1D4ED8",
+    "background": "#FCFEFF",
+    "suggestions": [
+      {
+        "label": "Esmeralda",
+        "primary": "#047857"
+      },
+      {
+        "label": "Violeta",
+        "primary": "#6D28D9"
+      },
+      {
+        "label": "Pizarra",
+        "primary": "#334155"
+      }
+    ]
+  }
 }

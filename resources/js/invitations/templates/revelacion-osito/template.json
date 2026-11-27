@@ -13,5 +13,23 @@
     "Lora:ital,wght@0,400;0,500;0,600;1,400;1,500",
     "Mulish:wght@400;500;600;700",
     "Caveat:wght@500;700"
-  ]
+  ],
+  "colors": {
+    "primary": "#8C5C3A",
+    "background": "#FCF5EC",
+    "suggestions": [
+      {
+        "label": "Salvia",
+        "primary": "#5E7A58"
+      },
+      {
+        "label": "Azul",
+        "primary": "#3F6E95"
+      },
+      {
+        "label": "Rosa viejo",
+        "primary": "#A0606E"
+      }
+    ]
+  }
 }

@@ -24,6 +24,12 @@ it('declares the fonts of every template in its manifest', function () {
     expect(Invitation::templates())->each(fn ($template) => $template->fonts->not->toBeEmpty());
 });
 
+it('declares the colors of every template in its manifest', function () {
+    expect(Invitation::templates())->each(fn ($template) => $template->colors->primary->not->toBeNull()
+        ->colors->background->not->toBeNull()
+        ->colors->suggestions->not->toBeEmpty());
+});
+
 it('opens the content form for the admin', function () {
     $invitation = Invitation::factory()->withContent()->create(['template' => 'boda-clasica']);
 
@@ -33,7 +39,9 @@ it('opens the content form for the admin', function () {
         ->assertInertia(fn (Assert $page) => $page
             ->component('invitations/content')
             ->where('kind', 'wedding')
-            ->where('content.names', ['Ana', 'Luis']));
+            ->where('content.names', ['Ana', 'Luis'])
+            ->where('palette.primary', '#C9A84C')
+            ->has('palette.suggestions.0', fn (Assert $suggestion) => $suggestion->hasAll(['label', 'primary'])));
 });
 
 it('saves the content of a wedding', function () {
@@ -179,6 +187,44 @@ it('sends the content to the template pages', function () {
             ->where('invitation.venues.0.mapEmbedUrl', 'https://www.google.com/maps?q=15.86,-97.06&z=16&output=embed')
             ->where('invitation.gallery.0.src', '/invitations/boda-clasica/images/01.jpeg')
             ->where('invitation.dressCode', null));
+});
+
+it('saves a primary color and sends it with the text color that reads on it', function (string $primary, string $foreground) {
+    $invitation = Invitation::factory()->withContent()->create(['template' => 'boda-clasica']);
+
+    $this->actingAs(User::factory()->create())
+        ->put(route('admin.invitations.content.update', $invitation), [
+            'content' => [...$invitation->content, 'colors' => ['primary' => $primary]],
+        ])
+        ->assertSessionHasNoErrors();
+
+    $this->get("/i/{$invitation->slug}")
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('invitation.colors.primary', strtoupper($primary))
+            ->where('invitation.colors.primaryForeground', $foreground));
+})->with([
+    'dark' => ['#3f7a62', '#FFFFFF'],
+    'light' => ['#FACC15', '#18181B'],
+]);
+
+it('keeps the template colors without a primary color', function (?array $colors) {
+    $invitation = Invitation::factory()->withContent(['colors' => $colors])->create(['template' => 'boda-clasica']);
+
+    $this->get("/i/{$invitation->slug}")
+        ->assertInertia(fn (Assert $page) => $page->where('invitation.colors', null));
+})->with([
+    'no colors' => [null],
+    'reset' => [['primary' => null]],
+]);
+
+it('rejects a primary color that is not a hex color', function () {
+    $invitation = Invitation::factory()->withContent()->create(['template' => 'boda-clasica']);
+
+    $this->actingAs(User::factory()->create())
+        ->put(route('admin.invitations.content.update', $invitation), [
+            'content' => [...$invitation->content, 'colors' => ['primary' => 'red; background: url(x)']],
+        ])
+        ->assertSessionHasErrors('content.colors.primary');
 });
 
 it('saves and sends the chapters of a baptism', function () {

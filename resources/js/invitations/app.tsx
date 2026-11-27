@@ -1,9 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { createInertiaApp } from '@inertiajs/react';
+import { createInertiaApp, router } from '@inertiajs/react';
 import './index.css';
 import './styles/variables.css';
+import './styles/custom-colors.css';
 import { initAnalytics } from './config/analytics';
+import { applyCustomColors } from './lib/customColors';
 import { CookieConsentBanner } from './components/cookie-consent/CookieConsentBanner';
 import { PreviewBanner } from './components/preview/PreviewBanner';
 import { ShowcaseBar } from './components/preview/ShowcaseBar';
@@ -24,6 +26,10 @@ createInertiaApp({
     return ((await page()) as { default: never }).default;
   },
   setup({ el, App, props }) {
+    // Before the first render, so the page never shows the template's colors first
+    applyCustomColors(props.initialPage.props);
+    router.on('navigate', (event) => applyCustomColors(event.detail.page.props));
+
     createRoot(el!).render(
       <StrictMode>
         <App {...props} />

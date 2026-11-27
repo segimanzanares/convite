@@ -12,5 +12,23 @@
   "fonts": [
     "Chewy",
     "M PLUS Rounded 1c:wght@400;500;700;800"
-  ]
+  ],
+  "colors": {
+    "primary": "#008096",
+    "background": "#EFFCFD",
+    "suggestions": [
+      {
+        "label": "Coral",
+        "primary": "#D2604A"
+      },
+      {
+        "label": "Azul marino",
+        "primary": "#2D4F8B"
+      },
+      {
+        "label": "Verde",
+        "primary": "#3C8A55"
+      }
+    ]
+  }
 }

@@ -12,5 +12,23 @@
     "Luckiest Guy",
     "Fredoka:wght@400;500;600;700",
     "Nunito:wght@400;600;700;800"
-  ]
+  ],
+  "colors": {
+    "primary": "#EC6A2C",
+    "background": "#FBFCFF",
+    "suggestions": [
+      {
+        "label": "Turquesa",
+        "primary": "#0EA5B7"
+      },
+      {
+        "label": "Rojo cohete",
+        "primary": "#DC2F2F"
+      },
+      {
+        "label": "Verde",
+        "primary": "#22A35A"
+      }
+    ]
+  }
 }

@@ -12,5 +12,23 @@
   "fonts": [
     "Grandstander:wght@500;600;700",
     "Lexend:wght@300;400;500;600"
-  ]
+  ],
+  "colors": {
+    "primary": "#3A714F",
+    "background": "#FCF6EB",
+    "suggestions": [
+      {
+        "label": "Terracota",
+        "primary": "#B5643C"
+      },
+      {
+        "label": "Mostaza",
+        "primary": "#9A7420"
+      },
+      {
+        "label": "Petróleo",
+        "primary": "#2F6B78"
+      }
+    ]
+  }
 }

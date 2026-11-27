@@ -13,5 +13,23 @@
     "Unbounded:wght@400;600;800",
     "Outfit:wght@300;400;500;600",
     "Cinzel:wght@300;400;500"
-  ]
+  ],
+  "colors": {
+    "primary": "#FF4CC8",
+    "background": "#0D0816",
+    "suggestions": [
+      {
+        "label": "Cian neón",
+        "primary": "#22D3EE"
+      },
+      {
+        "label": "Dorado",
+        "primary": "#FACC15"
+      },
+      {
+        "label": "Verde neón",
+        "primary": "#4ADE80"
+      }
+    ]
+  }
 }

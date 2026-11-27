@@ -12,5 +12,23 @@
     "Pacifico",
     "Fredoka:wght@400;500;600;700",
     "Nunito:wght@400;600;700;800"
-  ]
+  ],
+  "colors": {
+    "primary": "#C2549F",
+    "background": "#FFFBFE",
+    "suggestions": [
+      {
+        "label": "Lila",
+        "primary": "#8E5CC9"
+      },
+      {
+        "label": "Turquesa",
+        "primary": "#1E9EAF"
+      },
+      {
+        "label": "Coral",
+        "primary": "#E46B6B"
+      }
+    ]
+  }
 }

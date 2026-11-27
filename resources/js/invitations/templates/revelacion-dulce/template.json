@@ -12,5 +12,23 @@
   "fonts": [
     "Shrikhand",
     "Rubik:wght@400;500;600;700"
-  ]
+  ],
+  "colors": {
+    "primary": "#6D3F2F",
+    "background": "#FEF6E8",
+    "suggestions": [
+      {
+        "label": "Frambuesa",
+        "primary": "#A8355A"
+      },
+      {
+        "label": "Azul tinta",
+        "primary": "#2F4A7A"
+      },
+      {
+        "label": "Caramelo",
+        "primary": "#9A5A20"
+      }
+    ]
+  }
 }

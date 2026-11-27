@@ -27,10 +27,14 @@ class InvitationContentController extends Controller
         $kind = $invitation->kind();
         abort_if($kind === null, 404);
 
+        $template = Invitation::templates()[$invitation->template];
+
         return Inertia::render('invitations/content', [
             'invitation' => InvitationResource::make($invitation->loadMissing('order')),
             'kind' => $kind,
-            'sections' => Invitation::templates()[$invitation->template]['sections'],
+            'sections' => $template['sections'],
+            // The design's own colors and the ones suggested in their place
+            'palette' => $template['colors'],
             'content' => (object) ($invitation->content ?? []),
             // Uploaded paths are relative to the public disk; the form builds their preview URL from this prefix
             'mediaUrlPrefix' => rtrim(Storage::disk('public')->url(''), '/').'/',

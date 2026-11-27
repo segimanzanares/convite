@@ -13,5 +13,23 @@
     "Bodoni Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500",
     "Manrope:wght@400;500;600;700",
     "Cinzel:wght@300;400;500"
-  ]
+  ],
+  "colors": {
+    "primary": "#7B3DE9",
+    "background": "#FCFBFF",
+    "suggestions": [
+      {
+        "label": "Fucsia",
+        "primary": "#DB2777"
+      },
+      {
+        "label": "Azul",
+        "primary": "#2563EB"
+      },
+      {
+        "label": "Esmeralda",
+        "primary": "#059669"
+      }
+    ]
+  }
 }

@@ -14,5 +14,23 @@
     "Cormorant Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500",
     "Cinzel:wght@300;400;500",
     "Great Vibes"
-  ]
+  ],
+  "colors": {
+    "primary": "#C27C84",
+    "background": "#FFFBF8",
+    "suggestions": [
+      {
+        "label": "Lavanda",
+        "primary": "#9A84B8"
+      },
+      {
+        "label": "Durazno",
+        "primary": "#D08A6A"
+      },
+      {
+        "label": "Salvia",
+        "primary": "#7F9878"
+      }
+    ]
+  }
 }

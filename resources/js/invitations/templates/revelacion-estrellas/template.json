@@ -12,5 +12,23 @@
   "fonts": [
     "Gloock",
     "Karla:wght@400;500;600;700"
-  ]
+  ],
+  "colors": {
+    "primary": "#49499B",
+    "background": "#F6F6FF",
+    "suggestions": [
+      {
+        "label": "Azul noche",
+        "primary": "#1F3A70"
+      },
+      {
+        "label": "Violeta",
+        "primary": "#6B3FA0"
+      },
+      {
+        "label": "Verde azulado",
+        "primary": "#1F6B6B"
+      }
+    ]
+  }
 }

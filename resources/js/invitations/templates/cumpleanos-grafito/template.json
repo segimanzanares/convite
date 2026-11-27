@@ -14,5 +14,23 @@
     "Geist Mono:wght@400;500",
     "Space Grotesk:wght@400;500;600;700",
     "Cinzel:wght@300;400;500"
-  ]
+  ],
+  "colors": {
+    "primary": "#FBAC16",
+    "background": "#0C0C0E",
+    "suggestions": [
+      {
+        "label": "Cian",
+        "primary": "#22D3EE"
+      },
+      {
+        "label": "Lima",
+        "primary": "#A3E635"
+      },
+      {
+        "label": "Rosa",
+        "primary": "#F472B6"
+      }
+    ]
+  }
 }

@@ -13,5 +13,23 @@
     "Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400",
     "Marcellus SC",
     "Pinyon Script"
-  ]
+  ],
+  "colors": {
+    "primary": "#7C73B1",
+    "background": "#FCFBFF",
+    "suggestions": [
+      {
+        "label": "Azul plata",
+        "primary": "#6F8CB0"
+      },
+      {
+        "label": "Rosa",
+        "primary": "#B07898"
+      },
+      {
+        "label": "Plata",
+        "primary": "#8A8FA0"
+      }
+    ]
+  }
 }

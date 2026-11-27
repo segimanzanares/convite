@@ -11,5 +11,23 @@
   "fonts": [
     "Baloo 2:wght@500;600;700;800",
     "Cinzel:wght@300;400;500"
-  ]
+  ],
+  "colors": {
+    "primary": "#1D8B3D",
+    "background": "#FBF7E7",
+    "suggestions": [
+      {
+        "label": "Naranja",
+        "primary": "#E06A1A"
+      },
+      {
+        "label": "Azul",
+        "primary": "#2563EB"
+      },
+      {
+        "label": "Morado",
+        "primary": "#7C3AED"
+      }
+    ]
+  }
 }

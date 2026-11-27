@@ -12,5 +12,23 @@
   "fonts": [
     "Young Serif",
     "Figtree:wght@400;500;600;700"
-  ]
+  ],
+  "colors": {
+    "primary": "#107DB2",
+    "background": "#F5FBFF",
+    "suggestions": [
+      {
+        "label": "Rosa",
+        "primary": "#C2508A"
+      },
+      {
+        "label": "Menta",
+        "primary": "#2E8C6E"
+      },
+      {
+        "label": "Lila",
+        "primary": "#7A5CC0"
+      }
+    ]
+  }
 }

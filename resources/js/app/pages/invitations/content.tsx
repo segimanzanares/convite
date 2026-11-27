@@ -43,6 +43,8 @@ import {
     useContentForm,
 } from "./components/content-form-context";
 import type { ContentFormBinding } from "./components/content-form-context";
+import { ColorsSection } from "./components/colors-section";
+import type { TemplatePalette } from "./components/colors-section";
 import { ContentTabs } from "./components/content-tabs";
 import type { ContentTab } from "./components/content-tabs";
 
@@ -64,6 +66,7 @@ type Props = {
     kind: InvitationKind;
     /** The sections the template's design shows. */
     sections: InvitationSection[];
+    palette: TemplatePalette;
     content: Content;
     mediaUrlPrefix: string;
 };
@@ -116,6 +119,7 @@ type Tab = ContentTab & {
 function contentTabs(
     invitation: Invitation,
     kind: InvitationKind,
+    palette: TemplatePalette,
     has: (section: InvitationSection) => boolean,
 ): Tab[] {
     const tabs: (Tab | false)[] = [
@@ -189,6 +193,12 @@ function contentTabs(
             paths: ["content.gifts"],
             content: <GiftsSection />,
         },
+        {
+            value: "colors",
+            label: "Colores",
+            paths: ["content.colors"],
+            content: <ColorsSection palette={palette} />,
+        },
     ];
 
     return tabs.filter((tab): tab is Tab => tab !== false);
@@ -207,6 +217,7 @@ export default function InvitationContent({
     invitation,
     kind,
     sections,
+    palette,
     content,
     mediaUrlPrefix,
 }: Props) {
@@ -218,7 +229,7 @@ export default function InvitationContent({
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [processing, setProcessing] = useState(false);
     const has = (section: InvitationSection) => sections.includes(section);
-    const tabs = contentTabs(invitation, kind, has);
+    const tabs = contentTabs(invitation, kind, palette, has);
     const [tab, setTab] = useState(tabs[0].value);
     const invalidTabs = new Set(
         Object.keys(errors).map((path) => tabOfError(tabs, path)),

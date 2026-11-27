@@ -21,6 +21,11 @@ class InvitationContentResource extends JsonResource
     /** Demo invitations (without an order) always take place this many days from today, so their countdown runs. */
     public const int DEMO_DAYS_AHEAD = 60;
 
+    /** The text color on a custom primary: whichever of these two reads better on it. */
+    public const string LIGHT_FOREGROUND = '#FFFFFF';
+
+    public const string DARK_FOREGROUND = '#18181B';
+
     /**
      * Transform the resource into an array.
      *
@@ -58,11 +63,52 @@ class InvitationContentResource extends JsonResource
             'dressCode' => $this->dressCode($content['dress_code'] ?? []),
             'swatches' => $content['swatches'] ?? [],
             'gifts' => array_map($this->gift(...), $content['gifts'] ?? []),
+            'colors' => $this->colors($content['colors'] ?? []),
             ...$this->family($kind, $content),
             ...($kind->hasChapters() ? $this->chapters($content) : []),
             ...($kind === InvitationKind::GenderReveal ? $this->reveal($content) : []),
             ...($kind === InvitationKind::BabyShower ? $this->babyShower($content) : []),
         ];
+    }
+
+    /**
+     * The primary color the admin picked in place of the template's own, with the text color that reads on it, or
+     * null to keep the template's colors.
+     *
+     * @param  array<string, mixed>  $colors
+     * @return array{primary: string, primaryForeground: string}|null
+     */
+    private function colors(array $colors): ?array
+    {
+        $primary = $colors['primary'] ?? null;
+
+        if (! is_string($primary) || ! Invitation::isHexColor($primary)) {
+            return null;
+        }
+
+        $luminance = self::relativeLuminance($primary);
+        // WCAG contrast ratios against white and against the dark foreground
+        $onLight = 1.05 / ($luminance + 0.05);
+        $onDark = ($luminance + 0.05) / (self::relativeLuminance(self::DARK_FOREGROUND) + 0.05);
+
+        return [
+            'primary' => strtoupper($primary),
+            'primaryForeground' => $onLight >= $onDark ? self::LIGHT_FOREGROUND : self::DARK_FOREGROUND,
+        ];
+    }
+
+    /**
+     * The WCAG relative luminance of a #RRGGBB color.
+     */
+    private static function relativeLuminance(string $hex): float
+    {
+        [$red, $green, $blue] = array_map(function (string $channel): float {
+            $value = hexdec($channel) / 255;
+
+            return $value <= 0.03928 ? $value / 12.92 : (($value + 0.055) / 1.055) ** 2.4;
+        }, str_split(substr($hex, 1), 2));
+
+        return 0.2126 * $red + 0.7152 * $green + 0.0722 * $blue;
     }
 
     /**

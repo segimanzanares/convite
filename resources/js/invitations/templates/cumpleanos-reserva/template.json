@@ -13,5 +13,23 @@
     "Playfair Display:ital,wght@0,400;0,700;1,400;1,500",
     "EB Garamond:ital,wght@0,400;0,500;1,400",
     "Cinzel:wght@300;400;500"
-  ]
+  ],
+  "colors": {
+    "primary": "#A8792F",
+    "background": "#F8F4EC",
+    "suggestions": [
+      {
+        "label": "Vino",
+        "primary": "#8A2A3A"
+      },
+      {
+        "label": "Esmeralda",
+        "primary": "#2E6B50"
+      },
+      {
+        "label": "Cobre",
+        "primary": "#B4643A"
+      }
+    ]
+  }
 }

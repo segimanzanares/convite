@@ -12,5 +12,23 @@
   "fonts": [
     "Sniglet:wght@400;800",
     "Quicksand:wght@400;500;600;700"
-  ]
+  ],
+  "colors": {
+    "primary": "#7B50B9",
+    "background": "#FEFAF1",
+    "suggestions": [
+      {
+        "label": "Fucsia",
+        "primary": "#C2367E"
+      },
+      {
+        "label": "Azul",
+        "primary": "#2D6CC0"
+      },
+      {
+        "label": "Turquesa",
+        "primary": "#138A8A"
+      }
+    ]
+  }
 }

@@ -65,6 +65,10 @@ trait InvitationContentRules
             'content.dress_code.reserved_color.hex' => ['nullable', self::HEX_COLOR],
             'content.dress_code.reserved_color.description' => ['nullable', 'string', 'max:255'],
 
+            // The primary color in place of the template's own; empty keeps the design's colors
+            'content.colors' => ['nullable', 'array'],
+            'content.colors.primary' => ['nullable', self::HEX_COLOR],
+
             'content.swatches' => ['nullable', 'array', 'max:12'],
             'content.swatches.*.hex' => ['required', self::HEX_COLOR],
             'content.swatches.*.label' => ['required', 'string', 'max:50'],

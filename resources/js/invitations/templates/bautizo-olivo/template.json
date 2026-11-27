@@ -13,5 +13,23 @@
     "Crimson Pro:ital,wght@0,300;0,400;0,500;1,300;1,400",
     "Tenor Sans",
     "Allura"
-  ]
+  ],
+  "colors": {
+    "primary": "#7F8F5C",
+    "background": "#FBF9F3",
+    "suggestions": [
+      {
+        "label": "Azul grisáceo",
+        "primary": "#5F7D95"
+      },
+      {
+        "label": "Terracota",
+        "primary": "#B07050"
+      },
+      {
+        "label": "Rosa viejo",
+        "primary": "#A8707E"
+      }
+    ]
+  }
 }

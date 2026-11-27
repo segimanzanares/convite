@@ -13,5 +13,23 @@
     "Cormorant Infant:ital,wght@0,300;0,400;0,500;1,300;1,400",
     "Marcellus",
     "Parisienne"
-  ]
+  ],
+  "colors": {
+    "primary": "#6D9CC6",
+    "background": "#FCFEFF",
+    "suggestions": [
+      {
+        "label": "Rosa empolvado",
+        "primary": "#C98BA5"
+      },
+      {
+        "label": "Salvia",
+        "primary": "#82A486"
+      },
+      {
+        "label": "Lila",
+        "primary": "#9C8CC7"
+      }
+    ]
+  }
 }

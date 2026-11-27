@@ -13,5 +13,23 @@
     "Yeseva One",
     "Work Sans:wght@400;500;600",
     "Reenie Beanie"
-  ]
+  ],
+  "colors": {
+    "primary": "#AD5F41",
+    "background": "#FAF3EA",
+    "suggestions": [
+      {
+        "label": "Salvia",
+        "primary": "#5F7F5A"
+      },
+      {
+        "label": "Mezclilla",
+        "primary": "#4A6890"
+      },
+      {
+        "label": "Ciruela",
+        "primary": "#8A4F72"
+      }
+    ]
+  }
 }

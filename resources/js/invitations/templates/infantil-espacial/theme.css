@@ -26,6 +26,11 @@
   font-family: var(--font-body);
 }
 
+/* A custom primary (styles/custom-colors.css) replaces the orange, not the indigo of the titles. */
+:root[data-custom-colors] .theme-infantil-espacial {
+  --primary-deep: var(--indigo);
+}
+
 /* Luckiest Guy is drawn tall and heavy: a little letter spacing keeps the titles readable. */
 .theme-infantil-espacial .font-script {
   letter-spacing: 0.02em;

@@ -12,5 +12,23 @@
   "fonts": [
     "Comfortaa:wght@500;600;700",
     "Albert Sans:wght@400;500;600;700"
-  ]
+  ],
+  "colors": {
+    "primary": "#596FBB",
+    "background": "#F1F9FF",
+    "suggestions": [
+      {
+        "label": "Menta",
+        "primary": "#3E8E7E"
+      },
+      {
+        "label": "Rosa",
+        "primary": "#C25A84"
+      },
+      {
+        "label": "Lavanda",
+        "primary": "#7B62B8"
+      }
+    ]
+  }
 }

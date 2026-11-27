@@ -13,5 +13,23 @@
     "Nunito:wght@400;600;700;800",
     "Pacifico",
     "Cinzel:wght@300;400;500"
-  ]
+  ],
+  "colors": {
+    "primary": "#DF468F",
+    "background": "#FFF7FA",
+    "suggestions": [
+      {
+        "label": "Menta",
+        "primary": "#14A38B"
+      },
+      {
+        "label": "Lila",
+        "primary": "#8B5CF6"
+      },
+      {
+        "label": "Coral",
+        "primary": "#F06048"
+      }
+    ]
+  }
 }
