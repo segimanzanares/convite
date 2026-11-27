@@ -64,7 +64,9 @@ type FormData = { og_image: string | null; content: Content };
 type Props = {
     invitation: Invitation;
     kind: InvitationKind;
-    /** The sections the template's design shows. */
+    /** Sold with only a video: no web page, so the form only asks for what the video shows. */
+    videoOnly: boolean;
+    /** The sections the template's design shows (of those, the video's when videoOnly). */
     sections: InvitationSection[];
     palette: TemplatePalette;
     content: Content;
@@ -121,13 +123,14 @@ function contentTabs(
     kind: InvitationKind,
     palette: TemplatePalette,
     has: (section: InvitationSection) => boolean,
+    videoOnly: boolean,
 ): Tab[] {
     const tabs: (Tab | false)[] = [
         {
             value: "general",
             label: "General",
             paths: [],
-            content: <GeneralSections kind={kind} />,
+            content: <GeneralSections kind={kind} videoOnly={videoOnly} />,
         },
         kind === "gender_reveal" && {
             value: "reveal",
@@ -141,7 +144,7 @@ function contentTabs(
             paths: ["content.baby_name", "content.due_label", "content.diapers"],
             content: <BabyShowerSection />,
         },
-        hasChapters(kind) && {
+        hasChapters(kind) && !videoOnly && {
             value: "story",
             label: "Mi historia",
             paths: ["content.story"],
@@ -216,6 +219,7 @@ function tabOfError(tabs: Tab[], path: string): string {
 export default function InvitationContent({
     invitation,
     kind,
+    videoOnly,
     sections,
     palette,
     content,
@@ -229,7 +233,7 @@ export default function InvitationContent({
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [processing, setProcessing] = useState(false);
     const has = (section: InvitationSection) => sections.includes(section);
-    const tabs = contentTabs(invitation, kind, palette, has);
+    const tabs = contentTabs(invitation, kind, palette, has, videoOnly);
     const [tab, setTab] = useState(tabs[0].value);
     const invalidTabs = new Set(
         Object.keys(errors).map((path) => tabOfError(tabs, path)),
@@ -280,16 +284,18 @@ export default function InvitationContent({
                             description={`${invitation.title} · ${invitationKindLabels[kind]}`}
                         />
                         <div className="flex flex-wrap gap-2">
-                            <Button variant="outline" asChild>
-                                <a
-                                    href={invitation.url}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    <ExternalLinkIcon />
-                                    Ver invitación
-                                </a>
-                            </Button>
+                            {!videoOnly && (
+                                <Button variant="outline" asChild>
+                                    <a
+                                        href={invitation.url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
+                                        <ExternalLinkIcon />
+                                        Ver invitación
+                                    </a>
+                                </Button>
+                            )}
                             <SaveButton processing={processing} />
                         </div>
                     </div>
@@ -318,8 +324,14 @@ export default function InvitationContent({
     );
 }
 
-/** The names, media and texts every kind has. */
-function GeneralSections({ kind }: { kind: InvitationKind }) {
+/** The names, media and texts every kind has. A video only uses the names, the music and the main photo. */
+function GeneralSections({
+    kind,
+    videoOnly,
+}: {
+    kind: InvitationKind;
+    videoOnly: boolean;
+}) {
     const form = useContentForm();
 
     return (
@@ -389,13 +401,15 @@ function GeneralSections({ kind }: { kind: InvitationKind }) {
                     )}
                 </div>
             )}
-            <TextField
-                path="content.rsvp_whatsapp"
-                label="WhatsApp para confirmar"
-                type="tel"
-                placeholder="954 123 4567"
-                hint="A los números de 10 dígitos se les agrega la clave de México (52)."
-            />
+            {!videoOnly && (
+                <TextField
+                    path="content.rsvp_whatsapp"
+                    label="WhatsApp para confirmar"
+                    type="tel"
+                    placeholder="954 123 4567"
+                    hint="A los números de 10 dígitos se les agrega la clave de México (52)."
+                />
+            )}
         </ContentSection>
 
         <ContentSection
@@ -407,6 +421,11 @@ function GeneralSections({ kind }: { kind: InvitationKind }) {
                     path="content.music"
                     label="Música"
                     type="audio"
+                    hint={
+                        videoOnly
+                            ? "Si no subes una, el video lleva música instrumental."
+                            : undefined
+                    }
                 />
                 {hasChapters(kind) ? (
                     <div className="space-y-3">
@@ -425,20 +444,27 @@ function GeneralSections({ kind }: { kind: InvitationKind }) {
                 ) : (
                     <MediaPathField
                         path="content.cover"
-                        label="Fondo de la portada"
+                        label={videoOnly ? "Foto principal" : "Fondo de la portada"}
                         type="image"
-                        hint="Si no subes una, se usa la imagen de la plantilla."
+                        hint={
+                            videoOnly
+                                ? "La foto del video. Si no subes una, se usa la primera de la galería."
+                                : "Si no subes una, se usa la imagen de la plantilla."
+                        }
                     />
                 )}
-                <MediaPathField
-                    path="og_image"
-                    label="Imagen al compartir el enlace"
-                    type="image"
-                    hint="Se ve en WhatsApp y redes. Idealmente de 1200 × 630."
-                />
+                {!videoOnly && (
+                    <MediaPathField
+                        path="og_image"
+                        label="Imagen al compartir el enlace"
+                        type="image"
+                        hint="Se ve en WhatsApp y redes. Idealmente de 1200 × 630."
+                    />
+                )}
             </div>
         </ContentSection>
 
+        {!videoOnly && (
         <ContentSection
             title="Textos"
             description="Si los dejas vacíos, la plantilla usa los suyos."
@@ -460,6 +486,7 @@ function GeneralSections({ kind }: { kind: InvitationKind }) {
                 label="Frase del pie de página"
             />
         </ContentSection>
+        )}
         </>
     );
 }

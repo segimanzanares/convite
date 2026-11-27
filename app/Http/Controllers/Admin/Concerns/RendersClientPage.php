@@ -10,6 +10,7 @@ use App\Http\Resources\PlanResource;
 use App\Http\Resources\UserResource;
 use App\Models\Client;
 use App\Models\Plan;
+use App\Services\InvitationService;
 use App\Services\PartnerService;
 use App\Services\ReferralService;
 use Inertia\Inertia;
@@ -28,7 +29,7 @@ trait RendersClientPage
     {
         $client->load([
             'users' => fn ($query) => $query->orderBy('name'),
-            'invitations' => fn ($query) => $query->orderBy('event_date'),
+            'invitations' => fn ($query) => $query->with('order')->orderBy('event_date'),
             'orders' => fn ($query) => $query->withSum('payments', 'amount')->latest('id'),
         ])->loadCount([
             // The sales the client's referral code brought in; quotes are not sales yet
@@ -44,6 +45,8 @@ trait RendersClientPage
             'plans' => PlanResource::collection(Plan::query()->offered()->get()),
             'referralsEnabled' => app(ReferralService::class)->isEnabled(),
             'partners' => $modal === 'order' ? app(PartnerService::class)->options() : [],
+            // The kinds of event a video invitation's order may be for (it creates the invitation)
+            'videoKinds' => $modal === 'order' ? app(InvitationService::class)->videoKinds() : [],
             'modal' => $modal,
         ]);
     }

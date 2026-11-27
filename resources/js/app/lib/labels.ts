@@ -7,7 +7,15 @@ import type {
     PartnerKind,
     PaymentMethod,
     PlanFeature,
+    PlanType,
 } from '@/types';
+
+export const planTypeLabels: Record<PlanType, string> = {
+    web_invitation: 'Invitación web',
+    video_invitation: 'Invitación en video',
+    tribute_video: 'Video semblanza',
+    printables: 'Tarjeta y pases imprimibles',
+};
 
 export const planFeatureLabels: Record<PlanFeature, string> = {
     guest_management: 'Lista de invitados',

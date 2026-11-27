@@ -6,6 +6,7 @@ use App\Enums\CommissionStatus;
 use App\Enums\OrderSource;
 use App\Enums\OrderStatus;
 use App\Enums\PlanFeature;
+use App\Enums\PlanType;
 use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,7 +22,7 @@ use Illuminate\Support\Carbon;
  * @property int $client_id
  * @property int $plan_id
  * @property string $price
- * @property array{name: string, max_guests: int|null, max_seats_per_guest?: int|null, features: list<string>} $plan_snapshot
+ * @property array{name: string, type?: string, max_guests: int|null, max_seats_per_guest?: int|null, features: list<string>} $plan_snapshot
  * @property OrderStatus $status
  * @property OrderSource|null $source
  * @property int|null $referrer_client_id
@@ -98,6 +99,14 @@ class Order extends Model
     public function invitations(): HasMany
     {
         return $this->hasMany(Invitation::class);
+    }
+
+    /**
+     * What the order sold. Orders from before plans had a type sold web invitations.
+     */
+    public function type(): PlanType
+    {
+        return PlanType::tryFrom($this->plan_snapshot['type'] ?? '') ?? PlanType::WebInvitation;
     }
 
     public function hasFeature(PlanFeature $feature): bool

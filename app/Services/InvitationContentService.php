@@ -40,12 +40,13 @@ class InvitationContentService
     }
 
     /**
-     * Delete the files of the invitation's folder that its content and preview image do not reference.
+     * Delete the files of the invitation's folder that its content and preview image do not reference (the rendered
+     * video stays).
      */
     public function deleteUnusedMedia(Invitation $invitation): void
     {
         $disk = Storage::disk('public');
-        $used = collect(Arr::flatten([$invitation->content ?? [], $invitation->og_image]))
+        $used = collect(Arr::flatten([$invitation->content ?? [], $invitation->og_image, $invitation->videoPath()]))
             ->filter(fn (mixed $value) => is_string($value))
             ->all();
 

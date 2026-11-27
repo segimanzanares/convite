@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\InvitationKind;
 use App\Enums\PlanFeature;
+use App\Enums\PlanType;
 use App\Models\Invitation;
 use App\Models\Plan;
 use Illuminate\Http\Request;
@@ -96,7 +97,7 @@ class DemoShowcaseService
 
     /**
      * The offered plan the visitor asked the demo to show (`?plan=<slug>`), or null when the invitation is not a demo
-     * or the slug names no active plan.
+     * or the slug names no active plan of web invitations.
      */
     public function requestedPlan(Request $request, Invitation $invitation): ?Plan
     {
@@ -106,7 +107,9 @@ class DemoShowcaseService
             return null;
         }
 
-        return Plan::query()->where('is_active', true)->where('slug', $slug)->first();
+        $plan = Plan::query()->where('is_active', true)->where('slug', $slug)->first();
+
+        return $plan?->type === PlanType::WebInvitation ? $plan : null;
     }
 
     /**

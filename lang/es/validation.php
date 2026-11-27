@@ -230,6 +230,7 @@ return [
         'order_id' => 'contratación',
         'event_date' => 'fecha del evento',
         'event_time' => 'hora del evento',
+        'event_kind' => 'tipo de evento',
         'og_image' => 'imagen para compartir',
         'content.names.*' => 'nombre',
         'content.name' => 'nombre completo',

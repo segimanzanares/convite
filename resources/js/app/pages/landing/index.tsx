@@ -15,7 +15,16 @@ import { Services } from './components/services';
 import { Steps } from './components/steps';
 import { useWhatsappLeadTracking } from './use-whatsapp-link';
 
-export function LandingPage({ demos, plans }: { demos: DemoInvitation[]; plans: OfferedPlan[] }) {
+export function LandingPage({
+    demos,
+    plans,
+    servicePlans,
+}: {
+    demos: DemoInvitation[];
+    plans: OfferedPlan[];
+    /** The active plans of the services, for their summary. */
+    servicePlans: OfferedPlan[];
+}) {
     useWhatsappLeadTracking();
 
     return (
@@ -28,7 +37,7 @@ export function LandingPage({ demos, plans }: { demos: DemoInvitation[]; plans: 
                 <Demos demos={demos} />
                 <Features />
                 <Steps />
-                <Services />
+                <Services servicePlans={servicePlans} />
                 <Pricing plans={plans} demos={demos} />
                 <Faq plans={plans} />
                 <Cta />

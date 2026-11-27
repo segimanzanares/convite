@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enums\InvitationKind;
 use App\Enums\InvitationStatus;
 use App\Enums\PlanFeature;
+use App\Enums\PlanType;
+use App\Enums\VideoStatus;
 use Carbon\CarbonImmutable;
 use Database\Factories\InvitationFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -45,10 +47,14 @@ use Illuminate\Support\Facades\Storage;
  * @property bool $wishes_enabled
  * @property bool $wishes_public
  * @property bool $wishes_moderated
+ * @property Carbon|null $reveal_shown_at
+ * @property string|null $video_template
+ * @property VideoStatus|null $video_status
+ * @property Carbon|null $video_rendered_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['client_id', 'order_id', 'slug', 'template', 'event_date', 'event_time', 'rsvp_deadline', 'status', 'title', 'description', 'og_image', 'content'])]
+#[Fillable(['client_id', 'order_id', 'slug', 'template', 'event_date', 'event_time', 'rsvp_deadline', 'status', 'title', 'description', 'og_image', 'content', 'video_template', 'video_status', 'video_rendered_at'])]
 class Invitation extends Model
 {
     /** @use HasFactory<InvitationFactory> */
@@ -67,6 +73,14 @@ class Invitation extends Model
      * @var list<string>
      */
     public const array SECTIONS = ['family', 'venues', 'program', 'gallery', 'dress_code', 'swatches', 'gifts'];
+
+    /**
+     * The optional sections the video uses (the venues, the family and the photos). An invitation sold with only a
+     * video edits just these, of the ones its template shows.
+     *
+     * @var list<string>
+     */
+    public const array VIDEO_SECTIONS = ['family', 'venues', 'gallery'];
 
     /**
      * The plan feature each printable page requires when the invitation belongs to an order.
@@ -100,6 +114,8 @@ class Invitation extends Model
             'wishes_public' => 'boolean',
             'wishes_moderated' => 'boolean',
             'reveal_shown_at' => 'datetime',
+            'video_status' => VideoStatus::class,
+            'video_rendered_at' => 'datetime',
         ];
     }
 
@@ -151,6 +167,32 @@ class Invitation extends Model
     public function hasFeature(PlanFeature $feature): bool
     {
         return $this->order?->hasFeature($feature) ?? false;
+    }
+
+    /**
+     * Whether the invitation is a web page at /i/{slug}: its order sold a web invitation, or it has no order (the
+     * demos). The invitation of a video invitation's order is content for the video, and its pages answer 404.
+     */
+    public function offersWebInvitation(): bool
+    {
+        return $this->order === null || $this->order->type() === PlanType::WebInvitation;
+    }
+
+    /**
+     * Whether the invitation's order sold its video.
+     */
+    public function isVideoInvitation(): bool
+    {
+        return $this->order?->type() === PlanType::VideoInvitation;
+    }
+
+    /**
+     * Where the rendered video is kept on the public disk, inside the invitation's media folder so the uploads backup
+     * and purge cover it.
+     */
+    public function videoPath(): string
+    {
+        return "invitations/{$this->id}/video.mp4";
     }
 
     /**
@@ -345,11 +387,12 @@ class Invitation extends Model
 
     /**
      * Whether the given page may be served: the template ships it and, when the invitation was sold through an order,
-     * the order's plan includes it. Invitations without an order (the demos) serve every page their template has.
+     * the order's plan includes it and the web invitation. Invitations without an order (the demos) serve every page
+     * their template has.
      */
     public function offersPage(string $page): bool
     {
-        if (! $this->hasPage($page)) {
+        if (! $this->hasPage($page) || ! $this->offersWebInvitation()) {
             return false;
         }
 

@@ -65,6 +65,15 @@ class InvitationPolicy
     }
 
     /**
+     * Render and download the invitation's video. Only the admin does (see Gate::before): the client gets the video
+     * from the admin.
+     */
+    public function renderVideo(User $user, Invitation $invitation): bool
+    {
+        return false;
+    }
+
+    /**
      * Set up, moderate and download the wishes book of the invitation.
      */
     public function manageWishes(User $user, Invitation $invitation): bool

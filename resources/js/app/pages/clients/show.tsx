@@ -32,11 +32,13 @@ import { Button } from '@/components/ui/button';
 import UrlModal from '@/components/url-modal';
 import { useClipboard } from '@/hooks/use-clipboard';
 import { formatDate, formatMoney } from '@/lib/format';
+import { invitationLink } from '@/lib/invitation-sections';
 import { invitationStatusLabels, orderStatusLabels } from '@/lib/labels';
 import type {
     Client,
     ClientUser,
     Invitation,
+    InvitationKind,
     Order,
     PartnerOption,
     Plan,
@@ -53,6 +55,8 @@ type Props = {
     plans: Plan[];
     referralsEnabled: boolean;
     partners: PartnerOption[];
+    /** The kinds of event a video invitation's order may be for; only sent with the order form open. */
+    videoKinds: InvitationKind[];
     modal: 'order' | 'access' | null;
 };
 
@@ -65,6 +69,7 @@ export default function ClientShow({
     plans,
     referralsEnabled,
     partners,
+    videoKinds,
     modal,
 }: Props) {
     const [copiedText, copy] = useClipboard();
@@ -327,14 +332,23 @@ export default function ClientShow({
                             <tr key={invitation.id}>
                                 <td className="px-2 py-3 font-medium md:px-4">
                                     {invitation.title}
-                                    <a
-                                        href={invitation.url}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="text-muted-foreground block text-xs font-normal break-all hover:underline"
-                                    >
-                                        /i/{invitation.slug}
-                                    </a>
+                                    {invitation.offers_web === false ? (
+                                        <Link
+                                            href={invitationLink(invitation).href}
+                                            className="text-muted-foreground block text-xs font-normal hover:underline"
+                                        >
+                                            Solo video
+                                        </Link>
+                                    ) : (
+                                        <a
+                                            href={invitation.url}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="text-muted-foreground block text-xs font-normal break-all hover:underline"
+                                        >
+                                            /i/{invitation.slug}
+                                        </a>
+                                    )}
                                     {invitation.event_date && (
                                         <div className="text-muted-foreground text-xs font-normal md:hidden">
                                             {formatDate(invitation.event_date)}
@@ -396,6 +410,7 @@ export default function ClientShow({
                             plans={plans}
                             referralsEnabled={referralsEnabled}
                             partners={partners}
+                            videoKinds={videoKinds}
                         />
                     ) : (
                         <ClientAccessForm client={client} />

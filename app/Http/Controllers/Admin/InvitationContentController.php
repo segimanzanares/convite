@@ -28,11 +28,17 @@ class InvitationContentController extends Controller
         abort_if($kind === null, 404);
 
         $template = Invitation::templates()[$invitation->template];
+        $invitation->loadMissing('order');
+        // An invitation sold with only a video has no web page: the form asks for what the video shows
+        $videoOnly = ! $invitation->offersWebInvitation();
 
         return Inertia::render('invitations/content', [
-            'invitation' => InvitationResource::make($invitation->loadMissing('order')),
+            'invitation' => InvitationResource::make($invitation),
             'kind' => $kind,
-            'sections' => $template['sections'],
+            'videoOnly' => $videoOnly,
+            'sections' => $videoOnly
+                ? array_values(array_intersect($template['sections'], Invitation::VIDEO_SECTIONS))
+                : $template['sections'],
             // The design's own colors and the ones suggested in their place
             'palette' => $template['colors'],
             'content' => (object) ($invitation->content ?? []),

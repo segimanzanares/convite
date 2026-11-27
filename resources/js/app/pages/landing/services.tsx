@@ -3,8 +3,9 @@ import { ArrowRight, Check, Clock, Sparkles } from 'lucide-react';
 import { CookieConsentBanner } from '@/components/cookie-consent-banner';
 import { Button } from '@/components/ui/button';
 import { formatPrice } from '@/lib/format';
-import { DELIVERY_TIME, SERVICES } from '@/lib/services';
+import { DELIVERY_TIME, getServices } from '@/lib/services';
 import type { Service, ServiceOption } from '@/lib/services';
+import type { OfferedPlan } from '@/types';
 import { cn } from '@/lib/utils';
 import { Cta } from './components/cta';
 import { Footer } from './components/footer';
@@ -31,7 +32,6 @@ const OPTION_GRIDS: Record<number, string> = {
     3: 'max-w-5xl md:grid-cols-3',
 };
 
-const SECTION_LINKS = [{ id: 'invitaciones', title: 'Invitaciones digitales' }, ...SERVICES];
 
 function Eyebrow({ children }: { children: string }) {
     return (
@@ -42,7 +42,7 @@ function Eyebrow({ children }: { children: string }) {
     );
 }
 
-function Hero() {
+function Hero({ services }: { services: Service[] }) {
     return (
         <section className="relative overflow-hidden bg-linear-to-b from-cream to-background px-4 pt-36 pb-16 sm:px-6 md:pt-44 md:pb-20">
             <FallingPetals />
@@ -63,7 +63,7 @@ function Hero() {
                     <Clock className="size-4 text-gold-deep" /> Entrega en {DELIVERY_TIME}
                 </p>
                 <nav aria-label="Servicios" className="mt-8 flex flex-wrap justify-center gap-2">
-                    {SECTION_LINKS.map((link) => (
+                    {[{ id: 'invitaciones', title: 'Invitaciones digitales' }, ...services].map((link) => (
                         <a
                             key={link.id}
                             href={`#${link.id}`}
@@ -209,17 +209,18 @@ function ServiceSection({ service, index }: { service: Service; index: number })
     );
 }
 
-export function ServicesPage() {
+export function ServicesPage({ servicePlans }: { servicePlans: OfferedPlan[] }) {
     useWhatsappLeadTracking();
+    const services = getServices(servicePlans);
 
     return (
         <div className="bg-background text-foreground">
             <Head title="Video semblanza, invitación en video e imprimibles" />
             <Header />
             <main>
-                <Hero />
+                <Hero services={services} />
                 <Invitations />
-                {SERVICES.map((service, index) => (
+                {services.map((service, index) => (
                     <ServiceSection key={service.id} service={service} index={index} />
                 ))}
                 <Cta />

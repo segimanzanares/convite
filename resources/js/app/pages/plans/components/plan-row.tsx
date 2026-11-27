@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { formatMoney } from '@/lib/format';
-import { planFeatureLabels } from '@/lib/labels';
+import { planFeatureLabels, planTypeLabels } from '@/lib/labels';
 import type { Plan } from '@/types';
 
 /** On small screens the price, invitations and features collapse under the name and the actions into a menu. */
@@ -39,7 +39,7 @@ export default function PlanRow({ plan }: { plan: Plan }) {
             <td className="px-2 py-3 font-medium md:px-4">
                 {plan.name}
                 <div className="text-muted-foreground text-xs font-normal">
-                    {plan.slug}
+                    {planTypeLabels[plan.type]} · {plan.slug}
                 </div>
                 <div className="text-muted-foreground text-xs font-normal md:hidden">
                     {details.join(' · ')}

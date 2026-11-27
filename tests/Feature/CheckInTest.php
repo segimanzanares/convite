@@ -256,6 +256,7 @@ it('requires the guest list to include check-in in a plan', function () {
     $this->actingAs(User::factory()->create())
         ->post(route('admin.plans.store'), [
             'name' => 'Puerta',
+            'type' => 'web_invitation',
             'slug' => 'puerta',
             'price' => '1000',
             'features' => ['check_in'],

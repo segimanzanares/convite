@@ -33,6 +33,7 @@ class LandingController extends Controller
         return Inertia::render('landing/index', [
             'demos' => DemoInvitationResource::collection($invitations->demos()),
             'plans' => PlanResource::collection($offeredPlans),
+            'servicePlans' => PlanResource::collection($plans->offeredServices()),
             'partner' => $partner,
             'referral' => $partner === null ? $referrals->landingProps($request) : null,
             // Read by resources/views/partials/meta.blade.php

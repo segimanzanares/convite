@@ -2,30 +2,50 @@
 
 namespace App\Services;
 
+use App\Enums\InvitationKind;
 use App\Enums\OrderSource;
 use App\Enums\OrderStatus;
+use App\Enums\PlanType;
 use App\Models\Client;
 use App\Models\Order;
 use App\Models\Partner;
 use App\Models\Plan;
+use Illuminate\Support\Facades\DB;
 
 class OrderService
 {
+    public function __construct(private readonly InvitationService $invitations) {}
+
     /**
-     * Sell a plan to a client. The order keeps a copy of the plan's limits and features, so later changes to the plan
-     * do not affect it.
+     * Sell a plan to a client. The order keeps a copy of the plan's type, limits and features, so later changes to the
+     * plan do not affect it. A video invitation's order gets its invitation right away, for the event the form names.
      *
-     * @param  array{plan_id: int|string, price: string|float, status?: string|null, notes?: string|null, source?: string|null, referral_code?: string|null, partner_id?: int|string|null}  $data
+     * @param  array{plan_id: int|string, price: string|float, status?: string|null, notes?: string|null, source?: string|null, referral_code?: string|null, partner_id?: int|string|null, event_kind?: string|null, event_date?: string|null, event_time?: string|null}  $data
      */
     public function create(Client $client, array $data): Order
     {
         $plan = Plan::findOrFail($data['plan_id']);
+        $event = array_intersect_key($data, array_flip(['event_kind', 'event_date', 'event_time']));
+        $data = array_diff_key($data, $event);
 
-        return $client->orders()->create([
-            ...$this->withPartner($this->withReferrer($data)),
-            'plan_snapshot' => $plan->snapshot(),
-            'status' => $data['status'] ?? OrderStatus::Quoted,
-        ]);
+        return DB::transaction(function () use ($client, $plan, $data, $event): Order {
+            $order = $client->orders()->create([
+                ...$this->withPartner($this->withReferrer($data)),
+                'plan_snapshot' => $plan->snapshot(),
+                'status' => $data['status'] ?? OrderStatus::Quoted,
+            ]);
+
+            if ($plan->type === PlanType::VideoInvitation) {
+                $this->invitations->createForVideoOrder(
+                    $order,
+                    InvitationKind::from($event['event_kind']),
+                    $event['event_date'] ?? null,
+                    $event['event_time'] ?? null,
+                );
+            }
+
+            return $order;
+        });
     }
 
     /**
@@ -114,7 +134,7 @@ class OrderService
     public function loadDetails(Order $order): Order
     {
         return $order
-            ->load(['client', 'referrer', 'partner', 'invitations', 'payments' => fn ($query) => $query->latest('paid_at')->latest('id')])
+            ->load(['client', 'referrer', 'partner', 'invitations.order', 'payments' => fn ($query) => $query->latest('paid_at')->latest('id')])
             ->loadSum('payments', 'amount');
     }
 }

@@ -117,6 +117,26 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Video Invitations
+    |--------------------------------------------------------------------------
+    |
+    | The videos are drawn by videos/invitation/render.py (Python with pycairo
+    | and Pillow, plus ffmpeg) in the "videos" queue connection, whose worker
+    | must run apart: php artisan queue:work videos --queue=videos. "python"
+    | is the interpreter that has those packages, "workers" how many frames
+    | it draws at once (null: one per CPU but one) and "timeout" the seconds
+    | a render may take before it is marked as failed.
+    |
+    */
+
+    'video' => [
+        'python' => env('CONVITE_VIDEO_PYTHON', 'python3'),
+        'workers' => env('CONVITE_VIDEO_WORKERS') ? (int) env('CONVITE_VIDEO_WORKERS') : null,
+        'timeout' => (int) env('CONVITE_VIDEO_TIMEOUT', 1800),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Legal Pages
     |--------------------------------------------------------------------------
     |

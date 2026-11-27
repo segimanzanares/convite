@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\PlanFeature;
+use App\Enums\PlanType;
 use App\Models\Plan;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -26,6 +27,7 @@ class PlanFactory extends Factory
             'slug' => Str::slug($name),
             'price' => fake()->randomFloat(2, 500, 5000),
             'description' => fake()->sentence(),
+            'type' => PlanType::WebInvitation,
             'max_guests' => null,
             'max_seats_per_guest' => null,
             'features' => [],
@@ -52,6 +54,17 @@ class PlanFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'features' => $features,
+        ]);
+    }
+
+    /**
+     * Indicate that the plan sells one of the services instead of a web invitation, without features.
+     */
+    public function ofType(PlanType $type): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'type' => $type,
+            'features' => [],
         ]);
     }
 

@@ -4,6 +4,7 @@ import {
     ClipboardCheckIcon,
     ExternalLinkIcon,
     FileTextIcon,
+    FilmIcon,
     ImagesIcon,
     PencilIcon,
     PlusIcon,
@@ -21,6 +22,7 @@ import {
     update,
 } from '@/actions/App/Http/Controllers/Admin/InvitationController';
 import { index as galleryIndex } from '@/actions/App/Http/Controllers/Admin/LiveGalleryController';
+import { index as videoIndex } from '@/actions/App/Http/Controllers/Admin/InvitationVideoController';
 import { index as rsvpsIndex } from '@/actions/App/Http/Controllers/Admin/RsvpController';
 import { index as wishesIndex } from '@/actions/App/Http/Controllers/Admin/WishController';
 import DataTable from '@/components/data-table';
@@ -310,13 +312,18 @@ function InvitationFilters({
 function InvitationRow({ invitation }: { invitation: Invitation }) {
     const query = useListQuery(LIST_QUERY);
     const sections = invitationSections(invitation);
+    // Admin only: the video plan's clients have no panel access
+    const hasVideo = invitation.plan_type === 'video_invitation';
+    // An invitation sold with only a video has no page at its url
+    const offersWeb = invitation.offers_web !== false;
 
     return (
         <tr>
             <td className="px-2 py-3 font-medium md:px-4">
                 {invitation.title}
                 <div className="text-muted-foreground text-xs font-normal break-all">
-                    /i/{invitation.slug} · {invitation.template_label}
+                    {offersWeb ? `/i/${invitation.slug}` : 'Solo video'} ·{' '}
+                    {invitation.template_label}
                 </div>
                 <div className="text-muted-foreground text-xs font-normal md:hidden">
                     {invitation.client?.name ?? 'Demo'}
@@ -355,16 +362,26 @@ function InvitationRow({ invitation }: { invitation: Invitation }) {
                         </Button>
                     )}
                     <InvitationSectionLinks invitation={invitation} />
-                    <Button variant="outline" size="icon" asChild>
-                        <a
-                            href={invitation.url}
-                            target="_blank"
-                            rel="noreferrer"
-                            aria-label={`Abrir ${invitation.title}`}
-                        >
-                            <ExternalLinkIcon />
-                        </a>
-                    </Button>
+                    {hasVideo && (
+                        <Button variant="outline" size="sm" asChild>
+                            <Link href={videoIndex(invitation.slug)}>
+                                <FilmIcon />
+                                Video
+                            </Link>
+                        </Button>
+                    )}
+                    {offersWeb && (
+                        <Button variant="outline" size="icon" asChild>
+                            <a
+                                href={invitation.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                aria-label={`Abrir ${invitation.title}`}
+                            >
+                                <ExternalLinkIcon />
+                            </a>
+                        </Button>
+                    )}
                     <Button variant="outline" size="icon" asChild>
                         <Link
                             href={edit(invitation.slug, { query })}
@@ -418,16 +435,26 @@ function InvitationRow({ invitation }: { invitation: Invitation }) {
                             </Link>
                         </DropdownMenuItem>
                     )}
-                    <DropdownMenuItem asChild>
-                        <a
-                            href={invitation.url}
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <ExternalLinkIcon />
-                            Abrir
-                        </a>
-                    </DropdownMenuItem>
+                    {hasVideo && (
+                        <DropdownMenuItem asChild>
+                            <Link href={videoIndex(invitation.slug)}>
+                                <FilmIcon />
+                                Video
+                            </Link>
+                        </DropdownMenuItem>
+                    )}
+                    {offersWeb && (
+                        <DropdownMenuItem asChild>
+                            <a
+                                href={invitation.url}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <ExternalLinkIcon />
+                                Abrir
+                            </a>
+                        </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem asChild>
                         <Link
                             href={edit(invitation.slug, { query })}

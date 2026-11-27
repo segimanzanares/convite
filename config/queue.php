@@ -44,6 +44,17 @@ return [
             'after_commit' => false,
         ],
 
+        // Video renders take minutes, longer than the other jobs' retry_after, so they run on their own connection
+        // (php artisan queue:work videos --queue=videos). retry_after must stay above the render's timeout.
+        'videos' => [
+            'driver' => 'database',
+            'connection' => env('DB_QUEUE_CONNECTION'),
+            'table' => env('DB_QUEUE_TABLE', 'jobs'),
+            'queue' => 'videos',
+            'retry_after' => (int) env('CONVITE_VIDEO_TIMEOUT', 1800) + 120,
+            'after_commit' => false,
+        ],
+
         'beanstalkd' => [
             'driver' => 'beanstalkd',
             'host' => env('BEANSTALKD_QUEUE_HOST', 'localhost'),

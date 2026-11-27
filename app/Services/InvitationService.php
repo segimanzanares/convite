@@ -9,6 +9,8 @@ use App\Models\Invitation;
 use App\Models\Order;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
+use InvalidArgumentException;
 
 class InvitationService
 {
@@ -99,13 +101,78 @@ class InvitationService
     }
 
     /**
-     * The orders an invitation can be linked to, with their client, the most recent first.
+     * The orders an invitation can be linked to (those that sold a web or video invitation; the other services are
+     * delivered as files), with their client, the most recent first.
      *
      * @return Collection<int, Order>
      */
     public function linkableOrders(): Collection
     {
-        return Order::query()->with('client')->latest('id')->get();
+        return Order::query()->with('client')->latest('id')->get()
+            ->filter(fn (Order $order): bool => $order->type()->hasInvitation())
+            ->values();
+    }
+
+    /**
+     * The kinds of event a video invitation can be made for: those with a catalog template, whose content form the
+     * video's invitation uses.
+     *
+     * @return list<InvitationKind>
+     */
+    public function videoKinds(): array
+    {
+        $kinds = array_map(fn (array $template) => $template['kind'], Invitation::assignableTemplates());
+
+        return array_values(array_filter(InvitationKind::cases(), fn (InvitationKind $kind) => in_array($kind, $kinds, true)));
+    }
+
+    /**
+     * Create the invitation of a video invitation's order, which only holds the video's content: a draft with the
+     * catalog template of the kind that asks for the most of what the video shows (its design is never seen), named
+     * after the client. The admin then captures its content and renders the video.
+     */
+    public function createForVideoOrder(Order $order, InvitationKind $kind, ?string $eventDate, ?string $eventTime): Invitation
+    {
+        $client = $order->client;
+
+        return Invitation::create([
+            'order_id' => $order->id,
+            'client_id' => $order->client_id,
+            'slug' => $this->uniqueSlug("video-{$client->name}"),
+            'template' => $this->videoTemplate($kind),
+            'event_date' => $eventDate,
+            'event_time' => $eventTime,
+            'status' => InvitationStatus::Draft,
+            'title' => "{$client->name} · Invitación en video",
+            'description' => 'Invitación en video',
+        ]);
+    }
+
+    /**
+     * The catalog template of the kind whose sections cover the most of the video's (family, venues, gallery), the
+     * first by name among equals.
+     */
+    private function videoTemplate(InvitationKind $kind): string
+    {
+        return collect(Invitation::assignableTemplates())
+            ->filter(fn (array $template) => $template['kind'] === $kind)
+            ->sortBy([
+                fn (array $a, array $b) => count(array_intersect($b['sections'], Invitation::VIDEO_SECTIONS)) <=> count(array_intersect($a['sections'], Invitation::VIDEO_SECTIONS)),
+            ])
+            ->keys()
+            ->first() ?? throw new InvalidArgumentException("No template for {$kind->value}.");
+    }
+
+    private function uniqueSlug(string $text): string
+    {
+        $base = Str::limit(Str::slug($text), 60, '');
+        $slug = $base;
+
+        for ($suffix = 2; Invitation::query()->where('slug', $slug)->exists(); $suffix++) {
+            $slug = "{$base}-{$suffix}";
+        }
+
+        return $slug;
     }
 
     /**

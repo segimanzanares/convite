@@ -1,7 +1,7 @@
 import type { Client } from './client';
 import type { Invitation } from './invitation';
 import type { CommissionStatus, Partner } from './partner';
-import type { PlanSnapshot } from './plan';
+import type { PlanSnapshot, PlanType } from './plan';
 
 export type OrderStatus = 'quoted' | 'active' | 'delivered' | 'archived';
 
@@ -33,6 +33,8 @@ export type Order = {
     plan_id: number;
     price: string;
     plan: PlanSnapshot;
+    /** What the order sold (its plan's type, web_invitation for orders from before plans had one). */
+    type: PlanType;
     grants_panel_access: boolean;
     status: OrderStatus;
     notes: string | null;

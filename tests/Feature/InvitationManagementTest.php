@@ -2,6 +2,7 @@
 
 use App\Enums\InvitationStatus;
 use App\Enums\PlanFeature;
+use App\Enums\PlanType;
 use App\Models\Invitation;
 use App\Models\Order;
 use App\Models\Plan;
@@ -42,6 +43,19 @@ it('creates an invitation that belongs to the client of its order', function () 
         ->and($invitation->client_id)->toBe($order->client_id)
         ->and($invitation->event_date->toDateString())->toBe('2027-03-20')
         ->and($invitation->status)->toBe(InvitationStatus::Draft);
+});
+
+it('does not link an invitation to an order of a service delivered as files', function () {
+    $order = Order::factory()->for(Plan::factory()->ofType(PlanType::Printables))->create();
+    $admin = User::factory()->create();
+
+    $this->actingAs($admin)
+        ->post(route('admin.invitations.store'), invitationFields(['order_id' => $order->id]))
+        ->assertSessionHasErrors(['order_id' => 'Esta contratación no es de una invitación.']);
+
+    $this->actingAs($admin)
+        ->get(route('admin.invitations.create'))
+        ->assertInertia(fn (Assert $page) => $page->has('orders', 0));
 });
 
 it('filters the invitations by client, type and status', function () {

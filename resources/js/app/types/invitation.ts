@@ -1,5 +1,5 @@
 import type { Client } from './client';
-import type { PlanFeature } from './plan';
+import type { PlanFeature, PlanType } from './plan';
 
 export type InvitationStatus = 'draft' | 'published' | 'archived';
 
@@ -52,6 +52,10 @@ export type Invitation = {
     reveal: { captured: boolean; shown_at: string | null } | null;
     /** The features of the order's plan; only sent when the order was loaded. */
     features?: PlanFeature[];
+    /** What the invitation's order sold, null without an order (the demos); only sent when the order was loaded. */
+    plan_type?: PlanType | null;
+    /** Whether the invitation has a web page at its url (false for a video invitation); only sent when the order was loaded. */
+    offers_web?: boolean;
     /** The plan's guest limit, null without one; only sent when the order was loaded. */
     max_guests?: number | null;
     /** The most seats a guest may have under the plan; only sent when the order was loaded. */

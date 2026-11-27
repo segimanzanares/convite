@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\PlanType;
 use App\Http\Controllers\Admin\Concerns\RendersClientPage;
 use App\Http\Controllers\Admin\Concerns\RendersOrderPage;
 use App\Http\Controllers\Controller;
@@ -37,6 +38,15 @@ class OrderController extends Controller
     public function store(StoreOrderRequest $request, Client $client): RedirectResponse
     {
         $order = $this->orders->create($client, $request->validated());
+
+        // A video invitation's order created its invitation, whose content comes next
+        $invitation = $order->invitations()->first();
+
+        if ($order->type() === PlanType::VideoInvitation && $invitation !== null) {
+            Inertia::flash('toast', ['type' => 'success', 'message' => __('Order created. Capture the content of the video.')]);
+
+            return to_route('admin.invitations.content.edit', $invitation);
+        }
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Order created.')]);
 

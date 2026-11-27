@@ -3,14 +3,15 @@
 namespace Database\Seeders;
 
 use App\Enums\PlanFeature;
+use App\Enums\PlanType;
 use App\Models\Plan;
 use Illuminate\Database\Seeder;
 
 class PlanSeeder extends Seeder
 {
     /**
-     * Seed the initial plan catalog. Prices and limits are placeholders meant to be edited from the panel, so
-     * existing plans (matched by slug) are left untouched when this runs again.
+     * Seed the initial catalog of web invitations. Prices and limits are placeholders meant to be edited from the
+     * panel. The services of /servicios are created by a migration (create_service_plans).
      */
     public function run(): void
     {
@@ -22,6 +23,7 @@ class PlanSeeder extends Seeder
         $plans = [
             [
                 'slug' => 'basico',
+                'type' => PlanType::WebInvitation,
                 'name' => 'Básico',
                 'price' => 499,
                 'description' => 'Elijan un diseño de nuestro catálogo y lo personalizamos con los datos de su evento.',
@@ -32,6 +34,7 @@ class PlanSeeder extends Seeder
             ],
             [
                 'slug' => 'estandar',
+                'type' => PlanType::WebInvitation,
                 'name' => 'Estándar',
                 'price' => 799,
                 'description' => 'Todo lo del plan Básico, más tarjeta y pases imprimibles.',
@@ -42,6 +45,7 @@ class PlanSeeder extends Seeder
             ],
             [
                 'slug' => 'premium',
+                'type' => PlanType::WebInvitation,
                 'name' => 'Premium',
                 'price' => 1599,
                 'description' => 'Todo lo del plan Estándar, más lista de invitados con enlaces personalizados, confirmaciones en línea y libro de buenos deseos descargable en PDF.',
@@ -52,6 +56,7 @@ class PlanSeeder extends Seeder
             ],
             [
                 'slug' => 'exclusivo',
+                'type' => PlanType::WebInvitation,
                 'name' => 'Exclusivo',
                 'price' => 3499,
                 'description' => 'Todo lo del plan Premium sin límite de invitados, con un diseño creado solo para su evento, registro de llegadas en la entrada y galería de fotos en vivo.',

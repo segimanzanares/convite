@@ -22,12 +22,14 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import UrlModal from '@/components/url-modal';
 import { formatDate, formatMoney } from '@/lib/format';
+import { invitationLink } from '@/lib/invitation-sections';
 import {
     commissionStatusLabels,
     orderSourceLabels,
     orderStatusLabels,
     paymentMethodLabels,
     planFeatureLabels,
+    planTypeLabels,
 } from '@/lib/labels';
 import type { Order, PartnerOption, Payment, PaymentMethod } from '@/types';
 import OrderEditForm from './components/order-edit-form';
@@ -71,7 +73,11 @@ export default function OrderShow({
             <div className="space-y-10 p-4">
                 <div className="flex flex-wrap items-start justify-between gap-4">
                     <Heading
-                        title={`Plan ${order.plan.name}`}
+                        title={
+                            order.type === 'web_invitation'
+                                ? `Plan ${order.plan.name}`
+                                : `${planTypeLabels[order.type]} · ${order.plan.name}`
+                        }
                         description={`${order.client?.name} · ${formatDate(order.created_at)}`}
                     />
 
@@ -291,14 +297,23 @@ export default function OrderShow({
                         <ul className="space-y-1 text-sm">
                             {invitations.map((invitation) => (
                                 <li key={invitation.id}>
-                                    <a
-                                        href={invitation.url}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="hover:underline"
-                                    >
-                                        {invitation.title}
-                                    </a>
+                                    {invitationLink(invitation).external ? (
+                                        <a
+                                            href={invitation.url}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="hover:underline"
+                                        >
+                                            {invitation.title}
+                                        </a>
+                                    ) : (
+                                        <Link
+                                            href={invitationLink(invitation).href}
+                                            className="hover:underline"
+                                        >
+                                            {invitation.title} (video)
+                                        </Link>
+                                    )}
                                 </li>
                             ))}
                         </ul>

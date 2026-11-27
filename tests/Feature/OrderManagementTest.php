@@ -29,6 +29,7 @@ it('sells a plan with an adjusted price and keeps a copy of its conditions', fun
         ->and($order->status)->toBe(OrderStatus::Quoted)
         ->and($order->plan_snapshot)->toBe([
             'name' => 'Estándar',
+            'type' => 'web_invitation',
             'max_guests' => 120,
             'max_seats_per_guest' => null,
             'features' => ['guest_management', 'online_rsvp'],
@@ -52,6 +53,7 @@ it('keeps the conditions of an order when its plan is edited later', function ()
     $this->actingAs(User::factory()->create())
         ->put(route('admin.plans.update', $order->plan), [
             'name' => 'Renombrado',
+            'type' => 'web_invitation',
             'slug' => $order->plan->slug,
             'price' => '9999',
             'max_guests' => '10',

@@ -2,8 +2,9 @@ import { Link } from '@inertiajs/react';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatPrice } from '@/lib/format';
-import { lowestPrice, SERVICES } from '@/lib/services';
+import { getServices, lowestPrice } from '@/lib/services';
 import { services } from '@/routes';
+import type { OfferedPlan } from '@/types';
 import { ServiceIllustration } from './illustrations/service-illustrations';
 import { Reveal } from './reveal';
 import { Highlight, SectionHeading } from './section-heading';
@@ -16,7 +17,13 @@ const TINTS = [
 ];
 
 /** The landing page's summary of the services besides the invitations, each linking to its section of the services page. */
-export function Services() {
+export function Services({ servicePlans }: { servicePlans: OfferedPlan[] }) {
+    const offered = getServices(servicePlans);
+
+    if (offered.length === 0) {
+        return null;
+    }
+
     return (
         <section id="servicios" className="relative scroll-mt-28 bg-cream/70 py-24 md:py-32">
             <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -32,7 +39,7 @@ export function Services() {
                     />
                 </Reveal>
                 <div className="mt-14 grid gap-5 md:grid-cols-3">
-                    {SERVICES.map((service, index) => {
+                    {offered.map((service, index) => {
                         return (
                             <Reveal key={service.id} delay={index * 90} className="h-full min-w-0">
                                 <Link

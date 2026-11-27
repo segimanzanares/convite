@@ -27,6 +27,7 @@ class OrderResource extends JsonResource
             'plan_id' => $this->plan_id,
             'price' => $this->price,
             'plan' => $this->plan_snapshot,
+            'type' => $this->type(),
             'grants_panel_access' => $this->grantsPanelAccess(),
             'status' => $this->status,
             'notes' => $this->notes,

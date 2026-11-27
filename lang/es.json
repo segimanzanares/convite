@@ -118,5 +118,9 @@
     "Commission marked as unpaid.": "Comisión marcada como no pagada.",
     "The commission is owed once the order is paid in full.": "La comisión se paga una vez que la contratación esté pagada por completo.",
     "{0} No commissions were owed.|{1} :count commission marked as paid.|[2,*] :count commissions marked as paid.": "{0} No había comisiones por pagar.|{1} :count comisión marcada como pagada.|[2,*] :count comisiones marcadas como pagadas.",
-    "Live gallery updated.": "Galería en vivo actualizada."
+    "Live gallery updated.": "Galería en vivo actualizada.",
+    "The video is being rendered. It takes a few minutes.": "El video se está generando. Tarda unos minutos.",
+    "The video is already being rendered.": "El video ya se está generando.",
+    "The order did not sell an invitation.": "Esta contratación no es de una invitación.",
+    "Order created. Capture the content of the video.": "Contratación creada. Captura el contenido del video."
 }

@@ -1,15 +1,23 @@
 import { Form } from '@inertiajs/react';
+import { useState } from 'react';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DialogBody, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useInertiaFormValidation } from '@/hooks/use-inertia-form-validation';
-import { planFeatureLabels } from '@/lib/labels';
+import { planFeatureLabels, planTypeLabels } from '@/lib/labels';
 import { max, maxLength, min, numeric, required } from '@/lib/validators';
-import type { Plan, PlanFeature, ValidationSchema } from '@/types';
+import type { Plan, PlanFeature, PlanType, ValidationSchema } from '@/types';
 import type { RouteFormDefinition } from '@/wayfinder';
 
 type Props = {
@@ -35,6 +43,11 @@ export default function PlanForm({
     defaultValues,
 }: Props) {
     const { formRef, onBefore, onChange } = useInertiaFormValidation(schema);
+    // Web invitations have features and guest limits; the services of /servicios show their details instead
+    const [type, setType] = useState<PlanType>(
+        defaultValues?.type ?? 'web_invitation',
+    );
+    const isWeb = type === 'web_invitation';
 
     return (
         <Form
@@ -48,6 +61,38 @@ export default function PlanForm({
             {({ processing, errors }) => (
                 <>
                     <DialogBody className="space-y-6">
+                        <div className="grid gap-2">
+                            <Label htmlFor="type">Tipo</Label>
+                            <Select
+                                name="type"
+                                value={type}
+                                onValueChange={(value) =>
+                                    setType(value as PlanType)
+                                }
+                            >
+                                <SelectTrigger id="type" className="w-full">
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {(
+                                        Object.keys(
+                                            planTypeLabels,
+                                        ) as PlanType[]
+                                    ).map((option) => (
+                                        <SelectItem key={option} value={option}>
+                                            {planTypeLabels[option]}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <p className="text-muted-foreground text-xs">
+                                {isWeb
+                                    ? 'Se muestra en los precios de la página principal.'
+                                    : 'Es una opción del servicio en la página de servicios.'}
+                            </p>
+                            <InputError message={errors.type} />
+                        </div>
+
                         <div className="grid gap-4 sm:grid-cols-2">
                             <div className="grid gap-2">
                                 <Label htmlFor="name">Nombre</Label>
@@ -84,6 +129,8 @@ export default function PlanForm({
                                 <InputError message={errors.price} />
                             </div>
 
+                            {isWeb ? (
+                            <>
                             <div className="grid gap-2">
                                 <Label htmlFor="max_guests">
                                     Límite de invitaciones
@@ -125,6 +172,24 @@ export default function PlanForm({
                                     message={errors.max_seats_per_guest}
                                 />
                             </div>
+                            </>
+                            ) : (
+                                <div className="grid gap-2">
+                                    <Label htmlFor="price_note">
+                                        Nota del precio
+                                    </Label>
+                                    <Input
+                                        id="price_note"
+                                        name="price_note"
+                                        placeholder="Incluye hasta 50 pases"
+                                        defaultValue={
+                                            defaultValues?.price_note ??
+                                            undefined
+                                        }
+                                    />
+                                    <InputError message={errors.price_note} />
+                                </div>
+                            )}
                         </div>
 
                         <div className="grid gap-2">
@@ -140,6 +205,33 @@ export default function PlanForm({
                             <InputError message={errors.description} />
                         </div>
 
+                        {!isWeb && (
+                            <div className="grid gap-2">
+                                <Label htmlFor="details">Qué incluye</Label>
+                                <Textarea
+                                    id="details"
+                                    name="details"
+                                    rows={4}
+                                    placeholder={'Duración de hasta 3 minutos\nSus fotos con transiciones y su canción de fondo'}
+                                    defaultValue={defaultValues?.details?.join(
+                                        '\n',
+                                    )}
+                                />
+                                <p className="text-muted-foreground text-xs">
+                                    Una línea por cada punto de la lista.
+                                </p>
+                                <InputError
+                                    message={
+                                        errors.details ??
+                                        Object.entries(errors).find(([key]) =>
+                                            key.startsWith('details.'),
+                                        )?.[1]
+                                    }
+                                />
+                            </div>
+                        )}
+
+                        {isWeb && (
                         <fieldset className="grid gap-3">
                             <legend className="mb-3 text-sm font-medium">
                                 Funciones
@@ -168,6 +260,7 @@ export default function PlanForm({
                             </p>
                             <InputError message={errors.features} />
                         </fieldset>
+                        )}
 
                         <div className="grid gap-4 sm:grid-cols-2">
                             <div className="grid gap-2">
@@ -195,6 +288,22 @@ export default function PlanForm({
                                     Se ofrece a nuevos clientes
                                 </Label>
                             </div>
+
+                            {!isWeb && (
+                                <div className="flex items-center gap-3 sm:col-start-2">
+                                    <Checkbox
+                                        id="is_featured"
+                                        name="is_featured"
+                                        value="1"
+                                        defaultChecked={
+                                            defaultValues?.is_featured ?? false
+                                        }
+                                    />
+                                    <Label htmlFor="is_featured">
+                                        Destacar entre las opciones del servicio
+                                    </Label>
+                                </div>
+                            )}
                         </div>
                     </DialogBody>
 

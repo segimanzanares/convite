@@ -40,7 +40,12 @@ trait InvitationValidationRules
                     }
                 },
             ],
-            'order_id' => ['nullable', 'integer', Rule::exists(Order::class, 'id')],
+            'order_id' => ['nullable', 'integer', Rule::exists(Order::class, 'id'), function (string $attribute, mixed $value, Closure $fail): void {
+                // Tribute videos and printables are delivered as files, without an invitation
+                if (Order::find($value)?->type()->hasInvitation() === false) {
+                    $fail(__('The order did not sell an invitation.'));
+                }
+            }],
             'event_date' => ['nullable', 'required_if:status,'.InvitationStatus::Published->value, 'date_format:Y-m-d'],
             'event_time' => ['nullable', 'required_if:status,'.InvitationStatus::Published->value, 'date_format:H:i'],
             'rsvp_deadline' => ['nullable', 'date_format:Y-m-d', 'before_or_equal:event_date'],

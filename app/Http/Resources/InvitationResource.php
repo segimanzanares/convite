@@ -43,6 +43,9 @@ class InvitationResource extends JsonResource
                 'shown_at' => $this->reveal_shown_at,
             ] : null,
             'features' => $this->whenLoaded('order', fn () => $this->order?->plan_snapshot['features'] ?? []),
+            // What its order sold (null for the demos); a video invitation has no page at its url
+            'plan_type' => $this->whenLoaded('order', fn () => $this->order?->type()),
+            'offers_web' => $this->whenLoaded('order', fn () => $this->offersWebInvitation()),
             'max_guests' => $this->whenLoaded('order', fn () => $this->guestLimit()),
             'max_seats_per_guest' => $this->whenLoaded('order', fn () => $this->seatLimit()),
             'guest_passes_url' => $this->whenLoaded('order', fn () => $this->offersPage(Invitation::GUEST_PASSES_PAGE)

@@ -17,10 +17,15 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { useInertiaFormValidation } from '@/hooks/use-inertia-form-validation';
 import { formatMoney } from '@/lib/format';
-import { orderStatusLabels } from '@/lib/labels';
+import {
+    invitationKindLabels,
+    orderStatusLabels,
+    planTypeLabels,
+} from '@/lib/labels';
 import { min, numeric, required } from '@/lib/validators';
 import type {
     Client,
+    InvitationKind,
     OrderStatus,
     PartnerOption,
     Plan,
@@ -37,17 +42,26 @@ export default function OrderCreateForm({
     plans,
     referralsEnabled,
     partners,
+    videoKinds,
 }: {
     client: Client;
     plans: Plan[];
     referralsEnabled: boolean;
     partners: PartnerOption[];
+    videoKinds: InvitationKind[];
 }) {
     const { formRef, onBefore, onChange } = useInertiaFormValidation(schema);
     const [price, setPrice] = useState('');
+    const [planId, setPlanId] = useState('');
+    // A video invitation's order creates its invitation, so the form asks for the event
+    const sellsVideo =
+        plans.find((plan) => String(plan.id) === planId)?.type ===
+        'video_invitation';
 
-    const onPlanChange = (planId: string) =>
-        setPrice(plans.find((plan) => String(plan.id) === planId)?.price ?? '');
+    const onPlanChange = (id: string) => {
+        setPlanId(id);
+        setPrice(plans.find((plan) => String(plan.id) === id)?.price ?? '');
+    };
 
     return (
         <Form
@@ -73,6 +87,8 @@ export default function OrderCreateForm({
                                             key={plan.id}
                                             value={String(plan.id)}
                                         >
+                                            {plan.type !== 'web_invitation' &&
+                                                `${planTypeLabels[plan.type]} · `}
                                             {plan.name} ·{' '}
                                             {formatMoney(plan.price)}
                                         </SelectItem>
@@ -81,6 +97,65 @@ export default function OrderCreateForm({
                             </Select>
                             <InputError message={errors.plan_id} />
                         </div>
+
+                        {sellsVideo && (
+                            <div className="space-y-4 rounded-lg border p-4">
+                                <p className="text-muted-foreground text-sm">
+                                    Se crea la invitación del video. Después
+                                    capturas su contenido y lo generas.
+                                </p>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="event_kind">
+                                        Tipo de evento
+                                    </Label>
+                                    <Select name="event_kind">
+                                        <SelectTrigger
+                                            id="event_kind"
+                                            className="w-full"
+                                        >
+                                            <SelectValue placeholder="Elige el tipo de evento" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {videoKinds.map((kind) => (
+                                                <SelectItem
+                                                    key={kind}
+                                                    value={kind}
+                                                >
+                                                    {invitationKindLabels[kind]}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <InputError message={errors.event_kind} />
+                                </div>
+                                <div className="grid gap-4 sm:grid-cols-2">
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="event_date">
+                                            Fecha del evento
+                                        </Label>
+                                        <Input
+                                            id="event_date"
+                                            name="event_date"
+                                            type="date"
+                                        />
+                                        <InputError
+                                            message={errors.event_date}
+                                        />
+                                    </div>
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="event_time">Hora</Label>
+                                        <Input
+                                            id="event_time"
+                                            name="event_time"
+                                            type="time"
+                                        />
+                                        <InputError
+                                            message={errors.event_time}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        )}
 
                         <div className="grid gap-4 sm:grid-cols-2">
                             <div className="grid gap-2">

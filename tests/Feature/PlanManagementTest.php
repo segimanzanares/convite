@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\PlanFeature;
+use App\Enums\PlanType;
 use App\Models\Order;
 use App\Models\Plan;
 use App\Models\User;
@@ -24,6 +25,7 @@ it('creates a plan with its features', function () {
     $this->actingAs(User::factory()->create())
         ->post(route('admin.plans.store'), [
             'name' => 'Estándar',
+            'type' => 'web_invitation',
             'slug' => 'estandar',
             'price' => '2500.50',
             'max_guests' => '100',
@@ -45,12 +47,45 @@ it('creates a plan with its features', function () {
         ->and($plan->is_active)->toBeTrue();
 });
 
+it('creates a service plan with its details, without features nor guest limits', function () {
+    $this->actingAs(User::factory()->create())
+        ->post(route('admin.plans.store'), [
+            'name' => 'Tarjeta + pases',
+            'slug' => 'imprimible-tarjeta-pases',
+            'type' => 'printables',
+            'price' => '469',
+            'price_note' => 'Incluye hasta 50 pases',
+            'details' => "La tarjeta y los pases con el mismo diseño\r\n\n  +$99 por cada 50 pases adicionales  ",
+            'max_guests' => '100',
+            'features' => ['guest_management'],
+            'is_active' => '1',
+            'is_featured' => '1',
+            'sort_order' => '32',
+        ])
+        ->assertSessionHasNoErrors();
+
+    expect(Plan::sole())
+        ->type->toBe(PlanType::Printables)
+        ->price_note->toBe('Incluye hasta 50 pases')
+        ->details->toBe(['La tarjeta y los pases con el mismo diseño', '+$99 por cada 50 pases adicionales'])
+        ->is_featured->toBeTrue()
+        ->max_guests->toBeNull()
+        ->features->toBeEmpty();
+});
+
+it('requires a known plan type', function () {
+    $this->actingAs(User::factory()->create())
+        ->post(route('admin.plans.store'), ['name' => 'Fotos', 'slug' => 'fotos', 'type' => 'photo_booth', 'price' => '100', 'sort_order' => '0'])
+        ->assertSessionHasErrors('type');
+});
+
 it('saves a plan without features and inactive when its checkboxes are unchecked', function () {
     $plan = Plan::factory()->withPanel()->create();
 
     $this->actingAs(User::factory()->create())
         ->put(route('admin.plans.update', $plan), [
             'name' => $plan->name,
+            'type' => 'web_invitation',
             'slug' => $plan->slug,
             'price' => '900',
             'sort_order' => '0',
@@ -67,6 +102,7 @@ it('rejects an unknown feature and a slug already in use', function () {
     $this->actingAs(User::factory()->create())
         ->post(route('admin.plans.store'), [
             'name' => 'Premium',
+            'type' => 'web_invitation',
             'slug' => 'premium',
             'price' => '3500',
             'features' => ['confeti'],

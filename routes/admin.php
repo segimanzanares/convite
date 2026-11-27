@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\GuestImportController;
 use App\Http\Controllers\Admin\InvitationContentController;
 use App\Http\Controllers\Admin\InvitationController;
 use App\Http\Controllers\Admin\InvitationMediaController;
+use App\Http\Controllers\Admin\InvitationVideoController;
 use App\Http\Controllers\Admin\LiveGalleryController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PartnerCommissionController;
@@ -89,6 +90,13 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
             Route::patch('{galleryPhoto}', 'updatePhoto')->name('photos.update');
             Route::delete('{galleryPhoto}', 'destroyPhoto')->name('photos.destroy');
         });
+    });
+
+    // Only invitations whose order sold the video (InvitationVideoController answers 404 to the rest)
+    Route::controller(InvitationVideoController::class)->prefix('invitations/{invitation}/video')->name('invitations.video.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::get('download', 'download')->name('download');
     });
 
     Route::middleware('invitation.feature:wishes')->scopeBindings()->group(function () {
