@@ -19,7 +19,7 @@ class HandleInertiaRequests extends Middleware
     public const string PANEL_PAGES = 'admin';
 
     /**
-     * The main app's pages outside the panel: the landing page and its services page, the door of the event and its live gallery, with the public meta tags
+     * The main app's pages outside the panel: the landing page, its services page and the legal pages, the door of the event and its live gallery, with the public meta tags
      * (see resources/views/app.blade.php) and always in light mode.
      */
     public const string PUBLIC_PAGES = 'public';
@@ -30,7 +30,7 @@ class HandleInertiaRequests extends Middleware
      *
      * @var list<string>
      */
-    private const array PUBLIC_ROUTES = ['landing', 'services', 'invitations.door.*', 'invitations.check-in.*', 'invitations.gallery.*', 'invitations.demo.*'];
+    private const array PUBLIC_ROUTES = ['landing', 'services', 'legal.*', 'invitations.door.*', 'invitations.check-in.*', 'invitations.gallery.*', 'invitations.demo.*'];
 
     /**
      * Request attribute that overrides the pages picked from the URL.

@@ -115,4 +115,24 @@ return [
 
     'partner_cookie_days' => (int) env('CONVITE_PARTNER_COOKIE_DAYS', 60),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Legal Pages
+    |--------------------------------------------------------------------------
+    |
+    | Who is responsible for the service, as the terms and conditions and the
+    | privacy notice name them: the name of the person or company behind
+    | Convite, the email that takes privacy requests (access, correction,
+    | deletion...), its address and the city whose courts settle disputes.
+    | The pages leave out the address and city when they are not set.
+    |
+    */
+
+    'legal' => [
+        'name' => env('CONVITE_LEGAL_NAME', 'Convite'),
+        'email' => env('CONVITE_LEGAL_EMAIL', env('MAIL_FROM_ADDRESS')),
+        'address' => env('CONVITE_LEGAL_ADDRESS'),
+        'city' => env('CONVITE_LEGAL_CITY'),
+    ],
+
 ];

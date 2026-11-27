@@ -5,6 +5,7 @@ use App\Http\Controllers\CheckInController;
 use App\Http\Controllers\DemoShowcaseController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\LegalController;
 use App\Http\Controllers\LiveGalleryController;
 use App\Http\Controllers\PartnerLinkController;
 use App\Http\Controllers\RsvpController;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', LandingController::class)->name('landing');
 Route::get('servicios', ServicesController::class)->name('services');
+Route::get('terminos', [LegalController::class, 'terms'])->name('legal.terms');
+Route::get('privacidad', [LegalController::class, 'privacy'])->name('legal.privacy');
 // A partner's short link, which lands on the landing page with their code (see App\Services\PartnerService)
 Route::get('a/{code}', PartnerLinkController::class)->where('code', '[A-Za-z0-9]+')->name('partners.link');
 

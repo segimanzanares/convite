@@ -2,6 +2,7 @@ import { Link } from '@inertiajs/react';
 import { MessageCircle } from 'lucide-react';
 import logoNegativo from '@/assets/images/logo-negativo.png';
 import { dashboard, services } from '@/routes';
+import { privacy, terms } from '@/routes/legal';
 import { useWhatsappLink } from '../use-whatsapp-link';
 import { SectionLink } from './section-link';
 
@@ -75,9 +76,17 @@ export function Footer() {
                 </div>
             </div>
             <div className="border-t border-white/10">
-                <p className="mx-auto max-w-6xl px-4 py-6 text-center text-xs text-white/45 sm:px-6">
-                    © {new Date().getFullYear()} Convite · Invitaciones digitales para cada evento
-                </p>
+                <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 py-6 text-xs text-white/45 sm:flex-row sm:px-6">
+                    <p>© {new Date().getFullYear()} Convite · Invitaciones digitales para cada evento</p>
+                    <nav aria-label="Legal" className="flex gap-5">
+                        <Link href={terms()} className="transition-colors hover:text-white">
+                            Términos y condiciones
+                        </Link>
+                        <Link href={privacy()} className="transition-colors hover:text-white">
+                            Aviso de privacidad
+                        </Link>
+                    </nav>
+                </div>
             </div>
         </footer>
     );
