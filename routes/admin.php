@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\InvitationMediaController;
 use App\Http\Controllers\Admin\InvitationVideoController;
 use App\Http\Controllers\Admin\LiveGalleryController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\OrderFileController;
 use App\Http\Controllers\Admin\PartnerCommissionController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\PaymentController;
@@ -35,6 +36,9 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::post('clients/{client}/users/{user}/password-reset', [ClientUserController::class, 'sendPasswordReset'])->name('clients.users.password-reset');
     Route::resource('clients.orders', OrderController::class)->shallow()->except('index');
     Route::resource('orders.payments', PaymentController::class)->shallow()->only(['create', 'store', 'destroy']);
+    Route::post('orders/{order}/files', [OrderFileController::class, 'store'])->name('orders.files.store');
+    Route::get('files/{file}/download', [OrderFileController::class, 'download'])->name('files.download');
+    Route::delete('files/{file}', [OrderFileController::class, 'destroy'])->name('files.destroy');
 
     Route::resource('partners', PartnerController::class);
     Route::controller(PartnerCommissionController::class)->group(function () {

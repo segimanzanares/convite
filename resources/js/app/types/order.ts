@@ -27,6 +27,15 @@ export type Payment = {
     notes: string | null;
 };
 
+/** A file delivered with an order. */
+export type OrderFile = {
+    id: number;
+    name: string;
+    /** In bytes. */
+    size: number;
+    created_at: string;
+};
+
 export type Order = {
     id: number;
     client_id: number;
@@ -36,6 +45,8 @@ export type Order = {
     /** What the order sold (its plan's type, web_invitation for orders from before plans had one). */
     type: PlanType;
     grants_panel_access: boolean;
+    /** The delivered files; only sent on the order page. */
+    files?: OrderFile[];
     status: OrderStatus;
     notes: string | null;
     source: OrderSource | null;

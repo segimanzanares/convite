@@ -21,6 +21,7 @@ import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import UrlModal from '@/components/url-modal';
+import OrderFiles from './components/order-files';
 import { formatDate, formatMoney } from '@/lib/format';
 import { invitationLink } from '@/lib/invitation-sections';
 import {
@@ -290,6 +291,8 @@ export default function OrderShow({
                         ))}
                     </DataTable>
                 </section>
+
+                <OrderFiles order={order} />
 
                 {invitations.length > 0 && (
                     <section className="space-y-3">

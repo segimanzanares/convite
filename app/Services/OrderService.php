@@ -124,17 +124,19 @@ class OrderService
             return false;
         }
 
+        app(OrderFileService::class)->deleteAll($order);
+
         return (bool) $order->delete();
     }
 
     /**
-     * Load what the order page shows: the client, who referred them or the partner who brought them, the payments and
-     * the invitations.
+     * Load what the order page shows: the client, who referred them or the partner who brought them, the payments, the
+     * invitations and the delivered files.
      */
     public function loadDetails(Order $order): Order
     {
         return $order
-            ->load(['client', 'referrer', 'partner', 'invitations.order', 'payments' => fn ($query) => $query->latest('paid_at')->latest('id')])
+            ->load(['client', 'referrer', 'partner', 'invitations.order', 'files' => fn ($query) => $query->latest('id'), 'payments' => fn ($query) => $query->latest('paid_at')->latest('id')])
             ->loadSum('payments', 'amount');
     }
 }

@@ -95,6 +95,12 @@ class Order extends Model
         return $this->hasMany(Payment::class);
     }
 
+    /** @return HasMany<OrderFile, $this> */
+    public function files(): HasMany
+    {
+        return $this->hasMany(OrderFile::class);
+    }
+
     /** @return HasMany<Invitation, $this> */
     public function invitations(): HasMany
     {

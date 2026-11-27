@@ -122,5 +122,7 @@
     "The video is being rendered. It takes a few minutes.": "El video se está generando. Tarda unos minutos.",
     "The video is already being rendered.": "El video ya se está generando.",
     "The order did not sell an invitation.": "Esta contratación no es de una invitación.",
+    "File uploaded.": "Archivo subido.",
+    "File deleted.": "Archivo eliminado.",
     "Order created. Capture the content of the video.": "Contratación creada. Captura el contenido del video."
 }

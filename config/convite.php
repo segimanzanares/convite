@@ -129,6 +129,10 @@ return [
     |
     */
 
+    // The largest file the admin may deliver with an order (a tribute video in MP4, printables in PDF...), in MB.
+    // PHP's upload_max_filesize and post_max_size must allow it too.
+    'order_file_max_mb' => (int) env('CONVITE_ORDER_FILE_MAX_MB', 500),
+
     'video' => [
         'python' => env('CONVITE_VIDEO_PYTHON', 'python3'),
         'workers' => env('CONVITE_VIDEO_WORKERS') ? (int) env('CONVITE_VIDEO_WORKERS') : null,

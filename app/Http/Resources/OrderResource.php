@@ -28,6 +28,7 @@ class OrderResource extends JsonResource
             'price' => $this->price,
             'plan' => $this->plan_snapshot,
             'type' => $this->type(),
+            'files' => OrderFileResource::collection($this->whenLoaded('files')),
             'grants_panel_access' => $this->grantsPanelAccess(),
             'status' => $this->status,
             'notes' => $this->notes,
