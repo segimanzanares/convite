@@ -1,18 +1,19 @@
-/* Noche celestial: midnight indigo and moonlit lilac-silver on pale starlight paper. --gold-deep is the indigo
+/* Noche celestial: midnight indigo and moonlit lilac-silver on pale starlight paper. --primary-deep is the indigo
    (titles, buttons) so the light sections read as ink on paper, and the lilac silver stays an accent. The dark
    sections (the hero, the countdown, the closing) are a night sky. */
 .theme-xv-celestial {
-  --gold: #7c73b1;
-  --gold-light: #cdc6ef;
-  --gold-pale: #e6e2f4;
-  --gold-deep: #272a5c;
-  --white: #fcfbff;
-  --cream: #f5f3fb;
-  --off-white: #e9e6f4;
-  --text-dark: #1d1f45;
+  --primary: #7c73b1;
+  --primary-light: #cdc6ef;
+  --primary-pale: #e6e2f4;
+  --primary-deep: #272a5c;
+  --card: #fcfbff;
+  --primary-foreground: var(--card);
+  --surface: #f5f3fb;
+  --muted: #e9e6f4;
+  --foreground: #1d1f45;
 
-  --text-body: #3a3c66;
-  --text-muted: #67698e;
+  --foreground-soft: #3a3c66;
+  --muted-foreground: #67698e;
   --dark-from: #0b0e27;
   --dark-to: #262b63;
   --envelope-bg: radial-gradient(circle at 50% 30%, #2c3170 0%, #141738 55%, #070919 100%);
@@ -23,24 +24,11 @@
   --font-display: 'Marcellus SC', serif;
   --font-body: 'Spectral', Georgia, serif;
   font-family: var(--font-body);
-
-  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
-     :root and inherit their already-resolved value, so they don't pick up
-     the overrides above unless redeclared here on the same scope. */
-  --color-gold: var(--gold);
-  --color-gold-light: var(--gold-light);
-  --color-gold-pale: var(--gold-pale);
-  --color-gold-deep: var(--gold-deep);
-  --color-cream: var(--cream);
-  --color-off-white: var(--off-white);
-  --color-ivory: var(--white);
-  --color-ink: var(--text-dark);
 }
 
 /* The night-sky sections need a brighter lilac for legible numbers, labels and text. */
 .theme-xv-celestial [data-tone='dark'] {
-  --gold: #b3aae6;
-  --color-gold: var(--gold);
+  --primary: #b3aae6;
 }
 
 /* A shooting star: a bright head with a fading tail that crosses the sky now and then. */
@@ -49,7 +37,7 @@
   width: 140px;
   height: 1.5px;
   border-radius: 999px;
-  background: linear-gradient(to right, transparent, color-mix(in srgb, var(--gold-light) 90%, white));
+  background: linear-gradient(to right, transparent, color-mix(in srgb, var(--primary-light) 90%, white));
   opacity: 0;
   transform: rotate(var(--angle, 155deg)) translateX(0);
   animation: celestialShoot var(--every, 9s) var(--wait, 2s) ease-in infinite;
@@ -65,7 +53,7 @@
   margin-top: -2px;
   border-radius: 50%;
   background: white;
-  box-shadow: 0 0 10px 3px color-mix(in srgb, var(--gold-light) 70%, transparent);
+  box-shadow: 0 0 10px 3px color-mix(in srgb, var(--primary-light) 70%, transparent);
 }
 
 @keyframes celestialShoot {

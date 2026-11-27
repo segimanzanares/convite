@@ -1,11 +1,11 @@
 /* The printable card and guest passes of revelacion-globos: the shared layouts (components/print-card) in the invitation's fonts,
-   Sniglet for the names, Quicksand for the text. The colors come from the theme's legacy tokens (--gold, --cream...), which PrintCard.css reads. */
+   Sniglet for the names, Quicksand for the text. The colors come from the theme's tokens (--primary, --surface...), which PrintCard.css reads. */
 .theme-revelacion-globos.print-card-page {
   --font-script: 'Sniglet', ui-rounded, system-ui, sans-serif;
   --font-display: 'Quicksand', ui-rounded, system-ui, sans-serif;
   --font-body: 'Quicksand', ui-rounded, system-ui, sans-serif;
   font-family: var(--font-body);
-  color: var(--text-body);
+  color: var(--foreground-soft);
 }
 
 /* The name is set in a display face, not a script: smaller and tighter than the shared 44pt */
@@ -21,7 +21,7 @@
 .theme-revelacion-globos .print-card__mark,
 .theme-revelacion-globos .print-card__frame::before { display: none; }
 .theme-revelacion-globos .print-card__frame {
-  border: 0.35mm solid var(--gold);
+  border: 0.35mm solid var(--primary);
   border-radius: 3mm;
 }
 .theme-revelacion-globos .guest-pass .print-card__frame { border-width: 0.3mm; border-radius: 2mm; }

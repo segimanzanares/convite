@@ -20,14 +20,14 @@ const ATTENDANCE_OPTIONS: { value: AttendanceStatus; label: string }[] = [
 ];
 
 const RSVP_INPUT_CLASS =
-  'rounded-xl bg-[rgba(255,255,255,0.04)] border border-gold/30 text-gold-pale font-body text-base font-light py-3.5 px-5 outline-none transition-colors duration-300 w-full tracking-[0.05em] placeholder:text-gold-light/35 placeholder:italic focus:border-gold';
+  'rounded-xl bg-[rgba(255,255,255,0.04)] border border-(--primary)/30 text-(--primary-pale) font-body text-base font-light py-3.5 px-5 outline-none transition-colors duration-300 w-full tracking-[0.05em] placeholder:text-(--primary-light)/35 placeholder:italic focus:border-(--primary)';
 
 function attendanceOptionClass(isSelected: boolean) {
   return [
     'flex-1 rounded-full border py-3 px-4 cursor-pointer font-display text-[10px] tracking-[0.3em] uppercase text-center transition-colors duration-300',
     isSelected
-      ? 'bg-gold text-ivory border-gold'
-      : 'bg-transparent text-gold-pale border-gold/30 hover:border-gold',
+      ? 'bg-(--primary) text-(--primary-foreground) border-(--primary)'
+      : 'bg-transparent text-(--primary-pale) border-(--primary)/30 hover:border-(--primary)',
   ].join(' ');
 }
 
@@ -51,29 +51,29 @@ function OnlineRsvp({
   const { guest, form, setField, errors, isAnswered, isOpen, maxSeats } = online;
 
   return (
-    <div data-tone="dark" className="bg-[linear-gradient(160deg,var(--dark-from),var(--dark-to))] text-gold-pale py-[100px] px-10 text-center">
+    <div data-tone="dark" className="bg-[linear-gradient(160deg,var(--dark-from),var(--dark-to))] text-(--primary-pale) py-[100px] px-10 text-center">
       <Reveal className="max-w-[680px] mx-auto">
         <SectionHeading eyebrow="Confirmación" title="RSVP" tone="dark" />
         {guest ? (
-          <p className="text-[clamp(18px,2.4vw,22px)] font-light leading-[1.7] text-gold-light mt-5">
+          <p className="text-[clamp(18px,2.4vw,22px)] font-light leading-[1.7] text-(--primary-light) mt-5">
             {guest.name}
-            <span className="block text-[clamp(15px,1.8vw,17px)] italic text-gold-pale opacity-80">
+            <span className="block text-[clamp(15px,1.8vw,17px)] italic text-(--primary-pale) opacity-80">
               Hemos reservado {seatsLabel(guest.seats)} para ustedes
             </span>
           </p>
         ) : null}
-        <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] italic text-gold-pale opacity-80 mt-5">
+        <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] italic text-(--primary-pale) opacity-80 mt-5">
           Por favor confirme su asistencia antes del{' '}
-          <strong className="text-gold-light">{deadlineLabel}</strong>
+          <strong className="text-(--primary-light)">{deadlineLabel}</strong>
         </p>
 
         {isAnswered ? (
           <>
-            <p className="font-script text-[38px] text-gold-light mt-5">
+            <p className="font-script text-[38px] text-(--primary-light) mt-5">
               {form.attending ? '¡Gracias! Nos alegra contar contigo 🤍' : '¡Gracias por avisarnos! Te extrañaremos 🤍'}
             </p>
             {form.attending ? (
-              <p className="italic text-gold-pale opacity-80 mt-2">Confirmaste {form.seats === 1 ? '1 persona' : `${form.seats} personas`}.</p>
+              <p className="italic text-(--primary-pale) opacity-80 mt-2">Confirmaste {form.seats === 1 ? '1 persona' : `${form.seats} personas`}.</p>
             ) : null}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
               {form.attending && calendar?.dateTime && venues?.length ? (
@@ -89,7 +89,7 @@ function OnlineRsvp({
             </div>
           </>
         ) : !isOpen ? (
-          <p className="font-script text-[34px] text-gold-light mt-8">El plazo para confirmar asistencia terminó.</p>
+          <p className="font-script text-[34px] text-(--primary-light) mt-8">El plazo para confirmar asistencia terminó.</p>
         ) : (
           <form className="max-w-[480px] mx-auto mt-[50px] flex flex-col gap-4" onSubmit={online.submit}>
             {!guest ? (
@@ -122,11 +122,11 @@ function OnlineRsvp({
             </div>
             {form.attending ? (
               <label className="flex items-center justify-between gap-4 text-left">
-                <span className="font-display text-[9px] tracking-[0.3em] uppercase text-gold-light">
+                <span className="font-display text-[9px] tracking-[0.3em] uppercase text-(--primary-light)">
                   Personas que asistirán{guest ? '' : ', incluyéndote'}
                 </span>
                 <select
-                  className={`${RSVP_INPUT_CLASS} w-auto [&>option]:text-ink`}
+                  className={`${RSVP_INPUT_CLASS} w-auto [&>option]:text-(--foreground)`}
                   value={form.seats}
                   onChange={(event) => setField('seats', Number(event.target.value))}
                 >
@@ -155,12 +155,12 @@ function WhatsappRsvp({ whatsappNumber, deadlineLabel, calendar, venues }: RsvpS
   const { form, setField, isSubmitted, handleSubmit } = useRsvpForm(whatsappNumber);
 
   return (
-    <div data-tone="dark" className="bg-[linear-gradient(160deg,var(--dark-from),var(--dark-to))] text-gold-pale py-[100px] px-10 text-center">
+    <div data-tone="dark" className="bg-[linear-gradient(160deg,var(--dark-from),var(--dark-to))] text-(--primary-pale) py-[100px] px-10 text-center">
       <Reveal className="max-w-[680px] mx-auto">
         <SectionHeading eyebrow="Confirmación" title="RSVP" tone="dark" />
-        <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] italic text-gold-pale opacity-80 mt-5">
+        <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] italic text-(--primary-pale) opacity-80 mt-5">
           Por favor confirme su asistencia antes del{' '}
-          <strong className="text-gold-light">{deadlineLabel}</strong>
+          <strong className="text-(--primary-light)">{deadlineLabel}</strong>
         </p>
 
         {!isSubmitted ? (
@@ -199,7 +199,7 @@ function WhatsappRsvp({ whatsappNumber, deadlineLabel, calendar, venues }: RsvpS
           </form>
         ) : (
           <>
-            <p className="font-script text-[38px] text-gold-light mt-5">¡Gracias! Nos alegra contar contigo 🤍</p>
+            <p className="font-script text-[38px] text-(--primary-light) mt-5">¡Gracias! Nos alegra contar contigo 🤍</p>
             {form.attending === 'yes' && calendar?.dateTime && venues?.length ? (
               <button
                 className={buttonClass('outline', 'mt-8')}

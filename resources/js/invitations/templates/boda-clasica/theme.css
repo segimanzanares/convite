@@ -1,22 +1,11 @@
 .theme-boda-clasica {
-  --gold: #c9a84c;
-  --gold-light: #e8d08a;
-  --gold-pale: #f5ecc8;
-  --gold-deep: #a07830;
-  --white: #fdfaf4;
-  --cream: #f9f4e8;
-  --off-white: #efe8d8;
-  --text-dark: #2c1f0a;
-
-  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
-     :root and inherit their already-resolved value, so they don't pick up
-     the overrides above unless redeclared here on the same scope. */
-  --color-gold: var(--gold);
-  --color-gold-light: var(--gold-light);
-  --color-gold-pale: var(--gold-pale);
-  --color-gold-deep: var(--gold-deep);
-  --color-cream: var(--cream);
-  --color-off-white: var(--off-white);
-  --color-ivory: var(--white);
-  --color-ink: var(--text-dark);
+  --primary: #c9a84c;
+  --primary-light: #e8d08a;
+  --primary-pale: #f5ecc8;
+  --primary-deep: #a07830;
+  --card: #fdfaf4;
+  --primary-foreground: var(--card);
+  --surface: #f9f4e8;
+  --muted: #efe8d8;
+  --foreground: #2c1f0a;
 }

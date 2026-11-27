@@ -1,18 +1,19 @@
-/* Bautizo olivo: olive leaves and wheat on natural linen. --gold-deep is a deep olive (titles, the baby's name) and
-   --gold a sage green, with wheat as a warm second accent; the dark sections (countdown, RSVP) are a dark olive grove.
+/* Bautizo olivo: olive leaves and wheat on natural linen. --primary-deep is a deep olive (titles, the baby's name) and
+   --primary a sage green, with wheat as a warm second accent; the dark sections (countdown, RSVP) are a dark olive grove.
    Allura takes the place of the floral script, Tenor Sans that of Cinzel and Crimson Pro that of Cormorant. */
 .theme-bautizo-olivo {
-  --gold: #7f8f5c;
-  --gold-light: #c7cfa6;
-  --gold-pale: #ebeedd;
-  --gold-deep: #434d2c;
-  --white: #fbf9f3;
-  --cream: #f4f0e4;
-  --off-white: #e8e1cf;
-  --text-dark: #2e3322;
+  --primary: #7f8f5c;
+  --primary-light: #c7cfa6;
+  --primary-pale: #ebeedd;
+  --primary-deep: #434d2c;
+  --card: #fbf9f3;
+  --primary-foreground: var(--card);
+  --surface: #f4f0e4;
+  --muted: #e8e1cf;
+  --foreground: #2e3322;
 
-  --text-body: #4b5140;
-  --text-muted: #6d7260;
+  --foreground-soft: #4b5140;
+  --muted-foreground: #6d7260;
   --dark-from: #262c1a;
   --dark-to: #4a5534;
   --envelope-bg: radial-gradient(circle at 50% 38%, #5d6a40 0%, #343d23 55%, #1a1f11 100%);
@@ -25,32 +26,19 @@
   --font-display: 'Tenor Sans', sans-serif;
   --font-body: 'Crimson Pro', Georgia, serif;
   font-family: var(--font-body);
-
-  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
-     :root and inherit their already-resolved value, so they don't pick up
-     the overrides above unless redeclared here on the same scope. */
-  --color-gold: var(--gold);
-  --color-gold-light: var(--gold-light);
-  --color-gold-pale: var(--gold-pale);
-  --color-gold-deep: var(--gold-deep);
-  --color-cream: var(--cream);
-  --color-off-white: var(--off-white);
-  --color-ivory: var(--white);
-  --color-ink: var(--text-dark);
 }
 
 /* The olive grove sections (countdown, RSVP) need a brighter sage for legible numbers, labels and form text; their
    buttons take dark olive text and wheat on hover. */
 .theme-bautizo-olivo [data-tone='dark'] {
-  --gold: #bcc78f;
-  --color-gold: var(--gold);
-  --color-ivory: var(--dark-from);
-  --color-gold-deep: var(--wheat);
+  --primary: #bcc78f;
+  --primary-foreground: var(--dark-from);
+  --primary-deep: var(--wheat);
 }
 
 /* A woven linen texture, for the hero and the closing. */
 .theme-bautizo-olivo .olivo-linen {
-  background-color: var(--cream);
+  background-color: var(--surface);
   background-image:
     repeating-linear-gradient(0deg, var(--linen-line) 0 1px, transparent 1px 4px),
     repeating-linear-gradient(90deg, var(--linen-line) 0 1px, transparent 1px 5px);

@@ -45,7 +45,7 @@ export function InvitationPage({ invitation }: { invitation: BaptismContent }) {
   useAutoScroll({ active: autoScrollActive, speed: 70 });
 
   return (
-    <div className="theme-bautizo-celeste bg-ivory text-ink">
+    <div className="theme-bautizo-celeste bg-(--card) text-(--foreground)">
       <Envelope
         monogram={monogram}
         title={`${celebrant.firstName} · Mi bautizo`}
@@ -78,9 +78,9 @@ export function InvitationPage({ invitation }: { invitation: BaptismContent }) {
         </div>
       )}
 
-      <div className="bg-ivory py-16">
+      <div className="bg-(--card) py-16">
         <ShellFont className="mx-auto w-[130px] sm:w-[150px]" />
-        <p className="mt-4 text-center font-script text-[clamp(40px,7vw,60px)] leading-none text-gold">
+        <p className="mt-4 text-center font-script text-[clamp(40px,7vw,60px)] leading-none text-(--primary)">
           {celebrant.firstName}
         </p>
       </div>
@@ -117,14 +117,14 @@ export function InvitationPage({ invitation }: { invitation: BaptismContent }) {
 
       {invitation.dressCode && (
         <>
-          <CrossDivider className="bg-ivory pt-16" />
+          <CrossDivider className="bg-(--card) pt-16" />
           <DressCodeSection dressCode={invitation.dressCode} eyebrow="Para la ocasión" title="Cómo vestir" />
         </>
       )}
 
       {invitation.gifts.length > 0 && (
         <>
-          <CrossDivider className="bg-ivory pt-16" />
+          <CrossDivider className="bg-(--card) pt-16" />
           <GiftsSection
             gifts={invitation.gifts}
             eyebrow="Un detalle"

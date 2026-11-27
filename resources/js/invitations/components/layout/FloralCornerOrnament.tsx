@@ -15,7 +15,7 @@ const POSITION_CLASSES: Record<CornerPosition, string> = {
 export function FloralCornerOrnament({ position, className = '' }: FloralCornerOrnamentProps) {
   return (
     <div
-      className={`fixed w-[110px] h-[110px] sm:w-[140px] sm:h-[140px] pointer-events-none z-[1000] text-gold ${POSITION_CLASSES[position]} ${className}`}
+      className={`fixed w-[110px] h-[110px] sm:w-[140px] sm:h-[140px] pointer-events-none z-[1000] text-(--primary) ${POSITION_CLASSES[position]} ${className}`}
     >
       <FloralCornerSvg className="w-full h-full drop-shadow-[0_1px_2px_rgba(0,0,0,0.05)]" />
     </div>

@@ -6,7 +6,7 @@
 .theme-boda-serena.print-card-page {
   background: oklch(0.929 0.013 255.508);
   font-family: var(--font-inter);
-  color: var(--text-body);
+  color: var(--foreground-soft);
 }
 
 /* Toolbar, as shadcn/ui buttons */
@@ -47,7 +47,7 @@
 
 /* Ornaments: a single hairline frame with rounded corners */
 .theme-boda-serena .print-card,
-.theme-boda-serena .guest-pass { background: var(--white); }
+.theme-boda-serena .guest-pass { background: var(--card); }
 .theme-boda-serena .print-card__corner,
 .theme-boda-serena .print-card__mark { display: none; }
 .theme-boda-serena .print-card__frame {
@@ -108,7 +108,7 @@
   font-size: 9.5pt;
   font-style: normal;
   line-height: 1.55;
-  color: var(--text-body);
+  color: var(--foreground-soft);
 }
 .theme-boda-serena .print-card__place { font-size: 9.5pt; letter-spacing: 0; color: var(--muted-foreground); }
 

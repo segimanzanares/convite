@@ -71,7 +71,7 @@ export function BabyMobile({ className = '', ...art }: ArtProps) {
             <path d={starPath(13)} fill="var(--butter)" {...OUTLINE} />
           </Hanging>
           <Hanging x={0} y={21} length={104} swing={5} every={6.2} delay={0.9}>
-            <path d={SMALL_CLOUD} fill="var(--white)" {...OUTLINE} transform="scale(1.3)" />
+            <path d={SMALL_CLOUD} fill="var(--card)" {...OUTLINE} transform="scale(1.3)" />
             <circle cx="-6" cy="0" r="1.3" fill="var(--secondary-foreground)" />
             <circle cx="6" cy="0" r="1.3" fill="var(--secondary-foreground)" />
             <path d="M-3 4 Q 0 7 3 4" stroke="var(--secondary-foreground)" strokeWidth="1" strokeLinecap="round" />
@@ -103,12 +103,12 @@ function Sheep() {
         [4, -11],
         [-6, -11],
       ].map(([cx, cy]) => (
-        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="7" fill="var(--white)" {...OUTLINE} />
+        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="7" fill="var(--card)" {...OUTLINE} />
       ))}
-      <ellipse cx="0" cy="-16" rx="13" ry="7" fill="var(--white)" />
+      <ellipse cx="0" cy="-16" rx="13" ry="7" fill="var(--card)" />
       <ellipse cx="19" cy="-19" rx="5.5" ry="6.5" fill="var(--foreground)" transform="rotate(20 19 -19)" />
       <ellipse cx="15" cy="-23" rx="4" ry="1.8" fill="var(--foreground)" transform="rotate(-30 15 -23)" />
-      <circle cx="21" cy="-20" r="0.9" fill="var(--white)" />
+      <circle cx="21" cy="-20" r="0.9" fill="var(--card)" />
     </g>
   );
 }
@@ -186,7 +186,7 @@ export function CloudPuffs({ className, count = PUFFS.length }: { className?: st
           className="nube-drift absolute h-auto"
           style={{ left: `${left}%`, top: `${top}%`, width, opacity, '--every': `${every}s`, '--dx': `${dx}px`, '--wait': `${index * -5}s` } as CSSProperties}
         >
-          <path d={PUFF} fill="var(--white)" stroke="var(--border)" strokeWidth="1.5" />
+          <path d={PUFF} fill="var(--card)" stroke="var(--border)" strokeWidth="1.5" />
         </svg>
       ))}
     </div>
@@ -218,10 +218,10 @@ export function Rainbow({ className = '', ...art }: ArtProps) {
       })}
       {/* The scale lives on the wrapper: floral-pop's CSS transform would replace a transform attribute. */}
       <g transform="translate(30 100) scale(1.4)">
-        <path className="floral-pop" style={delayStyle(0)} d={SMALL_CLOUD} fill="var(--white)" {...OUTLINE} />
+        <path className="floral-pop" style={delayStyle(0)} d={SMALL_CLOUD} fill="var(--card)" {...OUTLINE} />
       </g>
       <g transform="translate(190 100) scale(1.4)">
-        <path className="floral-pop" style={delayStyle(0.1)} d={SMALL_CLOUD} fill="var(--white)" {...OUTLINE} />
+        <path className="floral-pop" style={delayStyle(0.1)} d={SMALL_CLOUD} fill="var(--card)" {...OUTLINE} />
       </g>
       <Sparkle x={110} y={8} scale={0.55} delay={1.4} color="var(--butter)" />
       <Sparkle x={20} y={40} scale={0.4} delay={1.8} color="var(--sky)" />

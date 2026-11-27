@@ -63,7 +63,7 @@ export function SweetIntro({ firstName, age, onOpen, onOpened }: SweetIntroProps
         <button
           type="button"
           autoFocus
-          className={buttonClass('default', 'lg', 'mt-6 h-12 w-full rounded-full font-fredoka text-lg font-semibold shadow-[0_6px_0_var(--gold-deep)] active:translate-y-1 active:shadow-[0_2px_0_var(--gold-deep)]')}
+          className={buttonClass('default', 'lg', 'mt-6 h-12 w-full rounded-full font-fredoka text-lg font-semibold shadow-[0_6px_0_var(--primary-deep)] active:translate-y-1 active:shadow-[0_2px_0_var(--primary-deep)]')}
           onClick={() => {
             setIsOpen(true);
             onOpen?.();

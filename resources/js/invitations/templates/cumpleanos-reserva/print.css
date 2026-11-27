@@ -1,8 +1,8 @@
 /* The printable card and guest passes of cumpleanos-reserva: the shared layouts (components/print-card) in the invitation's fonts,
-   Playfair Display for the name and EB Garamond for the text, as the theme sets them. The colors come from the theme's legacy tokens (--gold, --cream...), which PrintCard.css reads. */
+   Playfair Display for the name and EB Garamond for the text, as the theme sets them. The colors come from the theme's tokens (--primary, --surface...), which PrintCard.css reads. */
 .theme-cumpleanos-reserva.print-card-page {
   font-family: var(--font-body);
-  color: var(--text-body);
+  color: var(--foreground-soft);
 }
 
 /* The name is set in a display face, not a script: smaller and tighter than the shared 44pt */

@@ -1,11 +1,11 @@
 /* The printable card and guest passes of baby-shower-tendedero: the shared layouts (components/print-card) in the invitation's fonts,
-   Yeseva One for the names, Reenie Beanie for the handwritten subtitle, Work Sans for the text. The colors come from the theme's legacy tokens (--gold, --cream...), which PrintCard.css reads. */
+   Yeseva One for the names, Reenie Beanie for the handwritten subtitle, Work Sans for the text. The colors come from the theme's tokens (--primary, --surface...), which PrintCard.css reads. */
 .theme-baby-shower-tendedero.print-card-page {
   --font-script: 'Yeseva One', Georgia, serif;
   --font-display: 'Work Sans', ui-sans-serif, system-ui, sans-serif;
   --font-body: 'Work Sans', ui-sans-serif, system-ui, sans-serif;
   font-family: var(--font-body);
-  color: var(--text-body);
+  color: var(--foreground-soft);
 }
 
 /* The name is set in a display face, not a script: smaller and tighter than the shared 44pt */
@@ -23,7 +23,7 @@
 .theme-baby-shower-tendedero .print-card__mark,
 .theme-baby-shower-tendedero .print-card__frame::before { display: none; }
 .theme-baby-shower-tendedero .print-card__frame {
-  border: 0.35mm solid var(--gold);
+  border: 0.35mm solid var(--primary);
   border-radius: 3mm;
 }
 .theme-baby-shower-tendedero .guest-pass .print-card__frame { border-width: 0.3mm; border-radius: 2mm; }

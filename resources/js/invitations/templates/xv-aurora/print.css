@@ -1,11 +1,11 @@
 /* The printable card and guest passes of xv-aurora: the shared layouts (components/print-card) in the invitation's fonts,
-   Bodoni Moda for the name, Manrope for the text. The colors come from the theme's legacy tokens (--gold, --cream...), which PrintCard.css reads. */
+   Bodoni Moda for the name, Manrope for the text. The colors come from the theme's tokens (--primary, --surface...), which PrintCard.css reads. */
 .theme-xv-aurora.print-card-page {
   --font-script: 'Bodoni Moda', Georgia, serif;
   --font-display: 'Manrope', ui-sans-serif, system-ui, sans-serif;
   --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
   font-family: var(--font-body);
-  color: var(--text-body);
+  color: var(--foreground-soft);
 }
 
 /* The name is set in a display face, not a script: smaller and tighter than the shared 44pt */
@@ -23,7 +23,7 @@
 .theme-xv-aurora .print-card__mark,
 .theme-xv-aurora .print-card__frame::before { display: none; }
 .theme-xv-aurora .print-card__frame {
-  border: 0.35mm solid var(--gold);
+  border: 0.35mm solid var(--primary);
   border-radius: 3mm;
 }
 .theme-xv-aurora .guest-pass .print-card__frame { border-width: 0.3mm; border-radius: 2mm; }

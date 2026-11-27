@@ -21,18 +21,18 @@ interface FluteProps {
 
 /** A champagne flute with its foot on (x, y): the outline draws itself, then it fills and toasts. */
 function Flute({ x, y, lean, tilt, delay, toastDelay }: FluteProps) {
-  const outline = { stroke: 'var(--gold-light)', strokeWidth: 1.4, strokeLinecap: 'round' as const, fill: 'none' };
+  const outline = { stroke: 'var(--primary-light)', strokeWidth: 1.4, strokeLinecap: 'round' as const, fill: 'none' };
 
   return (
     <g transform={`translate(${x} ${y}) rotate(${lean})`}>
       <g className="floral-clink" style={{ ...delayStyle(toastDelay), '--tilt': `${tilt}deg` } as CSSProperties}>
-        <path className="floral-pop" style={delayStyle(delay + 1)} d="M-7.6 -78 C -7.6 -62, -5 -50, 0 -45 C 5 -50, 7.6 -62, 7.6 -78 Z" fill="var(--gold)" fillOpacity="0.45" />
+        <path className="floral-pop" style={delayStyle(delay + 1)} d="M-7.6 -78 C -7.6 -62, -5 -50, 0 -45 C 5 -50, 7.6 -62, 7.6 -78 Z" fill="var(--primary)" fillOpacity="0.45" />
         {[
           [-2.5, -50, 0],
           [2, -54, 0.9],
           [0, -58, 1.7],
         ].map(([cx, cy, offset]) => (
-          <circle key={offset} className="floral-rise" style={delayStyle(delay + 1.6 + offset)} cx={cx} cy={cy} r="1" fill="var(--gold-pale)" />
+          <circle key={offset} className="floral-rise" style={delayStyle(delay + 1.6 + offset)} cx={cx} cy={cy} r="1" fill="var(--primary-pale)" />
         ))}
         <path className="floral-stem" pathLength={1} style={delayStyle(delay)} d="M-9 -86 C -9 -64, -6 -48, 0 -42 C 6 -48, 9 -64, 9 -86" {...outline} />
         <path className="floral-stem" pathLength={1} style={delayStyle(delay + 0.5)} d="M0 -42 L 0 -4" {...outline} />
@@ -52,8 +52,8 @@ export function ToastGlasses({ className = '', ...art }: ArtProps) {
       <Flute x={73} y={100} lean={7} tilt={-9} delay={0.2} toastDelay={2.4} />
       <g transform="translate(60 12)">
         <g className="floral-flash" style={delayStyle(2.4)}>
-          <path d="M0 -7 L 1.5 -1.5 L 7 0 L 1.5 1.5 L 0 7 L -1.5 1.5 L -7 0 L -1.5 -1.5 Z" fill="var(--gold-light)" />
-          <path d="M-9 -9 L -5 -5 M9 -9 L 5 -5 M-9 9 L -5 5 M9 9 L 5 5" stroke="var(--gold-light)" strokeWidth="0.8" />
+          <path d="M0 -7 L 1.5 -1.5 L 7 0 L 1.5 1.5 L 0 7 L -1.5 1.5 L -7 0 L -1.5 -1.5 Z" fill="var(--primary-light)" />
+          <path d="M-9 -9 L -5 -5 M9 -9 L 5 -5 M-9 9 L -5 5 M9 9 L 5 5" stroke="var(--primary-light)" strokeWidth="0.8" />
         </g>
       </g>
       <Sparkle x={16} y={30} scale={0.5} delay={2} />
@@ -65,7 +65,7 @@ export function ToastGlasses({ className = '', ...art }: ArtProps) {
 /** An art-deco fan over a diamond, with stepped rules on both sides, used between sections. */
 export function DecoDivider({ className = '', ...art }: ArtProps) {
   const { ref, artClass, artStyle } = useArt<HTMLDivElement>(art);
-  const color = 'var(--gold)';
+  const color = 'var(--primary)';
   const rays = [-160, -140, -120, -100, -80, -60, -40, -20];
 
   return (
@@ -92,7 +92,7 @@ export function DecoDivider({ className = '', ...art }: ArtProps) {
           <path className="floral-stem" pathLength={1} style={delayStyle(0.6)} d="M112 55 L 70 55 L 64 59 L 44 59" strokeWidth="0.7" />
           <path className="floral-stem" pathLength={1} style={delayStyle(0.6)} d="M188 55 L 230 55 L 236 59 L 256 59" strokeWidth="0.7" />
         </g>
-        <path className="floral-pop" style={delayStyle(0)} d="M150 42 L 158 50 L 150 58 L 142 50 Z" stroke={color} strokeWidth="1" fill="var(--gold-pale)" />
+        <path className="floral-pop" style={delayStyle(0)} d="M150 42 L 158 50 L 150 58 L 142 50 Z" stroke={color} strokeWidth="1" fill="var(--primary-pale)" />
         <path className="floral-pop" style={delayStyle(0.1)} d="M150 46.5 L 153.5 50 L 150 53.5 L 146.5 50 Z" fill={color} />
         <path className="floral-pop" style={delayStyle(1)} d="M20 50 L 24 46 L 28 50 L 24 54 Z" fill={color} />
         <path className="floral-pop" style={delayStyle(1)} d="M272 50 L 276 46 L 280 50 L 276 54 Z" fill={color} />

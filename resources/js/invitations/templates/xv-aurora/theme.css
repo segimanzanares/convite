@@ -27,31 +27,14 @@
   --aurora-mint: oklch(0.89 0.07 175);
 
   /* The shared components this template still uses (the music button, the lightbox, the preview banner, the
-     butterflies) read the legacy tokens: map them to violet and pink. */
-  --gold: oklch(0.54 0.24 293);
-  --gold-light: oklch(0.82 0.12 350);
-  --gold-pale: oklch(0.955 0.03 300);
-  --gold-deep: oklch(0.38 0.16 293);
-  --white: oklch(1 0 0);
-  --cream: oklch(0.99 0.006 300);
-  --off-white: oklch(0.975 0.012 300);
-  --text-dark: oklch(0.24 0.06 295);
-  --text-body: oklch(0.38 0.06 295);
-  --text-muted: oklch(0.5 0.05 295);
+     butterflies) read the primary's shades, the body text and the dark bands below, in violet and pink. */
+  --primary-light: oklch(0.82 0.12 350);
+  --primary-pale: oklch(0.955 0.03 300);
+  --primary-deep: oklch(0.38 0.16 293);
+  --surface: oklch(0.99 0.006 300);
+  --foreground-soft: oklch(0.38 0.06 295);
   --dark-from: oklch(0.21 0.07 293);
   --dark-to: oklch(0.3 0.11 293);
-
-  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
-     :root and inherit their already-resolved value, so they don't pick up
-     the overrides above unless redeclared here on the same scope. */
-  --color-gold: var(--gold);
-  --color-gold-light: var(--gold-light);
-  --color-gold-pale: var(--gold-pale);
-  --color-gold-deep: var(--gold-deep);
-  --color-cream: var(--cream);
-  --color-off-white: var(--off-white);
-  --color-ivory: var(--white);
-  --color-ink: var(--text-dark);
 
   background: var(--background);
   color: var(--foreground);

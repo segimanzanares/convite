@@ -20,8 +20,8 @@ function AttireItem({ Icon, label, attire }: { Icon: ComponentType<{ className?:
       <div className={ICON_TILE_CLASS}>
         <Icon className="w-12 h-12" />
       </div>
-      <p className="font-script text-[36px] text-gold-deep mt-4 leading-none">{label}</p>
-      <p className="text-[19px] font-light text-[var(--text-body)] mt-2">{attire}</p>
+      <p className="font-script text-[36px] text-(--primary-deep) mt-4 leading-none">{label}</p>
+      <p className="text-[19px] font-light text-[var(--foreground-soft)] mt-2">{attire}</p>
     </div>
   );
 }
@@ -40,9 +40,9 @@ export function DressCodeSection({
     <section className="max-w-[920px] mx-auto text-center py-[100px] px-10 max-[640px]:px-6">
       <Reveal>
         <SectionHeading eyebrow={eyebrow} title={title} />
-        <p className="font-display text-[clamp(20px,3vw,26px)] tracking-[0.25em] uppercase text-gold-deep">{type}</p>
+        <p className="font-display text-[clamp(20px,3vw,26px)] tracking-[0.25em] uppercase text-(--primary-deep)">{type}</p>
         {description && (
-          <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] text-[var(--text-body)] italic mt-3">
+          <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] text-[var(--foreground-soft)] italic mt-3">
             {description}
           </p>
         )}
@@ -56,11 +56,11 @@ export function DressCodeSection({
 
         {reservedColor && (
           <div className={`max-w-[420px] mx-auto mt-14 p-5 ${CARD_CLASS}`}>
-            <p className="font-script text-[32px] text-ivory bg-gold rounded-xl py-2 leading-tight">{reservedColorLabel}</p>
-            <p className="text-[16px] font-light leading-[1.7] text-[var(--text-body)] mt-4 mb-1">
+            <p className="font-script text-[32px] text-(--card) bg-(--primary) rounded-xl py-2 leading-tight">{reservedColorLabel}</p>
+            <p className="text-[16px] font-light leading-[1.7] text-[var(--foreground-soft)] mt-4 mb-1">
               {reservedColor.hex && (
                 <span
-                  className="inline-block w-3.5 h-3.5 rounded-full border border-gold/50 align-[-2px] mr-1.5"
+                  className="inline-block w-3.5 h-3.5 rounded-full border border-(--primary)/50 align-[-2px] mr-1.5"
                   style={{ backgroundColor: reservedColor.hex }}
                 />
               )}

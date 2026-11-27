@@ -41,7 +41,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
   useAutoScroll({ active: autoScrollActive, speed: 60 });
 
   return (
-    <div className="theme-infantil-espacial bg-ivory text-ink">
+    <div className="theme-infantil-espacial bg-(--card) text-(--foreground)">
       <Envelope
         monogram={initials(...celebrant.name.split(/\s+/).slice(0, 2))}
         title={`${firstName} · ${age} años`}

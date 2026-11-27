@@ -36,19 +36,19 @@ export function GiftCard({ gift }: GiftCardProps) {
 
   return (
     <div className={`flex flex-col items-center py-10 px-8 max-[640px]:px-6 ${CARD_CLASS}`}>
-      <h3 className="font-script text-[clamp(34px,5vw,42px)] text-gold-deep leading-[1.15]">{gift.title}</h3>
+      <h3 className="font-script text-[clamp(34px,5vw,42px)] text-(--primary-deep) leading-[1.15]">{gift.title}</h3>
       <div className={`mt-7 ${ICON_TILE_CLASS}`}>
         <Icon className="w-12 h-12" />
       </div>
       {gift.description && (
-        <p className="text-[16px] font-light leading-[1.7] text-[var(--text-body)] italic mt-6">{gift.description}</p>
+        <p className="text-[16px] font-light leading-[1.7] text-[var(--foreground-soft)] italic mt-6">{gift.description}</p>
       )}
       {gift.details?.length ? (
         <dl className="mt-6 flex flex-col gap-3">
           {gift.details.map((detail) => (
             <div key={detail.label}>
-              <dt className="text-[17px] font-light text-[var(--text-muted)]">{detail.label}:</dt>
-              <dd className="text-[19px] tracking-[0.04em] text-[var(--text-body)] break-words">{detail.value}</dd>
+              <dt className="text-[17px] font-light text-[var(--muted-foreground)]">{detail.label}:</dt>
+              <dd className="text-[19px] tracking-[0.04em] text-[var(--foreground-soft)] break-words">{detail.value}</dd>
             </div>
           ))}
         </dl>

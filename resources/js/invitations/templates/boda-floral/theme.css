@@ -2,17 +2,18 @@
    names and headings, and sage green for the leaves and the dark sections
    (countdown, RSVP), where the pale rose text keeps its contrast. */
 .theme-boda-floral {
-  --gold: #c27c84;
-  --gold-light: #ebbfc1;
-  --gold-pale: #f7e4e2;
-  --gold-deep: #9b5260;
-  --white: #fffbf8;
-  --cream: #fcf2ee;
-  --off-white: #f4e3dd;
-  --text-dark: #3b2b2f;
+  --primary: #c27c84;
+  --primary-light: #ebbfc1;
+  --primary-pale: #f7e4e2;
+  --primary-deep: #9b5260;
+  --card: #fffbf8;
+  --primary-foreground: var(--card);
+  --surface: #fcf2ee;
+  --muted: #f4e3dd;
+  --foreground: #3b2b2f;
 
-  --text-body: #5b4448;
-  --text-muted: #765c60;
+  --foreground-soft: #5b4448;
+  --muted-foreground: #765c60;
   --dark-from: #2f3d34;
   --dark-to: #4a5c4f;
   --envelope-bg: radial-gradient(circle at 50% 40%, #5d7262 0%, #3a4b3f 60%, #26322a 100%);
@@ -20,16 +21,4 @@
   /* The leaves of the flower ornaments (components/Flowers.tsx). */
   --leaf: #9db095;
   --leaf-deep: #6f8a6c;
-
-  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
-     :root and inherit their already-resolved value, so they don't pick up
-     the overrides above unless redeclared here on the same scope. */
-  --color-gold: var(--gold);
-  --color-gold-light: var(--gold-light);
-  --color-gold-pale: var(--gold-pale);
-  --color-gold-deep: var(--gold-deep);
-  --color-cream: var(--cream);
-  --color-off-white: var(--off-white);
-  --color-ivory: var(--white);
-  --color-ink: var(--text-dark);
 }

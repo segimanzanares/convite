@@ -1,6 +1,6 @@
 /*
  * The animated garden of the cumpleanos-floral template: cosmos, tulips and butterflies in the theme's pinks
- * (--gold-light, --gold, --gold-deep) with sage leaves (--leaf, --leaf-deep). They grow when they come into
+ * (--primary-light, --primary, --primary-deep) with sage leaves (--leaf, --leaf-deep). They grow when they come into
  * view, or once `play` turns true (components/floral/floral-art.css).
  */
 import type { CSSProperties } from 'react';
@@ -21,19 +21,19 @@ function Cosmos({ x, y, rotate = 0, scale = 1, delay = 0 }: PieceProps) {
             key={angle}
             d="M0 -3 C -6 -6, -7 -16, -4 -21 L -2 -19 L 0 -22 L 2 -19 L 4 -21 C 7 -16, 6 -6, 0 -3 Z"
             transform={`rotate(${angle})`}
-            fill="var(--gold-light)"
-            stroke="var(--gold-deep)"
+            fill="var(--primary-light)"
+            stroke="var(--primary-deep)"
             strokeWidth="0.5"
             strokeOpacity="0.4"
           />
         ))}
         <g className="floral-bloom-heart" style={delayStyle(delay)}>
           {[22, 67, 112, 157, 202, 247, 292, 337].map((angle) => (
-            <path key={angle} d="M0 -3 L 0 -12" transform={`rotate(${angle})`} stroke="var(--gold)" strokeWidth="1.2" />
+            <path key={angle} d="M0 -3 L 0 -12" transform={`rotate(${angle})`} stroke="var(--primary)" strokeWidth="1.2" />
           ))}
-          <circle r="5" fill="var(--gold-deep)" />
+          <circle r="5" fill="var(--primary-deep)" />
           {[0, 72, 144, 216, 288].map((angle) => (
-            <circle key={angle} cx="0" cy="-2.6" r="0.9" transform={`rotate(${angle})`} fill="var(--gold-pale)" />
+            <circle key={angle} cx="0" cy="-2.6" r="0.9" transform={`rotate(${angle})`} fill="var(--primary-pale)" />
           ))}
         </g>
       </g>
@@ -62,7 +62,7 @@ function Bud({ x, y, rotate = 0, delay = 0 }: { x: number; y: number; rotate?: n
     <g transform={`translate(${x} ${y}) rotate(${rotate})`}>
       <g className="floral-bud" style={delayStyle(delay)}>
         <path d="M0 0 L 0 -9" stroke="var(--leaf-deep)" strokeWidth="1" />
-        <path d="M0 -8 C -5 -10, -4 -18, 0 -20 C 4 -18, 5 -10, 0 -8 Z" fill="var(--gold)" />
+        <path d="M0 -8 C -5 -10, -4 -18, 0 -20 C 4 -18, 5 -10, 0 -8 Z" fill="var(--primary)" />
         <path d="M0 -8 C -3 -10, -4 -13, -3 -15 M0 -8 C 3 -10, 4 -13, 3 -15" stroke="var(--leaf-deep)" strokeWidth="1" fill="none" />
       </g>
     </g>
@@ -86,8 +86,8 @@ function Tulip({ x, y, height, lean = 0, delay = 0 }: PlantProps) {
         <path d={`M0 0 C 2 ${-height * 0.4}, -2 ${-height * 0.7}, 0 ${-height + 2}`} stroke="var(--leaf-deep)" strokeWidth="1.4" fill="none" />
         <Blade x={0} y={-height * 0.2} rotate={-62} length={height * 0.5} delay={delay + 0.3} />
         <g transform={`translate(0 ${-height})`}>
-          <path d="M-7 0 C -10 -9, -7 -16, -5 -19 L -2 -12 L 0 -20 L 2 -12 L 5 -19 C 7 -16, 10 -9, 7 0 C 4 4, -4 4, -7 0 Z" fill="var(--gold)" />
-          <path d="M-2 -12 C -2 -6, -1 -1, 0 2 M2 -12 C 2 -6, 1 -1, 0 2" stroke="var(--gold-deep)" strokeWidth="0.8" fill="none" opacity="0.7" />
+          <path d="M-7 0 C -10 -9, -7 -16, -5 -19 L -2 -12 L 0 -20 L 2 -12 L 5 -19 C 7 -16, 10 -9, 7 0 C 4 4, -4 4, -7 0 Z" fill="var(--primary)" />
+          <path d="M-2 -12 C -2 -6, -1 -1, 0 2 M2 -12 C 2 -6, 1 -1, 0 2" stroke="var(--primary-deep)" strokeWidth="0.8" fill="none" opacity="0.7" />
         </g>
       </g>
     </g>

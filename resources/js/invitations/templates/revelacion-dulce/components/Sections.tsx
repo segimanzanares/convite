@@ -83,7 +83,7 @@ export function Footer({ names, dateLabel, closingMessage, tagline }: FooterProp
 
   return (
     <footer className="ui-dark text-center">
-      <DripDivider color="--cream" className="bg-(--background)" />
+      <DripDivider color="--surface" className="bg-(--background)" />
       <div className="px-5 pt-14 pb-28">
         <div className="mx-auto flex w-44 gap-2">
           <Cupcake gender="girl" className="w-full" />

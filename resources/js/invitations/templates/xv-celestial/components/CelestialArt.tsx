@@ -36,8 +36,8 @@ export function CrescentMoon({ className = '', ...art }: ArtProps) {
     <svg ref={ref} viewBox="0 0 160 160" className={`${className} ${artClass}`} style={artStyle} fill="none" aria-hidden="true">
       <defs>
         <radialGradient id={`${id}-halo`}>
-          <stop offset="0.45" stopColor="var(--gold-light)" stopOpacity="0.55" />
-          <stop offset="1" stopColor="var(--gold-light)" stopOpacity="0" />
+          <stop offset="0.45" stopColor="var(--primary-light)" stopOpacity="0.55" />
+          <stop offset="1" stopColor="var(--primary-light)" stopOpacity="0" />
         </radialGradient>
         <mask id={`${id}-shadow`}>
           <rect width="160" height="160" fill="white" />
@@ -50,8 +50,8 @@ export function CrescentMoon({ className = '', ...art }: ArtProps) {
       <g className="floral-pop" style={delayStyle(1.1)}>
         <circle className="celestial-glow" cx="66" cy="94" r="62" fill={`url(#${id}-halo)`} />
       </g>
-      <circle className="floral-pop" style={delayStyle(0.9)} cx="80" cy="80" r="46" fill="var(--gold-light)" mask={`url(#${id}-shadow)`} />
-      <g fill="var(--gold)" opacity="0.35">
+      <circle className="floral-pop" style={delayStyle(0.9)} cx="80" cy="80" r="46" fill="var(--primary-light)" mask={`url(#${id}-shadow)`} />
+      <g fill="var(--primary)" opacity="0.35">
         {[
           [55, 90, 6, 1.4],
           [66, 112, 4, 1.55],
@@ -61,14 +61,14 @@ export function CrescentMoon({ className = '', ...art }: ArtProps) {
           <circle key={`${cx}-${cy}`} className="floral-pop" style={delayStyle(delay)} cx={cx} cy={cy} r={r} />
         ))}
       </g>
-      <g stroke="var(--gold-pale)" strokeWidth="1.2" strokeLinecap="round">
+      <g stroke="var(--primary-pale)" strokeWidth="1.2" strokeLinecap="round">
         <circle className="floral-stem" pathLength={1} style={delayStyle(0)} cx="80" cy="80" r="46" mask={`url(#${id}-shadow)`} />
         <circle className="floral-stem" pathLength={1} style={delayStyle(0.3)} cx="100" cy="64" r="40" mask={`url(#${id}-disc)`} />
       </g>
       <g transform="translate(134 0)">
         <g className="floral-bud" style={{ ...delayStyle(1.6), '--sway': '8deg' } as CSSProperties}>
-          <path d="M0 0 L 0 34" stroke="var(--gold-light)" strokeWidth="0.7" opacity="0.7" />
-          <path d={starPath(8)} transform="translate(0 42)" fill="var(--gold-light)" />
+          <path d="M0 0 L 0 34" stroke="var(--primary-light)" strokeWidth="0.7" opacity="0.7" />
+          <path d={starPath(8)} transform="translate(0 42)" fill="var(--primary-light)" />
         </g>
       </g>
       <Sparkle x={18} y={34} scale={0.7} delay={1.9} />
@@ -95,13 +95,13 @@ export function CrownConstellation({ className = '', ...art }: ArtProps) {
 
   return (
     <svg ref={ref} viewBox="0 0 200 110" className={`${className} ${artClass}`} style={artStyle} fill="none" aria-hidden="true">
-      <g stroke="var(--gold-light)" strokeWidth="0.8" strokeLinecap="round" opacity="0.55">
+      <g stroke="var(--primary-light)" strokeWidth="0.8" strokeLinecap="round" opacity="0.55">
         {lines.map((line, index) => (
           <path key={line} className="floral-stem" pathLength={1} style={delayStyle(1.2 + index * 0.25)} d={line} />
         ))}
         <path className="floral-stem" pathLength={1} style={delayStyle(2.8)} d="M14 86 Q 100 104 186 86" />
       </g>
-      <g fill="var(--gold-light)">
+      <g fill="var(--primary-light)">
         {CROWN_STARS.map(([x, y, r], index) => (
           <circle key={`${x}-${y}`} className="floral-pop" style={delayStyle(index * 0.15)} cx={x} cy={y} r={r} />
         ))}
@@ -156,7 +156,7 @@ export function MoonPhasesDivider({ className = '', ...art }: ArtProps) {
             ),
           )}
         </defs>
-        <g stroke="var(--gold)" strokeWidth="0.9" strokeLinecap="round">
+        <g stroke="var(--primary)" strokeWidth="0.9" strokeLinecap="round">
           <path className="floral-stem" pathLength={1} style={delayStyle(0.6)} d="M72 20 L 18 20" />
           <path className="floral-stem" pathLength={1} style={delayStyle(0.6)} d="M228 20 L 282 20" />
         </g>
@@ -164,14 +164,14 @@ export function MoonPhasesDivider({ className = '', ...art }: ArtProps) {
           const cx = 90 + index * 30;
           return (
             <g key={index} className="floral-pop" style={delayStyle(Math.abs(index - 2) * 0.18)}>
-              <circle cx={cx} cy="20" r="7" stroke="var(--gold)" strokeWidth="0.8" fill="var(--gold-pale)" />
-              <circle cx={cx} cy="20" r="7" fill="var(--gold)" mask={shift === null ? undefined : `url(#${id}-phase${index})`} />
+              <circle cx={cx} cy="20" r="7" stroke="var(--primary)" strokeWidth="0.8" fill="var(--primary-pale)" />
+              <circle cx={cx} cy="20" r="7" fill="var(--primary)" mask={shift === null ? undefined : `url(#${id}-phase${index})`} />
             </g>
           );
         })}
-        <path className="floral-pop" style={delayStyle(1.2)} d="M14 20 L 18 16 L 22 20 L 18 24 Z" fill="var(--gold)" />
-        <path className="floral-pop" style={delayStyle(1.2)} d="M278 20 L 282 16 L 286 20 L 282 24 Z" fill="var(--gold)" />
-        <Sparkle x={150} y={5} scale={0.45} delay={1.4} color="var(--gold)" />
+        <path className="floral-pop" style={delayStyle(1.2)} d="M14 20 L 18 16 L 22 20 L 18 24 Z" fill="var(--primary)" />
+        <path className="floral-pop" style={delayStyle(1.2)} d="M278 20 L 282 16 L 286 20 L 282 24 Z" fill="var(--primary)" />
+        <Sparkle x={150} y={5} scale={0.45} delay={1.4} color="var(--primary)" />
       </svg>
     </div>
   );
@@ -202,9 +202,9 @@ export function HangingStars({ className = '', flip = false, ...art }: ArtProps 
       {THREADS.map(([x, length, radius, sway, delay]) => (
         <g key={x} transform={`translate(${x} 0)`}>
           <g className="floral-bud" style={{ ...delayStyle(delay), '--sway': `${sway}deg` } as CSSProperties}>
-            <path d={`M0 0 L 0 ${length}`} stroke="var(--gold)" strokeWidth="0.7" opacity="0.55" />
-            <circle cy={length * 0.45} r="1.2" fill="var(--gold)" opacity="0.6" />
-            <path d={starPath(radius)} transform={`translate(0 ${length + radius * 0.8})`} fill="var(--gold-light)" stroke="var(--gold)" strokeWidth="0.8" strokeLinejoin="round" />
+            <path d={`M0 0 L 0 ${length}`} stroke="var(--primary)" strokeWidth="0.7" opacity="0.55" />
+            <circle cy={length * 0.45} r="1.2" fill="var(--primary)" opacity="0.6" />
+            <path d={starPath(radius)} transform={`translate(0 ${length + radius * 0.8})`} fill="var(--primary-light)" stroke="var(--primary)" strokeWidth="0.8" strokeLinejoin="round" />
           </g>
         </g>
       ))}

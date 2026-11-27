@@ -58,7 +58,7 @@ export function InvitationPage({ invitation }: { invitation: BaptismContent }) {
   useAutoScroll({ active: autoScrollActive, speed: 70 });
 
   return (
-    <div className="theme-bautizo-olivo bg-ivory text-ink">
+    <div className="theme-bautizo-olivo bg-(--card) text-(--foreground)">
       <StoryCover
         monogram={monogram}
         name={celebrant.name}
@@ -88,7 +88,7 @@ export function InvitationPage({ invitation }: { invitation: BaptismContent }) {
 
       {invitation.parents && (
         <>
-          <SprigDivider className="bg-ivory pb-4" />
+          <SprigDivider className="bg-(--card) pb-4" />
           <HonorSection
             eyebrow="Con la bendición de Dios"
             title="Quienes me acompañan"
@@ -102,7 +102,7 @@ export function InvitationPage({ invitation }: { invitation: BaptismContent }) {
       <div id="celebracion" className={ANCHOR}>
         {invitation.venues.length > 0 && (
           <>
-            <SprigDivider className="bg-ivory pt-16" />
+            <SprigDivider className="bg-(--card) pt-16" />
             <VenuesSection
               venues={invitation.venues}
               eyebrow="Dónde"
@@ -138,7 +138,7 @@ export function InvitationPage({ invitation }: { invitation: BaptismContent }) {
 
       {invitation.dressCode && (
         <>
-          <div className="bg-ivory pt-16">
+          <div className="bg-(--card) pt-16">
             <Lamb className="mx-auto w-[min(180px,52vw)]" />
           </div>
           <DressCodeSection dressCode={invitation.dressCode} eyebrow="Para la ocasión" title="Código de vestimenta" />
@@ -147,7 +147,7 @@ export function InvitationPage({ invitation }: { invitation: BaptismContent }) {
 
       {hasSection.gifts && (
         <div id="regalos" className={ANCHOR}>
-          <SprigDivider className="bg-ivory pt-16" />
+          <SprigDivider className="bg-(--card) pt-16" />
           <GiftsSection
             gifts={invitation.gifts}
             eyebrow="Un detalle"

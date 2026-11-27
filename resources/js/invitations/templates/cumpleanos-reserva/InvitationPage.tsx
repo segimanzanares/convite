@@ -38,7 +38,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
   useAutoScroll({ active: autoScrollActive, speed: 60 });
 
   return (
-    <div className="theme-cumpleanos-reserva bg-ivory text-ink">
+    <div className="theme-cumpleanos-reserva bg-(--card) text-(--foreground)">
       <Envelope
         monogram={initials(...celebrant.name.split(/\s+/).slice(0, 2))}
         title={`${celebrant.firstName} · ${celebrant.age} años`}
@@ -63,7 +63,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         signature={celebrant.hosts}
       />
       <FullDivider text={`${celebrant.age} y contando`} />
-      {invitation.venues.length > 0 && <DecoDivider className="pt-16 bg-ivory" />}
+      {invitation.venues.length > 0 && <DecoDivider className="pt-16 bg-(--card)" />}
       {invitation.venues.length > 0 && (
         <VenuesSection
           venues={invitation.venues}
@@ -93,7 +93,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
       )}
       {invitation.dressCode && (
         <>
-          <DecoDivider className="pt-16 bg-ivory" />
+          <DecoDivider className="pt-16 bg-(--card)" />
           <DressCodeSection dressCode={invitation.dressCode} title="Cómo vestir" />
         </>
       )}
@@ -104,7 +104,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
           intro="Tonos profundos, como la madera, el cuero y un buen añejo: así nos gustaría vernos esa noche."
         />
       )}
-      {invitation.gifts.length > 0 && <DecoDivider className="pt-16 bg-ivory" />}
+      {invitation.gifts.length > 0 && <DecoDivider className="pt-16 bg-(--card)" />}
       {invitation.gifts.length > 0 && (
         <GiftsSection
           gifts={invitation.gifts}
@@ -127,7 +127,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         venues={invitation.venues}
       />
       <WishesSection />
-      <DecoDivider className="pt-14 bg-ivory" />
+      <DecoDivider className="pt-14 bg-(--card)" />
       <Footer
         title={celebrant.name}
         dateLabel={celebrant.footerDateLabel}

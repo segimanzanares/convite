@@ -20,7 +20,7 @@ export function DressCodePalette({
     <section className="max-w-[920px] mx-auto text-center py-[100px] px-10">
       <Reveal>
         <SectionHeading eyebrow={eyebrow} title={title} />
-        <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] text-[var(--text-body)] italic">
+        <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] text-[var(--foreground-soft)] italic">
           {intro}
         </p>
         <div className="flex gap-6 justify-center flex-wrap mt-10">

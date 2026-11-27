@@ -1,6 +1,6 @@
 /*
  * Hand-drawn flower ornaments of the boda-floral template. They are colored by the theme's tokens: petals in
- * the rose shades (--gold-light, --gold, --gold-deep) and leaves in the sage ones (--leaf, --leaf-deep).
+ * the rose shades (--primary-light, --primary, --primary-deep) and leaves in the sage ones (--leaf, --leaf-deep).
  *
  * They grow when they come into view (or when `play` turns true): the stems draw themselves, the leaves unfurl
  * and the roses open, each after its own delay. Then the roses breathe, the buds nod and the leaves rustle
@@ -30,18 +30,18 @@ function Bloom({ x, y, scale = 1, rotate = 0, delay = 0 }: BloomProps) {
             rx="10"
             ry="13"
             transform={`rotate(${angle})`}
-            fill="var(--gold-light)"
-            stroke="var(--gold-deep)"
+            fill="var(--primary-light)"
+            stroke="var(--primary-deep)"
             strokeWidth="0.6"
             strokeOpacity="0.35"
           />
         ))}
         <g className="floral-bloom-heart">
           {[36, 108, 180, 252, 324].map((angle) => (
-            <ellipse key={`m${angle}`} cx="0" cy="-7" rx="7" ry="9" transform={`rotate(${angle})`} fill="var(--gold)" opacity="0.85" />
+            <ellipse key={`m${angle}`} cx="0" cy="-7" rx="7" ry="9" transform={`rotate(${angle})`} fill="var(--primary)" opacity="0.85" />
           ))}
-          <circle r="6.5" fill="var(--gold-deep)" />
-          <path d="M-3 -1 C -3 -4, 2 -5, 3 -1 C 4 2, 0 4, -2 2" stroke="var(--gold-light)" strokeWidth="1" fill="none" />
+          <circle r="6.5" fill="var(--primary-deep)" />
+          <path d="M-3 -1 C -3 -4, 2 -5, 3 -1 C 4 2, 0 4, -2 2" stroke="var(--primary-light)" strokeWidth="1" fill="none" />
         </g>
       </g>
     </g>
@@ -67,7 +67,7 @@ function Leaf({ x, y, rotate, length = 30, deep = false, delay = 0 }: LeafProps)
           d={`M0 0 C ${half * 0.4} ${-half * 0.45}, ${half * 1.3} ${-half * 0.45}, ${length} 0 C ${half * 1.3} ${half * 0.45}, ${half * 0.4} ${half * 0.45}, 0 0 Z`}
           fill={deep ? 'var(--leaf-deep)' : 'var(--leaf)'}
         />
-        <path d={`M2 0 L ${length - 4} 0`} stroke="var(--white)" strokeWidth="0.6" opacity="0.5" />
+        <path d={`M2 0 L ${length - 4} 0`} stroke="var(--card)" strokeWidth="0.6" opacity="0.5" />
       </g>
     </g>
   );
@@ -79,7 +79,7 @@ function Bud({ x, y, rotate, delay = 0 }: { x: number; y: number; rotate: number
     <g transform={`translate(${x} ${y}) rotate(${rotate})`}>
       <g className="floral-bud" style={delayStyle(delay)}>
         <path d="M0 0 L 0 -12" stroke="var(--leaf-deep)" strokeWidth="1" />
-        <path d="M0 -10 C -5 -13, -5 -21, 0 -24 C 5 -21, 5 -13, 0 -10 Z" fill="var(--gold)" />
+        <path d="M0 -10 C -5 -13, -5 -21, 0 -24 C 5 -21, 5 -13, 0 -10 Z" fill="var(--primary)" />
         <path d="M0 -10 C -4 -12, -5 -15, -4 -17 M0 -10 C 4 -12, 5 -15, 4 -17" stroke="var(--leaf-deep)" strokeWidth="1.2" fill="none" />
       </g>
     </g>
@@ -92,9 +92,9 @@ function Berries({ x, y, rotate, delay = 0 }: { x: number; y: number; rotate: nu
     <g transform={`translate(${x} ${y}) rotate(${rotate})`}>
       <g className="floral-berries" style={delayStyle(delay)}>
         <path d="M0 0 C 6 -4, 12 -4, 20 -2" stroke="var(--leaf-deep)" strokeWidth="0.8" fill="none" />
-        <circle cx="9" cy="-6" r="2" fill="var(--gold-deep)" opacity="0.7" />
-        <circle cx="15" cy="-6.5" r="2" fill="var(--gold-deep)" opacity="0.7" />
-        <circle cx="21" cy="-3" r="2" fill="var(--gold-deep)" opacity="0.7" />
+        <circle cx="9" cy="-6" r="2" fill="var(--primary-deep)" opacity="0.7" />
+        <circle cx="15" cy="-6.5" r="2" fill="var(--primary-deep)" opacity="0.7" />
+        <circle cx="21" cy="-3" r="2" fill="var(--primary-deep)" opacity="0.7" />
       </g>
     </g>
   );

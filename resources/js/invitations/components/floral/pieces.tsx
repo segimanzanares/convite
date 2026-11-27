@@ -17,11 +17,11 @@ export interface PieceProps {
 export function Butterfly({ x, y, rotate = 0, scale = 1, delay = 0 }: PieceProps) {
   const wings = (
     <>
-      <path d="M0 -2 C -8 -20, -27 -22, -25 -7 C -23 1, -9 2, 0 0 Z" fill="var(--gold)" />
-      <path d="M0 1 C -11 4, -19 15, -13 20 C -7 23, -2 12, 0 3 Z" fill="var(--gold-light)" />
-      <circle cx="-15" cy="-10" r="3" fill="var(--gold-pale)" opacity="0.85" />
-      <circle cx="-9" cy="12" r="1.8" fill="var(--gold-pale)" opacity="0.85" />
-      <path d="M0 -2 C -8 -20, -27 -22, -25 -7" stroke="var(--gold-deep)" strokeWidth="0.8" fill="none" opacity="0.6" />
+      <path d="M0 -2 C -8 -20, -27 -22, -25 -7 C -23 1, -9 2, 0 0 Z" fill="var(--primary)" />
+      <path d="M0 1 C -11 4, -19 15, -13 20 C -7 23, -2 12, 0 3 Z" fill="var(--primary-light)" />
+      <circle cx="-15" cy="-10" r="3" fill="var(--primary-pale)" opacity="0.85" />
+      <circle cx="-9" cy="12" r="1.8" fill="var(--primary-pale)" opacity="0.85" />
+      <path d="M0 -2 C -8 -20, -27 -22, -25 -7" stroke="var(--primary-deep)" strokeWidth="0.8" fill="none" opacity="0.6" />
     </>
   );
 
@@ -32,15 +32,15 @@ export function Butterfly({ x, y, rotate = 0, scale = 1, delay = 0 }: PieceProps
           {wings}
           <g transform="scale(-1 1)">{wings}</g>
         </g>
-        <ellipse rx="1.8" ry="10" cy="2" fill="var(--gold-deep)" />
-        <path d="M-0.5 -7 C -2 -12, -4 -14, -6 -15 M0.5 -7 C 2 -12, 4 -14, 6 -15" stroke="var(--gold-deep)" strokeWidth="0.8" fill="none" />
+        <ellipse rx="1.8" ry="10" cy="2" fill="var(--primary-deep)" />
+        <path d="M-0.5 -7 C -2 -12, -4 -14, -6 -15 M0.5 -7 C 2 -12, 4 -14, 6 -15" stroke="var(--primary-deep)" strokeWidth="0.8" fill="none" />
       </g>
     </g>
   );
 }
 
 /** A four-pointed sparkle that appears, then pulses and turns. */
-export function Sparkle({ x, y, scale = 1, delay = 0, color = 'var(--gold-light)' }: PieceProps & { color?: string }) {
+export function Sparkle({ x, y, scale = 1, delay = 0, color = 'var(--primary-light)' }: PieceProps & { color?: string }) {
   return (
     <g transform={`translate(${x} ${y}) scale(${scale})`}>
       <path

@@ -28,7 +28,7 @@ export function ChapterNav({ monogram, links }: ChapterNavProps) {
       aria-label="Secciones de la invitación"
       className={[
         'fixed top-0 inset-x-0 z-[1100] transition-[transform,opacity] duration-500',
-        'bg-[color-mix(in_srgb,var(--dark-from)_88%,transparent)] backdrop-blur-md border-b border-gold/25',
+        'bg-[color-mix(in_srgb,var(--dark-from)_88%,transparent)] backdrop-blur-md border-b border-(--primary)/25',
         isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none',
       ].join(' ')}
     >
@@ -36,12 +36,12 @@ export function ChapterNav({ monogram, links }: ChapterNavProps) {
         <a
           href="#inicio"
           onClick={scrollToHash}
-          className="font-script text-[26px] leading-none text-gold-light shrink-0"
+          className="font-script text-[26px] leading-none text-(--primary-light) shrink-0"
           aria-label="Volver al inicio"
         >
           {monogram}
         </a>
-        <span className="h-5 w-px bg-gold/30 shrink-0" aria-hidden="true" />
+        <span className="h-5 w-px bg-(--primary)/30 shrink-0" aria-hidden="true" />
         <ul className="flex items-center gap-5 sm:gap-7 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:ml-auto pr-3">
           {links.map((link) => (
             <li key={link.href} className="shrink-0">
@@ -49,7 +49,7 @@ export function ChapterNav({ monogram, links }: ChapterNavProps) {
                 href={link.href}
                 onClick={scrollToHash}
                 tabIndex={isVisible ? undefined : -1}
-                className="font-display text-[9px] tracking-[0.3em] uppercase text-gold-light/85 hover:text-gold-light transition-colors"
+                className="font-display text-[9px] tracking-[0.3em] uppercase text-(--primary-light)/85 hover:text-(--primary-light) transition-colors"
               >
                 {link.label}
               </a>

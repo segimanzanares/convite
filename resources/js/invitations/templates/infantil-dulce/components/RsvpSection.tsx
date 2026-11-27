@@ -184,7 +184,7 @@ function OnlineRsvp({ calendar, venues, online }: RsvpSectionProps & { online: R
         </Field>
       )}
       {errors.rsvp && <p className="text-sm text-(--destructive)">{errors.rsvp}</p>}
-      <button className={buttonClass('default', 'lg', 'h-12 w-full rounded-full font-fredoka text-lg font-semibold shadow-[0_5px_0_var(--gold-deep)]')} type="submit" disabled={online.processing}>
+      <button className={buttonClass('default', 'lg', 'h-12 w-full rounded-full font-fredoka text-lg font-semibold shadow-[0_5px_0_var(--primary-deep)]')} type="submit" disabled={online.processing}>
         {online.processing ? 'Enviando…' : 'Enviar mi respuesta'}
       </button>
     </form>
@@ -235,7 +235,7 @@ function WhatsappRsvp({ whatsappNumber, calendar, venues }: RsvpSectionProps) {
           onChange={(event) => setField('guests', event.target.value)}
         />
       </Field>
-      <button className={buttonClass('default', 'lg', 'h-12 w-full rounded-full font-fredoka text-lg font-semibold shadow-[0_5px_0_var(--gold-deep)]')} type="submit">
+      <button className={buttonClass('default', 'lg', 'h-12 w-full rounded-full font-fredoka text-lg font-semibold shadow-[0_5px_0_var(--primary-deep)]')} type="submit">
         Responder por WhatsApp
       </button>
       <p className="text-center text-xs text-(--muted-foreground)">Se abrirá WhatsApp con tu respuesta lista para enviar.</p>

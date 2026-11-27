@@ -17,11 +17,11 @@ function Wing({ fill }: { fill: string }) {
       <path
         d="M0 0 C -4 -20, -20 -40, -50 -48 C -44 -38, -42 -30, -40 -24 C -44 -22, -50 -20, -54 -17 C -40 -9, -20 -2, 0 0 Z"
         fill={fill}
-        stroke="var(--gold)"
+        stroke="var(--primary)"
         strokeWidth="1.2"
         strokeLinejoin="round"
       />
-      <path d="M-12 -5 C -22 -12, -30 -20, -38 -30 M-20 -4 C -30 -9, -38 -13, -46 -17" stroke="var(--gold)" strokeWidth="0.7" opacity="0.7" />
+      <path d="M-12 -5 C -22 -12, -30 -20, -38 -30 M-20 -4 C -30 -9, -38 -13, -46 -17" stroke="var(--primary)" strokeWidth="0.7" opacity="0.7" />
     </>
   );
 }
@@ -45,18 +45,18 @@ function Dove({ x, y, scale = 1, delay = 0, flyIn = false, branch = true }: Dove
         <g className="celeste-glide" style={delayStyle(delay)}>
           <g transform="translate(8 -6) scale(0.86)">
             <g className="celeste-wing" style={delayStyle(delay + 0.18)}>
-              <Wing fill="var(--gold-pale)" />
+              <Wing fill="var(--primary-pale)" />
             </g>
           </g>
           <path
             d="M-44 10 C -34 3, -22 0, -10 -2 C 4 -4, 14 -6, 22 -12 C 27 -18, 35 -20, 41 -16 C 44 -14, 46 -11, 47 -9 C 45 0, 37 9, 22 13 C 8 17, -10 17, -24 15 L -52 25 L -50 17 L -60 13 Z"
-            fill="var(--white)"
-            stroke="var(--gold)"
+            fill="var(--card)"
+            stroke="var(--primary)"
             strokeWidth="1.2"
             strokeLinejoin="round"
           />
-          <path d="M47 -9 L 55 -7 L 46 -4 Z" fill="var(--gold-light)" stroke="var(--gold)" strokeWidth="0.8" strokeLinejoin="round" />
-          <circle cx="38" cy="-12" r="1.6" fill="var(--gold-deep)" />
+          <path d="M47 -9 L 55 -7 L 46 -4 Z" fill="var(--primary-light)" stroke="var(--primary)" strokeWidth="0.8" strokeLinejoin="round" />
+          <circle cx="38" cy="-12" r="1.6" fill="var(--primary-deep)" />
           {branch && (
             <g>
               <path d="M53 -6 C 58 0, 61 8, 60 19" stroke="#7d9b74" strokeWidth="1.1" fill="none" strokeLinecap="round" />
@@ -74,7 +74,7 @@ function Dove({ x, y, scale = 1, delay = 0, flyIn = false, branch = true }: Dove
           )}
           <g transform="translate(-2 -4)">
             <g className="celeste-wing" style={delayStyle(delay)}>
-              <Wing fill="var(--white)" />
+              <Wing fill="var(--card)" />
             </g>
           </g>
         </g>
@@ -90,8 +90,8 @@ export function FlyingDove({ className = '', flyIn = false, branch = true, ...ar
   return (
     <svg ref={ref} viewBox="0 0 170 120" className={`${className} ${artClass}`} style={artStyle} fill="none" aria-hidden="true">
       <Dove x={86} y={70} flyIn={flyIn} branch={branch} />
-      <Sparkle x={150} y={22} scale={0.5} delay={2.4} color="var(--gold-light)" />
-      <Sparkle x={20} y={30} scale={0.4} delay={3} color="var(--gold-light)" />
+      <Sparkle x={150} y={22} scale={0.5} delay={2.4} color="var(--primary-light)" />
+      <Sparkle x={20} y={30} scale={0.4} delay={3} color="var(--primary-light)" />
     </svg>
   );
 }
@@ -118,8 +118,8 @@ export function Clouds({ className = '', count = CLOUDS.length }: { className?: 
           className="celeste-cloud absolute h-auto"
           style={{ left: `${left}%`, top: `${top}%`, width, opacity, '--every': `${every}s`, '--dx': `${dx}px`, '--wait': `${wait}s` } as CSSProperties}
         >
-          <path d={CLOUD} fill="var(--white)" />
-          <path d="M-50 12 C -40 6, 40 6, 50 12" fill="none" stroke="var(--gold-light)" strokeWidth="1" opacity="0.6" />
+          <path d={CLOUD} fill="var(--card)" />
+          <path d="M-50 12 C -40 6, 40 6, 50 12" fill="none" stroke="var(--primary-light)" strokeWidth="1" opacity="0.6" />
         </svg>
       ))}
     </div>
@@ -151,8 +151,8 @@ export function CloudBank({ className = '', flip = false }: { className?: string
       className={`pointer-events-none block h-[70px] w-full sm:h-[110px] ${flip ? 'rotate-180' : ''} ${className}`}
       aria-hidden="true"
     >
-      <path d={back} fill="var(--color-gold-pale)" opacity="0.9" />
-      <path d={front} fill="var(--color-ivory)" />
+      <path d={back} fill="var(--primary-pale)" opacity="0.9" />
+      <path d={front} fill="var(--card)" />
     </svg>
   );
 }
@@ -165,12 +165,12 @@ const SHELL_RIBS = [-60, -36, -12, 12, 36, 60];
  */
 export function ShellFont({ className = '', ...art }: ArtProps) {
   const { ref, artClass, artStyle } = useArt<SVGSVGElement>(art);
-  const line = { stroke: 'var(--gold)', strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+  const line = { stroke: 'var(--primary)', strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
 
   return (
     <svg ref={ref} viewBox="0 0 160 150" className={`${className} ${artClass}`} style={artStyle} fill="none" aria-hidden="true">
       <g transform="translate(66 20) rotate(160)">
-        <path className="floral-pop" style={delayStyle(0.6)} d="M0 0 L -22 -20 C -20 -33, -8 -41, 0 -41 C 8 -41, 20 -33, 22 -20 Z" fill="var(--gold-pale)" />
+        <path className="floral-pop" style={delayStyle(0.6)} d="M0 0 L -22 -20 C -20 -33, -8 -41, 0 -41 C 8 -41, 20 -33, 22 -20 Z" fill="var(--primary-pale)" />
         <path className="floral-stem" pathLength={1} style={delayStyle(0)} d="M0 0 L -22 -20 C -20 -33, -8 -41, 0 -41 C 8 -41, 20 -33, 22 -20 Z" strokeWidth="1.3" {...line} />
         {SHELL_RIBS.map((angle, index) => (
           <path
@@ -188,21 +188,21 @@ export function ShellFont({ className = '', ...art }: ArtProps) {
 
       {[0, 0.8, 1.6].map((offset) => (
         <g key={offset} transform="translate(80 62)">
-          <path className="celeste-drop" style={delayStyle(1.4 + offset)} d="M0 -4 C 2 -1, 3 1, 3 2.5 A 3 3 0 0 1 -3 2.5 C -3 1, -2 -1, 0 -4 Z" fill="var(--gold)" />
+          <path className="celeste-drop" style={delayStyle(1.4 + offset)} d="M0 -4 C 2 -1, 3 1, 3 2.5 A 3 3 0 0 1 -3 2.5 C -3 1, -2 -1, 0 -4 Z" fill="var(--primary)" />
         </g>
       ))}
 
       <path className="floral-stem" pathLength={1} style={delayStyle(0.5)} d="M38 108 C 42 130, 118 130, 122 108" strokeWidth="1.3" {...line} />
-      <path className="floral-pop" style={delayStyle(1)} d="M42 108 C 46 122, 114 122, 118 108 Z" fill="var(--gold-light)" opacity="0.5" />
-      <ellipse className="floral-pop" style={delayStyle(0.9)} cx="80" cy="108" rx="42" ry="6" fill="var(--gold-pale)" stroke="var(--gold)" strokeWidth="1" />
+      <path className="floral-pop" style={delayStyle(1)} d="M42 108 C 46 122, 114 122, 118 108 Z" fill="var(--primary-light)" opacity="0.5" />
+      <ellipse className="floral-pop" style={delayStyle(0.9)} cx="80" cy="108" rx="42" ry="6" fill="var(--primary-pale)" stroke="var(--primary)" strokeWidth="1" />
       {[0, 0.8, 1.6].map((offset) => (
         <g key={offset} transform="translate(80 108)">
-          <ellipse className="celeste-ripple" style={delayStyle(1.4 + offset)} rx="22" ry="3.4" stroke="var(--gold)" strokeWidth="0.9" />
+          <ellipse className="celeste-ripple" style={delayStyle(1.4 + offset)} rx="22" ry="3.4" stroke="var(--primary)" strokeWidth="0.9" />
         </g>
       ))}
       <path className="floral-stem" pathLength={1} style={delayStyle(0.8)} d="M72 125 L 68 142 M88 125 L 92 142 M58 142 L 102 142" strokeWidth="1.2" {...line} />
-      <Sparkle x={128} y={70} scale={0.5} delay={2} color="var(--gold-light)" />
-      <Sparkle x={30} y={86} scale={0.4} delay={2.6} color="var(--gold-light)" />
+      <Sparkle x={128} y={70} scale={0.5} delay={2} color="var(--primary-light)" />
+      <Sparkle x={30} y={86} scale={0.4} delay={2.6} color="var(--primary-light)" />
     </svg>
   );
 }
@@ -215,7 +215,7 @@ export function CrossDivider({ className = '', ...art }: ArtProps) {
   return (
     <div ref={ref} className={`pointer-events-none flex justify-center ${className}`} aria-hidden="true">
       <svg viewBox="0 0 300 60" className={`h-auto w-[min(360px,82vw)] ${artClass}`} style={artStyle} fill="none">
-        <g stroke="var(--gold)" strokeLinecap="round">
+        <g stroke="var(--primary)" strokeLinecap="round">
           <path className="floral-stem" pathLength={1} style={delayStyle(0.3)} d="M128 30 L 26 30" strokeWidth="1" />
           <path className="floral-stem" pathLength={1} style={delayStyle(0.3)} d="M172 30 L 274 30" strokeWidth="1" />
           <path className="floral-stem" pathLength={1} style={delayStyle(0.6)} d="M120 35 L 70 35" strokeWidth="0.6" />
@@ -236,12 +236,12 @@ export function CrossDivider({ className = '', ...art }: ArtProps) {
           })}
         </g>
         <g className="floral-pop" style={delayStyle(0)}>
-          <path d="M150 16 L 150 42 M142 24 L 158 24" stroke="var(--gold-deep)" strokeWidth="2" strokeLinecap="round" />
+          <path d="M150 16 L 150 42 M142 24 L 158 24" stroke="var(--primary-deep)" strokeWidth="2" strokeLinecap="round" />
         </g>
-        <circle className="floral-pop" style={delayStyle(1.1)} cx="24" cy="30" r="2" fill="var(--gold)" />
-        <circle className="floral-pop" style={delayStyle(1.1)} cx="276" cy="30" r="2" fill="var(--gold)" />
-        <Sparkle x={196} y={14} scale={0.5} delay={1.4} color="var(--gold-light)" />
-        <Sparkle x={104} y={48} scale={0.4} delay={1.8} color="var(--gold-light)" />
+        <circle className="floral-pop" style={delayStyle(1.1)} cx="24" cy="30" r="2" fill="var(--primary)" />
+        <circle className="floral-pop" style={delayStyle(1.1)} cx="276" cy="30" r="2" fill="var(--primary)" />
+        <Sparkle x={196} y={14} scale={0.5} delay={1.4} color="var(--primary-light)" />
+        <Sparkle x={104} y={48} scale={0.4} delay={1.8} color="var(--primary-light)" />
       </svg>
     </div>
   );

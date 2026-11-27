@@ -13,7 +13,7 @@ export function Footer({ name, dateLabel, tagline }: FooterProps) {
   const conviteUrl = useConviteUrl();
 
   return (
-    <footer className="bg-(--gold-deep) text-center text-white">
+    <footer className="bg-(--primary-deep) text-center text-white">
       <Drip color="var(--frosting)" />
       <div className="relative overflow-hidden px-5 pt-10 pb-28">
         <Sprinkles className="opacity-40" />

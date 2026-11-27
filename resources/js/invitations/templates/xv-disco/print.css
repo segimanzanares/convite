@@ -1,13 +1,13 @@
 /* The printable card and guest passes of the XV disco night: the shared layouts (components/print-card) on the
    midnight-violet dance floor of the invitation, framed in a pink-to-cyan neon line, with Unbounded for the name and
-   the numbers and Outfit for the text. The theme's legacy tokens (--white, --cream, --gold...) already map the shared
+   the numbers and Outfit for the text. The theme's tokens (--card, --surface, --primary...) already map the shared
    styles to the dark palette; this file swaps the floral ornaments for the neon look. As in PrintCard.css, every color
    is opaque (no glows) so PDF viewers don't composite soft masks. */
 
 .theme-xv-disco.print-card-page {
   background: oklch(0.11 0.025 300);
   font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
-  color: var(--text-body);
+  color: var(--foreground-soft);
 }
 
 /* Toolbar, as the invitation's pink buttons */
@@ -118,7 +118,7 @@
   font-style: normal;
   font-weight: 300;
   line-height: 1.5;
-  color: var(--text-body);
+  color: var(--foreground-soft);
 }
 .theme-xv-disco .print-card__place { font-size: 10pt; letter-spacing: 0.04em; color: var(--muted-foreground); }
 

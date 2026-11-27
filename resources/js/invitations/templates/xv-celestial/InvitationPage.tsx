@@ -66,7 +66,7 @@ export function InvitationPage({ invitation }: { invitation: XvContent }) {
   useAutoScroll({ active: autoScrollActive, speed: 100 });
 
   return (
-    <div className="theme-xv-celestial bg-ivory text-ink">
+    <div className="theme-xv-celestial bg-(--card) text-(--foreground)">
       <StoryCover
         monogram={monogram}
         name={celebrant.name}
@@ -125,7 +125,7 @@ export function InvitationPage({ invitation }: { invitation: XvContent }) {
         )}
         {invitation.program.length > 0 && (
           <>
-            <MoonPhasesDivider className="pt-4 bg-ivory" />
+            <MoonPhasesDivider className="pt-4 bg-(--card)" />
             <ProgramTimeline
               items={invitation.program}
               eyebrow="Hora a hora"
@@ -158,7 +158,7 @@ export function InvitationPage({ invitation }: { invitation: XvContent }) {
 
       {invitation.dressCode && (
         <>
-          <MoonPhasesDivider className="pt-16 bg-ivory" />
+          <MoonPhasesDivider className="pt-16 bg-(--card)" />
           <DressCodeSection dressCode={invitation.dressCode} eyebrow="Para brillar juntos" title="Código de vestimenta" />
         </>
       )}

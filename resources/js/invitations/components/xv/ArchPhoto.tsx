@@ -15,8 +15,8 @@ interface ArchPhotoProps {
 /** A photo cropped to a garden-gate arch, with a double gold frame. */
 export function ArchPhoto({ photo, className = '', eager = false }: ArchPhotoProps) {
   return (
-    <div className={`relative aspect-[4/5] rounded-t-full p-[7px] border border-gold/60 bg-ivory shadow-[0_24px_50px_-28px_color-mix(in_srgb,var(--dark-from)_60%,transparent)] ${className}`}>
-      <div className="relative w-full h-full rounded-t-full overflow-hidden bg-off-white">
+    <div className={`relative aspect-[4/5] rounded-t-full p-[7px] border border-(--primary)/60 bg-(--card) shadow-[0_24px_50px_-28px_color-mix(in_srgb,var(--dark-from)_60%,transparent)] ${className}`}>
+      <div className="relative w-full h-full rounded-t-full overflow-hidden bg-(--muted)">
         <img
           src={photo.src}
           alt={photo.alt}
@@ -24,7 +24,7 @@ export function ArchPhoto({ photo, className = '', eager = false }: ArchPhotoPro
           className="absolute inset-0 w-full h-full object-cover"
           style={photo.position ? { objectPosition: photo.position } : undefined}
         />
-        <div className="absolute inset-[6px] rounded-t-full border border-ivory/50 pointer-events-none" aria-hidden="true" />
+        <div className="absolute inset-[6px] rounded-t-full border border-(--card)/50 pointer-events-none" aria-hidden="true" />
       </div>
     </div>
   );

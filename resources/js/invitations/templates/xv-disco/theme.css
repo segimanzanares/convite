@@ -27,31 +27,13 @@
   --neon-gold: oklch(0.88 0.14 90);
 
   /* The shared components this template still uses (the music button, the lightbox, the preview banner) read the
-     legacy tokens: map them to the dance floor and the neon pink. */
-  --gold: oklch(0.72 0.25 345);
-  --gold-light: oklch(0.86 0.15 200);
-  --gold-pale: oklch(0.25 0.05 300);
-  --gold-deep: oklch(0.62 0.24 345);
-  --white: oklch(0.2 0.04 300);
-  --cream: oklch(0.18 0.035 300);
-  --off-white: oklch(0.22 0.04 300);
-  --text-dark: oklch(0.97 0.012 320);
-  --text-body: oklch(0.86 0.02 315);
-  --text-muted: oklch(0.75 0.04 310);
+     primary's shades, the body text and the dark bands below, in the dance floor and the neon pink. */
+  --primary-light: oklch(0.86 0.15 200);
+  --primary-pale: oklch(0.25 0.05 300);
+  --primary-deep: oklch(0.62 0.24 345);
+  --foreground-soft: oklch(0.86 0.02 315);
   --dark-from: oklch(0.15 0.03 300);
   --dark-to: oklch(0.22 0.06 300);
-
-  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
-     :root and inherit their already-resolved value, so they don't pick up
-     the overrides above unless redeclared here on the same scope. */
-  --color-gold: var(--gold);
-  --color-gold-light: var(--gold-light);
-  --color-gold-pale: var(--gold-pale);
-  --color-gold-deep: var(--gold-deep);
-  --color-cream: var(--cream);
-  --color-off-white: var(--off-white);
-  --color-ivory: var(--white);
-  --color-ink: var(--text-dark);
 
   background: var(--background);
   color: var(--foreground);

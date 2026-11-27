@@ -26,7 +26,7 @@ export function GiftsSection({
         <SectionHeading eyebrow={eyebrow} title={title} />
         <div className="max-w-[520px] mx-auto flex flex-col gap-5">
           {intro.map((paragraph) => (
-            <p key={paragraph} className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] text-[var(--text-body)] italic">
+            <p key={paragraph} className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] text-[var(--foreground-soft)] italic">
               {paragraph}
             </p>
           ))}

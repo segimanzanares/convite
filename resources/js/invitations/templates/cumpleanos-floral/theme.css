@@ -1,19 +1,20 @@
 /* Rosa: blush backgrounds with a rose-pink accent, and deep raspberry for
    the dark sections (countdown, RSVP) so pink text keeps its contrast.
-   --gold is a mid-tone rose that stays legible on both the blush sections
+   --primary is a mid-tone rose that stays legible on both the blush sections
    and the raspberry ones. */
 .theme-cumpleanos-floral {
-  --gold: #d0527f;
-  --gold-light: #f4a6c0;
-  --gold-pale: #fde4ec;
-  --gold-deep: #a8365f;
-  --white: #fffafb;
-  --cream: #fff0f4;
-  --off-white: #fbe1ea;
-  --text-dark: #4a1830;
+  --primary: #d0527f;
+  --primary-light: #f4a6c0;
+  --primary-pale: #fde4ec;
+  --primary-deep: #a8365f;
+  --card: #fffafb;
+  --primary-foreground: var(--card);
+  --surface: #fff0f4;
+  --muted: #fbe1ea;
+  --foreground: #4a1830;
 
-  --text-body: #6e3450;
-  --text-muted: #7d4560;
+  --foreground-soft: #6e3450;
+  --muted-foreground: #7d4560;
   --dark-from: #3f0f29;
   --dark-to: #5a1838;
   --envelope-bg: radial-gradient(circle at 50% 40%, #c95985 0%, #8f2a55 60%, #5a1838 100%);
@@ -21,16 +22,4 @@
   /* The leaves of the garden ornaments (components/Garden.tsx). */
   --leaf: #a3bd9c;
   --leaf-deep: #6e9171;
-
-  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
-     :root and inherit their already-resolved value, so they don't pick up
-     the overrides above unless redeclared here on the same scope. */
-  --color-gold: var(--gold);
-  --color-gold-light: var(--gold-light);
-  --color-gold-pale: var(--gold-pale);
-  --color-gold-deep: var(--gold-deep);
-  --color-cream: var(--cream);
-  --color-off-white: var(--off-white);
-  --color-ivory: var(--white);
-  --color-ink: var(--text-dark);
 }

@@ -1,11 +1,11 @@
 /* The printable card and guest passes of baby-shower-safari: the shared layouts (components/print-card) in the invitation's fonts,
-   Grandstander for the names, Lexend for the text. The colors come from the theme's legacy tokens (--gold, --cream...), which PrintCard.css reads. */
+   Grandstander for the names, Lexend for the text. The colors come from the theme's tokens (--primary, --surface...), which PrintCard.css reads. */
 .theme-baby-shower-safari.print-card-page {
   --font-script: 'Grandstander', ui-rounded, system-ui, sans-serif;
   --font-display: 'Lexend', ui-sans-serif, system-ui, sans-serif;
   --font-body: 'Lexend', ui-sans-serif, system-ui, sans-serif;
   font-family: var(--font-body);
-  color: var(--text-body);
+  color: var(--foreground-soft);
 }
 
 /* The name is set in a display face, not a script: smaller and tighter than the shared 44pt */
@@ -21,7 +21,7 @@
 .theme-baby-shower-safari .print-card__mark,
 .theme-baby-shower-safari .print-card__frame::before { display: none; }
 .theme-baby-shower-safari .print-card__frame {
-  border: 0.35mm solid var(--gold);
+  border: 0.35mm solid var(--primary);
   border-radius: 3mm;
 }
 .theme-baby-shower-safari .guest-pass .print-card__frame { border-width: 0.3mm; border-radius: 2mm; }

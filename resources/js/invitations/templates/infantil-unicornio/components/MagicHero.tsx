@@ -46,23 +46,23 @@ export function MagicHero({ celebrant, photoUrl, play = false }: MagicHeroProps)
           <Cloud className="unicornio-drift absolute -right-6 -bottom-4 w-28 [animation-delay:-3s] sm:w-32" />
         </div>
 
-        <p className="mt-8 font-display text-[clamp(11px,1.6vw,14px)] font-semibold tracking-[0.35em] text-gold uppercase opacity-0 animate-[fadeUp_1s_0.4s_forwards]">
+        <p className="mt-8 font-display text-[clamp(11px,1.6vw,14px)] font-semibold tracking-[0.35em] text-(--primary) uppercase opacity-0 animate-[fadeUp_1s_0.4s_forwards]">
           Una fiesta mágica para
         </p>
-        <h1 className="mt-2 font-script text-[clamp(56px,10vw,108px)] leading-[1.2] text-gold-deep [text-shadow:0_4px_0_#f7b9de] opacity-0 animate-[fadeUp_1.2s_0.6s_forwards]">
+        <h1 className="mt-2 font-script text-[clamp(56px,10vw,108px)] leading-[1.2] text-(--primary-deep) [text-shadow:0_4px_0_#f7b9de] opacity-0 animate-[fadeUp_1.2s_0.6s_forwards]">
           {celebrant.firstName}
         </h1>
         {celebrant.age > 0 && (
           <div className="relative mx-auto mt-4 size-[clamp(120px,16vw,150px)] opacity-0 animate-[fadeUp_1.2s_0.8s_forwards]">
             <Star className="unicornio-wobble absolute inset-0 size-full text-[#ffd36e] drop-shadow-[0_6px_10px_rgba(240,179,63,0.35)]" />
             <span className="absolute inset-0 flex flex-col items-center justify-center pt-3">
-              <span className="font-display text-[11px] font-semibold tracking-[0.2em] text-gold-deep uppercase">Cumple</span>
-              <span className="font-display text-[clamp(38px,5vw,48px)] leading-none font-bold text-gold-deep">{celebrant.age}</span>
+              <span className="font-display text-[11px] font-semibold tracking-[0.2em] text-(--primary-deep) uppercase">Cumple</span>
+              <span className="font-display text-[clamp(38px,5vw,48px)] leading-none font-bold text-(--primary-deep)">{celebrant.age}</span>
             </span>
           </div>
         )}
         {celebrant.dateLabel && (
-          <p className="mt-6 font-display text-[clamp(13px,2vw,17px)] font-medium tracking-[0.18em] text-[var(--text-body)] uppercase opacity-0 animate-[fadeUp_1s_1s_forwards]">
+          <p className="mt-6 font-display text-[clamp(13px,2vw,17px)] font-medium tracking-[0.18em] text-[var(--foreground-soft)] uppercase opacity-0 animate-[fadeUp_1s_1s_forwards]">
             {celebrant.dateLabel}
           </p>
         )}
@@ -71,7 +71,7 @@ export function MagicHero({ celebrant, photoUrl, play = false }: MagicHeroProps)
       <svg viewBox="0 0 1440 140" preserveAspectRatio="none" className="absolute inset-x-0 bottom-0 h-20 w-full sm:h-28" aria-hidden="true">
         <path
           d="M0 80 C 60 30 140 30 190 70 C 240 20 340 20 390 70 C 450 30 540 30 590 75 C 650 25 750 25 800 70 C 860 30 950 30 1000 72 C 1060 25 1160 25 1210 70 C 1270 30 1370 30 1440 72 L1440 140 L0 140 Z"
-          fill="var(--white)"
+          fill="var(--card)"
         />
       </svg>
     </section>

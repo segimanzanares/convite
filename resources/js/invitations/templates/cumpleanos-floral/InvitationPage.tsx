@@ -37,7 +37,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
   useAutoScroll({ active: autoScrollActive, speed: 60 });
 
   return (
-    <div className="theme-cumpleanos-floral bg-ivory text-ink">
+    <div className="theme-cumpleanos-floral bg-(--card) text-(--foreground)">
       <Envelope
         monogram={initials(...celebrant.name.split(/\s+/).slice(0, 2))}
         title={`${celebrant.firstName} · ${celebrant.age} años`}
@@ -133,7 +133,7 @@ export function InvitationPage({ invitation }: { invitation: BirthdayContent }) 
         venues={invitation.venues}
       />
       <WishesSection />
-      <CosmosSprig className="pt-14 bg-ivory" />
+      <CosmosSprig className="pt-14 bg-(--card)" />
       <Footer
         title={celebrant.name}
         dateLabel={celebrant.footerDateLabel}

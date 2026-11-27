@@ -1,11 +1,11 @@
 /* The printable card and guest passes of infantil-dulce: the shared layouts (components/print-card) in the invitation's fonts,
-   Pacifico for the name, Fredoka for the labels and Nunito for the text. The colors come from the theme's legacy tokens (--gold, --cream...), which PrintCard.css reads. */
+   Pacifico for the name, Fredoka for the labels and Nunito for the text. The colors come from the theme's tokens (--primary, --surface...), which PrintCard.css reads. */
 .theme-infantil-dulce.print-card-page {
   --font-script: 'Pacifico', cursive;
   --font-display: 'Fredoka', ui-rounded, system-ui, sans-serif;
   --font-body: 'Nunito', ui-rounded, system-ui, sans-serif;
   font-family: var(--font-body);
-  color: var(--text-body);
+  color: var(--foreground-soft);
 }
 
 /* The name is set in a display face, not a script: smaller and tighter than the shared 44pt */
@@ -21,7 +21,7 @@
 .theme-infantil-dulce .print-card__mark,
 .theme-infantil-dulce .print-card__frame::before { display: none; }
 .theme-infantil-dulce .print-card__frame {
-  border: 0.35mm solid var(--gold);
+  border: 0.35mm solid var(--primary);
   border-radius: 3mm;
 }
 .theme-infantil-dulce .guest-pass .print-card__frame { border-width: 0.3mm; border-radius: 2mm; }

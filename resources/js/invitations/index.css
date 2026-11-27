@@ -5,19 +5,6 @@
 @source '../../views/invitations.blade.php';
 
 @theme {
-  --color-gold: var(--gold);
-  --color-gold-light: var(--gold-light);
-  --color-gold-pale: var(--gold-pale);
-  --color-gold-deep: var(--gold-deep);
-  --color-cream: var(--cream);
-  --color-off-white: var(--off-white);
-  --color-ivory: var(--white);
-  --color-ink: var(--text-dark);
-
-  --color-primary: var(--primary);
-  --color-primary-light: var(--primary-light);
-  --color-primary-dark: var(--primary-dark);
-
   --font-body: 'Cormorant Garamond', serif;
   --font-display: 'Cinzel', serif;
   --font-script: 'Great Vibes', cursive;
@@ -159,10 +146,10 @@
   0%,
   100% {
     transform: scale(1);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), 0 0 0 0 color-mix(in srgb, var(--gold-light) 45%, transparent);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), 0 0 0 0 color-mix(in srgb, var(--primary-light) 45%, transparent);
   }
   50% {
     transform: scale(1.05);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), 0 0 0 12px color-mix(in srgb, var(--gold-light) 0%, transparent);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), 0 0 0 12px color-mix(in srgb, var(--primary-light) 0%, transparent);
   }
 }

@@ -1,19 +1,20 @@
-/* Bautizo celeste: powder blue and silver on cloud white, like a morning sky. --gold-deep is a deep sky navy
-   (titles, the baby's name) and --gold the powder blue accent; the dark sections (countdown, RSVP) are a twilight
+/* Bautizo celeste: powder blue and silver on cloud white, like a morning sky. --primary-deep is a deep sky navy
+   (titles, the baby's name) and --primary the powder blue accent; the dark sections (countdown, RSVP) are a twilight
    blue. Parisienne takes the place of the floral script, Marcellus that of Cinzel and Cormorant Infant that of
    Cormorant Garamond. */
 .theme-bautizo-celeste {
-  --gold: #6d9cc6;
-  --gold-light: #b8d5ee;
-  --gold-pale: #e4eef8;
-  --gold-deep: #2c4c72;
-  --white: #fcfeff;
-  --cream: #f3f8fd;
-  --off-white: #e3edf7;
-  --text-dark: #1f3350;
+  --primary: #6d9cc6;
+  --primary-light: #b8d5ee;
+  --primary-pale: #e4eef8;
+  --primary-deep: #2c4c72;
+  --card: #fcfeff;
+  --primary-foreground: var(--card);
+  --surface: #f3f8fd;
+  --muted: #e3edf7;
+  --foreground: #1f3350;
 
-  --text-body: #3c5170;
-  --text-muted: #62758f;
+  --foreground-soft: #3c5170;
+  --muted-foreground: #62758f;
   --dark-from: #1b3150;
   --dark-to: #3b6290;
   --envelope-bg: radial-gradient(circle at 50% 35%, #8fb7dc 0%, #4a75a6 50%, #1d3554 100%);
@@ -25,27 +26,14 @@
   --font-display: 'Marcellus', serif;
   --font-body: 'Cormorant Infant', serif;
   font-family: var(--font-body);
-
-  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at
-     :root and inherit their already-resolved value, so they don't pick up
-     the overrides above unless redeclared here on the same scope. */
-  --color-gold: var(--gold);
-  --color-gold-light: var(--gold-light);
-  --color-gold-pale: var(--gold-pale);
-  --color-gold-deep: var(--gold-deep);
-  --color-cream: var(--cream);
-  --color-off-white: var(--off-white);
-  --color-ivory: var(--white);
-  --color-ink: var(--text-dark);
 }
 
 /* The twilight sections (countdown, RSVP) need a lighter blue for legible numbers, labels and form text, and their
    buttons take navy text on that blue. */
 .theme-bautizo-celeste [data-tone='dark'] {
-  --gold: #a9cbeb;
-  --color-gold: var(--gold);
-  --color-ivory: var(--dark-from);
-  --color-gold-deep: #cfe3f6;
+  --primary: #a9cbeb;
+  --primary-foreground: var(--dark-from);
+  --primary-deep: #cfe3f6;
 }
 
 /* The ornaments of CelesteArt.tsx. Each piece is drawn around its own origin (a wing's shoulder, a cloud's center),

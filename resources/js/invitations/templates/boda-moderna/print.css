@@ -6,7 +6,7 @@
 .theme-boda-moderna.print-card-page {
   background: oklch(0.92 0.004 286.32);
   font-family: var(--font-geist);
-  color: var(--text-body);
+  color: var(--foreground-soft);
 }
 
 /* Toolbar, as shadcn/ui buttons */
@@ -47,7 +47,7 @@
 
 /* Ornaments: a single hairline frame with rounded corners */
 .theme-boda-moderna .print-card,
-.theme-boda-moderna .guest-pass { background: var(--white); }
+.theme-boda-moderna .guest-pass { background: var(--card); }
 .theme-boda-moderna .print-card__corner,
 .theme-boda-moderna .print-card__mark { display: none; }
 .theme-boda-moderna .print-card__frame {
@@ -106,7 +106,7 @@
   font-size: 12.5pt;
   font-style: normal;
   line-height: 1.35;
-  color: var(--text-body);
+  color: var(--foreground-soft);
 }
 .theme-boda-moderna .print-card__place { font-size: 9.5pt; letter-spacing: 0; color: var(--muted-foreground); }
 

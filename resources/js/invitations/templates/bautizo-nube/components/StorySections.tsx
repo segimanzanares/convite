@@ -14,7 +14,7 @@ export function StorySection({ story }: { story: XvStory }) {
     <Section id="historia" className="relative">
       <SectionTitle eyebrow={story.eyebrow} title={story.title} />
       <Reveal className="relative mx-auto max-w-2xl">
-        <Balloon color="--sky" stripe="--white" className="absolute -top-10 -right-2 z-[1] w-12 sm:-right-12 sm:w-14" />
+        <Balloon color="--sky" stripe="--card" className="absolute -top-10 -right-2 z-[1] w-12 sm:-right-12 sm:w-14" />
         <Card className="overflow-hidden">
           {story.photo && (
             <div className="relative aspect-[16/10] bg-(--secondary)">

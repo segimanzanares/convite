@@ -1,11 +1,11 @@
 /* The printable card and guest passes of cumpleanos-grafito: the shared layouts (components/print-card) in the invitation's fonts,
-   Space Grotesk for the name, Geist Mono for the labels and Geist for the text, on the dark graphite of the invitation. The colors come from the theme's legacy tokens (--gold, --cream...), which PrintCard.css reads. */
+   Space Grotesk for the name, Geist Mono for the labels and Geist for the text, on the dark graphite of the invitation. The colors come from the theme's tokens (--primary, --surface...), which PrintCard.css reads. */
 .theme-cumpleanos-grafito.print-card-page {
   --font-script: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
   --font-display: 'Geist Mono', ui-monospace, monospace;
   --font-body: 'Geist', ui-sans-serif, system-ui, sans-serif;
   font-family: var(--font-body);
-  color: var(--text-body);
+  color: var(--foreground-soft);
 }
 
 /* The name is set in a display face, not a script: smaller and tighter than the shared 44pt */
@@ -25,7 +25,7 @@
 .theme-cumpleanos-grafito .print-card__mark,
 .theme-cumpleanos-grafito .print-card__frame::before { display: none; }
 .theme-cumpleanos-grafito .print-card__frame {
-  border: 0.35mm solid var(--gold);
+  border: 0.35mm solid var(--primary);
   border-radius: 3mm;
 }
 .theme-cumpleanos-grafito .guest-pass .print-card__frame { border-width: 0.3mm; border-radius: 2mm; }

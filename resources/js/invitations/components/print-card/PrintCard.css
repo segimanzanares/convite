@@ -9,7 +9,7 @@
   padding: 24px 16px 48px;
   background: #d9d4cb;
   font-family: var(--font-body);
-  color: var(--text-body);
+  color: var(--foreground-soft);
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
@@ -28,18 +28,18 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   padding: 12px 20px;
-  background: var(--gold-deep);
-  color: var(--white);
+  background: var(--primary-deep);
+  color: var(--card);
   border-radius: 2px;
   cursor: pointer;
 }
-.print-card-toolbar__primary:hover { background: var(--text-dark); }
+.print-card-toolbar__primary:hover { background: var(--foreground); }
 .print-card-toolbar__link {
   font-family: var(--font-display);
   font-size: 11px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--text-dark);
+  color: var(--foreground);
   text-decoration: underline;
   text-underline-offset: 4px;
 }
@@ -47,7 +47,7 @@
   flex-basis: 100%;
   font-size: 15px;
   font-style: italic;
-  color: var(--text-muted);
+  color: var(--muted-foreground);
 }
 
 .print-card {
@@ -58,10 +58,10 @@
   overflow: hidden;
   background: linear-gradient(
     to bottom,
-    var(--white) 0%,
-    var(--cream) 45%,
-    var(--cream) 70%,
-    var(--gold-pale) 100%
+    var(--card) 0%,
+    var(--surface) 45%,
+    var(--surface) 70%,
+    var(--primary-pale) 100%
   );
   box-shadow: 0 4px 24px rgb(0 0 0 / 0.18);
   break-after: page;
@@ -84,21 +84,21 @@
 .print-card__frame {
   position: absolute;
   inset: var(--frame-inset, 6mm);
-  border: 0.3mm solid color-mix(in srgb, var(--gold) 55%, var(--cream));
+  border: 0.3mm solid color-mix(in srgb, var(--primary) 55%, var(--surface));
   border-radius: 1mm;
 }
 .print-card__frame::before {
   content: '';
   position: absolute;
   inset: var(--frame-gap, 1.4mm);
-  border: 0.2mm dashed color-mix(in srgb, var(--gold) 40%, var(--cream));
+  border: 0.2mm dashed color-mix(in srgb, var(--primary) 40%, var(--surface));
   border-radius: 1mm;
 }
 .print-card__corner {
   position: absolute;
   width: var(--corner-size, 30mm);
   height: var(--corner-size, 30mm);
-  color: var(--gold);
+  color: var(--primary);
 }
 .print-card__corner--tl { top: var(--corner-offset, 2mm); left: var(--corner-offset, 2mm); }
 .print-card__corner--tr { top: var(--corner-offset, 2mm); right: var(--corner-offset, 2mm); transform: scaleX(-1); }
@@ -109,12 +109,12 @@
   left: 50%;
   padding: 0 2mm;
   box-sizing: content-box;
-  color: color-mix(in srgb, var(--gold) 75%, var(--cream));
+  color: color-mix(in srgb, var(--primary) 75%, var(--surface));
   transform: translate(-50%, -50%);
 }
 /* Each mark sits over the frame line; its backdrop matches the gradient at that height. */
-.print-card__mark--top { top: 6mm; background: var(--white); }
-.print-card__mark--bottom { top: calc(100% - 6mm); background: color-mix(in srgb, var(--gold-pale) 85%, var(--cream)); }
+.print-card__mark--top { top: 6mm; background: var(--card); }
+.print-card__mark--bottom { top: calc(100% - 6mm); background: color-mix(in srgb, var(--primary-pale) 85%, var(--surface)); }
 
 /* Layout */
 .print-card__content {
@@ -137,7 +137,7 @@
 .print-card__signature {
   font-family: var(--font-display);
   text-transform: uppercase;
-  color: var(--gold-deep);
+  color: var(--primary-deep);
 }
 .print-card__eyebrow { font-size: 7pt; letter-spacing: 0.45em; }
 .print-card__label { font-size: 6.3pt; letter-spacing: 0.25em; margin-bottom: 1.5mm; }
@@ -147,26 +147,26 @@
   width: 28mm;
   height: 0.25mm;
   margin: 4mm auto;
-  background: linear-gradient(to right, var(--cream), var(--gold), var(--cream));
+  background: linear-gradient(to right, var(--surface), var(--primary), var(--surface));
 }
 .print-card__names {
   font-family: var(--font-script);
   font-size: 44pt;
   font-weight: 400;
   line-height: 0.95;
-  color: var(--gold-deep);
+  color: var(--primary-deep);
 }
 .print-card__names > span { display: block; }
 .print-card__amp {
   display: block;
   margin: -1mm 0;
   font-size: 28pt;
-  color: var(--gold);
+  color: var(--primary);
 }
 .print-card__subtitle {
   font-family: var(--font-script);
   font-size: 24pt;
-  color: var(--gold-deep);
+  color: var(--primary-deep);
   margin-bottom: 2mm;
 }
 .print-card__lead {
@@ -180,7 +180,7 @@
   font-size: 8.5pt;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--text-dark);
+  color: var(--foreground);
 }
 .print-card__place { font-size: 10.5pt; letter-spacing: 0.08em; margin-top: 1.5mm; }
 
@@ -191,12 +191,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 0.25mm solid var(--gold);
+  border: 0.25mm solid var(--primary);
   border-radius: 50%;
   font-family: var(--font-script);
   font-size: 26pt;
   line-height: 1;
-  color: var(--gold-deep);
+  color: var(--primary-deep);
 }
 .print-card__events {
   display: grid;
@@ -207,20 +207,20 @@
 }
 .print-card__event { padding: 0 1mm; font-size: 9.5pt; line-height: 1.3; }
 .print-card__event + .print-card__event {
-  border-left: 0.2mm solid color-mix(in srgb, var(--gold) 50%, var(--cream));
+  border-left: 0.2mm solid color-mix(in srgb, var(--primary) 50%, var(--surface));
 }
 .print-card__event h3,
 .print-card__dress h3 {
   font-size: 11.5pt;
   font-weight: 500;
   line-height: 1.15;
-  color: var(--text-dark);
+  color: var(--foreground);
 }
 .print-card__time {
   font-family: var(--font-display);
   font-size: 8pt;
   letter-spacing: 0.2em;
-  color: var(--text-dark);
+  color: var(--foreground);
   margin-top: 1.5mm;
 }
 .print-card__note { font-size: 9.5pt; font-style: italic; }
@@ -229,7 +229,7 @@
   width: 4.2mm;
   height: 4.2mm;
   border-radius: 50%;
-  border: 0.2mm solid color-mix(in srgb, var(--text-dark) 10%, var(--cream));
+  border: 0.2mm solid color-mix(in srgb, var(--foreground) 10%, var(--surface));
 }
 .print-card__rsvp {
   display: flex;
@@ -239,14 +239,14 @@
   font-size: 9.5pt;
   line-height: 1.35;
 }
-.print-card__rsvp strong { font-weight: 500; color: var(--text-dark); }
+.print-card__rsvp strong { font-weight: 500; color: var(--foreground); }
 .print-card__qr {
   flex: none;
   width: 22mm;
   height: 22mm;
   padding: 1.6mm;
-  background: var(--white);
-  border: 0.25mm solid var(--gold);
+  background: var(--card);
+  border: 0.25mm solid var(--primary);
   border-radius: 1mm;
 }
 .print-card__qr svg { display: block; width: 100%; height: 100%; }
@@ -254,6 +254,6 @@
   font-family: var(--font-display);
   font-size: 6pt;
   letter-spacing: 0.12em;
-  color: var(--gold-deep);
+  color: var(--primary-deep);
   margin-top: 1mm;
 }

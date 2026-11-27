@@ -28,7 +28,7 @@ export function MessageSection({ firstName, age, message, hosts }: MessageSectio
           <p className="font-fredoka text-sm font-semibold tracking-wider text-(--primary) uppercase">Una nota dulce</p>
           <h2 className="mt-2 font-fredoka text-[clamp(32px,5vw,46px)] leading-tight font-semibold">¡Ven a endulzar el día!</h2>
           <p className="mt-5 text-lg leading-relaxed text-pretty sm:text-xl">{message || fallback}</p>
-          {hosts && <p className="mt-6 font-fredoka font-semibold text-(--gold-deep)">— {hosts}</p>}
+          {hosts && <p className="mt-6 font-fredoka font-semibold text-(--primary-deep)">— {hosts}</p>}
         </Card>
       </Reveal>
     </Section>

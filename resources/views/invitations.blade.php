@@ -15,7 +15,7 @@
         @viteReactRefresh
         @vite(['resources/js/invitations/app.tsx', "resources/js/invitations/{$page['component']}.tsx"])
     </head>
-    <body class="bg-ivory text-ink font-body overflow-x-hidden">
+    <body class="bg-(--card) text-(--foreground) font-body overflow-x-hidden">
         <x-inertia::app />
     </body>
 </html>

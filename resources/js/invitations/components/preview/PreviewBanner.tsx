@@ -25,9 +25,9 @@ export function PreviewBanner({ initialProps }: { initialProps: Record<string, u
   return (
     <div
       role="status"
-      className="fixed inset-x-0 top-0 z-[1000] print:hidden bg-ink/90 text-white text-center px-4 py-2 font-jost text-[12px] tracking-[0.05em]"
+      className="fixed inset-x-0 top-0 z-[1000] print:hidden bg-(--foreground)/90 text-white text-center px-4 py-2 font-jost text-[12px] tracking-[0.05em]"
     >
-      <span className="uppercase tracking-[0.2em] text-gold mr-2">Vista previa</span>
+      <span className="uppercase tracking-[0.2em] text-(--primary) mr-2">Vista previa</span>
       {MESSAGES[preview]}
     </div>
   );

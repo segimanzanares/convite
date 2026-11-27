@@ -37,16 +37,16 @@ export function ShowcaseBar({ initialProps }: { initialProps: Record<string, unk
   return (
     <div
       role="status"
-      className="fixed inset-x-0 top-0 z-[1000] print:hidden flex items-center justify-center gap-x-3 bg-ink/90 py-2 pl-4 pr-10 text-center font-jost text-[12px] tracking-[0.05em] text-white"
+      className="fixed inset-x-0 top-0 z-[1000] print:hidden flex items-center justify-center gap-x-3 bg-(--foreground)/90 py-2 pl-4 pr-10 text-center font-jost text-[12px] tracking-[0.05em] text-white"
     >
       <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
-        <span className="uppercase tracking-[0.2em] text-gold">Demo del plan {showcase.plan}</span>
+        <span className="uppercase tracking-[0.2em] text-(--primary)">Demo del plan {showcase.plan}</span>
         <span>Lo que envíes aquí no se guarda.</span>
         {links.length > 0 && (
           <span className="flex flex-wrap justify-center gap-x-3">
             <span className="text-white/70">Prueba también:</span>
             {links.map((link) => (
-              <a key={link.label} href={link.url} target="_blank" rel="noopener" className="underline underline-offset-4 hover:text-gold">
+              <a key={link.label} href={link.url} target="_blank" rel="noopener" className="underline underline-offset-4 hover:text-(--primary)">
                 {link.label}
               </a>
             ))}

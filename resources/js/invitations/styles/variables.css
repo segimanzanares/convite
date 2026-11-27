@@ -1,27 +1,23 @@
 /* Default design tokens, drawn from the convite-icon.svg brand mark.
    Shared components fall back to these when no per-invitation theme
-   overrides them within its own scoped wrapper class. */
+   overrides them within its own scoped wrapper class. They follow
+   shadcn/ui's names, plus the primary's shades, the body text and the
+   dark bands the classic components use. */
 :root {
-  --gold: #dfa33f;
-  --gold-light: #ecc077;
-  --gold-pale: #f7e9cc;
-  --gold-deep: #b97a1f;
-  --white: #fffdf9;
-  --cream: #f7f4ef;
-  --off-white: #efe6d6;
-  --text-dark: #2a1a2b;
+  --primary: #dfa33f;
+  --primary-light: #ecc077;
+  --primary-pale: #f7e9cc;
+  --primary-deep: #b97a1f;
+  --card: #fffdf9;
+  --primary-foreground: #fffdf9;
+  --surface: #f7f4ef;
+  --muted: #efe6d6;
+  --foreground: #2a1a2b;
+  --foreground-soft: #4a3820;
+  --muted-foreground: #5a4830;
 
-  /* Invitation surface tokens — body copy, dark section backgrounds and the
-     envelope intro. Per-invitation themes may override them. */
-  --text-body: #4a3820;
-  --text-muted: #5a4830;
+  /* The dark sections (countdown, RSVP) and the envelope intro. */
   --dark-from: #1c1308;
   --dark-to: #2c1f0a;
   --envelope-bg: radial-gradient(circle at 50% 40%, #2a1d0d 0%, #120c04 65%, #000 100%);
-
-  /* Primary brand color — deep plum, used for
-     headers, primary CTAs and dark section backgrounds. */
-  --primary: #2a1a2b;
-  --primary-light: #5c4a5e;
-  --primary-dark: #170e18;
 }

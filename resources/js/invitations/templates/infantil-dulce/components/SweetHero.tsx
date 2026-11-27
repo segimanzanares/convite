@@ -38,7 +38,7 @@ export function SweetHero({ firstName, age, eventDate, photoUrl, place }: SweetH
             <span className="inline-block rounded-full bg-(--card) px-4 py-1.5 font-fredoka text-base font-semibold text-(--primary) shadow-sm animate-[fadeUp_0.7s_ease_both]">
               ¡Una fiesta dulcecita!
             </span>
-            <h1 className="mt-4 font-pacifico text-[clamp(64px,12vw,124px)] leading-[1.25] text-white [text-shadow:0_5px_0_var(--gold-deep)] animate-[fadeUp_0.8s_0.1s_ease_both]">
+            <h1 className="mt-4 font-pacifico text-[clamp(64px,12vw,124px)] leading-[1.25] text-white [text-shadow:0_5px_0_var(--primary-deep)] animate-[fadeUp_0.8s_0.1s_ease_both]">
               {firstName}
             </h1>
             <p className="mt-6 font-fredoka text-[clamp(20px,3vw,26px)] font-medium animate-[fadeUp_0.8s_0.2s_ease_both]">
@@ -55,7 +55,7 @@ export function SweetHero({ firstName, age, eventDate, photoUrl, place }: SweetH
               </ul>
             )}
             <div className="mt-8 flex flex-wrap justify-center gap-3 animate-[fadeUp_0.8s_0.4s_ease_both] md:justify-start">
-              <a href="#rsvp" className={buttonClass('default', 'lg', 'h-12 rounded-full px-6 font-fredoka text-lg font-semibold shadow-[0_5px_0_var(--gold-deep)]')}>
+              <a href="#rsvp" className={buttonClass('default', 'lg', 'h-12 rounded-full px-6 font-fredoka text-lg font-semibold shadow-[0_5px_0_var(--primary-deep)]')}>
                 Confirmar asistencia
               </a>
               <a href="#mensaje" className={buttonClass('outline', 'lg', 'h-12 rounded-full border-0 bg-(--card) px-6 font-fredoka text-lg font-semibold')}>
@@ -76,7 +76,7 @@ export function SweetHero({ firstName, age, eventDate, photoUrl, place }: SweetH
             {age > 0 && (
               <div className="absolute -bottom-6 -left-2 w-28 rotate-[-14deg] sm:w-32">
                 <Lollipop className="w-full drop-shadow-lg" />
-                <span className="absolute inset-x-0 top-0 flex aspect-square flex-col items-center justify-center text-center font-fredoka leading-none font-semibold text-(--gold-deep)">
+                <span className="absolute inset-x-0 top-0 flex aspect-square flex-col items-center justify-center text-center font-fredoka leading-none font-semibold text-(--primary-deep)">
                   <span className="text-[10px]">Cumple</span>
                   <span className="text-[28px]">{age}</span>
                 </span>

@@ -29,30 +29,14 @@
   --pin: oklch(0.74 0.06 70);
 
   /* The shared components this template still uses (the music button, the lightbox, the preview banner) read the
-     legacy tokens: map them to terracotta and mustard. */
-  --gold: oklch(0.57 0.11 42);
-  --gold-light: oklch(0.8 0.115 80);
-  --gold-pale: oklch(0.93 0.03 30);
-  --gold-deep: oklch(0.47 0.09 40);
-  --white: oklch(0.99 0.008 80);
-  --cream: oklch(0.968 0.014 75);
-  --off-white: oklch(0.948 0.017 75);
-  --text-dark: oklch(0.32 0.035 45);
-  --text-body: oklch(0.38 0.035 45);
-  --text-muted: oklch(0.5 0.03 50);
+     primary's shades, the body text and the dark bands below, in terracotta and mustard. */
+  --primary-light: oklch(0.8 0.115 80);
+  --primary-pale: oklch(0.93 0.03 30);
+  --primary-deep: oklch(0.47 0.09 40);
+  --surface: oklch(0.968 0.014 75);
+  --foreground-soft: oklch(0.38 0.035 45);
   --dark-from: oklch(0.36 0.06 40);
   --dark-to: oklch(0.42 0.08 42);
-
-  /* Tailwind's @theme aliases (--color-gold, etc.) are declared once at :root and inherit their already-resolved
-     value, so they don't pick up the overrides above unless redeclared here on the same scope. */
-  --color-gold: var(--gold);
-  --color-gold-light: var(--gold-light);
-  --color-gold-pale: var(--gold-pale);
-  --color-gold-deep: var(--gold-deep);
-  --color-cream: var(--cream);
-  --color-off-white: var(--off-white);
-  --color-ivory: var(--white);
-  --color-ink: var(--text-dark);
 
   background: var(--background);
   color: var(--foreground);

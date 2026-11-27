@@ -45,7 +45,7 @@ export function Fireflies({ count = 18, className = '' }: FirefliesProps) {
       {fireflies.map((fly) => (
         <span
           key={fly.id}
-          className="absolute rounded-full opacity-0 bg-gold-light animate-[fireflyGlow_6s_ease-in-out_infinite] motion-reduce:animate-none motion-reduce:opacity-60"
+          className="absolute rounded-full opacity-0 bg-(--primary-light) animate-[fireflyGlow_6s_ease-in-out_infinite] motion-reduce:animate-none motion-reduce:opacity-60"
           style={{
             left: `${fly.left}%`,
             top: `${fly.top}%`,
@@ -53,7 +53,7 @@ export function Fireflies({ count = 18, className = '' }: FirefliesProps) {
             height: fly.size,
             animationDelay: `${fly.delay}s`,
             animationDuration: `${fly.duration}s`,
-            boxShadow: `0 0 ${fly.size * 3}px ${fly.size}px color-mix(in srgb, var(--gold-light) 55%, transparent)`,
+            boxShadow: `0 0 ${fly.size * 3}px ${fly.size}px color-mix(in srgb, var(--primary-light) 55%, transparent)`,
             ['--drift-x' as string]: `${fly.driftX}px`,
             ['--drift-y' as string]: `${fly.driftY}px`,
           }}

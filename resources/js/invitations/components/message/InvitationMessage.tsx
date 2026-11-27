@@ -18,15 +18,15 @@ export function InvitationMessage({ eyebrow, title, message, signature }: Invita
           className={[
             CARD_CLASS,
             'py-[60px] px-[50px] max-[640px]:px-8 relative mt-[60px]',
-            "before:content-['\"'] before:font-script before:text-[120px] before:text-gold-pale before:absolute before:leading-none before:top-[10px] before:left-5",
-            "after:content-['\"'] after:font-script after:text-[120px] after:text-gold-pale after:absolute after:leading-none after:bottom-[-30px] after:right-5",
+            "before:content-['\"'] before:font-script before:text-[120px] before:text-(--primary-pale) before:absolute before:leading-none before:top-[10px] before:left-5",
+            "after:content-['\"'] after:font-script after:text-[120px] after:text-(--primary-pale) after:absolute after:leading-none after:bottom-[-30px] after:right-5",
           ].join(' ')}
         >
-          <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] text-[var(--text-body)] italic">
+          <p className="text-[clamp(16px,2vw,19px)] font-light leading-[1.9] text-[var(--foreground-soft)] italic">
             {message}
           </p>
         </div>
-        <p className="font-light leading-[1.9] text-[var(--text-body)] italic mt-10 text-[15px] opacity-70">
+        <p className="font-light leading-[1.9] text-[var(--foreground-soft)] italic mt-10 text-[15px] opacity-70">
           — {signature} —
         </p>
       </Reveal>

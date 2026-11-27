@@ -36,7 +36,7 @@ export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
   useAutoScroll({ active: autoScrollActive, speed: 60 });
 
   return (
-    <div className="theme-boda-floral bg-ivory text-ink">
+    <div className="theme-boda-floral bg-(--card) text-(--foreground)">
       <Envelope
         monogram={initials(...couple.names)}
         title={coupleTitle}
@@ -105,7 +105,7 @@ export function InvitationPage({ invitation }: { invitation: WeddingContent }) {
         <CornerBouquet className="absolute -bottom-3 -right-3 w-[150px] sm:w-[240px] h-auto opacity-60 rotate-180 pointer-events-none" />
       </div>
       <WishesSection />
-      <FloralSpray className="pt-14 bg-ivory" />
+      <FloralSpray className="pt-14 bg-(--card)" />
       <Footer title={coupleTitle} dateLabel={couple.footerDateLabel} tagline={invitation.tagline ?? undefined} />
     </div>
   );

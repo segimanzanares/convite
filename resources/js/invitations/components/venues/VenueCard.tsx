@@ -13,12 +13,12 @@ export function VenueCard({ venue }: VenueCardProps) {
         'group relative',
         CARD_CLASS,
         'overflow-hidden transition-[box-shadow,transform] duration-[400ms] ease',
-        'hover:shadow-[0_16px_50px_color-mix(in_srgb,var(--color-gold)_18%,transparent)] hover:-translate-y-[3px]',
-        "before:content-[''] before:block before:h-0.5 before:bg-[linear-gradient(to_right,transparent,var(--color-gold),transparent)] before:opacity-60",
+        'hover:shadow-[0_16px_50px_color-mix(in_srgb,var(--primary)_18%,transparent)] hover:-translate-y-[3px]',
+        "before:content-[''] before:block before:h-0.5 before:bg-[linear-gradient(to_right,transparent,var(--primary),transparent)] before:opacity-60",
       ].join(' ')}
     >
       {venue.image && (
-        <div className="relative w-full h-[260px] overflow-hidden bg-off-white after:content-[''] after:absolute after:inset-0 after:border after:border-gold/18 after:pointer-events-none">
+        <div className="relative w-full h-[260px] overflow-hidden bg-(--muted) after:content-[''] after:absolute after:inset-0 after:border after:border-(--primary)/18 after:pointer-events-none">
           <img
             src={venue.image}
             alt={venue.imageAlt ?? venue.name}
@@ -28,7 +28,7 @@ export function VenueCard({ venue }: VenueCardProps) {
         </div>
       )}
       {venue.mapEmbedUrl && (
-        <div className="relative w-full h-[240px] overflow-hidden bg-off-white after:content-[''] after:absolute after:inset-0 after:border after:border-gold/18 after:pointer-events-none after:z-[1]">
+        <div className="relative w-full h-[240px] overflow-hidden bg-(--muted) after:content-[''] after:absolute after:inset-0 after:border after:border-(--primary)/18 after:pointer-events-none after:z-[1]">
           <iframe
             src={venue.mapEmbedUrl}
             loading="lazy"
@@ -40,11 +40,11 @@ export function VenueCard({ venue }: VenueCardProps) {
         </div>
       )}
       <div className="pt-7 px-8 pb-8 text-center">
-        <p className="font-display text-[9px] tracking-[0.55em] text-gold uppercase flex items-center gap-2.5 mb-3 after:content-[''] after:flex-1 after:h-px after:bg-[linear-gradient(to_right,color-mix(in_srgb,var(--color-gold)_40%,transparent),transparent)]">
+        <p className="font-display text-[9px] tracking-[0.55em] text-(--primary) uppercase flex items-center gap-2.5 mb-3 after:content-[''] after:flex-1 after:h-px after:bg-[linear-gradient(to_right,color-mix(in_srgb,var(--primary)_40%,transparent),transparent)]">
           {venue.icon} {venue.tag}
         </p>
-        <h3 className="font-script text-[34px] text-gold-deep leading-[1.1] mb-2.5">{venue.name}</h3>
-        <p className="text-[14px] font-light leading-[1.75] text-[var(--text-muted)] italic mb-[18px]">
+        <h3 className="font-script text-[34px] text-(--primary-deep) leading-[1.1] mb-2.5">{venue.name}</h3>
+        <p className="text-[14px] font-light leading-[1.75] text-[var(--muted-foreground)] italic mb-[18px]">
           {venue.addressLines.map((line, index) => (
             <span key={`${index}-${line}`}>
               {line}

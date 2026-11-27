@@ -63,13 +63,13 @@ export function WeddingRings({ className = '', ...art }: ArtProps) {
 
   return (
     <svg ref={ref} viewBox="0 0 200 100" className={`${className} ${artClass}`} style={artStyle} fill="none" aria-hidden="true">
-      <path className="floral-stem" pathLength={1} style={delayStyle(0)} d={ringPath(84, 58, 24)} stroke="var(--gold-light)" strokeWidth="2.6" />
-      <path className="floral-stem" pathLength={1} style={delayStyle(0.1)} d={ringPath(84, 58, 20.5)} stroke="var(--gold)" strokeWidth="0.7" />
-      <path className="floral-stem" pathLength={1} style={delayStyle(0.35)} d={ringPath(116, 58, 24)} stroke="var(--gold-light)" strokeWidth="2.6" />
-      <path className="floral-stem" pathLength={1} style={delayStyle(0.45)} d={ringPath(116, 58, 20.5)} stroke="var(--gold)" strokeWidth="0.7" />
+      <path className="floral-stem" pathLength={1} style={delayStyle(0)} d={ringPath(84, 58, 24)} stroke="var(--primary-light)" strokeWidth="2.6" />
+      <path className="floral-stem" pathLength={1} style={delayStyle(0.1)} d={ringPath(84, 58, 20.5)} stroke="var(--primary)" strokeWidth="0.7" />
+      <path className="floral-stem" pathLength={1} style={delayStyle(0.35)} d={ringPath(116, 58, 24)} stroke="var(--primary-light)" strokeWidth="2.6" />
+      <path className="floral-stem" pathLength={1} style={delayStyle(0.45)} d={ringPath(116, 58, 20.5)} stroke="var(--primary)" strokeWidth="0.7" />
       {/* The diamond on top of the first ring. */}
-      <g className="floral-pop" style={delayStyle(1.2)} stroke="var(--gold-light)" strokeWidth="0.9">
-        <path d="M76 30 L 80 25 L 88 25 L 92 30 L 84 39 Z" fill="var(--gold-pale)" fillOpacity="0.35" />
+      <g className="floral-pop" style={delayStyle(1.2)} stroke="var(--primary-light)" strokeWidth="0.9">
+        <path d="M76 30 L 80 25 L 88 25 L 92 30 L 84 39 Z" fill="var(--primary-pale)" fillOpacity="0.35" />
         <path d="M76 30 L 92 30 M80 25 L 82 30 L 84 39 L 86 30 L 88 25" />
       </g>
       <Sparkle x={94} y={22} scale={0.7} delay={1.7} />
@@ -77,18 +77,18 @@ export function WeddingRings({ className = '', ...art }: ArtProps) {
       <Sparkle x={52} y={84} scale={0.5} delay={2.8} />
       <Sparkle x={140} y={88} scale={0.4} delay={3.4} />
       {/* Laurel twigs on both sides. */}
-      <path className="floral-stem" pathLength={1} style={delayStyle(0.6)} d="M50 62 C 38 58, 26 56, 10 58" stroke="var(--gold)" strokeWidth="0.9" />
-      <path className="floral-stem" pathLength={1} style={delayStyle(0.6)} d="M150 62 C 162 58, 174 56, 190 58" stroke="var(--gold)" strokeWidth="0.9" />
+      <path className="floral-stem" pathLength={1} style={delayStyle(0.6)} d="M50 62 C 38 58, 26 56, 10 58" stroke="var(--primary)" strokeWidth="0.9" />
+      <path className="floral-stem" pathLength={1} style={delayStyle(0.6)} d="M150 62 C 162 58, 174 56, 190 58" stroke="var(--primary)" strokeWidth="0.9" />
       {[
         [42, 59, 0.8],
         [30, 57, 1],
         [18, 57, 1.2],
       ].map(([x, y, delay]) => (
         <g key={x}>
-          <LineLeaf x={x} y={y} rotate={-150} length={11} delay={delay} color="var(--gold)" />
-          <LineLeaf x={x} y={y} rotate={155} length={10} delay={delay + 0.08} color="var(--gold)" />
-          <LineLeaf x={200 - x} y={y} rotate={-30} length={11} delay={delay} color="var(--gold)" />
-          <LineLeaf x={200 - x} y={y} rotate={25} length={10} delay={delay + 0.08} color="var(--gold)" />
+          <LineLeaf x={x} y={y} rotate={-150} length={11} delay={delay} color="var(--primary)" />
+          <LineLeaf x={x} y={y} rotate={155} length={10} delay={delay + 0.08} color="var(--primary)" />
+          <LineLeaf x={200 - x} y={y} rotate={-30} length={11} delay={delay} color="var(--primary)" />
+          <LineLeaf x={200 - x} y={y} rotate={25} length={10} delay={delay + 0.08} color="var(--primary)" />
         </g>
       ))}
     </svg>
@@ -98,7 +98,7 @@ export function WeddingRings({ className = '', ...art }: ArtProps) {
 /** Two laurel branches growing outward from a diamond, used between sections. */
 export function LaurelDivider({ className = '', ...art }: ArtProps) {
   const { ref, artClass, artStyle } = useArt<HTMLDivElement>(art);
-  const color = 'var(--gold)';
+  const color = 'var(--primary)';
   const stem = 'M158 32 C 190 31, 230 27, 272 16';
 
   return (
@@ -108,9 +108,9 @@ export function LaurelDivider({ className = '', ...art }: ArtProps) {
         <g transform="translate(300 0) scale(-1 1)">
           <Branch color={color} stem={stem} />
         </g>
-        <path className="floral-pop" style={delayStyle(0)} d="M150 22 L 158 32 L 150 42 L 142 32 Z" stroke={color} strokeWidth="1" fill="var(--gold-pale)" />
+        <path className="floral-pop" style={delayStyle(0)} d="M150 22 L 158 32 L 150 42 L 142 32 Z" stroke={color} strokeWidth="1" fill="var(--primary-pale)" />
         <path className="floral-pop" style={delayStyle(0.15)} d="M150 27 L 154 32 L 150 37 L 146 32 Z" fill={color} />
-        <Sparkle x={166} y={14} scale={0.55} delay={1.3} color="var(--gold)" />
+        <Sparkle x={166} y={14} scale={0.55} delay={1.3} color="var(--primary)" />
       </svg>
     </div>
   );

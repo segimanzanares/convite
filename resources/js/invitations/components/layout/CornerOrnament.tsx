@@ -13,7 +13,7 @@ const POSITION_CLASSES: Record<CornerPosition, string> = {
 
 export function CornerOrnament({ position }: CornerOrnamentProps) {
   return (
-    <div className={`fixed w-[60px] h-[60px] pointer-events-none z-[1000] text-gold ${POSITION_CLASSES[position]}`}>
+    <div className={`fixed w-[60px] h-[60px] pointer-events-none z-[1000] text-(--primary) ${POSITION_CLASSES[position]}`}>
       <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
         <path d="M4 4 L4 30" stroke="currentColor" strokeWidth="0.8" />
         <path d="M4 4 L30 4" stroke="currentColor" strokeWidth="0.8" />

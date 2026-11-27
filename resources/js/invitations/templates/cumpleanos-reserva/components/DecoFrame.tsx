@@ -10,7 +10,7 @@ const CORNER_CLASSES: Record<CornerPosition, string> = {
 /** A stepped art-deco corner (top-left orientation), drawn in `currentColor`. */
 function DecoCorner({ position }: { position: CornerPosition }) {
   return (
-    <div className={`fixed w-[72px] h-[72px] sm:w-[96px] sm:h-[96px] pointer-events-none z-[1000] text-gold ${CORNER_CLASSES[position]}`}>
+    <div className={`fixed w-[72px] h-[72px] sm:w-[96px] sm:h-[96px] pointer-events-none z-[1000] text-(--primary) ${CORNER_CLASSES[position]}`}>
       <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
         <path d="M4 92 V4 H92" stroke="currentColor" strokeWidth="1.2" opacity="0.7" />
         <path d="M10 70 V18 H18 V10 H70" stroke="currentColor" strokeWidth="0.8" opacity="0.55" />
@@ -27,7 +27,7 @@ function DecoCorner({ position }: { position: CornerPosition }) {
 /** The small diamond on the middle of the frame's top and bottom edges. */
 function EdgeMark({ className }: { className: string }) {
   return (
-    <div className={`fixed left-1/2 -translate-x-1/2 pointer-events-none z-[1000] text-gold opacity-70 ${className}`}>
+    <div className={`fixed left-1/2 -translate-x-1/2 pointer-events-none z-[1000] text-(--primary) opacity-70 ${className}`}>
       <svg width="72" height="12" viewBox="0 0 72 12" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0 6 H26 M46 6 H72" stroke="currentColor" strokeWidth="0.8" />
         <path d="M36 1 L41 6 L36 11 L31 6 Z" stroke="currentColor" strokeWidth="0.8" />
@@ -41,8 +41,8 @@ function EdgeMark({ className }: { className: string }) {
 export function DecoFrame() {
   return (
     <>
-      <div className="fixed inset-3 sm:inset-5 border border-gold/45 pointer-events-none z-[999]">
-        <div className="absolute inset-1 sm:inset-1.5 border border-gold/20" />
+      <div className="fixed inset-3 sm:inset-5 border border-(--primary)/45 pointer-events-none z-[999]">
+        <div className="absolute inset-1 sm:inset-1.5 border border-(--primary)/20" />
       </div>
       <DecoCorner position="tl" />
       <DecoCorner position="tr" />
