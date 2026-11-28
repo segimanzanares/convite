@@ -101,6 +101,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
         Route::get('/', 'index')->name('index');
         Route::post('/', 'store')->name('store');
         Route::get('download', 'download')->name('download');
+        Route::get('data', 'data')->name('data');
     });
 
     Route::middleware('invitation.feature:wishes')->scopeBindings()->group(function () {

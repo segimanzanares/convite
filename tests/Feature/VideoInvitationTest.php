@@ -200,6 +200,21 @@ it('downloads the rendered video', function () {
         ->assertDownload("invitacion-{$invitation->slug}.mp4");
 });
 
+it('downloads the data the renderer draws, for admins only', function () {
+    $invitation = videoInvitation(['content' => ['names' => ['Mati', 'Nayith']]]);
+
+    $this->actingAs(User::factory()->client($invitation->client)->create())
+        ->get(route('admin.invitations.video.data', $invitation))
+        ->assertForbidden();
+
+    $this->actingAs(User::factory()->create())
+        ->get(route('admin.invitations.video.data', $invitation))
+        ->assertOk()
+        ->assertDownload("invitacion-{$invitation->slug}.json")
+        ->assertJsonPath('kind', 'wedding')
+        ->assertJsonPath('names', ['Mati', 'Nayith']);
+});
+
 it('sends the renderer the content without the answer of a gender reveal', function () {
     Storage::fake('public');
     $invitation = videoInvitation([

@@ -7,6 +7,7 @@ use App\Http\Requests\Video\RenderVideoRequest;
 use App\Http\Resources\InvitationResource;
 use App\Models\Invitation;
 use App\Services\InvitationVideoService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +16,7 @@ use Inertia\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * The video invitation in the panel: its theme, its render and its download. Only the admin uses it; the clients
+ * The video invitation in the panel: its theme, its render, its download and the data it is drawn from. Only the admin uses it; the clients
  * of the video plan have no panel access and get the video from the admin.
  */
 class InvitationVideoController extends Controller
@@ -69,6 +70,20 @@ class InvitationVideoController extends Controller
         abort_unless($this->videos->exists($invitation), 404);
 
         return Storage::disk('public')->download($invitation->videoPath(), "invitacion-{$invitation->slug}.mp4");
+    }
+
+    /**
+     * The JSON the renderer draws, to render the video by hand with videos/invitation/render.py. Its photos and song
+     * are absolute paths of this server.
+     */
+    public function data(Invitation $invitation): JsonResponse
+    {
+        Gate::authorize('renderVideo', $invitation);
+        $this->ensureVideoInvitation($invitation);
+
+        return response()
+            ->json($this->videos->data($invitation), options: JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+            ->header('Content-Disposition', "attachment; filename=\"invitacion-{$invitation->slug}.json\"");
     }
 
     /**

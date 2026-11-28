@@ -2,6 +2,7 @@ import { Head, Link, router, usePoll } from '@inertiajs/react';
 import {
     CircleCheckIcon,
     DownloadIcon,
+    FileJsonIcon,
     FileTextIcon,
     FilmIcon,
     TriangleAlertIcon,
@@ -9,6 +10,7 @@ import {
 import { useEffect, useState } from 'react';
 import { edit as editContent } from '@/actions/App/Http/Controllers/Admin/InvitationContentController';
 import {
+    data,
     download,
     index,
     store,
@@ -87,6 +89,12 @@ export default function InvitationVideo({ invitation, themes, video }: Props) {
                                 <FileTextIcon />
                                 Contenido
                             </Link>
+                        </Button>
+                        <Button variant="outline" asChild>
+                            <a href={data.url(invitation.slug)} download>
+                                <FileJsonIcon />
+                                Descargar JSON
+                            </a>
                         </Button>
                         {video.url && (
                             <Button variant="outline" asChild>

@@ -38,7 +38,8 @@ php artisan invitations:render-video mi-slug --theme=noche
 
 ### A mano, con Python
 
-1. Saca el JSON de una invitación (cambia `mi-slug`). Las fotos y la música quedan como rutas absolutas de este equipo,
+1. Saca el JSON de una invitación: el botón **Descargar JSON** de su página **Video** en el panel, o este comando
+   (cambia `mi-slug`). Las fotos y la música quedan como rutas absolutas de este equipo,
    así que el archivo no sirve en otra máquina:
 
    ```sh
